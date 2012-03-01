@@ -16,6 +16,69 @@ prompt.migemoMinWordLength = 4;
 
 
 // ================================ My original ============================ //
+//// KeySnail 操作
+key.setViewKey(['K', 'p'], function (ev, arg) {
+    ext.exec("open-plugin-manager",arg, ev);
+}, 'プラグインマネージャを開く');
+
+key.setViewKey(['K', 'r'], function (ev, arg) {
+    ext.exec("reload-the-initialization-file",arg, ev);
+}, '設定ファイルを再読み込み');
+
+key.setViewKey(['K', 'b'], function (ev, arg) {
+    ext.exec("list-all-keybindings",arg, ev);
+}, 'キーバインド一覧を表示');
+
+//// URL 操作
+key.setViewKey(['g', 'u'], function () {
+    var uri = getBrowser().currentURI;
+    if (uri.path == "/") {
+        return;
+    }
+    var pathList = uri.path.split("/");
+    if (!pathList.pop()) {
+        pathList.pop();
+    }
+    loadURI(uri.prePath + pathList.join("/") + ("/"));
+}, '一つ上のディレクトリへ移動');
+
+key.setViewKey(['g', 'U'], function () {
+    var uri = window._content.location.href;
+    if (uri == null) {
+        return;
+    }
+    var root = uri.match(/^[a-z]+:\/\/[^/]+\//);
+               if (root) {
+                   loadURI(root, null, null);
+               }
+              }, 'ルートディレクトリへ移動');
+
+key.setViewKey(['g', '>'], function (ev, arg) {
+    let pattern = /(.*?)([0]*)([0-9]+)([^0-9]*)$/;
+    let url = content.location.href;
+    let digit = url.match(pattern);
+
+    if (digit[1] && digit[3])
+    {
+        let len = digit[3].length;
+        let next = +digit[3] + (arg ? arg : 1);
+        content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
+    }
+}, 'URLの中の数値をひとつ増加（インクリメント）');
+
+key.setViewKey(['g', '<'], function (ev, arg) {
+    let pattern = /(.*?)([0]*)([0-9]+)([^0-9]*)$/;
+    let url = content.location.href;
+    let digit = url.match(pattern);
+
+    if (digit[1] && digit[3])
+    {
+        let len = digit[3].length;
+        let next = +digit[3] - (arg ? arg : 1);
+        content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
+    }
+}, 'URLの中の数値をひとつ減少（デクリメント）');
+
 //// ヘッダ (h1 ~ h4) を一覧表示し，その位置までスクロールできるように．Emacs でいうところの imenu のようなもの．
 //// http://keysnail.g.hatena.ne.jp/mooz/20120212/1329040579
 ext.add("imenu-headers", function () {
