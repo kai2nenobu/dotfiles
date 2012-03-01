@@ -154,10 +154,14 @@ plugins.options["dabbrev.candidates"] = [
     "FlashPlayer"
 ];
 
-//// Scrollet
+//// Scrollet!
 key.setGlobalKey(['C-x', 'r', 'SPC'], function (ev, arg) {
     ext.exec("scrollet-set-mark", arg, ev);
 }, "現在の位置をマークに保存", true);
+
+key.setGlobalKey(['C-x', 'r', 'j'], function (ev, arg) {
+    ext.exec("scrollet-jump-to-mark", arg, ev);
+}, "マークに保存された位置へジャンプ", true);
 
 key.setGlobalKey(['C-x', 'r', 'j'], function (ev, arg) {
     ext.exec("scrollet-jump-to-mark", arg, ev);
