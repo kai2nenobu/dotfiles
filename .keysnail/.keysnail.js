@@ -564,27 +564,27 @@ listbox#keysnail-completion-list:focus > listitem[selected="true"]
 //// 2011-05-03 (Tue)
 //// http://d.hatena.ne.jp/shiba_yu36/20101022/1287749097
 //// タブグループを操作する
-key.setGlobalKey([['C-z', 'C-p'], ['C-P']], function (ev, arg) {
-    ext.exec("tabgroup-previous", arg, ev);
-}, '左のグループへ移動', true);
-key.setGlobalKey([['C-z', 'C-n'], ['C-N']], function (ev, arg) {
-    ext.exec("tabgroup-next", arg, ev);
-}, '右のグループへ移動', true);
-key.setGlobalKey(['C-z', 'g'], function (ev, arg) {
-    ext.exec("tabgroup-goto", arg, ev);
-}, '指定した番号のグループに移動', true);
-key.setGlobalKey(['C-z', 'C-c'], function (ev, arg) {
-    ext.exec("tabgroup-create", arg, ev);
-}, 'グループを新規作成', true);
-key.setGlobalKey(['C-z', 'C-k'], function (ev, arg) {
-    ext.exec("tabgroup-close", arg, ev);
-}, '現在のグループを閉じる', true);
-key.setGlobalKey(['C-z', 'A'], function (ev, arg) {
-    ext.exec("tabgroup-group-nickname", arg, ev);
-}, '現在のグループに名前をつける', true);
-key.setGlobalKey(['C-z', 'a'], function (ev, arg) {
-    ext.exec("tabgroup-goto-last-selected", arg, ev);
-}, '直前のグループに移動', true);
+// key.setGlobalKey([['C-z', 'C-p'], ['C-P']], function (ev, arg) {
+//     ext.exec("tabgroup-previous", arg, ev);
+// }, '左のグループへ移動', true);
+// key.setGlobalKey([['C-z', 'C-n'], ['C-N']], function (ev, arg) {
+//     ext.exec("tabgroup-next", arg, ev);
+// }, '右のグループへ移動', true);
+// key.setGlobalKey(['C-z', 'g'], function (ev, arg) {
+//     ext.exec("tabgroup-goto", arg, ev);
+// }, '指定した番号のグループに移動', true);
+// key.setGlobalKey(['C-z', 'C-c'], function (ev, arg) {
+//     ext.exec("tabgroup-create", arg, ev);
+// }, 'グループを新規作成', true);
+// key.setGlobalKey(['C-z', 'C-k'], function (ev, arg) {
+//     ext.exec("tabgroup-close", arg, ev);
+// }, '現在のグループを閉じる', true);
+// key.setGlobalKey(['C-z', 'A'], function (ev, arg) {
+//     ext.exec("tabgroup-group-nickname", arg, ev);
+// }, '現在のグループに名前をつける', true);
+// key.setGlobalKey(['C-z', 'a'], function (ev, arg) {
+//     ext.exec("tabgroup-goto-last-selected", arg, ev);
+// }, '直前のグループに移動', true);
 
 //// 2011-04-28 (Thu)
 //// https://github.com/azu/KeySnail-Plugins/tree/master/JSReference
