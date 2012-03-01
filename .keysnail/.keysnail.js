@@ -68,7 +68,7 @@ ext.add("imenu-headers", function () {
   });
 }, "imenu-headers", true);
 
-key.setGlobalKey("M-i", function (ev) {
+key.setViewKey(['g', 'i'], function (ev) {
   ext.exec("imenu-headers");
 }, 'jump to headers');
 
@@ -1000,9 +1000,9 @@ key.setViewKey('>', function (ev, arg) {
 
     if (digit[1] && digit[3])
     {
-	let len = digit[3].length;
-	let next = +digit[3] + (arg ? arg : 1);
-	content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
+        let len = digit[3].length;
+        let next = +digit[3] + (arg ? arg : 1);
+        content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
     }
 }, 'URLの中の数値をひとつ増加（インクリメント）');
 
@@ -1013,9 +1013,9 @@ key.setViewKey('<', function (ev, arg) {
 
     if (digit[1] && digit[3])
     {
-	let len = digit[3].length;
-	let next = +digit[3] - (arg ? arg : 1);
-	content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
+        let len = digit[3].length;
+        let next = +digit[3] - (arg ? arg : 1);
+        content.location.href = digit[1] + (digit[2] ||"").slice(next.toString().length - len) + next + (digit[4] ||"");
     }
 }, 'URLの中の数値をひとつ減少（デクリメント）');
 
@@ -1221,7 +1221,7 @@ key.setViewKey([['C-v'], ['f']], function (ev) {
     //goDoCommand("cmd_scrollPageDown");
 }, '一画面スクロールダウン');
 
-key.setViewKey([['M-<'], ['g']], function (ev) {
+key.setViewKey([['M-<'], ['g', 'g']], function (ev) {
     key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_HOME, true);
     //goDoCommand("cmd_scrollTop");
 }, 'ページ先頭へ移動', true);
