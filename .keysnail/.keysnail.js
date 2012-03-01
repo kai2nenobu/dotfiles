@@ -366,7 +366,7 @@ key.setViewKey("L",
 
 //// Abbreviations manager 略語展開
 //// https://gist.github.com/1024186
-key.setEditKey([['C-x', '\''], ['C-\'']], function (ev, arg) {
+key.setEditKey([['C-x', '\''], ['C-]']], function (ev, arg) {
     ext.exec('abbreviations-expand', arg, ev);
 }, '略語を展開する');
 
