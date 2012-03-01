@@ -1,0 +1,32 @@
+!!!! Swap Ctrl and Caps_Lock
+!!remove lock = Caps_Lock
+!!remove Control = Control_L
+!!keysym Control_L = Caps_Lock
+!!keysym Caps_Lock = Control_L
+!!add lock = Caps_Lock
+!!add control = Control_L
+!
+!!!! Swap Control_R and Caps_Lock
+!remove lock = Caps_Lock
+!remove Control = Control_R
+!keysym Control_R = Caps_Lock
+!keysym Caps_Lock = Control_R
+!add lock = Caps_Lock
+!add control = Control_R
+!
+!!! 無変換キーをAltに (keysym Alt_L はおそらく2つになってしまうので注意)
+!keysym Muhenkan = Alt_L
+!add mod1 = Alt_L
+!
+!!! 変換キーをCtrlに (同じく Control_L 2つになってしまう)
+!keysym Henkan_Mode = Control_L
+!add control = Control_L
+
+!! カタカナひらがなをHyper keyにする
+keysym Hiragana_Katakana = Hyper_L
+remove mod4 = Hyper_L
+add mod3 = Hyper_L
+
+
+
+
