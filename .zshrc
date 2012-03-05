@@ -114,32 +114,55 @@ if [ $(uname -o) != 'Cygwin' ]; then
     fi
   }
 
-## select ~/.zsh_history by canything
-  export ZSH_HISTORY=${HOME}/.zsh_history
-  history-canything-search(){
-    BUFFER=$(tac $ZSH_HISTORY | sed -r 's/^:[ 0-9]+:[0-9];//' | canything -i)
+
+  function percol_select_history() {
+    local tac_cmd
+    which gtac &> /dev/null && tac_cmd=gtac || tac_cmd=tac
+    BUFFER=$($tac_cmd $HISTFILE | sed 's/^: [0-9]*:[0-9]*;//' \
+      | percol --match-method regex --query "$LBUFFER")
+    CURSOR=$#BUFFER         # move cursor
+    zle -R -c               # refresh
   }
-  zle -N history-canything-search
-  bindkey '^R' history-canything-search
+  zle -N percol_select_history
+  bindkey '^R' percol_select_history
+
+## select ~/.zsh_history by canything
+  # export ZSH_HISTORY=${HOME}/.zsh_history
+  # history-canything-search(){
+  #   BUFFER=$(tac $ZSH_HISTORY | sed -r 's/^:[ 0-9]+:[0-9];//' | canything -i)
+  # }
+  # zle -N history-canything-search
+  # bindkey '^R' history-canything-search
 
 ## select thesis from mendeley directory by canything
-  search-thesis-by-canything(){
+  search-thesis-by-percol(){
     MENDELEY_DIR=~/Dropbox/Mendeley
-    SELECTED_FILE=$(ls $MENDELEY_DIR/ | grep "\.pdf$" | canything -i)
+    SELECTED_FILE=$(ls $MENDELEY_DIR | grep "\.pdf$" | percol --match-method regex)
     if [ $? -eq 0 ]; then
-      gnome-open ${MENDELEY_DIR}/$SELECTED_FILE &
+      gnome-open ${MENDELEY_DIR}/$SELECTED_FILE
     fi
   }
 
 ## select document form Dropbox directory
-  search-document-by-canything(){
+  search-document-by-percol(){
     DOCUMENT_DIR=~/Dropbox/document
-    SELECTED_FILE=$(find $DOCUMENT_DIR/ | sed -e "s#$DOCUMENT_DIR##" | \
-      grep -E "\.(pdf|txt|odp|odt|ods)$" | canything -i)
+    SELECTED_FILE=$(find $DOCUMENT_DIR | sed -e "s#$DOCUMENT_DIR##" | \
+      grep -E "\.(pdf|txt|odp|odt|ods)$" | percol --match-method regex)
     if [ $? -eq 0 ]; then
-      gnome-open ${DOCUMENT_DIR}/$SELECTED_FILE &
+      gnome-open ${DOCUMENT_DIR}/$SELECTED_FILE
     fi
   }
+
+## complete a content of current directory by canything
+  insert-file-by-percol(){
+    LBUFFER=$LBUFFER$(ls -A | percol --match-method regex | tr '\n' ' ' | \
+      sed 's/[[:space:]]*$//') # delete trailing space
+    zle -R -c
+  }
+  zle -N insert-file-by-percol
+  bindkey '^[c' insert-file-by-percol
+
+fi
 
 ## kill one directory from path name
 ## http://www.jmuk.org/diary/index.php/2007/06/08/0/
@@ -151,22 +174,6 @@ if [ $(uname -o) != 'Cygwin' ]; then
   }
   zle -N backward-kill-directory
   bindkey '^[^' backward-kill-directory
-
-## complete a content of current directory by canything
-  completion-by-canything(){
-  # COMPLETION=$(ls -a | canything -i)
-  # if [ $? -eq 0 ]; then
-  #   BUFFER=$COMPLETION
-  # fi
-    zle push-line
-    COMP=$(ls -a | canything -i)
-  }
-  zle -N completion-by-canything
-  bindkey '^[c' completion-by-canything
-
-fi
-
-#source ${HOME}/.zsh/plugin/incr*.zsh
 
 echo "Load .zshrc."
 
