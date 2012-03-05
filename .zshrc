@@ -103,8 +103,7 @@ function cde () {
 }
 
 
-if [ $(uname -o) != 'Cygwin' ]; then
-
+if which percol &> /dev/null; then
 ## select directory stack by canything
   ja(){
     local destpath=`j 2>&1 | sed -n -e '2,$p' | sed 's/^[0-9\\. ]*//' | tac | canything`
