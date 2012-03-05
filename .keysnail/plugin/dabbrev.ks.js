@@ -50,7 +50,7 @@ let optionsDefaultValue = {
     "use_migemo"         : true,
     "cancel_key_on_exit" : false
 };
-cand
+
 function getOption(aName) {
     let fullName = "dabbrev." + aName;
 
