@@ -163,6 +163,28 @@ if which percol &> /dev/null; then
   zle -N insert-file-by-percol
   bindkey '^[c' insert-file-by-percol
 
+  # https://github.com/mooz/percol
+  # Here is an interactive version of pgrep
+  function ppgrep() {
+    if [[ $1 == "" ]]; then
+      PERCOL=percol
+    else
+      PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
+  }
+
+  # and here is an interactive version of pkill
+  function ppkill() {
+    if [[ $1 =~ "^-" ]]; then
+      QUERY=""            # options only
+    else
+      QUERY=$1            # with a query
+      shift
+    fi
+    ppgrep $QUERY | xargs kill $*
+  }
+
 fi
 
 ## kill one directory from path name
