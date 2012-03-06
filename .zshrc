@@ -176,5 +176,16 @@ fi
   zle -N backward-kill-directory
   bindkey '^[^' backward-kill-directory
 
+change-directory-bookmark(){
+  local BOOKMARK="\
+/etc
+${HOME}/Dropbox/works/tex_workspace
+${HOME}/Dropbox/document
+${HOME}/Dropbox/program_config
+${HOME}/repo"
+  cd $(echo $BOOKMARK | percol)
+}
+alias cdb='change-directory-bookmark'
+
 echo "Load .zshrc."
 
