@@ -6,7 +6,5 @@ alias -g G='| grep'
 alias -g GI='| grep -i'
 alias -g CA='| canything -i'
 alias -g CAS='| canything'
-alias -g st='search-thesis-by-percol'
-alias -g sd='search-document-by-percol'
 
 echo "Load .zsh_aliases."
