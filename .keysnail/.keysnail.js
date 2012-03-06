@@ -711,18 +711,22 @@ plugins.options["bmany.keymap"] = {
 // key bind
 key.setViewKey([':', 'b'], function (ev, arg) {
     ext.exec("bmany-list-all-bookmarks", arg, ev);
+    LinuxIMEoff();
 }, 'ブックマーク');
 
 key.setViewKey([':', 'B'], function (ev, arg) {
     ext.exec("bmany-list-bookmarklets", arg, ev);
+    LinuxIMEoff();
 }, "bmany - ブックマークレットを一覧表示");
 
 key.setViewKey([':', 'k'], function (ev, arg) {
     ext.exec("bmany-list-bookmarks-with-keyword", arg, ev);
+    LinuxIMEoff();
 }, "bmany - キーワード付きブックマークを一覧表示");
 
 key.setViewKey([':', 't'], function (ev, arg) {
     ext.exec("bmany-list-bookmarks-with-tag", arg, ev);
+    LinuxIMEoff();
 }, 'bmany - タグ付きブックマークを一覧表示');
 
 //// prompt で自動的に IME を off
