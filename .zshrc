@@ -141,6 +141,7 @@ if which percol &> /dev/null; then
       gnome-open ${MENDELEY_DIR}/$SELECTED_FILE
     fi
   }
+  alias  st='search-thesis-by-percol'
 
 ## select document form Dropbox directory
   search-document-by-percol(){
@@ -151,6 +152,7 @@ if which percol &> /dev/null; then
       gnome-open ${DOCUMENT_DIR}/$SELECTED_FILE
     fi
   }
+  alias sd='search-document-by-percol'
 
 ## complete a content of current directory by canything
   insert-file-by-percol(){
