@@ -205,7 +205,10 @@ ${HOME}/Dropbox/works/tex_workspace
 ${HOME}/Dropbox/document
 ${HOME}/Dropbox/program_config
 ${HOME}/repo"
-  cd $(echo $BOOKMARK | percol)
+  local TARGET=$(echo $BOOKMARK | percol)
+  if [ $? -eq 0 ]; then
+    cd "$TARGET"
+  fi
 }
 alias cdb='change-directory-bookmark'
 
