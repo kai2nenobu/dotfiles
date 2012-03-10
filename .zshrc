@@ -201,6 +201,7 @@ fi
 change-directory-bookmark(){
   local BOOKMARK="\
 /etc
+${HOME}/.emacs.d
 ${HOME}/Dropbox/works/tex_workspace
 ${HOME}/Dropbox/document
 ${HOME}/Dropbox/program_config
