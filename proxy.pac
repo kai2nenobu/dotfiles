@@ -12,7 +12,9 @@ function FindProxyForURL(url, host)
        )
     {
         // if SOCKS is failed, then NOT using proxy
-        return "SOCKS localhost:18080; DIRECT";
+        // return "SOCKS localhost:18080; DIRECT";
+        // HTTP proxy
+        return "PROXY localhost:18080";
     }
     // webpages in global network
     else
