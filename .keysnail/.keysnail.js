@@ -707,6 +707,7 @@ key.setViewKey(['C-h'], function (ev, arg) {
 plugins.options["bmany.keymap"] = {
     "M-RET" : "open-foreground-tab,c"
 };
+plugins.options["bmany.default_open_type"] = "tab"; // デフォルトで別タブで開く
 
 // key bind
 key.setViewKey([':', 'b'], function (ev, arg) {
