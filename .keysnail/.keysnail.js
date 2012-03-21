@@ -7,7 +7,7 @@
 // prompt.rows                = 12;
 prompt.useMigemo           = true;
 prompt.migemoMinWordLength = 4;
-// prompt.displayDelayTime    = 300;
+prompt.displayDelayTime    = 30;
 // command.kill.killRingMax   = 15;
 // command.kill.textLengthMax = 8192;
 
