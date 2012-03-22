@@ -10,6 +10,11 @@ setopt list_packed
 setopt appendhistory extendedglob
 setopt ignore_eof           # Ctrl-dでログアウトしない
 
+## 補完候補を移動して選択
+zstyle ':completion:*:default' menu select=2
+## 補完候補を詰めて表示
+setopt list_packed
+
 bindkey -e
 
 function title {
