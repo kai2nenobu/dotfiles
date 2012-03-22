@@ -218,5 +218,21 @@ ${HOME}/repo"
 }
 alias cdb='change-directory-bookmark'
 
+## tmux
+if which percol &> /dev/null; then
+  ## pane move
+  function tmux-select-pane(){
+    tmux select-pane -t .+
+  }
+  zle -N tmux-select-pane
+  bindkey '^T' tmux-select-pane
+
+  function tmux-select-pane-reverse(){
+    tmux select-pane -t .-
+  }
+  zle -N tmux-select-pane-reverse
+  bindkey '^U^T' tmux-select-pane-reverse
+fi
+
 echo "Load .zshrc."
 
