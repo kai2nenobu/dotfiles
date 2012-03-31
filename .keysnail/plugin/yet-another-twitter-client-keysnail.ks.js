@@ -12,7 +12,7 @@ const PLUGIN_INFO =
     <name>Yet Another Twitter Client KeySnail</name>
     <description>Make KeySnail behave like Twitter client</description>
     <description lang="ja">KeySnail を Twitter クライアントに</description>
-    <version>3.1.2</version>
+    <version>3.1.5</version>
     <updateURL>https://github.com/mooz/keysnail/raw/master/plugins/yet-another-twitter-client-keysnail.ks.js</updateURL>
     <iconURL>https://github.com/mooz/keysnail/raw/master/plugins/icon/yet-another-twitter-client-keysnail.icon.png</iconURL>
     <author mail="stillpedant@gmail.com" homepage="http://d.hatena.ne.jp/mooz/">mooz</author>
@@ -1518,7 +1518,10 @@ var twitterClient =
                 lastKey    : "extensions.keysnail.plugins.twitter_client.last_status_id",
                 oauth      : gOAuth,
                 lastIDHook : $U.bind(Notifier.updateAllStatusbars, Notifier),
-                beginCount : gTimelineCountBeginning
+                beginCount : gTimelineCountBeginning,
+                params     : {
+                    include_entities : true
+                }
             }
         );
 
@@ -1530,7 +1533,10 @@ var twitterClient =
                 lastKey    : "extensions.keysnail.plugins.twitter_client.last_mention_id",
                 oauth      : gOAuth,
                 lastIDHook : $U.bind(Notifier.updateAllStatusbars, Notifier),
-                beginCount : gTimelineCountEveryUpdates
+                beginCount : gTimelineCountEveryUpdates,
+                params     : {
+                    include_entities : true
+                }
             }
         );
 
@@ -1543,7 +1549,10 @@ var twitterClient =
                 oauth      : gOAuth,
                 mapper     : function (statuses) statuses.map(function (status) (status.user = status.sender, status)),
                 lastIDHook : $U.bind(Notifier.updateAllStatusbars, Notifier),
-                beginCount : gTimelineCountEveryUpdates
+                beginCount : gTimelineCountEveryUpdates,
+                params     : {
+                    include_entities : true
+                }
             }
         );
 
@@ -1554,7 +1563,10 @@ var twitterClient =
                 interval   : pOptions["dm_update_interval"],
                 oauth      : gOAuth,
                 mapper     : function (statuses) statuses.map(function (status) (status.user = status.sender, status)),
-                beginCount : gTimelineCountEveryUpdates
+                beginCount : gTimelineCountEveryUpdates,
+                params     : {
+                    include_entities : true
+                }
             }
         );
 
@@ -3101,7 +3113,7 @@ var twitterClient =
                     }
 
                     util.httpGet(
-                        "https://api.twitter.com/1/statuses/show/" + from + ".json",
+                        "https://api.twitter.com/1/statuses/show/" + from + ".json?include_entities=true",
                         false,
                         function (xhr) {
                             if (xhr.status === 200) {
@@ -3227,9 +3239,25 @@ var twitterClient =
             _content.focus();
         }
 
+        function getEntitiesFromStatus(status) {
+            let entities = {};
+
+            ["entities", "media"].forEach(function (entityContainerName) {
+                let entityContainer = status[entityContainerName];
+                if (status[entityContainerName]) {
+                    for (let [entityName, entity] in Iterator(entityContainer)) {
+                        entities[entityName] = entity;
+                    }
+                }
+            });
+
+            return entities;
+        }
+
         function createMessageNode(messageText, status) {
-            let messageNode = status.entities
-                    ? createMessageNodeFromEntities(messageText, status.entities)
+            let entities = getEntitiesFromStatus(status);
+            let messageNode = entities
+                    ? createMessageNodeFromEntities(messageText, entities)
                     : createMessageNodeWithoutEntities(messageText);
 
             if (status.in_reply_to_status_id_str) {
@@ -3289,10 +3317,11 @@ var twitterClient =
                     }));
                     break;
                 case "urls":
+                case "media":
                     messageNode.appendChild($U.createElement("description", {
                         "class"       : gLinkClass,
                         "tooltiptext" : entity.expanded_url,
-                        "value"       : decodeURIComponent(entity.expanded_url)
+                        "value"       : entity.display_url || entity.url
                     }));
                     break;
                 case "user_mentions":
@@ -3362,13 +3391,14 @@ var twitterClient =
         }
 
         function extractAllURLsFromStatus(status) {
-            util.message("entities => " + status.entities);
+            let entities = getEntitiesFromStatus(status);
 
-            if (status.entities) {
-                return getSortedEntitiesWithType(status.entities).filter(function ({ type, entity }) {
-                    return type === "urls";
+            if (entities) {
+                let sortedEntitiesWithType = getSortedEntitiesWithType(entities);
+                return sortedEntitiesWithType.filter(function ({ type, entity }) {
+                    return type === "urls" || type === "media";
                 }).map(function ({ type, entity }) {
-                    return entity.expanded_url;
+                    return entity.expanded_url || entity.url;
                 });
             } else {
                 return $U.extractLinks(status.text);
