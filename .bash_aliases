@@ -16,5 +16,6 @@ alias tmux='tmux -2'
 alias psg='ps aux | grep'
 alias go='gnome-open'
 alias acroread='UBUNTU_MENUPROXY= LIBOVERLAY_SCROLLBAR=0 acroread'
+alias t='tmux attach || tmux'
 
 echo "Load .bash_aliases."
