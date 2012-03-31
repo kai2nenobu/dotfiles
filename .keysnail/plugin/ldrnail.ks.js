@@ -8,7 +8,7 @@ let PLUGIN_INFO =
     <iconURL>https://sites.google.com/site/958site/Home/files/ldrnail.png</iconURL>
     <updateURL>https://raw.github.com/gist/1369730/ldrnail.ks.js</updateURL>
     <author>958</author>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <license>MIT</license>
     <minVersion>1.8.0</minVersion>
     <include>main</include>
@@ -677,9 +677,9 @@ function LDRnail(tab) {
             if (useIntelligence && isScroll(rect)) {
                 win.scrollBy(0, -(win.innerHeight * SKIP_HEIGHT - DEFAULT_HEIGHT * 2 - 1));
             } else {
-                spacer.style.top = (rect.top + win.scrollY + win.innerHeight) + 'px';
                 win.scrollBy(0, rect.top - DEFAULT_HEIGHT);
                 attachClassToNode(paragraphs[cur], CURRENT_CLASS);
+                spacer.style.top = (DEFAULT_HEIGHT + win.scrollY + win.innerHeight) + 'px';
                 currentIndex = cur;
             }
         } else if (paragraphs.length > 0) {
