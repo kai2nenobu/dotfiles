@@ -897,7 +897,7 @@ key.setViewKey('T', function (ev, arg) {
 
 //// K2Emacs 設定
 if(navigator.userAgent.indexOf("Win") != -1 ){
-    plugins.options["K2Emacs.editor"]    = "C:\\emacs-23.3-imepatch\\bin\\emacsclientw.exe";
+    plugins.options["K2Emacs.editor"]    = "C:\\emacs23.3-imepatch\\bin\\emacsclientw.exe";
 } else {
     plugins.options["K2Emacs.editor"]    = "emacsclient";
 }
