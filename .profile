@@ -36,3 +36,5 @@ export TERM=xterm-256color
 export EXPERIMENT_MAIL='kai@gavo.t.u-tokyo.ac.jp'
 
 echo "Load .profile"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
