@@ -1370,7 +1370,7 @@ key.setViewKey(['c', 'd'], function () {
 key.setViewKey(['c', 'p'], function () {
     var w = window._content;
     var d = w.document;
-    var txt = "" + d.title + ":" + d.location.href;
+    var txt = "[[" + d.title + ":" + d.location.href + "]]";
     const CLIPBOARD = Components.classes['@mozilla.org/widget/clipboardhelper;1'].getService(Components.interfaces.nsIClipboardHelper);
     CLIPBOARD.copyString(txt);
 }, 'PukiWiki のリンク形式でタイトルとURLコピー');
