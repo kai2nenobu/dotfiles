@@ -219,7 +219,7 @@ ${HOME}/repo"
 alias cdb='change-directory-bookmark'
 
 ## tmux
-if which percol &> /dev/null; then
+if which tmux &> /dev/null; then
   ## pane move
   function tmux-select-pane(){
     tmux select-pane -t .+
