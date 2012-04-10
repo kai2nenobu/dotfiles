@@ -140,17 +140,17 @@ if which percol &> /dev/null; then
 
 ## select thesis from mendeley directory by canything
   search-thesis-by-percol(){
-    MENDELEY_DIR=~/Dropbox/Mendeley
-    SELECTED_FILE=$(ls $MENDELEY_DIR | grep "\.pdf$" | percol --match-method regex)
+    THESIS_DIR="${HOME}/Dropbox/Mendeley ${HOME}/Dropbox/works/tex_workspace"
+    SELECTED_FILE=$(echo $THESIS_DIR | xargs find | grep "\.pdf$" | grep -v '/img/' | percol --match-method regex)
     if [ $? -eq 0 ]; then
-      gnome-open ${MENDELEY_DIR}/$SELECTED_FILE
+      gnome-open $SELECTED_FILE
     fi
   }
   alias  st='search-thesis-by-percol'
 
 ## select document form Dropbox directory
   search-document-by-percol(){
-    DOCUMENT_DIR=~/Dropbox/document
+    DOCUMENT_DIR="${HOME}/Dropbox/document"
     SELECTED_FILE=$(find $DOCUMENT_DIR | sed -e "s#$DOCUMENT_DIR##" | \
       grep -E "\.(pdf|txt|odp|odt|ods)$" | percol --match-method regex)
     if [ $? -eq 0 ]; then
