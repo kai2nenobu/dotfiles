@@ -164,6 +164,7 @@ util.setPrefs(
         "extensions.checkCompatibility.9.0": false,   // ignore compatibility
         "extensions.checkCompatibility.10.0": false,  // ignore compatibility
         "extensions.checkCompatibility.11.0": false,  // ignore compatibility
+        "extensions.checkCompatibility.12.0": false,  // ignore compatibility
         "browser.urlbar.trimURLs": false,             // show "http://" in location bar
     }
 );
