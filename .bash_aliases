@@ -3,7 +3,7 @@
 #alias la='ls -A'
 #alias l='ls -CF'
 alias rm='rm -i'
-alias vless='/usr/share/vim/vim72/macros/less.sh'
+alias vless='/usr/share/vim/vim73/macros/less.sh'
 alias lsa='ls -a'
 alias lsl='ls -l'
 alias lsal='ls -al'
