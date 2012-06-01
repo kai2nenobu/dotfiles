@@ -1,4 +1,4 @@
-HISTFILE=~/.zsh_history
+HISTFILE=${HOME}/.zsh_history
 HISTSIZE=10000
 SAVEHIST=100000
 
@@ -199,7 +199,7 @@ fi
 
 ## kill one directory from path name
 ## http://www.jmuk.org/diary/index.php/2007/06/08/0/
-  backward-kill-directory(){
+  function backward-kill-directory(){
     WORDCHARS_TMP=$WORDCHARS
     WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
     zle backward-kill-word
