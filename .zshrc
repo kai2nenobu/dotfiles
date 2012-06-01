@@ -123,7 +123,7 @@ if which percol &> /dev/null; then
     local tac_cmd
     which gtac &> /dev/null && tac_cmd=gtac || tac_cmd=tac
     BUFFER=$($tac_cmd $HISTFILE | sed 's/^: [0-9]*:[0-9]*;//' \
-      | percol --match-method regex --query "$LBUFFER")
+      | percol --match-method migemo --query "$LBUFFER")
     CURSOR=$#BUFFER         # move cursor
     zle -R -c               # refresh
   }
@@ -139,29 +139,34 @@ if which percol &> /dev/null; then
   # bindkey '^R' history-canything-search
 
 ## select thesis from mendeley directory by canything
-  search-thesis-by-percol(){
-    THESIS_DIR="${HOME}/Dropbox/Mendeley ${HOME}/Dropbox/works/tex_workspace"
-    SELECTED_FILE=$(echo $THESIS_DIR | xargs find | grep "\.pdf$" | grep -v '/img/' | percol --match-method regex)
+  function search-thesis-by-percol(){
+    THESIS_DIR="\
+${HOME}/Dropbox/Mendeley
+${HOME}/Dropbox/works/tex_workspace"
+    SELECTED_FILE=$(echo $THESIS_DIR | xargs find | grep "\.pdf$" | grep -v '/img/' | percol --match-method migemo)
     if [ $? -eq 0 ]; then
-      gnome-open $SELECTED_FILE
+      $OPEN $SELECTED_FILE
     fi
   }
   alias  st='search-thesis-by-percol'
 
 ## select document form Dropbox directory
-  search-document-by-percol(){
-    DOCUMENT_DIR="${HOME}/Dropbox/document"
-    SELECTED_FILE=$(find $DOCUMENT_DIR | sed -e "s#$DOCUMENT_DIR##" | \
-      grep -E "\.(pdf|txt|odp|odt|ods)$" | percol --match-method regex)
+  function search-document-by-percol(){
+    DOCUMENT_DIR="\
+${HOME}/Dropbox/document
+${HOME}/Dropbox/lecture"
+    SELECTED_FILE=$(echo $DOCUMENT_DIR | xargs find | \
+      grep -E "\.(pdf|txt|odp|odt|ods)$" | percol --match-method migemo)
     if [ $? -eq 0 ]; then
-      gnome-open ${DOCUMENT_DIR}/$SELECTED_FILE
+      # $OPEN ${DOCUMENT_DIR}/$SELECTED_FILE
+      $OPEN $SELECTED_FILE
     fi
   }
   alias sd='search-document-by-percol'
 
 ## complete a content of current directory by canything
   insert-file-by-percol(){
-    LBUFFER=$LBUFFER$(ls -A | percol --match-method regex | tr '\n' ' ' | \
+    LBUFFER=$LBUFFER$(ls -A | percol --match-method migemo | tr '\n' ' ' | \
       sed 's/[[:space:]]*$//') # delete trailing space
     zle -R -c
   }
