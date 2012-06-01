@@ -201,6 +201,11 @@ key.setViewKey(['ESC', 'ESC'], function (ev) {
 
 
 // ============================= Plugin settings =========================== //
+//// displayLastModified
+key.setViewKey(['C-c', 'l'], function (ev, arg) {
+    ext.exec('displayLastModified-URL', arg, ev);
+}, 'ページの最終更新日を表示', true);
+
 //// Expander 動的略語展開（小文字で開始しても大文字に展開可能）
 plugins.options["dabbrev.next_key"] = "M-/"; //展開
 plugins.options["dabbrev.prev_key"] = "M-\\"; //ひとつ前の候補に戻る
