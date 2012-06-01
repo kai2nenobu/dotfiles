@@ -21,19 +21,25 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# Cygwin mount
-if [ $(uname -o) = "Cygwin" ]; then
-  #mount -c /
-  mount "$USERPROFILE" /home/$USERNAME
-fi
+# OS specific settings
+case $(uname -o) in
+  "Cygwin")
+    #mount -c /
+    # mount "$USERPROFILE" /home/$USERNAME
+    export OPEN=cygstart;;
+  "GNU/Linux")
+    export OPEN=gnome-open;;
+esac
 
 # set enviroment
-export PATH=${HOME}/cygwin-bin:/usr/local/texlive/2011/bin/i386-linux:${HOME}/local/bin:$PATH
-export LD_LIBRARY_PATH=~/.emacs.d/lib:$LD_LIBRARY_PATH
+export PATH=${HOME}/cygwin-bin:${HOME}/local/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib:${HOME}/.emacs.d/lib
 export EDITOR=emacsclient
 export VISUAL=emacsclient
 export TERM=xterm-256color
 export EXPERIMENT_MAIL='kai@gavo.t.u-tokyo.ac.jp'
+export LESS='-R'
+export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
 echo "Load .profile"
 
