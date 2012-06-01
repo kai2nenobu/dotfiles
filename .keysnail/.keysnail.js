@@ -16,6 +16,10 @@ prompt.displayDelayTime    = 30;
 
 
 // ================================ My original ============================ //
+//// hok_ex
+// リンクを google docs へ渡すのを防ぐ
+plugins.options['hok_ex.actions'] = null;
+
 //// KeySnail 操作
 key.setViewKey(['K', 'p'], function (ev, arg) {
     ext.exec("open-plugin-manager",arg, ev);
