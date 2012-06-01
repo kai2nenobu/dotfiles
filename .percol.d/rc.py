@@ -21,3 +21,8 @@ percol.import_keymap({
     "C-j" : lambda percol: percol.finish(),
     "C-g" : lambda percol: percol.cancel(),
 })
+
+# migemo
+# from percol.finder import FinderMultiQueryMigemo
+# FinderMultiQueryMigemo.dictionary_path = "/usr/local/share/migemo/utf-8/migemo-dict"
+# FinderMultiQueryMigemo.minimum_query_length = 2
