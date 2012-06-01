@@ -7,7 +7,7 @@ function FindProxyForURL(url, host)
         dnsDomainIs(host, "www.wakayama-u.ac.jp") ||
         dnsDomainIs(host, "gloria.gav.t.u-tokyo.ac.jp") ||
         dnsDomainIs(host, "minerva.gavo.t.u-tokyo.ac.jp") ||
-        dnsDomainIs(host, "soft1.gavo.t.u-tokyo.ac.jp")        
+        dnsDomainIs(host, "soft1.gavo.t.u-tokyo.ac.jp")
         //&& !shExpMatch(myIpAddress(), "172.19.*") // I'm not in local network
        )
     {
