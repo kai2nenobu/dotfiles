@@ -8,7 +8,7 @@ let PLUGIN_INFO =
     <iconURL>https://sites.google.com/site/958site/Home/files/ldrnail.png</iconURL>
     <updateURL>https://raw.github.com/gist/1369730/ldrnail.ks.js</updateURL>
     <author>958</author>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <license>MIT</license>
     <minVersion>1.8.0</minVersion>
     <include>main</include>
@@ -513,13 +513,14 @@ function LDRnail(tab) {
     }, false);
 
     function getAvailableInfos(url) {
-        let disable = false;
-        let result = share.ldrnail.siteinfo.filter(function(info){
-            if (disable)
+        var disable = false;
+        var result = share.ldrnail.siteinfo.filter(function(info){
+            if (!!disable)
                 return false;
             let match = false
             try {
-                match = url.match(info.domain);
+                var re = new RegExp(info.domain);
+                match = url.match(re);
             } catch(e) { }
             try {
                 match = ($X(info.domain, doc).length > 0);
@@ -540,7 +541,9 @@ function LDRnail(tab) {
             let cmp = (!a.domain ? 1 : (!b.domain ? -1 : 0));
             if (cmp == 0) {
                 try {
-                    cmp = (url.match(a.domain) ? -1 : (url.match(b.domain) ? 1 : 0));
+                    var reA = new RegExp(a.domain);
+                    var reB = new RegExp(b.domain);
+                    cmp = (url.match(reA) ? -1 : (url.match(reB) ? 1 : 0));
                 } catch(e){ }
             }
             if (cmp == 0) {
@@ -855,7 +858,7 @@ function siteinfoOperate(urls, update) {
     }
     function getCacheCallback(res, url) {
         if (++responsedCount >= urls.length)
-            display.echoStatusBar('LDRnai - Updated siteinfo');
+            display.echoStatusBar('LDRnail - Siteinfo updated');
         if (res.status != 200)
             return getCacheErrorCallback(url);
         let info = JSON.parse(res.responseText) || [];
