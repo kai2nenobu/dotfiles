@@ -178,6 +178,59 @@ ${HOME}/Dropbox/lecture"
   zle -N insert-file-by-percol
   bindkey '^[c' insert-file-by-percol
 
+  ## Complete file by percol
+  autoload -Uz split-shell-arguments
+  autoload -Uz modify-current-argument
+  function file-completion-by-percol() {
+    local SELECTED
+    local DIR
+    local DIR_EXPAND
+    local OLD_CURSOR=$CURSOR
+
+    ## Discriminate cursor position
+    split-shell-arguments
+    if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on an argument
+      DIR=$reply[$REPLY]
+      CURSOR=$(($CURSOR + ${#reply[$REPLY]} - $REPLY2 + 1)) # Move to right end of an argument
+    else
+      zle backward-char
+      split-shell-arguments
+      if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on right end of an argument
+        DIR=$reply[$REPLY]
+      else
+        DIR="."
+      fi
+      zle forward-char
+    fi
+    # Expand tilde, white space, quote and sharp
+    DIR_EXPAND=$(echo "$DIR" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
+      -e "s@\\\\'@'@" -e 's@\\#@#@g')
+
+    ## list files in DIR_EXPAND and select by percol
+    if [ -d "$DIR_EXPAND" ]; then
+      SELECTED=$(ls -A $DIR_EXPAND | percol --match-method migemo)
+      if [ $? -ne 0 ]; then     # When percol failed
+        CURSOR=$OLD_CURSOR
+        zle -R -c
+        return 1
+      fi
+      # Escape white space, quote
+      SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@')
+      if [ "$DIR_EXPAND" = "." ]; then
+        LBUFFER=$LBUFFER$SELECTED
+      else
+        modify-current-argument "${DIR%%/}"/"$SELECTED"
+      fi
+      zle -R -c
+    else     # When $DIR is not a directory
+      CURSOR=$OLD_CURSOR
+      zle -M "$DIR is not a directory."
+      return 2
+    fi
+  }
+  zle -N file-completion-by-percol
+  bindkey '^J' file-completion-by-percol
+
   # https://github.com/mooz/percol
   # Here is an interactive version of pgrep
   function ppgrep() {
