@@ -1004,6 +1004,7 @@ key.defineKey([key.modes.VIEW, key.modes.CARET], 'a', function (ev, arg) {
 key.setGlobalKey(['C-x', 'b'], function (ev, arg) {
     ext.exec("tanything", arg);
     prompt.editModeEnabled = true;
+    LinuxIMEoff();
 }, 'タブを一覧表示 (編集モード)', true);
 
 //// Web ページを簡潔に表示
