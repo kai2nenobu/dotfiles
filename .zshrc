@@ -185,7 +185,9 @@ ${HOME}/Dropbox/lecture"
     local SELECTED
     local DIR
     local DIR_EXPAND
+    local NEW_ARG
     local OLD_CURSOR=$CURSOR
+    local OLD_IFS=$IFS
 
     ## Discriminate cursor position
     split-shell-arguments
@@ -202,11 +204,11 @@ ${HOME}/Dropbox/lecture"
       fi
       zle forward-char
     fi
-    # Expand tilde, white space, quote and sharp
+    # Expand tilde, white space, quote, sharp and parenthesis
     DIR_EXPAND=$(echo "$DIR" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
-      -e "s@\\\\'@'@" -e 's@\\#@#@g')
+      -e "s@\\\\'@'@" -e 's@\\#@#@g' -e 's@\\(@(@g' -e 's@\\)@)@g')
 
-    ## list files in DIR_EXPAND and select by percol
+    ## List files in DIR_EXPAND and select by percol
     if [ -d "$DIR_EXPAND" ]; then
       SELECTED=$(ls -A $DIR_EXPAND | percol --match-method migemo)
       if [ $? -ne 0 ]; then     # When percol failed
@@ -214,15 +216,27 @@ ${HOME}/Dropbox/lecture"
         zle -R -c
         return 1
       fi
-      # Escape white space, quote
-      SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@')
+      # Escape white space, quote and parenthesis
+      SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@' \
+        -e 's@(@\\(@g' -e 's@)@\\)@g')
+      # Separate with newline only
+      IFS="
+"
       if [ "$DIR_EXPAND" = "." ]; then
-        LBUFFER=$LBUFFER$SELECTED
-      else
-        modify-current-argument "${DIR%%/}"/"$SELECTED"
+        for file in $(echo $SELECTED); do
+          LBUFFER="$LBUFFER$file "
+        done
+      else                      # Not in a current directory
+        for file in $(echo $SELECTED); do
+          NEW_ARG="$NEW_ARG${DIR%%/}/$file "
+        done
+        modify-current-argument $NEW_ARG
+        CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#DIR}))
       fi
+      IFS=$OLD_IFS
+      zle backward-delete-char  # Delete a trailing white space
       zle -R -c
-    else     # When $DIR is not a directory
+    else     # When $DIR_EXPAND is not a directory
       CURSOR=$OLD_CURSOR
       zle -M "$DIR is not a directory."
       return 2
