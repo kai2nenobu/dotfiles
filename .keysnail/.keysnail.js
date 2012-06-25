@@ -11,11 +11,32 @@ prompt.displayDelayTime    = 30;
 // command.kill.killRingMax   = 15;
 // command.kill.textLengthMax = 8192;
 
+//// site-local-keymap
+var local = {};
+plugins.options["site_local_keymap.local_keymap"] = local;
+
+function fake(k, i) function () { key.feed(k, i); };
+function pass(k, i) [k, fake(k, i)];
+function ignore(k, i) [k, null];
+
 //}}%PRESERVE%
 // ========================================================================= //
 
 
 // ================================ My original ============================ //
+//// pdf.js
+local["\.pdf$"] = [
+    ["t",function(evt,arg){
+        ext.exec("pdfjs-display-toc", arg, evt);
+    }],
+    ['SPC',function(evt){
+        ext.exec("pdfjs-scroll-document-down", 0.3, evt);
+    }],
+    ['S-SPC',function(evt){
+        ext.exec("pdfjs-scroll-document-up", 0.3, evt);
+    }]
+]
+
 //// hok_ex
 // リンクを google docs へ渡すのを防ぐ
 plugins.options['hok_ex.actions'] = null;
@@ -293,13 +314,6 @@ key.setViewKey(["c", "c"], function (ev, arg) {
 }, 'Google Calendar - イベントを作成', true);
 
 //// site-local-keymap
-var local = {};
-plugins.options["site_local_keymap.local_keymap"] = local;
-
-function fake(k, i) function () { key.feed(k, i); };
-function pass(k, i) [k, fake(k, i)];
-function ignore(k, i) [k, null];
-
 key.setGlobalKey("C-;", function (ev, arg) {
     ext.exec("site-local-keymap-toggle-status", arg, ev);
 }, 'Site local keymap', true);
