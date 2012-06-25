@@ -183,64 +183,81 @@ ${HOME}/Dropbox/lecture"
   autoload -Uz modify-current-argument
   function file-completion-by-percol() {
     local SELECTED
-    local DIR
-    local DIR_EXPAND
+    local ARG
+    local ARG_EXPAND
     local NEW_ARG
+    local QUERY
+    local THRESHOLD=4
     local OLD_CURSOR=$CURSOR
     local OLD_IFS=$IFS
 
     ## Discriminate cursor position
     split-shell-arguments
     if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on an argument
-      DIR=$reply[$REPLY]
+      ARG=$reply[$REPLY]
       CURSOR=$(($CURSOR + ${#reply[$REPLY]} - $REPLY2 + 1)) # Move to right end of an argument
     else
       zle backward-char
       split-shell-arguments
       if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on right end of an argument
-        DIR=$reply[$REPLY]
+        ARG=$reply[$REPLY]
       else
-        DIR="."
+        ARG="./"
       fi
       zle forward-char
     fi
     # Expand tilde, white space, quote, sharp and parenthesis
-    DIR_EXPAND=$(echo "$DIR" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
+    ARG_EXPAND=$(echo "$ARG" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
       -e "s@\\\\'@'@" -e 's@\\#@#@g' -e 's@\\(@(@g' -e 's@\\)@)@g')
 
-    ## List files in DIR_EXPAND and select by percol
-    if [ -d "$DIR_EXPAND" ]; then
-      SELECTED=$(ls -A $DIR_EXPAND | percol --match-method migemo)
+    ## List files in ARG_EXPAND and select by percol
+    if [ -d "$ARG_EXPAND" ]; then
+      SELECTED=$(ls -A $ARG_EXPAND | percol --match-method migemo)
       if [ $? -ne 0 ]; then     # When percol failed
         CURSOR=$OLD_CURSOR
         zle -R -c
         return 1
       fi
-      # Escape white space, quote and parenthesis
-      SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@' \
-        -e 's@(@\\(@g' -e 's@)@\\)@g')
-      # Separate with newline only
-      IFS="
-"
-      if [ "$DIR_EXPAND" = "." ]; then
-        for file in $(echo $SELECTED); do
-          LBUFFER="$LBUFFER$file "
-        done
-      else                      # Not in a current directory
-        for file in $(echo $SELECTED); do
-          NEW_ARG="$NEW_ARG${DIR%%/}/$file "
-        done
-        modify-current-argument $NEW_ARG
-        CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#DIR}))
+    else     # When $ARG_EXPAND is not a directory
+      FILE=${ARG_EXPAND##*/}     # file name part of path
+      ARG_EXPAND=${ARG_EXPAND%/*} # directory part of path
+      ARG=${ARG%/*}
+      if [ $(ls -d ${ARG_EXPAND}/${FILE}* 2> /dev/null | wc -l) -ge $THRESHOLD ]; then
+        SELECTED=$(ls -d ${ARG_EXPAND}/${FILE}* | sed "s@${ARG_EXPAND}/@@" | \
+          percol --match-method migemo)
+        if [ $? -ne 0 ]; then   # When percol failed
+          CURSOR=$OLD_CURSOR
+          zle -R -c
+          return 1
+        fi
+      else                      # fail
+        CURSOR=$OLD_CURSOR
+        zle -M "An amount of candidates is too small."
+        return 2
       fi
-      IFS=$OLD_IFS
-      zle backward-delete-char  # Delete a trailing white space
-      zle -R -c
-    else     # When $DIR_EXPAND is not a directory
-      CURSOR=$OLD_CURSOR
-      zle -M "$DIR is not a directory."
-      return 2
     fi
+
+    ## Insert files to command line
+    # Escape white space, quote and parenthesis
+    SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@' \
+      -e 's@(@\\(@g' -e 's@)@\\)@g')
+    # Separate with newline only
+    IFS="
+"
+    if [ "$ARG_EXPAND" = "." ]; then
+      for file in $(echo $SELECTED); do
+        LBUFFER="$LBUFFER$file "
+      done
+    else                      # Not in a current directory
+      for file in $(echo $SELECTED); do
+        NEW_ARG="$NEW_ARG${ARG%%/}/$file "
+      done
+      modify-current-argument $NEW_ARG
+      CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#ARG}))
+    fi
+    IFS=$OLD_IFS
+    zle backward-delete-char  # Delete a trailing white space
+    zle -R -c
   }
   zle -N file-completion-by-percol
   bindkey '^J' file-completion-by-percol
