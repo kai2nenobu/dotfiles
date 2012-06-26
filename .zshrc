@@ -9,6 +9,8 @@ setopt auto_pushd
 setopt list_packed
 setopt appendhistory extendedglob
 setopt ignore_eof           # Ctrl-dでログアウトしない
+setopt no_nomatch           # グロブの展開が出来ない場合は，グロブパターンをそのまま残して
+                            # エラーの報告はしない
 
 ## 補完候補を移動して選択
 zstyle ':completion:*:default' menu select=2
@@ -182,12 +184,12 @@ ${HOME}/Dropbox/lecture"
   autoload -Uz split-shell-arguments
   autoload -Uz modify-current-argument
   function file-completion-by-percol() {
-    local SELECTED
-    local ARG
-    local ARG_EXPAND
-    local NEW_ARG
-    local QUERY
-    local THRESHOLD=4
+    local SELECTED=""
+    local ARG=""
+    local ARG_EXPAND=""
+    local AMOUNT=""
+    local NEW_ARG=""
+    local THRESHOLD=2
     local OLD_CURSOR=$CURSOR
     local OLD_IFS=$IFS
 
@@ -195,60 +197,74 @@ ${HOME}/Dropbox/lecture"
     split-shell-arguments
     if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on an argument
       ARG=$reply[$REPLY]
-      CURSOR=$(($CURSOR + ${#reply[$REPLY]} - $REPLY2 + 1)) # Move to right end of an argument
+      CURSOR=$(($CURSOR + ${#reply[$REPLY]} - $REPLY2 + 1)) # Move to next to right end of an argument
     else
       zle backward-char
       split-shell-arguments
       if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on right end of an argument
         ARG=$reply[$REPLY]
-      else
-        ARG="./"
-      fi
+      fi # Else cursor is not on an argument
       zle forward-char
-    fi
+    fi   #### If $ARG is ".", this function might not work well. ####
     # Expand tilde, white space, quote, sharp and parenthesis
     ARG_EXPAND=$(echo "$ARG" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
       -e "s@\\\\'@'@" -e 's@\\#@#@g' -e 's@\\(@(@g' -e 's@\\)@)@g')
 
-    ## List files in ARG_EXPAND and select by percol
-    if [ -d "$ARG_EXPAND" ]; then
+    ## List files and select by percol
+    if [ "$ARG_EXPAND" = "" ] || [ -d "$ARG_EXPAND" ]; then # $ARG_EXPAND is a unique directory
+      # List files in $ARG_EXPAND
       SELECTED=$(ls -A $ARG_EXPAND | percol --match-method migemo)
-      if [ $? -ne 0 ]; then     # When percol failed
+      if [ $? -ne 0 ]; then     # When percol fail
         CURSOR=$OLD_CURSOR
         zle -R -c
         return 1
       fi
-    else     # When $ARG_EXPAND is not a directory
-      FILE=${ARG_EXPAND##*/}     # file name part of path
-      ARG_EXPAND=${ARG_EXPAND%/*} # directory part of path
-      ARG=${ARG%/*}
-      if [ $(ls -d ${ARG_EXPAND}/${FILE}* 2> /dev/null | wc -l) -ge $THRESHOLD ]; then
-        SELECTED=$(ls -d ${ARG_EXPAND}/${FILE}* | sed "s@${ARG_EXPAND}/@@" | \
+    else
+      AMOUNT=$(ls -d ${ARG_EXPAND}* 2> /dev/null | wc -l)
+      if [ $AMOUNT -ge $THRESHOLD ]; then  # $ARG_EXPAND has many candidates
+        # List $ARG_EXPAND*
+        FILE=$(basename $ARG_EXPAND)       # file name part of $ARG_EXPAND
+        ARG_EXPAND=$(dirname $ARG_EXPAND)/ # directory part of $ARG_EXPAND
+        ARG=$(dirname $ARG)/
+        SELECTED=$(ls -d ${ARG_EXPAND}${FILE}* | sed "s@${ARG_EXPAND}@@" | \
           percol --match-method migemo)
-        if [ $? -ne 0 ]; then   # When percol failed
+        if [ $? -ne 0 ]; then   # When percol fail
           CURSOR=$OLD_CURSOR
           zle -R -c
           return 1
         fi
-      else                      # fail
+      elif [ $AMOUNT -eq 1 ]; then # $ARG_EXPAND is a unique file
+        zle expand-or-complete
+        return 0
+      elif [ $AMOUNT -eq 0 ]; then # $ARG_EXPAND doesn't have candidates
+        CURSOR=$OLD_CURSOR
+        zle -M "$ARG_EXPAND doesn't have candidates." # This output is incomplete
+        return 3
+      else # An amount of candidates is too small
         CURSOR=$OLD_CURSOR
         zle -M "An amount of candidates is too small."
-        return 2
+        return 4
       fi
     fi
 
-    ## Insert files to command line
+    ## Insert file(s) to command line
     # Escape white space, quote and parenthesis
     SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@' \
       -e 's@(@\\(@g' -e 's@)@\\)@g')
     # Separate with newline only
     IFS="
 "
-    if [ "$ARG_EXPAND" = "." ]; then
+    if [ "$ARG_EXPAND" = "" ]; then
       for file in $(echo $SELECTED); do
         LBUFFER="$LBUFFER$file "
       done
-    else                      # Not in a current directory
+    elif [ "$ARG_EXPAND" = "./" ]; then
+      for file in $(echo $SELECTED); do
+        NEW_ARG="$NEW_ARG$file "
+      done
+      modify-current-argument $NEW_ARG
+      CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#ARG}))
+    else
       for file in $(echo $SELECTED); do
         NEW_ARG="$NEW_ARG${ARG%%/}/$file "
       done
