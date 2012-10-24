@@ -861,7 +861,8 @@ plugins.options["twitter_client.automatically_begin"] = true;
 plugins.options["twitter_client.popup_new_statuses"] = true;
 plugins.options["twitter_client.prefer_screen_name"] = true; // ID で表示
 plugins.options["twitter_client.lists"] = ["kbkbkbkb1/todai-orch", "kbkbkbkb1/eeic09",
-                                        "kbkbkbkb1/hobby", "kbkbkbkb1/emacs"];
+                                           "kbkbkbkb1/hobby", "kbkbkbkb1/emacs",
+                                           "rironriron/ショップ"];
 // keymap
 plugins.options["twitter_client.keymap"] = {
     "C-z"   : "prompt-toggle-edit-mode",
