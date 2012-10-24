@@ -6,5 +6,6 @@ alias -g G='| grep'
 alias -g GI='| grep -i'
 alias -g CA='| canything -i'
 alias -g CAS='| canything'
+alias -g NKF='| nkf -w'
 
 echo "Load .zsh_aliases."
