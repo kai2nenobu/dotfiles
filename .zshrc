@@ -180,16 +180,18 @@ ${HOME}/Dropbox/lecture"
   zle -N insert-file-by-percol
   bindkey '^[c' insert-file-by-percol
 
-  ## Complete file by percol
+  ## Complete file name by percol
   autoload -Uz split-shell-arguments
   autoload -Uz modify-current-argument
-  function file-completion-by-percol() {
+  function complete-filename-by-percol() {
+    local CANDIDATES=""
+    local FILE=""
+    local DIR=""
+    local AMOUNT=""
     local SELECTED=""
     local ARG=""
     local ARG_EXPAND=""
-    local AMOUNT=""
     local NEW_ARG=""
-    local THRESHOLD=2
     local OLD_CURSOR=$CURSOR
     local OLD_IFS=$IFS
 
@@ -203,70 +205,66 @@ ${HOME}/Dropbox/lecture"
       split-shell-arguments
       if [ $(($REPLY % 2)) -eq 0 ]; then # Cursor is on right end of an argument
         ARG=$reply[$REPLY]
-      fi # Else cursor is not on an argument
+      fi    # Else argment is empty
       zle forward-char
     fi   #### If $ARG is ".", this function might not work well. ####
-    # Expand tilde, white space, quote, sharp and parenthesis
-    ARG_EXPAND=$(echo "$ARG" | sed -e "s@~@${HOME}@" -e 's@\\ @ @g' \
-      -e "s@\\\\'@'@" -e 's@\\#@#@g' -e 's@\\(@(@g' -e 's@\\)@)@g')
+    # Expand special keys and $HOME
+    ARG_EXPAND=$(echo -n "$ARG" | sed -e "s@~/@${HOME}/@" -e 's@\\\([[!#$&() ]\)@\1@g' \
+      -e 's@\\\([]*;<>^{|}~]\)@\1@g' -e "s@\\\\'@'@g")
 
-    ## List files and select by percol
+    ## List files
     if [ "$ARG_EXPAND" = "" ] || [ -d "$ARG_EXPAND" ]; then # $ARG_EXPAND is a unique directory
-      # List files in $ARG_EXPAND
-      SELECTED=$(ls -A $ARG_EXPAND | percol --match-method migemo)
-      if [ $? -ne 0 ]; then     # When percol fail
+      DIR=${ARG_EXPAND%/}
+      FILE=""
+      CANDIDATES=$(ls -A $DIR 2> /dev/null)
+    else    # Divide an argument into DIR and FILE
+      if echo $ARG_EXPAND | grep '/' &> /dev/null; then
+        DIR=${ARG_EXPAND%/*}
+      else
+        DIR=""
+      fi
+      FILE=${ARG_EXPAND##*/}
+      CANDIDATES=$(ls -d ${ARG_EXPAND}* 2> /dev/null | sed "s@${DIR}/@@")
+    fi
+    AMOUNT=$(echo $CANDIDATES | wc -l)
+    if [ "$CANDIDATES" = "" ]; then # $CANDIDATES has no candidates
+      CURSOR=$OLD_CURSOR
+      zle -M "No candidates."
+      return 2
+    elif [ $AMOUNT -eq 1 ]; then # $CANDIDATES has a unique candidate
+      SELECTED=$CANDIDATES
+    elif [ $AMOUNT -ge 2 ]; then  # $CANDIDATES has many candidates
+      # select by percol
+      SELECTED=$(echo -n $CANDIDATES | percol --match-method migemo)
+      if [ $? -ne 0 ]; then   # When percol fail
         CURSOR=$OLD_CURSOR
         zle -R -c
         return 1
       fi
-    else
-      AMOUNT=$(ls -d ${ARG_EXPAND}* 2> /dev/null | wc -l)
-      if [ $AMOUNT -ge $THRESHOLD ]; then  # $ARG_EXPAND has many candidates
-        # List $ARG_EXPAND*
-        FILE=$(basename $ARG_EXPAND)       # file name part of $ARG_EXPAND
-        ARG_EXPAND=$(dirname $ARG_EXPAND)/ # directory part of $ARG_EXPAND
-        ARG=$(dirname $ARG)/
-        SELECTED=$(ls -d ${ARG_EXPAND}${FILE}* | sed "s@${ARG_EXPAND}@@" | \
-          percol --match-method migemo)
-        if [ $? -ne 0 ]; then   # When percol fail
-          CURSOR=$OLD_CURSOR
-          zle -R -c
-          return 1
-        fi
-      elif [ $AMOUNT -eq 1 ]; then # $ARG_EXPAND is a unique file
-        zle expand-or-complete
-        return 0
-      elif [ $AMOUNT -eq 0 ]; then # $ARG_EXPAND doesn't have candidates
-        CURSOR=$OLD_CURSOR
-        zle -M "$ARG_EXPAND doesn't have candidates." # This output is incomplete
-        return 3
-      else # An amount of candidates is too small
-        CURSOR=$OLD_CURSOR
-        zle -M "An amount of candidates is too small."
-        return 4
-      fi
     fi
 
     ## Insert file(s) to command line
-    # Escape white space, quote and parenthesis
-    SELECTED=$(echo $SELECTED | sed -e 's@ @\\ @g' -e "s@'@\\\\'@" -e 's@#@\\#@' \
-      -e 's@(@\\(@g' -e 's@)@\\)@g')
+    # Escape special keys an $HOME
+    SELECTED=$(echo -n $SELECTED | sed  -e 's@\([[!#&() ]\)@\\\1@g' \
+      -e 's@\([]*;<>^{|}~]\)@\\\1@g' -e "s@'@\\\\'@g" -e "s@${HOME}/@~/@g")
+    DIR=$(echo -n $DIR | sed  -e 's@\([[!"#&() ]\)@\\\1@g' \
+      -e 's@\([]*;<>^{|}~]\)@\\\1@g' -e "s@'@\\\\'@g" -e "s@${HOME}/@~/@g")
     # Separate with newline only
     IFS="
 "
-    if [ "$ARG_EXPAND" = "" ]; then
-      for file in $(echo $SELECTED); do
+    if [ "$DIR" = "" ] && [ "$FILE" = "" ]; then # An argument is empty
+      for file in $(echo -n $SELECTED); do
         LBUFFER="$LBUFFER$file "
       done
-    elif [ "$ARG_EXPAND" = "./" ]; then
-      for file in $(echo $SELECTED); do
+    elif [ "$DIR" = "" ]; then
+      for file in $(echo -n $SELECTED); do
         NEW_ARG="$NEW_ARG$file "
       done
       modify-current-argument $NEW_ARG
       CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#ARG}))
-    else
-      for file in $(echo $SELECTED); do
-        NEW_ARG="$NEW_ARG${ARG%%/}/$file "
+    else  # $DIR is not empty
+      for file in $(echo -n $SELECTED); do
+        NEW_ARG="$NEW_ARG${DIR}/$file "
       done
       modify-current-argument $NEW_ARG
       CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#ARG}))
@@ -275,8 +273,8 @@ ${HOME}/Dropbox/lecture"
     zle backward-delete-char  # Delete a trailing white space
     zle -R -c
   }
-  zle -N file-completion-by-percol
-  bindkey '^J' file-completion-by-percol
+  zle -N complete-filename-by-percol
+  bindkey '^J' complete-filename-by-percol
 
   # https://github.com/mooz/percol
   # Here is an interactive version of pgrep
