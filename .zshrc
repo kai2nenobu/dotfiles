@@ -161,9 +161,10 @@ ${HOME}/Dropbox/works/tex_workspace"
   function search-document-by-percol(){
     DOCUMENT_DIR="\
 ${HOME}/Dropbox/document
+${HOME}/Dropbox/excel
 ${HOME}/Dropbox/lecture"
     SELECTED_FILE=$(echo $DOCUMENT_DIR | xargs find | \
-      grep -E "\.(pdf|txt|odp|odt|ods)$" | percol --match-method migemo)
+      grep -E "\.(pdf|txt|odp|odt|ods|docx?|xlsx?|pptx?)$" | percol --match-method migemo)
     if [ $? -eq 0 ]; then
       # $OPEN ${DOCUMENT_DIR}/$SELECTED_FILE
       $OPEN $SELECTED_FILE
