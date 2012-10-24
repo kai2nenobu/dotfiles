@@ -128,9 +128,15 @@ if which percol &> /dev/null; then
 
   function percol_select_history() {
     local tac_cmd
+    local SELECTED
     which gtac &> /dev/null && tac_cmd=gtac || tac_cmd=tac
-    BUFFER=$($tac_cmd $HISTFILE | sed 's/^: [0-9]*:[0-9]*;//' \
-      | percol --match-method migemo --query "$LBUFFER")
+    SELECTED=$($tac_cmd $HISTFILE | sed 's/^: [0-9]*:[0-9]*;//' \
+      | percol --match-method regex --query "$LBUFFER")
+    if [ $? -ne 0 ]; then       # When percol fails
+      zle -R -c               # refresh
+      return 1
+    fi
+    BUFFER=$SELECTED
     CURSOR=$#BUFFER         # move cursor
     zle -R -c               # refresh
   }
