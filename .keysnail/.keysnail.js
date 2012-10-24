@@ -1409,6 +1409,14 @@ key.setViewKey(['c', 'o'], function () {
     CLIPBOARD.copyString(txt);
 }, 'Org-mode のリンク形式でタイトルとURLコピー');
 
+key.setViewKey(['c', 'l'], function () {
+    var w = window._content;
+    var d = w.document;
+    var txt = "\\href{" + d.location.href + "}{" + d.title + "}";
+    const CLIPBOARD = Components.classes['@mozilla.org/widget/clipboardhelper;1'].getService(Components.interfaces.nsIClipboardHelper);
+    CLIPBOARD.copyString(txt);
+}, 'LaTeX のリンク形式でタイトルとURLコピー');
+
 key.setViewKey(['c', 'g'], function(ev){
     var loc = getBrowser().contentDocument.URL;
     var doc = frame = document.commandDispatcher.focusedWindow.document
