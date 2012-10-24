@@ -26,4 +26,12 @@ alias ga='git add'
 alias gco='git checkout'
 alias gbr='git branch'
 
+# system specific aliases
+case $(uname -o) in
+  "Cygwin")
+    alias op=cygstart;;
+  "GNU/Linux")
+    alias op=gnome-open;;
+esac
+
 echo "Load .bash_aliases."
