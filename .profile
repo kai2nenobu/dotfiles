@@ -26,13 +26,23 @@ case $(uname -o) in
   "Cygwin")
     #mount -c /
     # mount "$USERPROFILE" /home/$USERNAME
-    export OPEN=cygstart;;
+    export OPEN=cygstart
+    # Add cygwin specific bin dir to PATH recursivey
+    if [ -d ${HOME}/cygwin-bin ]; then
+      export PATH=$(find ${HOME}/cygwin-bin -type d | tr '\n' ':')$PATH
+    fi
+    ;;
   "GNU/Linux")
     export OPEN=gnome-open;;
 esac
 
+# Load RVM into a shell session *as a function*
+if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
+  source $HOME/.rvm/scripts/rvm;
+fi
+
 # set enviroment
-export PATH=${HOME}/cygwin-bin:${HOME}/local/bin:$PATH
+export PATH=${HOME}/local/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/lib:${HOME}/.emacs.d/lib
 export EDITOR=emacsclient
 export VISUAL=emacsclient
@@ -42,5 +52,3 @@ export LESS='-R'
 export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
 echo "Load .profile"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

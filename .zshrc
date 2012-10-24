@@ -20,7 +20,7 @@ setopt list_packed
 bindkey -e
 
 function title {
-	print -n "\e]0;$@\a"
+    print -n "\e]0;$@\a"
     export TITLE="${(pj: :)@}"
 }
 precmd(){
@@ -352,4 +352,3 @@ fi
 echo "Load .zshrc."
 
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
