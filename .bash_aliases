@@ -29,7 +29,9 @@ alias gbr='git branch'
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
-    alias op=cygstart;;
+    alias op=cygstart
+    alias apt-cyg='apt-cyg -u'
+    ;;
   "GNU/Linux")
     alias op=gnome-open;;
 esac
