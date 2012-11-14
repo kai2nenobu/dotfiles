@@ -860,6 +860,7 @@ plugins.options["twitter_client.popup_new_repliest"] = false;
 plugins.options["twitter_client.automatically_begin"] = true;
 plugins.options["twitter_client.popup_new_statuses"] = true;
 plugins.options["twitter_client.prefer_screen_name"] = true; // ID で表示
+plugins.options["twitter_client.use_jmp"] = false; // twitter 自前の短縮 URL を使用する
 plugins.options["twitter_client.lists"] = ["kbkbkbkb1/todai-orch", "kbkbkbkb1/eeic09",
                                            "kbkbkbkb1/hobby", "kbkbkbkb1/emacs"];
 // keymap
