@@ -5,9 +5,9 @@ SAVEHIST=100000
 setopt appendhistory autocd extendedglob notify
 setopt hist_ignore_dups hist_ignore_all_dups
 setopt share_history
+setopt extended_history         # history ファイルにエポックタイムを記録する
 setopt auto_pushd
 setopt list_packed
-setopt appendhistory extendedglob
 setopt ignore_eof           # Ctrl-dでログアウトしない
 setopt no_nomatch           # グロブの展開が出来ない場合は，グロブパターンをそのまま残して
                             # エラーの報告はしない
