@@ -1,5 +1,13 @@
-# X / _ / X
-percol.view.PROMPT  = ur"<bold><cyan>pattern:</cyan></bold> %q"
+from percol.finder import FinderMultiQueryString, FinderMultiQueryMigemo, FinderMultiQueryRegex
+# Change prompt in response to the status of case sensitivity
+percol.view.__class__.PROMPT = property(
+    lambda self:
+    ur"<bold><cyan>QUERY </cyan>[a]:</bold> %q" if percol.model.finder.case_insensitive
+    else ur"<bold><yellow>QUERY </yellow>[A]:</bold> %q"
+)
+# Display finder name in RPROMPT
+percol.view.prompt_replacees["F"] = lambda self, **args: self.model.finder.get_name()
+percol.view.RPROMPT = ur"\<%F\> (%i/%I) [%n/%N]"
 
 # Emacs like
 percol.import_keymap({
