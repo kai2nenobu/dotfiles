@@ -8,7 +8,7 @@ percol.import_keymap({
     "C-k" : lambda percol: percol.command.kill_end_of_line(),
     "C-y" : lambda percol: percol.command.yank(),
     "C-a" : lambda percol: percol.command.beginning_of_line(),
-    "C-e" : lambda percol: percol.command.end_of_line(),
+    #"C-e" : lambda percol: percol.command.end_of_line(),
     "C-b" : lambda percol: percol.command.backward_char(),
     "C-f" : lambda percol: percol.command.forward_char(),
     "C-n" : lambda percol: percol.command.select_next(),
@@ -20,6 +20,9 @@ percol.import_keymap({
     "C-m" : lambda percol: percol.finish(),
     "C-j" : lambda percol: percol.finish(),
     "C-g" : lambda percol: percol.cancel(),
+    "M-c" : lambda percol: percol.command.toggle_case_sensitive(),
+    "C-e" : lambda percol: percol.command.toggle_two_finders(FinderMultiQueryMigemo, FinderMultiQueryString),
+    "M-r" : lambda percol: percol.command.toggle_two_finders(FinderMultiQueryRegex, FinderMultiQueryString)
 })
 
 # migemo
