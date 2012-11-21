@@ -86,6 +86,8 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+# confirm command exitence
+function exists { which $1 &> /dev/null }
 
 ## http://masutaka.net/chalow/2011-09-28.html
 ## Invoke the ``dired'' of current working directory in Emacs buffer.
@@ -127,11 +129,10 @@ if which percol &> /dev/null; then
 
 
   function percol_select_history() {
-    local tac_cmd
+    local tac
     local SELECTED
-    which gtac &> /dev/null && tac_cmd=gtac || tac_cmd=tac
-    SELECTED=$($tac_cmd $HISTFILE | sed 's/^: [0-9]*:[0-9]*;//' \
-      | percol --match-method regex --query "$LBUFFER")
+    exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+    SELECTED=$(history -n 1 | eval $tac | percol --match-method regex --query "$LBUFFER")
     if [ $? -ne 0 ]; then       # When percol fails
       zle -R -c               # refresh
       return 1
