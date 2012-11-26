@@ -30,11 +30,11 @@ alias gbr='git branch'
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
-    alias op=cygstart
+    alias open=cygstart
     alias apt-cyg='apt-cyg -u'
     ;;
   "GNU/Linux")
-    alias op=xdg-open;;
+    alias open=xdg-open;;
 esac
 
 echo "Load .bash_aliases."
