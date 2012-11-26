@@ -34,7 +34,7 @@ case $(uname -o) in
     alias apt-cyg='apt-cyg -u'
     ;;
   "GNU/Linux")
-    alias op=gnome-open;;
+    alias op=xdg-open;;
 esac
 
 echo "Load .bash_aliases."
