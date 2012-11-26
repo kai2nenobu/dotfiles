@@ -132,7 +132,7 @@ if which percol &> /dev/null; then
     local tac
     local SELECTED
     exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-    SELECTED=$(history -n 1 | eval $tac | percol --match-method regex --query "$LBUFFER")
+    SELECTED=$(history -n 1 | eval $tac | percol --match-method migemo --query "$LBUFFER")
     if [ $? -ne 0 ]; then       # When percol fails
       zle -R -c               # refresh
       return 1
