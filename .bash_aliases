@@ -4,6 +4,7 @@
 #alias l='ls -CF'
 alias rm='rm -i'
 alias vless='/usr/share/vim/vim73/macros/less.sh'
+alias less='less -r'
 alias lsa='ls -a'
 alias lsl='ls -l'
 alias lsal='ls -al'
