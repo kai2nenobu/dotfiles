@@ -1393,6 +1393,14 @@ key.setViewKey(['c', 'd'], function () {
     CLIPBOARD.copyString(txt);
 }, 'Dokuwiki のリンク形式でタイトルとURLコピー');
 
+key.setViewKey(['c', 'm'], function () {
+    var w = window._content;
+    var d = w.document;
+    var txt = "[" + d.title + "](" + d.location.href + ")" ;
+    const CLIPBOARD = Components.classes['@mozilla.org/widget/clipboardhelper;1'].getService(Components.interfaces.nsIClipboardHelper);
+    CLIPBOARD.copyString(txt);
+}, 'Markdown のリンク形式でタイトルとURLコピー');
+
 key.setViewKey(['c', 'p'], function () {
     var w = window._content;
     var d = w.document;
