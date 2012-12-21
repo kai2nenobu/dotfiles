@@ -336,6 +336,15 @@ alias cdb='change-directory-bookmark'
 
 ## tmux
 if which tmux &> /dev/null; then
+  ## tmux start
+  ## http://stillpedant.hatenablog.com/entry/2012/11/30/214017
+  function tmux-start() {
+    BUFFER=" { tmux list-sessions >& /dev/null && tmux attach } || tmux"
+    zle accept-line
+  }
+  zle -N tmux-start
+  bindkey '^X^T' tmux-start
+
   ## pane move
   function tmux-select-pane(){
     tmux select-pane -t .+
