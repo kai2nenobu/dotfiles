@@ -371,18 +371,6 @@ if which tmux &> /dev/null; then
   zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=*'
 fi
 
-function migemo-grep() {
-  local ARGS
-  ARGS=("$@")
-  for ((i = 1; i < ${#ARGS[@]}; i++)); do
-    if [ "${ARGS[i]}" = "-e" ]; then
-      i=$((i+1))
-      ARGS[i]=$(cmigemo -w ${ARGS[i]} -d /usr/local/share/migemo/utf-8/migemo-dict)
-    fi
-  done
-  egrep "${ARGS[@]}"
-}
-
 echo "Load .zshrc."
 
 
