@@ -138,7 +138,7 @@ if which percol &> /dev/null; then
     zle accept-line
   }
   zle -N percol_cdr
-  bindkey '^[@' percol_cdr
+  bindkey '^[r' percol_cdr
 
 ## select directory stack by canything
   ja(){
