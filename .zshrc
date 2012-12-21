@@ -126,6 +126,20 @@ function cde () {
 
 
 if which percol &> /dev/null; then
+  ## select cd history
+  function percol_cdr() {
+    SELECTED=$(cdr -l | percol --match-method migemo)
+    if [ $? -ne 0 ]; then       # When percol fails
+      zle -R -c                 # abort and refresh
+      return 1
+    fi
+    BUFFER="cd $(echo $SELECTED | sed 's/^[[:digit:]]\+ \+//')"
+    zle -R -c
+    zle accept-line
+  }
+  zle -N percol_cdr
+  bindkey '^[@' percol_cdr
+
 ## select directory stack by canything
   ja(){
     local destpath=`j 2>&1 | sed -n -e '2,$p' | sed 's/^[0-9\\. ]*//' | tac | canything`
