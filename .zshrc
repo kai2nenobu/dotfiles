@@ -4,6 +4,7 @@ SAVEHIST=100000
 
 setopt appendhistory autocd extendedglob notify
 setopt hist_ignore_dups hist_ignore_all_dups
+setopt hist_ignore_space    # 行頭がスペースのコマンドは保存しない
 setopt share_history
 setopt extended_history         # history ファイルにエポックタイムを記録する
 setopt auto_pushd
