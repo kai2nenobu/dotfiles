@@ -201,15 +201,6 @@ ${HOME}/Dropbox/lecture"
   }
   alias sd='search-document-by-percol'
 
-## complete a content of current directory by canything
-  insert-file-by-percol(){
-    LBUFFER=$LBUFFER$(ls -A | percol --match-method migemo | tr '\n' ' ' | \
-      sed 's/[[:space:]]*$//') # delete trailing space
-    zle -R -c
-  }
-  zle -N insert-file-by-percol
-  bindkey '^[c' insert-file-by-percol
-
   ## Complete file name by percol
   autoload -Uz split-shell-arguments
   autoload -Uz modify-current-argument
