@@ -3,7 +3,7 @@ var PLUGIN_INFO =
   <name>TabSnail</name>
   <description>Manipulate tabs with keysnail</description>
   <description lang="ja">キーボードでタブを操作</description>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <updateURL>http://github.com/gifnksm/TabSnail/raw/master/tabsnail.ks.js</updateURL>
   <author mail="makoto.nksm@gmail.com" homepage="http://d.hatena.ne.jp/gifnksm/">gifnksm</author>
   <license>The MIT License</license>
@@ -14,6 +14,11 @@ var PLUGIN_INFO =
 
 
 // ChangeLog
+//
+// ==== 1.0.6 (2012/12/15) ====
+//
+// * Fix 'tst-togle-autohide-tabbar' (thanks to Michael Heerdegen)
+//   It works properly now, even if TST's Auto hide mode is "Auto Hide tab bar".
 //
 // ==== 1.0.5 (2012/09/02) ====
 //
@@ -192,7 +197,7 @@ plugins.withProvides(function(provide) {
 
     provide('tst-toggle-autohide-tabbar', function (aEvent, aArgument) {
       const ah = gBrowser.treeStyleTab.autoHide;
-      if (ah.state == "shrunken")
+      if (ah.state == "shrunken" || ah.state == "hidden")
         ah.show();
       else
         ah.hide();
