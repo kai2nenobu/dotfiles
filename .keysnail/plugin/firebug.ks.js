@@ -8,7 +8,7 @@ let PLUGIN_INFO =
   <updateURL>https://gist.github.com/raw/945713/firebug.ks.js</updateURL>
   <iconURL>https://sites.google.com/site/958site/Home/files/firebug.ks.png</iconURL>
   <author>958</author>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
   <license>MIT</license>
   <minVersion>1.8.0</minVersion>
   <include>main</include>
@@ -82,7 +82,7 @@ function FirebugVimperator(){
   var fbContentBox = document.getElementById('fbContentBox') || document.getElementById('fbMainFrame');
   function getContentBox(callback) {
     if (!fbContentBox)
-      Firebug.GlobalUI.startFirebug(function() {
+      (Firebug.GlobalUI || Firebug.browserOverlay).startFirebug(function() {
         fbContentBox = document.getElementById('fbContentBox') || document.getElementById('fbMainFrame')
         callback();
       });
