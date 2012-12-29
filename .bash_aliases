@@ -26,6 +26,7 @@ alias gc='git commit'
 alias ga='git add'
 alias gco='git checkout'
 alias gbr='git branch'
+alias du1='du -h --max-depth 1'
 
 # system specific aliases
 case $(uname -o) in
