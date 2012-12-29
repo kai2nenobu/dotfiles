@@ -126,8 +126,34 @@ function cde () {
 
 
 if which percol &> /dev/null; then
+  ## select git log
+  function percol_git_log() {
+    local SELECTED
+    local git_log_format='%h %ad | %s'    # %h should be at the top
+    # select by percol
+    SELECTED=$(git --no-pager log --pretty=format:${git_log_format} --date short | \
+      percol --match-method migemo)
+    if [ $? -ne 0 ]; then       # When percol fails
+      zle -R -c                 # abort and refresh
+      return 1
+    fi
+    # extract commit hash
+    SELECTED=$(echo "$SELECTED" | grep -o '^[0-9a-f]\+')
+    # insert hash to BUFFER
+    if [ $(echo "$SELECTED" | wc -l) -eq 2 ]; then
+      SELECTED=$(echo -n "$SELECTED" | sed ':loop; N; $!b loop; ;s/\n/../g')
+    else
+      SELECTED=$(echo -n "$SELECTED" | tr '\n' ' ')
+    fi
+    LBUFFER=${LBUFFER}${SELECTED}
+    zle -R -c
+  }
+  zle -N percol_git_log
+  bindkey '^Xg' percol_git_log
+
   ## select cd history
   function percol_cdr() {
+    local SELECTED
     SELECTED=$(cdr -l | percol --match-method migemo)
     if [ $? -ne 0 ]; then       # When percol fails
       zle -R -c                 # abort and refresh
