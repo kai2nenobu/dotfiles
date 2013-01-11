@@ -1,13 +1,14 @@
 function FindProxyForURL(url, host)
 {
     // webpages in local networks
-    if (dnsDomainIs(host, "pollmann") ||
+    if (dnsDomainIs(host, "rubner-vcs") ||
+        dnsDomainIs(host, "pollmann") ||
         dnsDomainIs(host, "ci.nii.ac.jp") ||
         dnsDomainIs(host, "apollo.gavo.t.u-tokyo.ac.jp") ||
         dnsDomainIs(host, "www.wakayama-u.ac.jp") ||
         dnsDomainIs(host, "gloria.gav.t.u-tokyo.ac.jp") ||
         dnsDomainIs(host, "minerva.gavo.t.u-tokyo.ac.jp") ||
-        dnsDomainIs(host, "software.gavo.t.u-tokyo.ac.jp") ||
+        dnsDomainIs(host, "software.gavo.t.u-tokyo.ac.jp") || ... }
         dnsDomainIs(host, "www.gavo.t.u-tokyo.ac.jp")
         //&& !shExpMatch(myIpAddress(), "172.19.*") // I'm not in local network
        )
