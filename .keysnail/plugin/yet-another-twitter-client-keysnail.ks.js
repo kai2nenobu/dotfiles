@@ -12,7 +12,7 @@ const PLUGIN_INFO =
     <name>Yet Another Twitter Client KeySnail</name>
     <description>Make KeySnail behave like Twitter client</description>
     <description lang="ja">KeySnail を Twitter クライアントに</description>
-    <version>3.1.5</version>
+    <version>3.1.6</version>
     <updateURL>https://github.com/mooz/keysnail/raw/master/plugins/yet-another-twitter-client-keysnail.ks.js</updateURL>
     <iconURL>https://github.com/mooz/keysnail/raw/master/plugins/icon/yet-another-twitter-client-keysnail.icon.png</iconURL>
     <author mail="stillpedant@gmail.com" homepage="http://d.hatena.ne.jp/mooz/">mooz</author>
@@ -533,9 +533,18 @@ const $U = {
         return elem;
     },
 
+    linkClass: "ks-text-link",
+    createLinkElement: function (url, text) {
+        return $U.createElement("description", {
+            "class"       : $U.linkClass,
+            "tooltiptext" : url,
+            "value"       : text
+        });
+    },
+
     insertAfter:
     function insertAfter(parent, node, referenceNode) {
-	parent.insertBefore(node, referenceNode.nextSibling);
+        parent.insertBefore(node, referenceNode.nextSibling);
     },
 
     shortenURL:
@@ -638,7 +647,7 @@ function OAuth(info, tokens) {
     let context = {};
 
     if (!userscript.require("oauth.js", context)) {
-        display.notify(L(util.xmlGetLocaleString(PLUGIN_INFO.name)) + " : " +
+        display.notify(PLUGIN_INFO.name + " : " +
                        M({ja: "このプラグインの動作には oauth.js が必要です。 oauth.js をプラグインディレクトリ内に配置した上でお試し下さい。",
                           en: "This plugin requires oauth.js but not found. Please locate oauth.js to the plugin directory."}));
     }
@@ -1577,27 +1586,24 @@ var twitterClient =
 
         // Styles {{ ================================================================ //
 
-        const gLinkClass = "ks-text-link";
-
         if (!share.ksTextLinkStyleRegistered)
         {
-            style.register(<><![CDATA[
-                description.ks-text-link {
-                    color           : #0800ab;
-                    text-decoration : underline;
-                    cursor          : pointer !important;
-                }
-
-                description.ks-text-link:hover {
-                    color : #616161;
-                }
-
-                .ks-loading-message {
-                    text-align  : center;
-                    font-weight : bold;
-                    font-size   : 130%;
-                }
-            ]]></>.toString());
+            style.register('                              \
+                description.ks-text-link {                \
+                    color           : #0800ab;            \
+                    text-decoration : underline;          \
+                    cursor          : pointer !important; \
+                }                                         \
+                                                          \
+                description.ks-text-link:hover {          \
+                    color : #616161;                      \
+                }                                         \
+                                                          \
+                .ks-loading-message {                     \
+                    text-align  : center;                 \
+                    font-weight : bold;                   \
+                    font-size   : 130%;                   \
+                }');
 
             share.ksTextLinkStyleRegistered = true;
         }
@@ -2157,91 +2163,122 @@ var twitterClient =
 
             let labelTimeline = M({ja: "タイムライン", en: "Timeline"});
 
-            let containerXML =
-                <vbox style="margin-left  : 4px;
-                             margin-right : 4px;
-                             overflow:auto;"
-                      >
-                    <hbox align="center" flex="1">
-                        <description style="font-weight : bold;
-                                            margin      : 0px 4px;"
-                                     id={HEAD_USER_NAME} />
-                        <spacer flex="1" />
-                        <!-- misc -->
-                        <toolbarbutton label="Home"
-                                       image={TWITTER_ICON}
-                                       oncommand={"KeySnail.modules.prompt.finish(true);" + root + ".showTimeline();"}
-                                       />
-                        <toolbarbutton label="Mentions"
-                                       image={MENTIONS_ICON}
-                                       oncommand={"KeySnail.modules.prompt.finish(true);" + root + ".showMentions();"}
-                                       />
-                        <toolbarbutton label="Favorites"
-                                       image={FAVORITED_ICON}
-                                       oncommand={root + ".showFavorites();"}
-                                       />
-                        <toolbarbutton label="DM"
-                                       image={MESSAGE_ICON}
-                                       oncommand={root + ".showDMs();"}
-                                       />
-                        <toolbarseparator style="height : 16px; margin : 0 4px; padding : 0;" />
-                        <!-- limit -->
-                        <image src={LIMIT_ICON} style="margin-right: 4px;"/>
-                        <description style="margin:auto 4px;" id={HEAD_API_USAGE} />
-                        <toolbarseparator style="height : 16px; margin : 0 4px; padding : 0;" />
-                        <!-- misc -->
-                        <toolbarbutton tooltiptext={tooltipTextClose} class="tab-close-button"
-                                       oncommand="KeySnail.modules.prompt.finish(true);" />
-                    </hbox>
-                    <hbox id={HEAD_CRAWLER_BUTTON_CONTAINER}>
-                        <spacer flex="1" />
-                        <toolbarseparator id={HEAD_LIST_ORIGIN} style="height : 16px; margin : 0 2px; padding : 0;" />
-                        <toolbarseparator id={HEAD_SEARCH_ORIGIN} style="height : 16px; margin : 0 2px; padding : 0;" />
-                        <toolbarbutton id={HEAD_ADD_SEARCH}
-                                       image={SEARCH_ADD_ICON}
-                                       tooltiptext={tooltipTextAddTracking}
-                                       oncommand={root + ".addTracking();"} />
-                    </hbox>
-                    <hbox align="center" flex="1">
-                        <vbox align="center">
-                            <image style="border-left   : 1px solid ThreeDShadow;
-                                          border-top    : 1px solid ThreeDShadow;
-                                          border-right  : 1px solid ThreeDHighlight;
-                                          border-bottom : 1px solid ThreeDHighlight;
-                                          width         : 46px;
-                                          height        : 46px;
-                                          margin-left   : 4px;
-                                          margin-right  : 4px;"
-                                   id={HEAD_USER_ICON} />
-                        </vbox>
-                        <vbox align="center" id={HEAD_USER_INFO} >
-                            <vbox align="center">
-                                <toolbarbutton tooltiptext={tooltipTextTwitter}
-                                               id={HEAD_USER_BUTTON_TWITTER}
-                                               image={TWITTER_ICON} />
-                                <toolbarbutton tooltiptext={tooltipTextHome}
-                                               id={HEAD_USER_BUTTON_HOME}
-                                               image={HOME_ICON} />
-                            </vbox>
-                        </vbox>
-                        <vbox flex="1"
-                              onclick={root + ".tweetBoxClicked(event);"}
-                              id={HEAD_USER_TWEET}
-                              style="background-color : white;
-                                     height           : 50px;
-                                     margin           : 0 4px 4px 4px;
-                                     border-left      : 1px solid ThreeDShadow;
-                                     border-top       : 1px solid ThreeDShadow;
-                                     border-right     : 1px solid ThreeDHighlight;
-                                     border-bottom    : 1px solid ThreeDHighlight;
-                                     overflow         : auto;"
-                              >
-                            <description />
-                        </vbox>
-                    </hbox>
-                    <menupopup id={HEAD_MENU} />
-                    <menupopup id={HEAD_DYNAMIC_MENU} />
-                </vbox>;
+            if (!share.ksYatckStyleRegistered)
+            {
+                style.register(_.template('                           \
+                    #yatck-header {                                   \
+                        margin-left  : 4px;                           \
+                        margin-right : 4px;                           \
+                        overflow:auto;                                \
+                    }                                                 \
+                                                                      \
+                    #<%= HEAD_USER_NAME %> {                          \
+                        font-weight : bold;                           \
+                        margin      : 0px 4px;                        \
+                    }                                                 \
+                                                                      \
+                    #<%= HEAD_USER_ICON %> {                          \
+                        border-left   : 1px solid ThreeDShadow;       \
+                        border-top    : 1px solid ThreeDShadow;       \
+                        border-right  : 1px solid ThreeDHighlight;    \
+                        border-bottom : 1px solid ThreeDHighlight;    \
+                        width         : 46px;                         \
+                        height        : 46px;                         \
+                        margin-left   : 4px;                          \
+                        margin-right  : 4px;                          \
+                    }                                                 \
+                                                                      \
+                    #<%= HEAD_USER_TWEET %> {                         \
+                        background-color : white;                     \
+                        height           : 50px;                      \
+                        margin           : 0 4px 4px 4px;             \
+                        border-left      : 1px solid ThreeDShadow;    \
+                        border-top       : 1px solid ThreeDShadow;    \
+                        border-right     : 1px solid ThreeDHighlight; \
+                        border-bottom    : 1px solid ThreeDHighlight; \
+                        resize           : vertical;                  \
+                        overflow         : auto;                      \
+                    }                                                 \
+                                                                      \
+                    #yatck-header toolbarseparator {                  \
+                        height  : 16px;                               \
+                        margin  : 0 4px;                              \
+                        padding : 0;                                  \
+                    }                                                 \
+                                                                      \
+                    #yatck-header toolbarseparator[id] {              \
+                        margin : 0 2px;                               \
+                    }')({
+                  HEAD_USER_NAME  : HEAD_USER_NAME,
+                  HEAD_USER_ICON  : HEAD_USER_ICON,
+                  HEAD_USER_TWEET : HEAD_USER_TWEET
+                }));
+
+                share.ksYatckStyleRegistered = true;
+            }
+
+            let containerXML = '<vbox id="yatck-header">                                                                                       \
+                    <hbox align="center" flex="1">                                                                                             \
+                        <description id="' + html.escapeTag(HEAD_USER_NAME) + '" />                                                            \
+                        <spacer flex="1" />                                                                                                    \
+                        <!-- misc -->                                                                                                          \
+                        <toolbarbutton label="Home"                                                                                            \
+                                       image="' + html.escapeTag(TWITTER_ICON) + '"                                                            \
+                                       oncommand="' + html.escapeTag("KeySnail.modules.prompt.finish(true);" + root + ".showTimeline();") + '" \
+                                       />                                                                                                      \
+                        <toolbarbutton label="Mentions"                                                                                        \
+                                       image="' + html.escapeTag(MENTIONS_ICON) + '"                                                           \
+                                       oncommand="' + html.escapeTag("KeySnail.modules.prompt.finish(true);" + root + ".showMentions();") + '" \
+                                       />                                                                                                      \
+                        <toolbarbutton label="Favorites"                                                                                       \
+                                       image="' + html.escapeTag(FAVORITED_ICON) + '"                                                          \
+                                       oncommand="' + html.escapeTag(root + ".showFavorites();") + '"                                          \
+                                       />                                                                                                      \
+                        <toolbarbutton label="DM"                                                                                              \
+                                       image="' + html.escapeTag(MESSAGE_ICON) + '"                                                            \
+                                       oncommand="' + html.escapeTag(root + ".showDMs();") + '"                                                \
+                                       />                                                                                                      \
+                        <toolbarseparator />                                                                                                   \
+                        <!-- limit -->                                                                                                         \
+                        <image src="' + html.escapeTag(LIMIT_ICON) + '" style="margin-right: 4px;"/>                                           \
+                        <description style="margin:auto 4px;" id="' + html.escapeTag(HEAD_API_USAGE) + '" />                                   \
+                        <toolbarseparator />                                                                                                   \
+                        <!-- misc -->                                                                                                          \
+                        <toolbarbutton tooltiptext="' + html.escapeTag(tooltipTextClose) + '" class="tab-close-button"                         \
+                                       oncommand="KeySnail.modules.prompt.finishhtml.escapeTag(true);" />                                      \
+                    </hbox>                                                                                                                    \
+                    <hbox id="' + html.escapeTag(HEAD_CRAWLER_BUTTON_CONTAINER) + '">                                                          \
+                        <spacer flex="1" />                                                                                                    \
+                        <toolbarseparator id="' + html.escapeTag(HEAD_LIST_ORIGIN) + '" />                                                     \
+                        <toolbarseparator id="' + html.escapeTag(HEAD_SEARCH_ORIGIN) + '" />                                                   \
+                        <toolbarbutton id="' + html.escapeTag(HEAD_ADD_SEARCH) + '"                                                            \
+                                       image="' + html.escapeTag(SEARCH_ADD_ICON) + '"                                                         \
+                                       tooltiptext="' + html.escapeTag(tooltipTextAddTracking) + '"                                            \
+                                       oncommand="' + html.escapeTag(root + ".addTracking();") + '" />                                         \
+                    </hbox>                                                                                                                    \
+                    <hbox align="center" flex="1">                                                                                             \
+                        <vbox align="center">                                                                                                  \
+                            <image id="' + html.escapeTag(HEAD_USER_ICON) + '" />                                                              \
+                        </vbox>                                                                                                                \
+                        <vbox align="center" id="' + html.escapeTag(HEAD_USER_INFO) + '" >                                                     \
+                            <vbox align="center">                                                                                              \
+                                <toolbarbutton tooltiptext="' + html.escapeTag(tooltipTextTwitter) + '"                                        \
+                                               id="' + html.escapeTag(HEAD_USER_BUTTON_TWITTER) + '"                                           \
+                                               image="' + html.escapeTag(TWITTER_ICON) + '" />                                                 \
+                                <toolbarbutton tooltiptext="' + html.escapeTag(tooltipTextHome) + '"                                           \
+                                               id="' + html.escapeTag(HEAD_USER_BUTTON_HOME) + '"                                              \
+                                               image="' + html.escapeTag(HOME_ICON) + '" />                                                    \
+                            </vbox>                                                                                                            \
+                        </vbox>                                                                                                                \
+                        <vbox flex="1"                                                                                                         \
+                              onclick="' + html.escapeTag(root + ".tweetBoxClicked(event);") + '"                                              \
+                              id="' + html.escapeTag(HEAD_USER_TWEET) + '">                                                                    \
+                            <description />                                                                                                    \
+                        </vbox>                                                                                                                \
+                    </hbox>                                                                                                                    \
+                    <menupopup id="' + html.escapeTag(HEAD_MENU) + '" />                                                                       \
+                    <menupopup id="' + html.escapeTag(HEAD_DYNAMIC_MENU) + '" />                                                               \
+                </vbox>';
 
             let container = util.xmlToDom(containerXML);
 
@@ -3255,9 +3292,34 @@ var twitterClient =
         }
 
         function createMessageNode(messageText, status) {
+            let retweetedStatus = status.retweeted_status;
+            if (retweetedStatus) {
+                // Retweeted status. Add "RT @screenname: "
+                let retweetedMessageNode = createMessageNode(retweetedStatus.text, retweetedStatus);
+                let retweetedUserName = retweetedStatus.user.screen_name;
+
+                let newChildren = [
+                    retweetedMessageNode.firstChild, document.createTextNode("RT "),
+                    $U.createLinkElement("http://twitter.com/" + retweetedUserName, "@" + retweetedUserName),
+                    document.createTextNode(": ")
+                ].concat(Array.slice(retweetedMessageNode.childNodes));
+
+                while (retweetedMessageNode.firstChild) {
+                    retweetedMessageNode.removeChild(retweetedMessageNode.firstChild);
+                }
+
+                for (let [, childNode] in Iterator(newChildren)) {
+                    retweetedMessageNode.appendChild(childNode);
+                }
+
+                return retweetedMessageNode;
+            }
+
+            // Otherwise
+
             let entities = getEntitiesFromStatus(status);
             let messageNode = entities
-                    ? createMessageNodeFromEntities(messageText, entities)
+                    ? createMessageNodeFromEntities(messageText, status.text, entities)
                     : createMessageNodeWithoutEntities(messageText);
 
             if (status.in_reply_to_status_id_str) {
@@ -3266,11 +3328,7 @@ var twitterClient =
                     status.in_reply_to_screen_name,
                     status.in_reply_to_status_id_str
                 );
-                messageNode.appendChild($U.createElement("description", {
-                    "class"       : gLinkClass,
-                    "tooltiptext" : url,
-                    "value"       : "[in reply to]"
-                }));
+                messageNode.appendChild($U.createLinkElement(url, "[in reply to]"));
             }
 
             return messageNode;
@@ -3293,7 +3351,7 @@ var twitterClient =
             return sortedEntities;
         }
 
-        function createMessageNodeFromEntities(messageText, entities) {
+        function createMessageNodeFromEntities(messageText, escapedMessageText, entities) {
             let messageNode = $U.createElement("description", {
                 style : "-moz-user-select : text !important;"
             });
@@ -3302,7 +3360,7 @@ var twitterClient =
 
             let sortedEntitiesWithType = getSortedEntitiesWithType(entities);
             sortedEntitiesWithType.forEach(function ({ type, entity }) {
-                let leftMessage = messageText.slice(cursor, entity.indices[0]);
+                let leftMessage = html.unEscapeTag(escapedMessageText.slice(cursor, entity.indices[0]));
                 messageNode.appendChild(document.createTextNode(leftMessage));
 
                 // move cursor
@@ -3310,26 +3368,14 @@ var twitterClient =
 
                 switch (type) {
                 case "hashtags":
-                    messageNode.appendChild($U.createElement("description", {
-                        "class"       : gLinkClass,
-                        "tooltiptext" : "http://twitter.com/search?q=" + encodeURIComponent(entity.text),
-                        "value"       : "#" + entity.text
-                    }));
+                    messageNode.appendChild($U.createLinkElement("http://twitter.com/search?q=" + encodeURIComponent(entity.text), "#" + entity.text));
                     break;
                 case "urls":
                 case "media":
-                    messageNode.appendChild($U.createElement("description", {
-                        "class"       : gLinkClass,
-                        "tooltiptext" : entity.expanded_url,
-                        "value"       : entity.display_url || entity.url
-                    }));
+                    messageNode.appendChild($U.createLinkElement(entity.expanded_url, entity.display_url || entity.url));
                     break;
                 case "user_mentions":
-                    messageNode.appendChild($U.createElement("description", {
-                        "class"       : gLinkClass,
-                        "tooltiptext" : "http://twitter.com/" + entity.screen_name,
-                        "value"       : "@" + entity.screen_name
-                    }));
+                    messageNode.appendChild($U.createLinkElement("http://twitter.com/" + entity.screen_name, "@" + entity.screen_name));
                     break;
                 }
             });
@@ -3372,11 +3418,7 @@ var twitterClient =
                     }
 
                     messageNode.appendChild(document.createTextNode(left));
-                    messageNode.appendChild($U.createElement("description", {
-                        "class"       : gLinkClass,
-                        "tooltiptext" : url,
-                        "value"       : matched[i]
-                    }));
+                    messageNode.appendChild($U.createLinkElement(url, matched[i]));
 
                     messageText = right;
                 }
@@ -3391,7 +3433,7 @@ var twitterClient =
         }
 
         function extractAllURLsFromStatus(status) {
-            let entities = getEntitiesFromStatus(status);
+            let entities = getEntitiesFromStatus(status.retweeted_status ? status.retweeted_status : status);
 
             if (entities) {
                 let sortedEntitiesWithType = getSortedEntitiesWithType(entities);
@@ -3713,7 +3755,7 @@ var twitterClient =
             tweetBoxClicked: function (aEvent) {
                 let elem   = aEvent.target;
                 let text   = elem.value || "";
-                let isLink = elem.getAttribute("class") === gLinkClass;
+                let isLink = elem.getAttribute("class") === $U.linkClass;
                 let status = my.twitterSelectedStatus;
 
                 if (aEvent.button === 2)
