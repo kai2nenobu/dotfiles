@@ -419,6 +419,11 @@ if which tmux &> /dev/null; then
   zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=*'
 fi
 
+if which mosh &> /dev/null; then
+  ## mosh を ssh と同様に補完する
+  compdef mosh=ssh
+fi
+
 echo "Load .zshrc."
 
 
