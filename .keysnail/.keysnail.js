@@ -426,12 +426,12 @@ key.setGlobalKey(['C-t', 'RET'], function(ev, arg) {
   ext.exec("tst-demote-tab", arg, ev);
 }, '選択中のタブを1つ下の階層に移動する');
 
-key.setViewKey(['C-t', 'SPC'], function(ev, arg) {
+key.setGlobalKey(['C-t', 'SPC'], function(ev, arg) {
   ext.exec("tst-toggle-collapse-expand-tree", arg, ev);
 }, 'タブの折りたたみをトグル', true);
 
-key.setViewKey(['C-t', 't'], function(ev, arg) {
-  ext.exec("tst-toggle-autohide-tabbar", arg, ev);
+key.setGlobalKey(['C-t', 't'], function(ev, arg) {
+  TreeStyleTabBrowserAutoHide.toggleMode();
 }, 'タブバーの表示をトグル', true);
 
 //// ツリー型タブアドオンでタブの移動はできるが，
