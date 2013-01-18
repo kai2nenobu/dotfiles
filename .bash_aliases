@@ -1,7 +1,8 @@
 # some more aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+alias ll='ls -l'
+alias lla='ls -Al'
+alias la='ls -A'
+alias l='ls -CF'
 alias rm='rm -i'
 alias vless='/usr/share/vim/vim73/macros/less.sh'
 alias less='less -r'
