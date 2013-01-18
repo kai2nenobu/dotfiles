@@ -24,6 +24,17 @@ function ignore(k, i) [k, null];
 
 
 // ================================ My original ============================ //
+//// ツリー型タブアドオンの設定
+util.setPrefs(
+    {
+        // The tab bar is completely hidden
+        "extensions.treestyletab.tabbar.autoHide.mode.toggle": 1,
+        // Ctrl キー押しっぱなしでタブバーを自動表示する
+        "extensions.treestyletab.tabbar.autoShow.accelKeyDown": true,
+        "extensions.treestyletab.tabbar.autoShow.accelKeyDown.delay": 100,
+    }
+);
+
 //// pdf.js
 local["\.pdf$"] = [
     ["t",function(evt,arg){
