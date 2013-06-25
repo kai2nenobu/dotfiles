@@ -27,6 +27,10 @@ if which git > /dev/null; then
   alias gb='git branch'
 fi
 
+if which notifier > /dev/null; then
+  alias finished="notifier 'Finished!' 'Come back here'"
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
