@@ -28,6 +28,11 @@ precmd(){
   echo -ne "\033]0;$USER@`hostname`: $PWD\007"
 }
 
+function finish {
+  start=$SECONDS
+  $@
+  end=$SECONDS
+  notify-send -t 0 'Finish command' "Take $((end - start)) seconds\n'$*'"
 }
 
 PROMPT="%B%{[32m%}%n@%m%{[m%}%b $ "
