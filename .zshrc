@@ -25,12 +25,9 @@ function title {
     export TITLE="${(pj: :)@}"
 }
 precmd(){
-  case $(uname -o) in
-    "Cygwin")
-      echo -ne "\033]0;mintty : $USER@`hostname` : $PWD\007";;
-    "GNU/Linux")
-      echo -ne "\033]0;gnome-terminal : $USER@`hostname` : $PWD\007";;
-  esac
+  echo -ne "\033]0;$USER@`hostname`: $PWD\007"
+}
+
 }
 
 PROMPT="%B%{[32m%}%n@%m%{[m%}%b $ "
