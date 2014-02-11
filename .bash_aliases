@@ -21,6 +21,7 @@ if which git > /dev/null; then
   alias gs='git status'
   alias gl='git log'
   alias gld='git log --decorate --graph'
+  alias gd='git diff'
   alias gc='git commit'
   alias ga='git add'
   alias gco='git checkout'
