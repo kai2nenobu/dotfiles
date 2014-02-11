@@ -424,6 +424,9 @@ if which mosh &> /dev/null; then
   compdef mosh=ssh
 fi
 
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 echo "Load .zshrc."
 
 
