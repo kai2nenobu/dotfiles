@@ -427,6 +427,19 @@ fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+
+# 自動で tmux を起動する
+if which tmux &> /dev/null && [ -z $TMUX ]; then
+  if tmux has-session &> /dev/null; then
+    if tmux list-sessions 2>& /dev/null | grep -v '(attached)' &> /dev/null; then
+      # detach 状態の tmux がある場合は attach する
+      tmux attach
+    fi
+    # detach 状態の tmux が存在しない場合は新しい tmux セッションは作成しない
+  else
+    # tmux セッションが１つもない場合は新しく起動する
+    tmux
+  fi
+fi
+
 echo "Load .zshrc."
-
-
