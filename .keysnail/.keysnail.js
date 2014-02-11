@@ -24,6 +24,39 @@ function ignore(k, i) [k, null];
 
 
 // ================================ My original ============================ //
+//// firebugsnail の設定
+key.setViewKey(['z', 'o'], function (ev, arg) {
+    ext.exec("firebug-open",arg, ev);
+}, 'Firebug - 開く');
+
+//firebug-off
+
+key.setViewKey(['z', 'c'], function (ev, arg) {
+    ext.exec("firebug-close",arg, ev);
+}, 'Firebug - 閉じる');
+
+key.setViewKey(['z', 't'], function (ev, arg) {
+    ext.exec("firebug-toggle",arg, ev);
+}, 'Firebug - トグルする');
+
+key.setViewKey(['z', 'f'], function (ev, arg) {
+    ext.exec("firebug-console-focus",arg, ev);
+}, 'Firebug - コンソールにフォーカスする');
+
+key.setViewKey(['z', 'd'], function (ev, arg) {
+    ext.exec("firebug-console-clear",arg, ev);
+}, 'Firebug - コンソールをクリアする');
+
+//firebug-tab
+
+key.setViewKey(['z', 'i'], function (ev, arg) {
+    ext.exec("firebug-inspect",arg, ev);
+}, 'Firebug - inspect を表示する');
+
+key.setViewKey(['z', 'x'], function (ev, arg) {
+    ext.exec("firebug-copyXPath",arg, ev);
+}, 'Firebug - XPath をコピーする');
+
 //// ツリー型タブアドオンの設定
 util.setPrefs(
     {
