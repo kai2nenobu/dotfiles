@@ -13,6 +13,8 @@ setopt ignore_eof           # Ctrl-dでログアウトしない
 setopt no_nomatch           # グロブの展開が出来ない場合は，グロブパターンをそのまま残して
                             # エラーの報告はしない
 
+REPORTTIME=15
+
 ## 補完候補を移動して選択
 zstyle ':completion:*:default' menu select=2
 ## 補完候補を詰めて表示
