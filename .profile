@@ -42,8 +42,7 @@ if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
 fi
 
 # set enviroment
-export PATH=${HOME}/local/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/lib:${HOME}/.emacs.d/lib
+export PATH=${HOME}/.local/bin:$PATH
 export EDITOR=emacsclient
 export VISUAL=emacsclient
 export TERM=xterm-256color
