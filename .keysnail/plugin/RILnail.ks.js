@@ -7,8 +7,8 @@ let PLUGIN_INFO =
     <description lang="ja">Pocket 拡張と連携</description>
     <author>958</author>
     <iconURL>https://sites.google.com/site/958site/Home/files/RILnail.ks.png</iconURL>
-    <updateURL>https://gist.github.com/raw/895703/RILnail.ks.js</updateURL>
-    <version>0.2.0</version>
+    <updateURL>https://gist.github.com/958/895703/raw/RILnail.ks.js</updateURL>
+    <version>0.2.1</version>
     <license>MIT</license>
     <minVersion>1.8.0</minVersion>
     <include>main</include>
@@ -182,24 +182,32 @@ plugins.withProvides(function (provide) {
         M({ja: "Pocket - 現在のタブのテキストビューをバックグラウンドタブで表示", en: "Pocket - Open Text View in new background tab"}));
     provide("ril-show-reading-list",
         function (ev, arg) {
-            let collection = [];
-            for (let i = 0; i < RIL.APP.LIST.list.length; i++) {
-                let url = RIL.APP.LIST.list[i].url;
-                let favicon = util.getFaviconPath(url);
-                collection.push([
-                    favicon,
-                    html.unEscapeTag(RIL.APP.LIST.list[i].title).replace(/&amp;/g, '&'),
-                    url,
-                    toAgo(RIL.APP.LIST.list[i].timeUpdated * 1000),
-                    RIL.APP.LIST.list[i].timeUpdated,
-                    RIL.APP.LIST.list[i].itemId]);
+            function getFaviconPath(uri, callback) {
+                var faviconService = PlacesUtils.favicons;
+                faviconService.getFaviconURLForPage(
+                    NetUtil.newURI(uri, null, null),
+                    {
+                        onComplete: function(aURI, aDataLen, aData, aMimeType) {
+                            callback((aURI) ? aURI.spec : "chrome://mozapps/skin/places/defaultFavicon.png");
+                        },
+                    }
+                );
             }
-            let sortType = pOptions['list_sort_type']
-            collection.sort(function(a,b){
-               return (sortType == 0) ? ((a[4] < b[4]) ? 1 : -1) : ((a[4] < b[4]) ? -1 : 1);
-            });
-            prompt.selector(
-                {
+            function itemList() {
+                for (let i = 0; i < RIL.APP.LIST.list.length; i++) {
+                    yield {
+                        title: RIL.APP.LIST.list[i].title,
+                        url: RIL.APP.LIST.list[i].url,
+                        time: RIL.APP.LIST.list[i].timeUpdated,
+                        itemId: RIL.APP.LIST.list[i].itemId,
+                    };
+                }
+                yield null;
+            }
+            function showSelector(collection) {
+                let sortType = pOptions['list_sort_type']
+                collection.sort(function(a,b)(sortType == 0) ?  ((a[4] < b[4]) ? 1 : -1) : ((a[4] < b[4]) ? -1 : 1));
+                prompt.selector( {
                     message    : "pattern:",
                     collection : collection,
                     flags      : [ICON | IGNORE, 0, 0, 0, HIDDEN | IGNORE, HIDDEN | IGNORE],
@@ -261,8 +269,8 @@ plugins.withProvides(function (provide) {
                             en: "Sync"}),
                          "sync"]
                     ]
-                }
-            );
+                });
+            }
             function removeItem(items, aIndex, deep) {
                  if (deep) {
                      RIL.APP.LIST.mark(items[aIndex][5], true);
@@ -274,6 +282,28 @@ plugins.withProvides(function (provide) {
                  else
                      prompt.refresh();
             }
+
+            let items = itemList();
+            let collection = [];
+            let item = items.next();
+            if (!item)
+                return;
+
+            getFaviconPath(item.url, function(favicon) {
+                collection.push([
+                    favicon,
+                    html.unEscapeTag(item.title).replace(/&amp;/g, '&'),
+                    item.url,
+                    toAgo(item.time * 1000),
+                    item.time,
+                    item.itemId
+                ]);
+                item = items.next();
+                if (item)
+                    getFaviconPath(item.url, arguments.callee);
+                else
+                    showSelector(collection);
+            });
         },
         M({ja: "Pocket - リストを表示", en: "Pocket - Show reading list"}));
 }, PLUGIN_INFO);

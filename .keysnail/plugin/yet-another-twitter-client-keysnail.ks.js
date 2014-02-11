@@ -12,7 +12,7 @@ const PLUGIN_INFO =
     <name>Yet Another Twitter Client KeySnail</name>
     <description>Make KeySnail behave like Twitter client</description>
     <description lang="ja">KeySnail を Twitter クライアントに</description>
-    <version>3.1.6</version>
+    <version>3.2.0</version>
     <updateURL>https://github.com/mooz/keysnail/raw/master/plugins/yet-another-twitter-client-keysnail.ks.js</updateURL>
     <iconURL>https://github.com/mooz/keysnail/raw/master/plugins/icon/yet-another-twitter-client-keysnail.icon.png</iconURL>
     <author mail="stillpedant@gmail.com" homepage="http://d.hatena.ne.jp/mooz/">mooz</author>
@@ -456,6 +456,7 @@ let pOptions = plugins.setupOptions("twitter_client", {
     },
     "lists"                                 : { preset: [] },
     "show_sources"                          : { preset: true },
+    "show_retweet_count"                    : { preset: false },
     "hide_profile_image_gif"                : {
         preset: false,
         description: M({ ja: "ユーザのアイコンが Gif 画像であった場合は隠す",
@@ -505,7 +506,7 @@ const $U = {
 
     decodeJSON:
     function decodeJSON(json) {
-        return util.safeEval("(" + json + ")");
+        return JSON.parse(json);
     },
 
     quoteToUnicode: function (quote) {
@@ -580,8 +581,358 @@ const $U = {
     extractLinks: function (str) {
         return Array.slice(str.match(/(?:(?:http|ftp)s?\:\/\/|www\.)[^\s]+/g))
             .map(function (url) url.indexOf("www") ? url : "http://" + url);
+    },
+
+    encodeOAuth: function (str) {
+        return encodeURIComponent(str)
+            .replace(/\!/g, "%21")
+            .replace(/\'/g, "%27")
+            .replace(/\(/g, "%28")
+            .replace(/\)/g, "%29")
+            .replace(/\*/g, "%2A");
     }
 };
+
+// ============================================================ //
+// Twitter: get tweet length
+// ============================================================ //
+
+/**
+ * @license Copyright 2011 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this work except in compliance with the License.
+ * You may obtain a copy of the License below, or at:
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+var twttr = (function () {
+  if (typeof twttr === "undefined" || twttr === null) {
+    var twttr = {};
+  }
+
+  twttr.txt = {};
+  twttr.txt.regexen = {};
+
+  // Builds a RegExp
+  function regexSupplant(regex, flags) {
+    flags = flags || "";
+    if (typeof regex !== "string") {
+      if (regex.global && flags.indexOf("g") < 0) {
+        flags += "g";
+      }
+      if (regex.ignoreCase && flags.indexOf("i") < 0) {
+        flags += "i";
+      }
+      if (regex.multiline && flags.indexOf("m") < 0) {
+        flags += "m";
+      }
+
+      regex = regex.source;
+    }
+
+    return new RegExp(regex.replace(/#\{(\w+)\}/g, function (match, name) {
+      var newRegex = twttr.txt.regexen[name] || "";
+      if (typeof newRegex !== "string") {
+        newRegex = newRegex.source;
+      }
+      return newRegex;
+    }), flags);
+  }
+
+  twttr.txt.regexSupplant = regexSupplant;
+
+  // simple string interpolation
+  function stringSupplant(str, values) {
+    return str.replace(/#\{(\w+)\}/g, function (match, name) {
+      return values[name] || "";
+    });
+  }
+
+  twttr.txt.stringSupplant = stringSupplant;
+
+  function addCharsToCharClass(charClass, start, end) {
+    var s = String.fromCharCode(start);
+    if (end !== start) {
+      s += "-" + String.fromCharCode(end);
+    }
+    charClass.push(s);
+    return charClass;
+  }
+
+  twttr.txt.addCharsToCharClass = addCharsToCharClass;
+
+  // Space is more than %20, U+3000 for example is the full-width space used with Kanji. Provide a short-hand
+  // to access both the list of characters and a pattern suitible for use with String#split
+  // Taken from: ActiveSupport::Multibyte::Handlers::UTF8Handler::UNICODE_WHITESPACE
+  var fromCode = String.fromCharCode;
+  var UNICODE_SPACES = [
+    fromCode(0x0020), // White_Space # Zs       SPACE
+    fromCode(0x0085), // White_Space # Cc       <control-0085>
+    fromCode(0x00A0), // White_Space # Zs       NO-BREAK SPACE
+    fromCode(0x1680), // White_Space # Zs       OGHAM SPACE MARK
+    fromCode(0x180E), // White_Space # Zs       MONGOLIAN VOWEL SEPARATOR
+    fromCode(0x2028), // White_Space # Zl       LINE SEPARATOR
+    fromCode(0x2029), // White_Space # Zp       PARAGRAPH SEPARATOR
+    fromCode(0x202F), // White_Space # Zs       NARROW NO-BREAK SPACE
+    fromCode(0x205F), // White_Space # Zs       MEDIUM MATHEMATICAL SPACE
+    fromCode(0x3000)  // White_Space # Zs       IDEOGRAPHIC SPACE
+  ];
+  addCharsToCharClass(UNICODE_SPACES, 0x009, 0x00D); // White_Space # Cc   [5] <control-0009>..<control-000D>
+  addCharsToCharClass(UNICODE_SPACES, 0x2000, 0x200A); // White_Space # Zs  [11] EN QUAD..HAIR SPACE
+
+  var INVALID_CHARS = [
+    fromCode(0xFFFE),
+    fromCode(0xFEFF), // BOM
+    fromCode(0xFFFF) // Special
+  ];
+  addCharsToCharClass(INVALID_CHARS, 0x202A, 0x202E); // Directional change
+
+  twttr.txt.regexen.spaces_group = regexSupplant(UNICODE_SPACES.join(""));
+  twttr.txt.regexen.invalid_chars_group = regexSupplant(INVALID_CHARS.join(""));
+  twttr.txt.regexen.punct = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~\$/;
+  twttr.txt.regexen.non_bmp_code_pairs = /[\uD800-\uDBFF][\uDC00-\uDFFF]/mg;
+
+  var latinAccentChars = [];
+  // Latin accented characters (subtracted 0xD7 from the range, it's a confusable multiplication sign. Looks like "x")
+  addCharsToCharClass(latinAccentChars, 0x00c0, 0x00d6);
+  addCharsToCharClass(latinAccentChars, 0x00d8, 0x00f6);
+  addCharsToCharClass(latinAccentChars, 0x00f8, 0x00ff);
+  // Latin Extended A and B
+  addCharsToCharClass(latinAccentChars, 0x0100, 0x024f);
+  // assorted IPA Extensions
+  addCharsToCharClass(latinAccentChars, 0x0253, 0x0254);
+  addCharsToCharClass(latinAccentChars, 0x0256, 0x0257);
+  addCharsToCharClass(latinAccentChars, 0x0259, 0x0259);
+  addCharsToCharClass(latinAccentChars, 0x025b, 0x025b);
+  addCharsToCharClass(latinAccentChars, 0x0263, 0x0263);
+  addCharsToCharClass(latinAccentChars, 0x0268, 0x0268);
+  addCharsToCharClass(latinAccentChars, 0x026f, 0x026f);
+  addCharsToCharClass(latinAccentChars, 0x0272, 0x0272);
+  addCharsToCharClass(latinAccentChars, 0x0289, 0x0289);
+  addCharsToCharClass(latinAccentChars, 0x028b, 0x028b);
+  // Okina for Hawaiian (it *is* a letter character)
+  addCharsToCharClass(latinAccentChars, 0x02bb, 0x02bb);
+  // Combining diacritics
+  addCharsToCharClass(latinAccentChars, 0x0300, 0x036f);
+  // Latin Extended Additional
+  addCharsToCharClass(latinAccentChars, 0x1e00, 0x1eff);
+  twttr.txt.regexen.latinAccentChars = regexSupplant(latinAccentChars.join(""));
+
+  // URL related regex collection
+  twttr.txt.regexen.validUrlPrecedingChars = regexSupplant(/(?:[^A-Za-z0-9@＠$#＃#{invalid_chars_group}]|^)/);
+  twttr.txt.regexen.invalidUrlWithoutProtocolPrecedingChars = /[-_.\/]$/;
+  twttr.txt.regexen.invalidDomainChars = stringSupplant("#{punct}#{spaces_group}#{invalid_chars_group}", twttr.txt.regexen);
+  twttr.txt.regexen.validDomainChars = regexSupplant(/[^#{invalidDomainChars}]/);
+  twttr.txt.regexen.validSubdomain = regexSupplant(/(?:(?:#{validDomainChars}(?:[_-]|#{validDomainChars})*)?#{validDomainChars}\.)/);
+  twttr.txt.regexen.validDomainName = regexSupplant(/(?:(?:#{validDomainChars}(?:-|#{validDomainChars})*)?#{validDomainChars}\.)/);
+  twttr.txt.regexen.validGTLD = regexSupplant(/(?:(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)(?=[^0-9a-zA-Z@]|$))/);
+  twttr.txt.regexen.validCCTLD = regexSupplant(RegExp(
+    "(?:(?:ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|" +
+      "ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|" +
+      "ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|" +
+      "ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|" +
+      "na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|" +
+      "sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|" +
+      "ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)(?=[^0-9a-zA-Z@]|$))"));
+  twttr.txt.regexen.validPunycode = regexSupplant(/(?:xn--[0-9a-z]+)/);
+  twttr.txt.regexen.validDomain = regexSupplant(/(?:#{validSubdomain}*#{validDomainName}(?:#{validGTLD}|#{validCCTLD}|#{validPunycode}))/);
+  twttr.txt.regexen.validAsciiDomain = regexSupplant(/(?:(?:[\-a-z0-9#{latinAccentChars}]+)\.)+(?:#{validGTLD}|#{validCCTLD}|#{validPunycode})/gi);
+  twttr.txt.regexen.invalidShortDomain = regexSupplant(/^#{validDomainName}#{validCCTLD}$/);
+
+  twttr.txt.regexen.validPortNumber = regexSupplant(/[0-9]+/);
+
+  twttr.txt.regexen.validGeneralUrlPathChars = regexSupplant(/[a-z0-9!\*';:=\+,\.\$\/%#\[\]\-_~@|&#{latinAccentChars}]/i);
+  // Allow URL paths to contain balanced parens
+  //  1. Used in Wikipedia URLs like /Primer_(film)
+  //  2. Used in IIS sessions like /S(dfd346)/
+  twttr.txt.regexen.validUrlBalancedParens = regexSupplant(/\(#{validGeneralUrlPathChars}+\)/i);
+  // Valid end-of-path chracters (so /foo. does not gobble the period).
+  // 1. Allow =&# for empty URL parameters and other URL-join artifacts
+  twttr.txt.regexen.validUrlPathEndingChars = regexSupplant(/[\+\-a-z0-9=_#\/#{latinAccentChars}]|(?:#{validUrlBalancedParens})/i);
+  // Allow @ in a url, but only in the middle. Catch things like http://example.com/@user/
+  twttr.txt.regexen.validUrlPath = regexSupplant('(?:' +
+                                                 '(?:' +
+                                                 '#{validGeneralUrlPathChars}*' +
+                                                 '(?:#{validUrlBalancedParens}#{validGeneralUrlPathChars}*)*' +
+                                                 '#{validUrlPathEndingChars}'+
+                                                 ')|(?:@#{validGeneralUrlPathChars}+\/)'+
+                                                 ')', 'i');
+
+  twttr.txt.regexen.validUrlQueryChars = /[a-z0-9!?\*'@\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
+  twttr.txt.regexen.validUrlQueryEndingChars = /[a-z0-9_&=#\/]/i;
+  twttr.txt.regexen.extractUrl = regexSupplant(
+    '('                                                            + // $1 total match
+    '(#{validUrlPrecedingChars})'                                + // $2 Preceeding chracter
+    '('                                                          + // $3 URL
+    '(https?:\\/\\/)?'                                         + // $4 Protocol (optional)
+    '(#{validDomain})'                                         + // $5 Domain(s)
+    '(?::(#{validPortNumber}))?'                               + // $6 Port number (optional)
+    '(\\/#{validUrlPath}*)?'                                   + // $7 URL Path
+    '(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'  + // $8 Query String
+    ')'                                                          +
+      ')'
+    , 'gi');
+
+  twttr.txt.regexen.validTcoUrl = /^https?:\/\/t\.co\/[a-z0-9]+/i;
+  twttr.txt.regexen.urlHasHttps = /^https:\/\//i;
+
+  twttr.txt.extractUrlsWithIndices = function (text, options) {
+    if (!options) {
+      options = {extractUrlsWithoutProtocol: true};
+    }
+
+    if (!text || (options.extractUrlsWithoutProtocol ? !text.match(/\./) : !text.match(/:/))) {
+      return [];
+    }
+
+    var urls = [];
+
+    while (twttr.txt.regexen.extractUrl.exec(text)) {
+      var before = RegExp.$2, url = RegExp.$3, protocol = RegExp.$4, domain = RegExp.$5, path = RegExp.$7;
+      var endPosition = twttr.txt.regexen.extractUrl.lastIndex,
+          startPosition = endPosition - url.length;
+
+      // if protocol is missing and domain contains non-ASCII characters,
+      // extract ASCII-only domains.
+      if (!protocol) {
+        if (!options.extractUrlsWithoutProtocol
+            || before.match(twttr.txt.regexen.invalidUrlWithoutProtocolPrecedingChars)) {
+          continue;
+        }
+        var lastUrl = null,
+            lastUrlInvalidMatch = false,
+            asciiEndPosition = 0;
+        domain.replace(twttr.txt.regexen.validAsciiDomain, function (asciiDomain) {
+          var asciiStartPosition = domain.indexOf(asciiDomain, asciiEndPosition);
+          asciiEndPosition = asciiStartPosition + asciiDomain.length;
+          lastUrl = {
+            url: asciiDomain,
+            indices: [startPosition + asciiStartPosition, startPosition + asciiEndPosition]
+          };
+          lastUrlInvalidMatch = asciiDomain.match(twttr.txt.regexen.invalidShortDomain);
+          if (!lastUrlInvalidMatch) {
+            urls.push(lastUrl);
+          }
+        });
+
+        // no ASCII-only domain found. Skip the entire URL.
+        if (lastUrl == null) {
+          continue;
+        }
+
+        // lastUrl only contains domain. Need to add path and query if they exist.
+        if (path) {
+          if (lastUrlInvalidMatch) {
+            urls.push(lastUrl);
+          }
+          lastUrl.url = url.replace(domain, lastUrl.url);
+          lastUrl.indices[1] = endPosition;
+        }
+      } else {
+        // In the case of t.co URLs, don't allow additional path characters.
+        if (url.match(twttr.txt.regexen.validTcoUrl)) {
+          url = RegExp.lastMatch;
+          endPosition = startPosition + url.length;
+        }
+        urls.push({
+          url: url,
+          indices: [startPosition, endPosition]
+        });
+      }
+    }
+
+    return urls;
+  };
+
+  twttr.txt.modifyIndicesFromUTF16ToUnicode = function (text, entities) {
+    twttr.txt.convertUnicodeIndices(text, entities, true);
+  };
+
+  twttr.txt.getUnicodeTextLength = function (text) {
+    return text.replace(twttr.txt.regexen.non_bmp_code_pairs, ' ').length;
+  };
+
+  twttr.txt.convertUnicodeIndices = function (text, entities, indicesInUTF16) {
+    if (entities.length == 0) {
+      return;
+    }
+
+    var charIndex = 0;
+    var codePointIndex = 0;
+
+    // sort entities by start index
+    entities.sort(function (a,b){ return a.indices[0] - b.indices[0]; });
+    var entityIndex = 0;
+    var entity = entities[0];
+
+    while (charIndex < text.length) {
+      if (entity.indices[0] == (indicesInUTF16 ? charIndex : codePointIndex)) {
+        var len = entity.indices[1] - entity.indices[0];
+        entity.indices[0] = indicesInUTF16 ? codePointIndex : charIndex;
+        entity.indices[1] = entity.indices[0] + len;
+
+        entityIndex++;
+        if (entityIndex == entities.length) {
+          // no more entity
+          break;
+        }
+        entity = entities[entityIndex];
+      }
+
+      var c = text.charCodeAt(charIndex);
+      if (0xD800 <= c && c <= 0xDBFF && charIndex < text.length - 1) {
+        // Found high surrogate char
+        c = text.charCodeAt(charIndex + 1);
+        if (0xDC00 <= c && c <= 0xDFFF) {
+          // Found surrogate pair
+          charIndex++;
+        }
+      }
+      codePointIndex++;
+      charIndex++;
+    }
+  };
+
+  // Returns the length of Tweet text with consideration to t.co URL replacement
+  // and chars outside the basic multilingual plane that use 2 UTF16 code points
+  twttr.txt.getTweetLength = function (text, options) {
+    if (!options) {
+      options = {
+        // These come from https://api.twitter.com/1/help/configuration.json
+        // described by https://dev.twitter.com/docs/api/1/get/help/configuration
+        short_url_length: 22,
+        short_url_length_https: 23
+      };
+    }
+    var textLength = twttr.txt.getUnicodeTextLength(text),
+        urlsWithIndices = twttr.txt.extractUrlsWithIndices(text);
+    twttr.txt.modifyIndicesFromUTF16ToUnicode(text, urlsWithIndices);
+
+    for (var i = 0; i < urlsWithIndices.length; i++) {
+      // Subtract the length of the original URL
+      textLength += urlsWithIndices[i].indices[0] - urlsWithIndices[i].indices[1];
+
+      // Add 23 characters for URL starting with https://
+      // Otherwise add 22 characters
+      if (urlsWithIndices[i].url.toLowerCase().match(twttr.txt.regexen.urlHasHttps)) {
+        textLength += options.short_url_length_https;
+      } else {
+        textLength += options.short_url_length;
+      }
+    }
+
+    return textLength;
+  };
+
+  return twttr;
+})();
 
 // Notifier {{ ============================================================== //
 
@@ -656,45 +1007,6 @@ function OAuth(info, tokens) {
 }
 
 OAuth.prototype = {
-    syncRequest:
-    function syncRequest(options) {
-        var xhr = new XMLHttpRequest();
-
-        var accessor = {
-            consumerSecret : this.info.consumerSecret,
-            tokenSecret    : this.tokens.oauth_token_secret
-        };
-
-        var message = {
-            action     : options.action,
-            method     : options.method,
-            parameters : [
-                ["oauth_consumer_key"     , this.info.consumerKey],
-                ["oauth_token"            , this.tokens.oauth_token],
-                ["oauth_signature_method" , this.info.signatureMethod],
-                ["oauth_version"          , "1.0"]
-            ]
-        };
-
-        if (options.parameters)
-            message.parameters = message.parameters.concat(options.parameters);
-
-        this._oauth.setTimestampAndNonce(message);
-        this._oauth.SignatureMethod.sign(message, accessor);
-
-        var oAuthArgs  = this._oauth.getParameterMap(message.parameters);
-        var authHeader = this._oauth.getAuthorizationHeader(this.info.authHeader, oAuthArgs);
-
-        xhr.mozBackgroundRequest = true;
-        xhr.open(message.method, message.action, false);
-        xhr.setRequestHeader("Authorization", authHeader);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        xhr.send(options.query || null);
-
-        return xhr.responseText;
-    },
-
     asyncRequest:
     function asyncRequest(options, callback, onprogress) {
         var xhr = new XMLHttpRequest();
@@ -733,7 +1045,7 @@ OAuth.prototype = {
         if (this.tokens.oauth_token)
             message.parameters.push(["oauth_token", this.tokens.oauth_token]);
 
-        if (options.parameters)
+        if (options.parameters && message.method === "POST")
         {
             outer:
             for (let [, params] in Iterator(options.parameters))
@@ -758,14 +1070,11 @@ OAuth.prototype = {
         this._oauth.SignatureMethod.sign(message, accessor);
 
         var oAuthArgs  = this._oauth.getParameterMap(message.parameters);
-        var authHeader = this._oauth.getAuthorizationHeader(options.host || this.info.authHeader, oAuthArgs);
+        var endPoint = this._oauth.addToURL(message.action, oAuthArgs);
 
         xhr.mozBackgroundRequest = true;
-        xhr.open(message.method, message.action, true);
-        xhr.setRequestHeader("Authorization", authHeader);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        xhr.send(options.query || null);
+        xhr.open(message.method, endPoint, true);
+        xhr.send(null);
     }
 };
 
@@ -805,21 +1114,19 @@ const twitterAPI = {
 
         for (let [k, v] in Iterator(args))
             if (typeof v !== "undefined")
-                action = action.replace(util.format("{%s}", k), encodeURIComponent(v), "g");
+                action = action.replace(util.format("{%s}", k), $U.encodeOAuth(v), "g");
 
-        let query = [k + "=" + encodeURIComponent(v)
-                     for ([k, v] in Iterator(params))
-                     if (typeof v !== "undefined")].join("&");
-
-        if (query.length)
-            action += "?" + query;
+        let (query = [k + "=" + $U.encodeOAuth(v)
+                      for ([k, v] in Iterator(params))
+                      if (typeof v !== "undefined")].join("&")) {
+            if (query.length)
+                action += (action.indexOf("?") < 0 ? "?" : "&") + query;
+        };
 
         let requestArg = {
             action     : action,
             host       : proto.host,
-            method     : proto.method,
-            query      : query,
-            parameters : [[k, v] for ([k, v] in Iterator(params))]
+            method     : proto.method
         };
 
         return requestArg;
@@ -898,17 +1205,17 @@ const twitterAPI = {
         // ============================================================ //
 
         "statuses/home_timeline": {
-            action : "https://api.twitter.com/1/statuses/home_timeline.json",
+            action : "https://api.twitter.com/1.1/statuses/home_timeline.json",
             method : "GET"
         },
 
         "statuses/user_timeline": {
-            action : "https://api.twitter.com/1/statuses/user_timeline.json",
+            action : "https://api.twitter.com/1.1/statuses/user_timeline.json",
             method : "GET"
         },
 
         "statuses/mentions": {
-            action : "https://api.twitter.com/1/statuses/mentions.json",
+            action : "https://api.twitter.com/1.1/statuses/mentions_timeline.json",
             method : "GET"
         },
 
@@ -917,22 +1224,22 @@ const twitterAPI = {
         // ============================================================ //
 
         "statuses/update": {
-            action : "https://api.twitter.com/1/statuses/update.json",
+            action : "https://api.twitter.com/1.1/statuses/update.json",
             method : "POST"
         },
 
         "statuses/destroy": {
-            action : "https://api.twitter.com/1/statuses/destroy/{id}.json",
+            action : "https://api.twitter.com/1.1/statuses/destroy/{id}.json",
             method : "DELETE"
         },
 
         "statuses/retweet": {
-            action : "https://api.twitter.com/1/statuses/retweet/{id}.json",
+            action : "https://api.twitter.com/1.1/statuses/retweet/{id}.json",
             method : "POST"
         },
 
         "statuses/show": {
-            action : "https://api.twitter.com/1/statuses/show/{id}.json",
+            action : "https://api.twitter.com/1.1/statuses/show/{id}.json",
             method : "GET"
         },
 
@@ -941,22 +1248,22 @@ const twitterAPI = {
         // ============================================================ //
 
         "favorites": {
-            action : "https://api.twitter.com/1/favorites.json",
+            action : "https://api.twitter.com/1.1/favorites/list.json",
             method : "GET"
         },
 
         "favorites/user": {
-            action : "https://api.twitter.com/1/favorites/{user}.json",
+            action : "https://api.twitter.com/1.1/favorites/list.json?user_id={user}",
             method : "GET"
         },
 
         "favorites/create": {
-            action : "https://api.twitter.com/1/favorites/create/{id}.json",
+            action : "https://api.twitter.com/1.1/favorites/create.json",
             method : "POST"
         },
 
         "favorites/destroy": {
-            action : "https://api.twitter.com/1/favorites/destroy/{id}.json",
+            action : "https://api.twitter.com/1.1/favorites/destroy.json",
             method : "POST"
         },
 
@@ -965,12 +1272,12 @@ const twitterAPI = {
         // ============================================================ //
 
         "lists/index": {
-            action : "https://api.twitter.com/1/lists.json",
+            action : "https://api.twitter.com/1.1/lists/list.json",
             method : "GET"
         },
 
         "lists/statuses": {
-            action : "https://api.twitter.com/1/lists/statuses.json",
+            action : "https://api.twitter.com/1.1/lists/statuses.json",
             host   : "https://api.twitter.com/",
             method : "GET"
         },
@@ -980,7 +1287,7 @@ const twitterAPI = {
         // ============================================================ //
 
         "search": {
-            action : "https://search.twitter.com/search.json",
+            action : "https://api.twitter.com/1.1/search/tweets.json",
             method : "GET"
         },
 
@@ -989,12 +1296,12 @@ const twitterAPI = {
         // ============================================================ //
 
         "direct_messages": {
-            action : "https://api.twitter.com/1/direct_messages.json",
+            action : "https://api.twitter.com/1.1/direct_messages.json",
             method : "GET"
         },
 
         "direct_messages/sent": {
-            action : "https://api.twitter.com/1/direct_messages/sent.json",
+            action : "https://api.twitter.com/1.1/direct_messages/sent.json",
             method : "GET"
         },
 
@@ -1003,7 +1310,7 @@ const twitterAPI = {
         // ============================================================ //
 
         "account/verify_credentials": {
-            action: "https://api.twitter.com/1/account/verify_credentials.json",
+            action: "https://api.twitter.com/1.1/account/verify_credentials.json",
             method: "GET"
         },
 
@@ -1012,7 +1319,7 @@ const twitterAPI = {
         // ============================================================ //
 
         "statuses/friends": {
-            action: "https://api.twitter.com/1/statuses/friends.json",
+            action: "https://api.twitter.com/1.1/friends/list.json",
             method: "GET"
         }
     },
@@ -1023,9 +1330,7 @@ const twitterAPI = {
 
     isRetryable:
     function isRetryable(xhr) {
-        return (xhr.status === 401)
-            && ((xhr.responseText.indexOf("Could not authenticate you") !== -1) ||
-                (xhr.responseText.indexOf("This method requires authentication") !== -1));
+        return false;
     },
 
     isDMManipulationNotAllowed:
@@ -1200,7 +1505,7 @@ var twitterClient =
                 let { action } = this;
 
                 if (context.params) {
-                    let query = [k + "=" + encodeURIComponent(v)
+                    let query = [k + "=" + $U.encodeOAuth(v)
                                  for ([k, v] in Iterator(context.params))
                                  if (typeof v !== "undefined")].join("&");
                     if (query.length)
@@ -1455,17 +1760,6 @@ var twitterClient =
 
         // Searches {{ ============================================================== //
 
-        function filterSearchResult(status) {
-            status.user = {
-                screen_name             : status.from_user,
-                name                    : status.from_user,
-                profile_image_url       : status.profile_image_url
-            };
-            status.in_reply_to_screen_name = status.to_user;
-
-            return status;
-        }
-
         var gTrackings = {};
 
         function addTrackingCrawler(query, infoHolder) {
@@ -1482,8 +1776,7 @@ var twitterClient =
                     name         : query,
                     interval     : infoHolder["interval"] || pOptions["tracking_update_interval"],
                     oauth        : gOAuth,
-                    countName    : "rpp",
-                    mapper       : function (response) response.results.map(filterSearchResult),
+                    mapper       : function (response) response.statuses,
                     getLastID    : function () infoHolder["lastID"],
                     setLastID    : function (v) {
                         infoHolder["lastID"] = v;
@@ -2461,13 +2754,16 @@ var twitterClient =
         // Popup notifications {{ =================================================== //
 
         function showPopup(arg) {
-            alertsService.showAlertNotification(arg.icon,
-                                                arg.title,
-                                                arg.message,
-                                                !!arg.link,
-                                                arg.link,
-                                                arg.observer);
-
+            try {
+                alertsService.showAlertNotification(arg.icon || "",
+                                                    arg.title || "",
+                                                    arg.message || "",
+                                                    !!arg.link || false,
+                                                    arg.link || null,
+                                                    arg.observer || null);
+            } catch (x) {
+                log(LOG_LEVEL_DEBUG, "failed to show popup: " + x);
+            }
         }
 
         function showOldestUnPopUppedStatus() {
@@ -2577,25 +2873,53 @@ var twitterClient =
         // TwitterClient : Authorization
         // ================================================================================ //
 
-        function authorize() {
+        function authorize(onRequestTokenDone) {
             gOAuth.tokens.oauth_token        = "";
             gOAuth.tokens.oauth_token_secret = "";
 
             twitterAPI.request("oauth/request_token", {
                 ok: function (res) {
                     let parts = res.split("&");
-
                     gOAuth.tokens.oauth_token        = parts[0].split("=")[1];
                     gOAuth.tokens.oauth_token_secret = parts[1].split("=")[1];
 
-                    gBrowser.loadOneTab("https://twitter.com/oauth/authorize?oauth_token=" +
-                                        gOAuth.tokens.oauth_token,
-                                        null, null, null, false);
+                    requestOAuthVerifier(gOAuth.tokens.oauth_token, function (oauthVerifier) {
+                        onRequestTokenDone(oauthVerifier);
+                    });
                 },
                 ng: function (res, xhr) {
                     display.notify("Failed to request token :: " + xhr.responseText);
                 }
             });
+        }
+
+        function requestOAuthVerifier(authToken, onAuthFinish) {
+            var tabElement = gBrowser.loadOneTab(
+                "https://twitter.com/oauth/authorize?oauth_token=" + authToken,
+                null, null, null, false
+            );
+            var tabBrowser = gBrowser.getBrowserForTab(tabElement);
+            tabBrowser.addEventListener("DOMContentLoaded", function loadListener(ev) {
+                let rootWin = tabBrowser.contentWindow;
+                let doc = ev.target;
+                if (doc !== rootWin.document) return; // only for main window
+
+                let docURL = doc.location.href;
+                if (/^https:\/\/github.com\/mooz\/keysnail\/wiki\?/.test(docURL)) {
+                    tabBrowser.removeEventListener("DOMContentLoaded", loadListener, true);
+
+                    var oauth_verifier = docURL.split('?')[1].split('&')
+                            .map(function(q) {
+                                var temp = q.split('=');
+                                return {
+                                    key: temp[0],
+                                    value: temp[1]
+                                };
+                            })
+                            .filter(function(q) q.key == 'oauth_verifier')[0].value;
+                    onAuthFinish(oauth_verifier);
+                }
+            }, true);
         }
 
         function reAuthorize() {
@@ -2606,26 +2930,19 @@ var twitterClient =
         }
 
         function authorizationSequence() {
-            authorize();
-
-            gPrompt.close();
-            prompt.read(
-                M({ ja: "認証が終了したら Enter キーを押してください",
-                    en: "Press Enter When Authorization Finished:"}),
-                function (str) {
-                    if (str === null)
-                        return;
-
-                    getAccessToken(function () {
-                        showFollowersStatus();
-                        setUserInfo();
-                    });
-                }
-            );
+            authorize(function (oauth_verifier) {
+              getAccessToken(oauth_verifier, function () {
+                showFollowersStatus();
+                setUserInfo();
+              });
+            });
         }
 
-        function getAccessToken(next) {
+        function getAccessToken(oauth_verifier, next) {
             twitterAPI.request("oauth/access_token", {
+                params: {
+                    oauth_verifier: oauth_verifier,
+                },
                 ok: function (res) {
                     let parts = res.split("&");
 
@@ -2692,7 +3009,7 @@ var twitterClient =
                     en: "Added status to favorites" });
 
             twitterAPI.request(util.format("favorites/%s", aDelete ? "destroy" : "create"), {
-                args: {
+                params: {
                     id : aStatusID
                 },
                 ok: function (res, xhr) {
@@ -2726,8 +3043,6 @@ var twitterClient =
 
         function searchWord(word) {
             doSearchWord(word, function (results) {
-                results = results.map(filterSearchResult);
-
                 if (!results.length) {
                     display.echoStatusBar(M({
                         ja: word + L(" に対する検索結果はありません"),
@@ -2746,13 +3061,13 @@ var twitterClient =
 
                 twitterAPI.request("search", {
                     params: {
-                        rpp    : 100,
+                        count  : 100,
                         q      : word,
                         max_id : opts.max_id,
                         include_entities : true
                     },
                     ok: function (res, xhr) {
-                        let results = ($U.decodeJSON( xhr.responseText) || {"results":[]}).results;
+                        let results = ($U.decodeJSON( xhr.responseText) || {"statuses":[]}).statuses;
                         next(results);
                     },
                     ng: function (res, xhr) {
@@ -2764,7 +3079,6 @@ var twitterClient =
 
             function fetchPrevious(status, after) {
                 doSearchWord(word, function (results) {
-                    results = results.map(filterSearchResult);
                     results.shift();
                     after(results);
                 }, {
@@ -2837,7 +3151,7 @@ var twitterClient =
         }
 
         function tweet(aInitialInput, aReplyID, aCursorEnd) {
-            var limit = 140;
+            var maxTweetLength = 140;
             gPrompt.close();
 
             try {
@@ -2860,31 +3174,14 @@ var twitterClient =
                 completer    : completer.matcher.header(share.friendsCache || []),
                 cursorEnd    : aCursorEnd,
                 onChange     : function (arg) {
-                    var current = arg.textbox.value;
+                    var tweet = arg.textbox.value;
+                    var tweetLength = twttr.txt.getTweetLength(tweet);
 
-                    // take t.co shorten into account
-                    // https://dev.twitter.com/blog/next-steps-with-the-tco-link-wrapper
-                    var regex  = /(?:https?\:\/\/|www\.)[^\s]+/g;
-                    var noURL  = current.replace(regex, "");
-                    var URLs   = current.match(regex);
-                    var length = noURL.length;
+                    var acceptableCharCount = maxTweetLength - tweetLength;
 
-                    if (URLs) {
-                        URLs.forEach(function (url) {
-                            if (url.match("https://")){
-                                length += 21;
-                            } else {
-                                length += 20;
-                            }
-                        });
-                    }
-
-                    var count   = limit - length;
-                    var msg     = M({ja: ("残り " + count + " 文字"), en: count});
-
-                    if (count < 0)
-                        msg = M({ja: ((-count) + " 文字オーバー"), en: ("Over " + (-count) + " characters")});
-
+                    var msg = M({ja: ("残り " + acceptableCharCount + " 文字"), en: acceptableCharCount});
+                    if (acceptableCharCount < 0)
+                        msg = M({ja: ((-acceptableCharCount) + " 文字オーバー"), en: ("Over " + (-acceptableCharCount) + " characters")});
                     display.echoStatusBar(msg);
                 },
                 callback: function postTweet(aTweet) {
@@ -2924,10 +3221,18 @@ var twitterClient =
                             share.twitterImmediatelyAddedStatuses.push(status);
                         },
                         ng: function (res, xhr) {
+                            var response, errorMessage;
+                            try {
+                                response = $U.decodeJSON(res);
+                                errorMessage = ":" + response.errors.map(function ({message}) message).join("\n");
+                            } catch (x) {
+                                errorMessage = "";
+                            }
+
                             showPopupMayBe({
                                 title   : M({ja: "ごめんなさい", en: "I'm sorry..."}),
                                 message : M({ja: "つぶやけませんでした",
-                                             en: "Failed to tweet"}) + " (" + xhr.status + ")"
+                                             en: "Failed to tweet"}) + " (" + xhr.status + ")" + errorMessage
                             });
                         }
                     });
@@ -3016,7 +3321,7 @@ var twitterClient =
             }
 
             function showListsInPrompt(cache) {
-                let collection = Array.slice((cache || {lists:[]}).lists).map(
+                let collection = Array.slice((cache || [])).map(
                     function (list)
                     [
                         list.name,
@@ -3483,23 +3788,25 @@ var twitterClient =
             function favIconGetter(aRow) aRow[0].favorited ? FAVORITED_ICON : "";
             let preferScreenName = pOptions["prefer_screen_name"];
             let showSources      = pOptions["show_sources"];
+            let showRTCount      = pOptions["show_retweet_count"];
 
             function statusMapper(status) {
                 var created = Date.parse(status.created_at);
                 var matched = status.source ? status.source.match(">(.*)</a>") : "";
 
-                return [status,
-                        let (url = status.user.profile_image_url)
-                            ((pOptions.hide_profile_image_gif && /\.gif$/.test(url)) ?
-                             "http://a1.twimg.com/images/default_profile_0_bigger.png" : url),
-                        preferScreenName ? status.user.screen_name : status.user.name,
-                        html.unEscapeTag(status.text),
-                        favIconGetter,
-                        util.format("%s %s",
-                                    getElapsedTimeString(current - created),
-                                    showSources ? (matched ? matched[1] : "Web") : "",
-                                    (status.in_reply_to_screen_name ?
-                                     " to " + status.in_reply_to_screen_name : ""))];
+                return [
+                    status,
+                    let (url = status.user.profile_image_url)
+                        ((pOptions.hide_profile_image_gif && /\.gif$/.test(url)) ?
+                         "http://a1.twimg.com/images/default_profile_0_bigger.png" : url),
+                    preferScreenName ? status.user.screen_name : status.user.name,
+                    html.unEscapeTag(status.text),
+                    favIconGetter,
+                    getElapsedTimeString(current - created) +
+                        (showRTCount && status.retweet_count ? " (" + status.retweet_count + " RT)" : "") +
+                        (status.in_reply_to_screen_name ? " to " + status.in_reply_to_screen_name : "") +
+                        (showSources ? " " + (matched ? matched[1] : "Web") : "")
+                ];
             }
 
             var collection = statuses.map(statusMapper);
@@ -3684,6 +3991,9 @@ var twitterClient =
         }
 
         function modifyCache(aId, proc) {
+            if (!gStatuses.cache)
+                return;
+
             for (let [, status] in Iterator(gStatuses.cache))
                 if (status.id_str === aId)
                     proc(status);
@@ -3724,26 +4034,44 @@ var twitterClient =
             });
         }
 
-        function updateFriendsCache() {
-            share.friendsCache = [];
-            (function update(cursor){
+        function updateFriendsCache(previousCursor) {
+            if (!Array.isArray(share.friendsCache)) {
+                share.friendsCache = [];
+            }
+            (function update (cursor) {
+                var updateInterval = 1000 * 35;
+
                 twitterAPI.request('statuses/friends', {
                     params: { cursor: cursor },
                     ok: function (res, xhr) {
                         res = $U.decodeJSON(res);
-                        (res.users || []).forEach(function(i) {
-                            share.friendsCache.push("@" + i.screen_name);
-                            share.friendsCache.push("D " + i.screen_name);
+
+                        (res.users || []).forEach(function (user) {
+                            share.friendsCache.push("@" + user.screen_name);
+                            share.friendsCache.push("D " + user.screen_name);
                         });
+
+                        share.friendsCache.sort();
+                        share.friendsCache = _.uniq(share.friendsCache, true /* sorted */);
+                        persist.preserve({
+                            cache: share.friendsCache,
+                            cursor: res.next_cursor_str,
+                            last_update_date: new Date()
+                        }, "yatck_friends_cache");
+
                         if (res.next_cursor_str !== "0") {
-                            update(res.next_cursor_str);
-                        } else {
-                            share.friendsCache.sort();
-                            persist.preserve(share.friendsCache, "yatck_friends_cache");
+                            setTimeout(function () {
+                                update(res.next_cursor_str);
+                            }, updateInterval);
                         }
+                    },
+                    ng: function (res, xhr) {
+                        setTimeout(function (res, xhr) {
+                            update(cursor);
+                        }, updateInterval * 5);
                     }
                 });
-            })(-1);
+            })(typeof previousCursor === "number" ? previousCursor : -1);
         }
 
         /**
@@ -4204,10 +4532,24 @@ var twitterClient =
         if (!share.userInfo)
             self.setUserInfo();
 
-        if (!share.friendsCache)
-            share.friendsCache = persist.restore("yatck_friends_cache") || null;
-        if (!share.friendsCache)
-            self.updateFriendsCache();
+        function dayDifference(day1, day2) {
+            var diff = Math.abs(day1.getTime() - day2.getTime()) / (1000 * 60 * 60 * 24);
+            return diff;
+        }
+
+        if (!share.friendsCache) {
+            let friendsCacheInfo = persist.restore("yatck_friends_cache") || null;
+            if (friendsCacheInfo && Array.isArray(friendsCacheInfo.cache)) {
+                share.friendsCache = friendsCacheInfo.cache;
+            } else {
+                friendsCacheInfo = { cursor: -1 };
+            }
+            if (friendsCacheInfo.cursor !== 0 ||
+                !friendsCacheInfo.last_update_date ||
+                dayDifference(new Date(), new Date(friendsCacheInfo.last_update_date)) > 7 /* Expires 1 week */) {
+                self.updateFriendsCache(friendsCacheInfo.cursor);
+            }
+        }
 
         if (pOptions["automatically_begin"])
         {
