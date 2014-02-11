@@ -34,6 +34,6 @@ percol.import_keymap({
 })
 
 # migemo
-# from percol.finder import FinderMultiQueryMigemo
-# FinderMultiQueryMigemo.dictionary_path = "/usr/local/share/migemo/utf-8/migemo-dict"
-# FinderMultiQueryMigemo.minimum_query_length = 2
+from percol.finder import FinderMultiQueryMigemo
+FinderMultiQueryMigemo.dictionary_path = "/usr/local/share/migemo/utf-8/migemo-dict"
+FinderMultiQueryMigemo.minimum_query_length = 2
