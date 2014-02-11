@@ -522,147 +522,6 @@ key.setGlobalKey(['C-t', 'c'], function (ev, arg) {
     ext.exec("google-tasks-create", arg, ev);
 }, 'Google Tasks - 新しいタスクを作成');
 
-//// prompt.selector の色変更
-//// 2011-05-09 (Mon)
-//// http://keysnail.g.hatena.ne.jp/mooz/20100306/1267841504
-(function () {
-     function arrange(seed) {
-         let colors = [
-             ["%FG%" , "#e2e2e2"],
-             ["%BG%" , "#151515"],
-             // ["%FG_SELECTED%" , "#e2e2e2"],
-             ["%BG_SELECTED%" , "rgba(60,76,82,0.2)"],
-             //
-             ["%FG_MESSAGE%" , "#61b5d4"],
-             //
-             ["%FG_HOVER%" , "#61b5d4"],
-             ["%BG_HOVER%" , "#232323"],
-             //
-         ];
-
-         colors.forEach(function ([k, v]) { seed = seed.replace(k, v, "g"); } );
-         return seed;
-     }
-
-     let ooo = {
-         "twitter_client": {
-             "normal_tweet_style" : "color:%FG%;",
-             "my_tweet_style" : "color:#7ad3f2;",
-             "reply_to_me_style" : "color:#f279d2;",
-             "retweeted_status_style" : "color:#d2f279;",
-             "selected_row_style" : "color:%FG%; background-color:%BG_SELECTED%;",
-             "selected_user_style" : "color:%FG%; background-color:rgba(60,76,82,0.4);",
-             "selected_user_reply_to_style" : "color:%FG%; background-color:rgba(82,60,76,0.4);",
-             "selected_user_reply_to_reply_to_style" : "color:%FG%; background-color:rgba(79,60,82,0.4);",
-             "search_result_user_name_style" : "color:%FG_MESSAGE%;"
-         }
-     };
-
-     // style.register(<><![CDATA[
-     // #hBookmark-status-count label {
-     // display: inline !important;
-     // -moz-opacity: 1 !important;
-     // cursor: pointer !important;
-     // }
-
-     // #hBookmark-status-count image {
-     // display: none !important;
-     // }
-     // ]]></>.toString());
-
-     // style.prompt["default"] = "color:#e2e2e2;";
-     // style.prompt["description"] = "color:#abbac0;";
-     // style.prompt["url"] = "color:#98d3e7;text-decoration:underline;";
-     // style.prompt["engine"] = "color:#1782de;";
-     // style.prompt["bookmark"] = "color:#f14b0d;";
-     // style.prompt["history"] = "color:#62e500;";
-
-     // style.js["function"] = "color:#1782de;";
-     // style.js["object"] = "color:#f14b0d;";
-     // style.js["string"] = "color:#62e500;";
-     // style.js["xml"] = "color:#6621dd;";
-     // style.js["number"] = "color:#b616e7;";
-     // style.js["boolean"] = "color:#e63535;";
-     // style.js["undefined"] = "color:#e000a5;";
-     // style.js["null"] = "color:#07d8a8;";
-
-     // for (let [prefix, opts] in Iterator(ooo))
-     //     for (let [k, v] in Iterator(opts))
-     //         plugins.options[prefix + "." + k] = arrange(v);
-
-     style.register(arrange(<><![CDATA[
-/* おまじない */
-#keysnail-prompt,
-#keysnail-prompt textbox,
-listbox#keysnail-completion-list,
-listbox#keysnail-completion-list listitem,
-#keysnail-completion-list listheader
-{
-    -moz-appearance : none !important;
-    border : none !important;
-}
-
-/* 基本スタイル */
-// #keysnail-prompt,
-// #keysnail-prompt textbox,
-// listbox#keysnail-completion-list,
-// #keysnail-completion-list listheader,
-// #keysnail-twitter-client-user-tweet
-// {
-//     font-family : Monaco, Consolas, monospace !important;
-//     background-color : %BG% !important;
-//     color : %FG% !important;
-// }
-
-// description.ks-text-link { color : #98d3e7 !important; }
-// description.ks-text-link:hover { color : #248baf !important; }
-
-/*
-listbox#keysnail-completion-list {
-background-image : url("file:///home/masa/Desktop/ildjarn.png") !important;
-background-position : right bottom !important;
-background-attachment : fixed !important;
-background-repeat : no-repeat !important;
-}
-*/
-
-/* 選択中行のスタイル */
-#keysnail-completion-list listitem[selected="true"],
-listbox#keysnail-completion-list:focus > listitem[selected="true"]
-{
-    background-color : %BG_SELECTED% !important;
-    color : %FG_SELECTED% !important;
-}
-
-/* プロンプト入力エリアへマウスオーバーした際, 背景色を変更 */
-// #keysnail-prompt textbox:hover
-// {
-//     background-color : %BG_HOVER% !important;
-// }
-
-/* プロンプトのメッセージ */
-// .keysnail-prompt-label {
-//     color : %FG_MESSAGE% !important;
-// }
-
-/* 下部へ線を引く */
-// listbox#keysnail-completion-list {
-//     border-bottom : 1px solid %FG% !important;
-//     margin : 0 !important;
-// }
-
-/* ヘッダ */
-// #keysnail-completion-list listheader {
-//     font-weight : bold !important;
-//     padding : 2px !important;
-//     color : %FG_HOVER% !important;
-//     border-bottom : 1px solid %FG_HOVER% !important;
-//     -moz-border-bottom-colors : %FG_HOVER% !important;
-//     margin-bottom : 4px !important;
-// }
-]]></>.toString()));
- })();
-
 //// 2011-05-03 (Tue)
 //// http://d.hatena.ne.jp/shiba_yu36/20101022/1287749097
 //// タブグループを操作する
@@ -701,17 +560,17 @@ key.setGlobalKey(['<f1>', 'r'], function (ev, arg) {
 //// 2011-04-28 (Thu)
 //// http://keysnail.g.hatena.ne.jp/basyura/20110427/1303908543
 //// 訪問するとフォーカスしてしまうサーチボックスを消す
-style.register(<><![CDATA[
-      @-moz-document url-prefix("http://www.yahoo.co.jp/") {
-        #searchbox { display : none; }
-      }
-    ]]></>.toString() , style.XHTML);
+// style.register(<><![CDATA[
+//       @-moz-document url-prefix("http://www.yahoo.co.jp/") {
+//         #searchbox { display : none; }
+//       }
+//     ]]></>.toString() , style.XHTML);
 
-style.register(<><![CDATA[
-      @-moz-document url-prefix("http://www.livedoor.com/") {
-        #header { display : none; }
-      }
-    ]]></>.toString() , style.XHTML);
+// style.register(<><![CDATA[
+//       @-moz-document url-prefix("http://www.livedoor.com/") {
+//         #header { display : none; }
+//       }
+//     ]]></>.toString() , style.XHTML);
 
 //// 2011-04-28 (Thu)
 //// https://gist.github.com/945841
@@ -768,11 +627,17 @@ key.setViewKey([':', 't'], function (ev, arg) {
 //// prompt で自動的に IME を off
 //// Windows Mac ではできるが，Linux はだめらしい
 // http://keysnail.g.hatena.ne.jp/mooz/20110320/1300641715
-style.register(<><![CDATA[
-    #keysnail-prompt-textbox *|input {
-        ime-mode : inactive !important;
-    }
-]]></>);
+// style.register(<><![CDATA[
+//     #keysnail-prompt-textbox *|input {
+//         ime-mode : inactive !important;
+//     }
+// ]]></>);
+//
+// Firefox 20 から E4X が廃止された時の対処
+// http://nishikawasasaki.hatenablog.com/entry/2013/05/15/214147
+style.register(['#keysnail-prompt-textbox *|input {',
+'ime-mode : inactive !important;',
+'}'].join("\n"));
 
 // linux でも IME を off できるようにする（要 xvkbd）
 // http://keysnail.g.hatena.ne.jp/myuhe/20110614/1308056504
@@ -909,10 +774,10 @@ plugins.options["twitter_client.tweet_keymap"] = {
 };
 // アイコンサイズを固定
 // http://keysnail.g.hatena.ne.jp/mooz/?word=*%5Btips%5D
-style.register(<><![CDATA[ @-moz-document
-url("chrome://global/content/alerts/alert.xul") { image#alertImage {
-max-width : 96px !important; max-height : 96px !important; } }
-]]></>);
+// style.register(<><![CDATA[ @-moz-document
+// url("chrome://global/content/alerts/alert.xul") { image#alertImage {
+// max-width : 96px !important; max-height : 96px !important; } }
+// ]]></>);
 
 // key bind
 key.setGlobalKey(['C-c', 't'], function (ev, arg) {
