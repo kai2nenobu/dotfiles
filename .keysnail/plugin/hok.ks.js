@@ -5,7 +5,7 @@ var PLUGIN_INFO =
     <name>HoK</name>
     <description>Hit a hint for KeySnail</description>
     <description lang="ja">キーボードでリンクを開く</description>
-    <version>1.3.7</version>
+    <version>1.4.2</version>
     <updateURL>https://github.com/mooz/keysnail/raw/master/plugins/hok.ks.js</updateURL>
     <iconURL>https://github.com/mooz/keysnail/raw/master/plugins/icon/hok.icon.png</iconURL>
     <author mail="stillpedant@gmail.com" homepage="http://d.hatena.ne.jp/mooz/">mooz</author>
@@ -35,6 +35,10 @@ key.setViewKey(';', function (aEvent, aArg) {
 key.setViewKey(['C-c', 'C-e'], function (aEvent, aArg) {
     ext.exec("hok-start-continuous-mode", aArg);
 }, 'Start continuous HaH', true);
+
+key.setViewKey('c', function (aEvent, aArg) {
+    ext.exec("hok-yank-foreground-mode", aArg);
+}, 'Hok - Foreground yank hint mode', true);
 ||<
 
 In this example, you can start hah by pressing e key in the view mode.
@@ -324,18 +328,9 @@ const pOptions = plugins.setupOptions("hok", {
         type: "array"
     },
 
-    "use_selector" : {
-        preset: true,
-        description: M({
-            en: "Use Selectors API instead of XPath. Performance up but only works after Firefox 3.1 (default: true)",
-            ja: "ヒントの取得に Selectors API を用いるかどうか。 XPath より高速となるが Firefox 3.1 以降専用。 (デフォルト: true)"
-        }),
-        type: "boolean"
-    },
-
     "selector" : {
         preset: 'a[href], input:not([type="hidden"]), textarea, iframe, area, select, button, embed,' +
-            '*[onclick], *[onmouseover], *[onmousedown], *[onmouseup], *[oncommand], *[role="link"], *[role="button"]',
+            '*[onclick], *[onmouseover], *[onmousedown], *[onmouseup], *[oncommand], *[role="link"], *[role="button"], *[role="menuitem"], *[role="tab"], *[role="checkbox"]',
         description: M({
             en: "Selectors API Path query",
             ja: "ヒントの取得に使う Selectors API クエリ"
@@ -343,21 +338,11 @@ const pOptions = plugins.setupOptions("hok", {
         type: "string"
     },
 
-    "xpath" : {
-        preset: '//input[not(@type="hidden")] | //a | //area | //iframe | //textarea | //button | //select' +
-            ' | //*[@onclick or @onmouseover or @onmousedown or @onmouseup or @oncommand or @role="link"]',
-        description: M({
-            en: "XPath query",
-            ja: "ヒントの取得に使う XPath クエリ"
-        }),
-        type: "string"
-    },
-
     "local_queries" : {
         preset: null,
         description: M({
-            en: "Site local queries (Only effective when Selectors API is used)",
-            ja: "サイト毎のクエリ (Selectors API 使用時のみ有効)"
+            en: "Site local queries",
+            ja: "サイト毎のクエリ"
         }),
         type: "array"
     },
@@ -616,7 +601,7 @@ function saveLink(elem, skipPrompt) {
 
     try {
         window.urlSecurityCheck(url, doc.nodePrincipal);
-        saveURL(url, text, null, true, skipPrompt, makeURI(url, doc.characterSet));
+        saveURL(url, text, null, true, skipPrompt, makeURI(url, doc.characterSet), doc);
     } catch (e) {}
 }
 
@@ -639,6 +624,11 @@ function viewSource(url, useExternalEditor) {
     }
 }
 
+// Yank the href of an element
+function yank(elem) {
+    command.setClipboardText(elem.href);
+}
+
 function recoverFocus() {
     gBrowser.focus();
     _content.focus();
@@ -649,20 +639,15 @@ function recoverFocus() {
 // HoK object {{ ============================================================ //
 
 var originalSuspendedStatus;
-var useSelector = pOptions["use_selector"] && ("querySelector" in document);
 
 var hok = function () {
     var hintKeys            = pOptions["hint_keys"];
-    var selector            = pOptions["selector"];
-    var xPathExp            = pOptions["xpath"];
     var hintBaseStyle       = pOptions["hint_base_style"];
     var hintColorLink       = pOptions["hint_color_link"];
     var hintColorForm       = pOptions["hint_color_form"];
     var hintColorFocused    = pOptions["hint_color_focused"];
     var hintColorCandidates = pOptions["hint_color_candidates"];
     var elementColorFocused = pOptions["element_color_focused"];
-    var uniqueOnly          = pOptions["unique_only"];
-    var uniqueFire          = pOptions["unique_fire"];
 
     var keyMap = {};
     if (pOptions["user_keymap"])
@@ -720,6 +705,7 @@ var hok = function () {
     function createTextHints(amount) {
         var reverseHints = {};
         var numHints = 0;
+        var uniqueOnly = pOptions["unique_only"];
 
         function next(hint) {
             var l = hint.length;
@@ -855,7 +841,7 @@ var hok = function () {
     }
 
     function getBodyForDocument(doc) {
-        return doc ? doc.body || (useSelector && doc.querySelector("body")) || doc.documentElement : null;
+        return doc ? doc.body || doc.querySelector("body") || doc.documentElement : null;
     }
 
     function drawHints(win) {
@@ -918,18 +904,7 @@ var hok = function () {
 
         var result, elem;
 
-        if (useSelector)
-        {
-            result = doc.querySelectorAll(priorQuery || localQuery || selector);
-        }
-        else
-        {
-            let xpathResult = doc.evaluate(priorQuery || xPathExp, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-            result = [];
-
-            for (let i = 0, len = xpathResult.snapshotLength; i < len; ++i)
-                result.push(xpathResult.snapshotItem(i));
-        }
+        result = doc.querySelectorAll(priorQuery || localQuery || pOptions["selector"]);
 
         var style, rect, hint, span, top, left, ss;
         var leftpos, toppos;
@@ -1102,9 +1077,9 @@ var hok = function () {
                 util.message(x);
             }
 
+            document.removeEventListener('keydown', stopEventPropagation, true);
             document.removeEventListener('keypress', onKeyPress, true);
-            document.removeEventListener('keydown', preventEvent, true);
-            document.removeEventListener('keyup', preventEvent, true);
+            document.removeEventListener('keyup', stopEventPropagation, true);
         }
 
         display.echoStatusBar("");
@@ -1130,14 +1105,13 @@ var hok = function () {
     function onKeyPress(event) {
         var keyStr = key.keyEventToString(event);
 
+        preventEvent(event);
+
         if (!keyMap.hasOwnProperty(keyStr))
         {
             destruction(true);
             return;
         }
-
-        event.preventDefault();
-        event.stopPropagation();
 
         var role = keyMap[keyStr];
 
@@ -1189,7 +1163,7 @@ var hok = function () {
         let foundCount = updateHeaderMatchHints();
 
         // fire if hint is unique
-        if (uniqueFire && !supressUniqueFire) {
+        if (pOptions["unique_fire"] && !supressUniqueFire) {
             if (foundCount == 1 && getAliveLastMatchHint()) {
                 var targetElem = lastMatchHint.element;
                 destruction();
@@ -1199,29 +1173,26 @@ var hok = function () {
         }
     }
 
+    function stopEventPropagation(event) {
+        event.stopPropagation();
+    }
+
     function preventEvent(event) {
         event.preventDefault();
         event.stopPropagation();
     }
 
     function setLocalQuery() {
-        if (pOptions["local_queries"] && typeof content.location.href == "string")
+        let currentPageURL = content.location.href;
+        if (pOptions["local_queries"] && currentPageURL)
         {
-            for (let [, row] in Iterator(pOptions["local_queries"]))
+            for (let [, [targetURLPattern, localSelector, toOverride]]
+                 in Iterator(pOptions["local_queries"]))
             {
-                if (content.location.href.match(row[0]))
+                if (currentPageURL.match(targetURLPattern))
                 {
-                    if (row[2])
-                    {
-                        // not append
-                        localQuery = row[1];
-                    }
-                    else
-                    {
-                        // append
-                        localQuery = selector + ", " + row[1];
-                    }
-
+                    localQuery = toOverride ? localSelector
+                        : pOptions["selector"] + ", " + localSelector;
                     return;
                 }
             }
@@ -1256,16 +1227,19 @@ var hok = function () {
             originalSuspendedStatus = key.suspended;
             key.suspended = true;
 
-            init();
-            setLocalQuery();
-
-            drawHints();
+            try {
+                init();
+                setLocalQuery();
+                drawHints();
+            } catch (x) {
+                hintCount = 0;
+            }
 
             if (hintCount > 1)
             {
+                document.addEventListener('keydown', stopEventPropagation, true);
                 document.addEventListener('keypress', onKeyPress, true);
-                document.addEventListener('keydown', preventEvent, true);
-                document.addEventListener('keyup', preventEvent, true);
+                document.addEventListener('keyup', stopEventPropagation, true);
             }
             else
             {
@@ -1308,6 +1282,14 @@ var hok = function () {
                       });
         },
 
+        yankForeground: function (supressUniqueFire) {
+            self.start(yank,
+                      {
+                          supressUniqueFire: supressUniqueFire
+                      });
+        },
+
+
         startBackground: function (supressUniqueFire) {
             hok.start(function (elem) followLink(elem, NEW_BACKGROUND_TAB),
                       {
@@ -1339,8 +1321,8 @@ function formatActions(aActions) {
 }
 
 var query = {
-    images : useSelector ? "img" : "//img",
-    frames : useSelector ? "body" : "//body"
+    images : "img",
+    frames : "body"
 };
 
 // ['Key', 'Description', function (elem) { /* process hint elem */ }, supressUniqueFire, continuousMode, 'Query query']
@@ -1356,7 +1338,7 @@ var actions = [
     ['F', M({ja: "連続してリンクを開く", en: "Open multiple hints in tabs"}), function (elem) plugins.hok.followLink(elem, NEW_BACKGROUND_TAB), false, true],
     ['v', M({ja: "リンク先のソースコードを表示", en: "View hint source"}), function (elem) plugins.hok.viewSource(elem.href, false)],
     ['V', M({ja: "リンク先のソースコードを外部エディタで表示", en: "View hint source in external editor"}), function (elem) plugins.hok.viewSource(elem.href, true)],
-    ['y', M({ja: "リンクの URL をコピー", en: "Yank hint location"}), function (elem) command.setClipboardText(elem.href)],
+    ['y', M({ja: "リンクの URL をコピー", en: "Yank hint location"}), yank],
     ['Y', M({ja: "要素の内容をコピー", en: "Yank hint description"}), function (elem) command.setClipboardText(elem.textContent || "")],
     ['c', M({ja: "右クリックメニューを開く", en: "Open context menu"}), function (elem) plugins.hok.openContextMenu(elem)],
     ['i', M({ja: "画像を開く", en: "Show image"}), function (elem) plugins.hok.openURI(elem.src), false, false, query.images],
@@ -1393,6 +1375,10 @@ plugins.withProvides(function (provide) {
     provide("hok-start-foreground-mode",
             function (ev, arg) hok.startForeground(!(arg === null)),
             M({ja: "HoK - リンクをフォアグラウンドで開く", en: "Start Hit a Hint foreground mode"}));
+
+    provide("hok-yank-foreground-mode",
+            function (ev, arg) hok.yankForeground(!(arg === null)),
+            M({ja: "HoK - リンクの URL をコピー", en: "Start Hit a Yank foreground mode"}));
 
     provide("hok-start-background-mode",
             function (ev, arg) hok.startBackground(!(arg === null)),

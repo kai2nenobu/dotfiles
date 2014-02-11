@@ -7,10 +7,11 @@ let PLUGIN_INFO =
     <iconURL>https://sites.google.com/site/958site/Home/files/hok-ex.ks.png</iconURL>
     <license>MPL</license>
     <author>958</author>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <minVersion>1.8.0</minVersion>
     <detail><![CDATA[
 === 使い方 ===
+==== HoK で要素選択時の動作を拡張 ====
 インストールするだけで、HoK にて要素選択時に以下の機能が追加されます
 - select 要素を選択した際に、anything.el ライクに選択する
 - <input type="file"> を選択した際に、prompt でファイルを選択する
@@ -39,19 +40,34 @@ plugins.options['hok_ex.actions'] = [
 たとえば、K2Emacs.ks.js と連携する場合は、以下のように書くとよいでしょう
 >|javascript|
 plugins.options['hok_ex.extra_actions'] = [
+
     // Textarea を選択した際に、K2Emacs で開く
+
     {
+
         type    : 'unique',
+
         matcher : function(elem) (elem.localName.toLowerCase() == 'textarea'),
+
         fn      : function(elem) {
+
             elem.focus();
+
             ext.exec('edit_text', null, { originalTarget: elem });
+
         }
+
     }
+
 ];
+
 ||<
 
-また、以下の機能も追加されます
+本プラグインの上記機能が邪魔になった場合は、エクステ 'hok-ex-toggle' を実行してください
+一時的に機能を無効化できます
+
+==== HoK 右クリックメニュー開く を prompt.selector で ====
+以下の機能も追加されます
 - 拡張ヒントモードの "右クリックメニューを開く" を実行した際に、右クリックメニューを anything.el ライクに選択する
  - 正常に表示されないメニューが一部あります
 
@@ -61,8 +77,8 @@ hook.addToHook('PluginLoaded', function() delete plugins.hok_ex.contextMenuSelec
 ||<
 としてください
 
-本プラグインの機能が邪魔になった場合は、エクステ 'hok-ex-toggle' を実行してください
-一時的に本機能を無効化できます
+==== ちょっとだけ便利なエクステを追加 ====
+* 'hok-ex-start-continuous-mode'  は動作しなくなった為、削除しました。
 
 === 謝辞 ===
 以下のスクリプトを参考にさせていただきました
@@ -158,38 +174,70 @@ plugins.hok_ex = {
 
         // via https://gist.github.com/286772
         prompt.reader({
+
             message : "Select file (" + share.pwd + ") :",
+
             group : "upload-file",
+
             flags : [ICON | IGNORE, 0],
+
             completer : completer.fetch.directory({
+
                 // hideDotFiles : true,
+
                 // mask : /\.(js|jpg|jpeg)$/,
+
                 filter: function (collection, query) {
+
                     let matched = [];
+
                     let remains = collection;
 
+
+
                     // head
+
                     remains = remains.filter(function (c) {
+
                         if (c.indexOf(query) === 0) { matched.push(c); return false; }
+
                         return true;
+
                     });
+
                     // ignore case
+
                     let (query = query.toLowerCase())
+
                         remains = remains.filter(function (c) {
+
                             if (c.toLowerCase().indexOf(query.toLowerCase()) === 0) { matched.push(c); return false; }
+
                                 return true;
+
                             });
 
+
+
                     if ("xulMigemoCore" in window)
+
                         return matched.concat(remains.filter(function (c) c.match(window.xulMigemoCore.getRegExp(query))));
 
+
+
                     return matched;
+
                 }
+
             }),
+
             callback : function (query) {
                 if (query)
+
                     elem.value = completer.utils.normalizePath(share.pwd + userscript.directoryDelimiter + query);
+
             }
+
         });
     },
     // contextmenu in selector
@@ -200,14 +248,13 @@ plugins.hok_ex = {
         let menu = document.getElementById("contentAreaContextMenu");
         menu.showPopup(elem, -1, -1, "context", "bottomleft", "topleft");
         let temp = gContextMenu;
-        menu.hidePopup();
         gContextMenu = temp;
 
         let collection = Array.slice(menu.getElementsByTagName('menuitem'))
             .filter(function(item) {
                 let enabled = true;
                 if (item.parentNode != menu) {
-                    let pa = item.parentNode.parentNode;
+                    let pa = item.parentNode;
                     enabled = (pa.label && !pa.disabled && !pa.hidden);
                 }
                 return (enabled && item.label && !item.disabled && !item.hidden);
@@ -218,6 +265,7 @@ plugins.hok_ex = {
                     item.label;
                 return [label, item];
             });
+        menu.hidePopup();
         prompt.selector({
             message     : 'Select menu item :',
             collection  : collection,
@@ -227,7 +275,35 @@ plugins.hok_ex = {
                 function(aIndex) collection[aIndex][1].doCommand()
             ]]
         });
-    }
+    },
+    /*
+    startContinuous: function() {
+        if (!my.hokex.orgDestruction) my.hokex.orgDestruction = util.evalInContext('destruction', plugins.hok.hok.startForeground);
+
+        my.hokex.unloadHandler = function() {
+            util.evalInContext('destruction()', plugins.hok.hok.startForeground);
+        };
+
+        content.addEventListener('unload', my.hokex.unloadHandler, false);
+        util.evalInContext(function() {
+            destruction = function (aForce) {
+                if (continuousMode && !aForce) {
+                    my.hokex.orgDestruction(true);
+                    setTimeout(plugins.hok.hok.startContinuous, 0);
+                    return;
+                }
+                my.hokex.orgDestruction(aForce);
+                if (aForce) {
+                    content.removeEventListener('unload', my.hokex.unloadHandler, false);
+                    util.evalInContext(function() {
+                        destruction = my.hokex.orgDestruction;
+                    }.toSource() + '()', plugins.hok.hok.startForeground);
+                }
+            }
+        }.toSource() + '()', plugins.hok.hok.startForeground);
+        plugins.hok.hok.startContinuous();
+    },
+    */
 };
 
 const actions = pOptions['actions'].concat(pOptions['extra_actions']);
@@ -283,4 +359,9 @@ plugins.withProvides(function(provide) {
     provide('hok-ex-toggle', function (ev, arg) {
         gEnable = !gEnable;
     }, M({ ja:'HoK Ex - 有効・無効をトグル', en:'HoK Ex - Toggle enabled' }));
+    /*
+    provide("hok-ex-start-continuous-mode",
+        plugins.hok_ex.startContinuous,
+    M({ja: "HoK Ex - リンクを連続して開く", en: "HoK Ex - Start Hit a Hint continuous mode"}));
+    */
 }, PLUGIN_INFO);
