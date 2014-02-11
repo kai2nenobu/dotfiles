@@ -752,7 +752,7 @@ plugins.options["twitter_client.keymap"] = {
     // twitter client specific actions
     "t"     : "tweet",
     "r"     : "reply",
-    "R"     : "retweet",
+    "R"     : "official-retweet",
     "d"     : "send-direct-message",
     "D"     : "delete-tweet",
     "f"     : "add-to-favorite",
