@@ -231,6 +231,7 @@ util.setPrefs(
         "extensions.checkCompatibility.11.0": false,  // ignore compatibility
         "extensions.checkCompatibility.12.0": false,  // ignore compatibility
         "browser.urlbar.trimURLs": false,             // show "http://" in location bar
+        "javascript.options.xml.chrome": true, // FF20 で migemo が使えるようになる
     }
 );
 
