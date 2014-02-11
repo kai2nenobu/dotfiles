@@ -24,6 +24,20 @@ function ignore(k, i) [k, null];
 
 
 // ================================ My original ============================ //
+key.setViewKey(['g', 'r'], function () {
+    var uri = content.location.href;
+    if (uri == null) {
+        return;
+    }
+    prompt.reader({
+        message: 'Search range:',
+        callback: function (range) {
+            loadURI(uri.replace(/\&tbs=qdr:[dwmy]\d*/g, "") + "&tbs=qdr:" + range,
+                    null, null);
+        }
+    });
+}, '期間指定してGoogle検索');
+
 //// firebugsnail の設定
 key.setViewKey(['z', 'o'], function (ev, arg) {
     ext.exec("firebug-open",arg, ev);
