@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 # general aliases
 alias ls='ls --color=auto --show-control-chars'
 alias ll='ls -Al'
