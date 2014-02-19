@@ -1,13 +1,10 @@
 # Global alias を使ってみる
 alias -g L='| less -r'
 alias -g H='| head'
+alias -g N='| nkf'
 alias -g T='| tail'
 alias -g G='| grep'
 alias -g P='| percol'
 alias -g S='| sort'
-alias -g GI='| grep -i'
-alias -g CA='| canything -i'
-alias -g CAS='| canything'
-alias -g NKF='| nkf -w'
 
 echo "Load .zsh_aliases."
