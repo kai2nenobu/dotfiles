@@ -16,11 +16,12 @@ alias tmux='tmux -2'
 alias t='tmux attach || tmux'
 alias psg='ps aux | grep'
 
+# git aliases
 if which git > /dev/null; then
   alias g='git'
   alias gs='git status'
   alias gl='git log'
-  alias gld='git log --decorate --graph'
+  alias gld='git log --decorate --graph --oneline'
   alias gd='git diff'
   alias gc='git commit'
   alias ga='git add'
