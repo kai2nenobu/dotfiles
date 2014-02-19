@@ -1,20 +1,20 @@
-# some more aliases
-alias ll='ls -l'
-alias lla='ls -Al'
-alias la='ls -A'
-alias l='ls -CF'
+# general aliases
+alias ls='ls --color=auto --show-control-chars'
+alias ll='ls -Al'
+alias l='ls -AF'
+
 alias rm='rm -i'
+alias grep='grep --color=auto'
 alias less='less -r'
-alias apti='sudo apt-get install'
-alias apts='apt-cache search'
-alias aptsh='apt-cache show'
+
+alias du1='du -h --max-depth 1'
+alias updatedb='time updatedb --localpaths="$(cygpath -m $HOME)" --prunepaths="$(cygpath -m $HOME)/AppData /\([^/]*/\)+.git"'
+
 alias e='emacs'
 alias ec='emacsclient'
 alias tmux='tmux -2'
-alias psg='ps aux | grep'
-alias acroread='UBUNTU_MENUPROXY= LIBOVERLAY_SCROLLBAR=0 acroread'
 alias t='tmux attach || tmux'
-alias du1='du -h --max-depth 1'
+alias psg='ps aux | grep'
 
 if which git > /dev/null; then
   alias g='git'
