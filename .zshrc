@@ -1,3 +1,4 @@
+# -*- mode: sh -*-
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
