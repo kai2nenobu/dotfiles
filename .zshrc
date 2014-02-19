@@ -13,7 +13,7 @@ setopt ignore_eof           # Ctrl-dでログアウトしない
 setopt no_nomatch           # グロブの展開が出来ない場合は，グロブパターンをそのまま残して
                             # エラーの報告はしない
 
-REPORTTIME=15
+REPORTTIME=15     # 長いコマンドを自動でtime表示
 
 ## 補完候補を移動して選択
 zstyle ':completion:*:default' menu select=2
@@ -63,7 +63,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/kai/.zshrc'
+zstyle :compinstall filename "${HOME}/.zshrc"
 
 autoload -Uz compinit
 compinit
