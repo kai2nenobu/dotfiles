@@ -180,6 +180,24 @@ if which percol &> /dev/null; then
     fi
   }
 
+  function percol_git_ls_files() {
+    local SELECTED
+    if ! git rev-parse &> /dev/null; then
+      zle -M "Not a git repository (or any of the parent directories)"
+      return 2
+    fi
+    SELECTED=$(git ls-files | percol --match-method migemo)
+    if [ $? -ne 0 ]; then       # When percol fails
+      zle -M "Percol exits abnormally"
+      zle -R -c               # refresh
+      return 1
+    fi
+    BUFFER=$LBUFFER$SELECTED
+    CURSOR=$#BUFFER         # move cursor
+    zle -R -c               # refresh
+  }
+  zle -N percol_git_ls_files
+  bindkey '^Xf' percol_git_ls_files
 
   function percol_select_history() {
     local tac
