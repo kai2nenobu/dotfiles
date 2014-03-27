@@ -10,7 +10,7 @@ alias grep='grep --color=auto'
 alias less='less -r'
 
 alias du1='du -h --max-depth 1'
-alias updatedb='time updatedb --localpaths="$(cygpath -m $HOME)" --prunepaths="$(cygpath -m $HOME)/AppData /\([^/]*/\)+.git"'
+alias updatedb='time updatedb --localpaths="$HOME" --prunepaths="$(find ${HOME} -name .git) ${HOME}/AppData"'
 
 alias e='emacs'
 alias ec='emacsclient'
