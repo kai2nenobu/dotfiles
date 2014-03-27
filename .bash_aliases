@@ -34,6 +34,13 @@ if which git > /dev/null; then
   alias gb='git branch'
 fi
 
+if which nkf &> /dev/null; then
+    # 半角カナをそのまま処理する。改行は削除される。UTF-8で出力
+    alias urlencode='nkf -xwMQ | tr -d "\n" | tr = %'
+    # 半角カナはそのまま処理する。UTF-8で出力
+    alias urldecode='nkf --url-input -xw'
+fi
+
 if which notifier > /dev/null; then
   alias finished="notifier 'Finished!' 'Come back here'"
 fi
