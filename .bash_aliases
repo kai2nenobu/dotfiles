@@ -18,6 +18,9 @@ alias tmux='tmux -2'
 alias t='tmux attach || tmux'
 alias psg='ps aux | grep'
 
+# Javaのコメントと空行を削除（結構適当）
+alias delcomment='grep -E -v -e "^[[:space:]]*$" -e "^[[:space:]]*/[*/]" -e "^[[:space:]]*\\*/?"'
+
 # git aliases
 if which git > /dev/null; then
   alias g='git'
