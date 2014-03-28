@@ -36,6 +36,8 @@ precmd(){
   LANG=en_US.UTF-8
   if git rev-parse --abbrev-ref HEAD &> /dev/null; then
       my_vcs_info=" %F{green}($(git rev-parse --abbrev-ref HEAD))%f"
+  else
+      my_vcs_info=''
   fi
 }
 
