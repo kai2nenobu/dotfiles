@@ -24,14 +24,8 @@ setopt list_packed
 bindkey -e
 
 # VCS settings
-autoload -Uz vcs_info
 setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr '%F{yellow}'
-zstyle ':vcs_info:git:*' unstagedstr '%F{red}'
-zstyle ':vcs_info:*' formats ' %F{green}%c%u(%b)%f'
-zstyle ':vcs_info:*' actionformats ' %b|%a'
-
+export my_vcs_info
 
 function title {
     print -n "\e]0;$@\a"
@@ -40,7 +34,9 @@ function title {
 precmd(){
   echo -ne "\033]0;$USER@`hostname`: $PWD\007"
   LANG=en_US.UTF-8
-  vcs_info
+  if git rev-parse --abbrev-ref HEAD &> /dev/null; then
+      my_vcs_info=" %F{green}($(git rev-parse --abbrev-ref HEAD))%f"
+  fi
 }
 
 function finish {
@@ -51,7 +47,7 @@ function finish {
 }
 
 PROMPT="%B%{[32m%}%n@%m%{[m%}%b $ "
-RPROMPT='[%B%{[34m%}%~%{[34m%}%b${vcs_info_msg_0_}]'
+RPROMPT='[%B%{[34m%}%~%{[34m%}%b${my_vcs_info}]'
 
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
