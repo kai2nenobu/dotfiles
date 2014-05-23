@@ -196,7 +196,7 @@ if which percol &> /dev/null; then
       zle -M "Not a git repository (or any of the parent directories)"
       return 2
     fi
-    SELECTED=$(git ls-files | percol --match-method migemo)
+    SELECTED=$(git ls-files | percol --match-method migemo | tr '\n' ' ')
     if [ $? -ne 0 ]; then       # When percol fails
       zle -M "Percol exits abnormally"
       zle -R -c               # refresh
