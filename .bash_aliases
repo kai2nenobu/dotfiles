@@ -45,6 +45,10 @@ if which notifier > /dev/null; then
   alias finished="notifier 'Finished!' 'Come back here'"
 fi
 
+if which groovyclient &> /dev/null; then
+    alias groovy=groovyclient
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
