@@ -2,7 +2,7 @@
 
 # general aliases
 alias ls='ls --color=auto --show-control-chars'
-alias ll='ls -Al'
+alias ll='ls -AlhF'
 alias l='ls -AF'
 
 alias rm='rm -i'
