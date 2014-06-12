@@ -12,8 +12,12 @@ alias less='less -r'
 alias du1='du -h --max-depth 1'
 alias updatedb='time updatedb --localpaths="$HOME" --prunepaths="$(find ${HOME} -name .git) ${HOME}/AppData"'
 
-alias e='emacs'
-alias ec='emacsclient'
+if which emacs &> /dev/null; then
+   alias e='emacs'
+   alias ec='emacsclient -a vi'
+   EDITOR='emacsclient -a vi'
+fi
+
 alias tmux='tmux -2'
 alias t='tmux attach || tmux'
 alias psg='ps aux | grep'
