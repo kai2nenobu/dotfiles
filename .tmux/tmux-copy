@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case $(uname -o) in
+  "Cygwin")
+    cat > /dev/clipboard
+    ;;
+  "GNU/Linux")
+    xsel --input --clipboard
+    ;;
+esac
