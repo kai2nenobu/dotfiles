@@ -41,6 +41,11 @@ if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
   source $HOME/.rvm/scripts/rvm;
 fi
 
+# Cask path
+if [ -d "${HOME}/.cask" ]; then
+  export PATH="${HOME}/.cask/bin:$PATH"
+fi
+
 # set enviroment
 export PATH=${HOME}/.local/bin:$PATH
 export EDITOR=emacsclient
