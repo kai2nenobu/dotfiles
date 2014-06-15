@@ -55,4 +55,7 @@ export EXPERIMENT_MAIL='kai@gavo.t.u-tokyo.ac.jp'
 export LESS='-R'
 #export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/home/kai/.gvm/bin/gvm-init.sh" ]] && source "/home/kai/.gvm/bin/gvm-init.sh"
+
 echo "Load .profile"
