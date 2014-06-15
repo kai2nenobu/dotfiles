@@ -73,7 +73,11 @@ case $(uname -o) in
     }
     ;;
   "GNU/Linux")
-    alias open=xdg-open;;
+    alias open=xdg-open
+    alias apti='sudo apt-get install'
+    alias apts='apt-cache search'
+    alias aptsh='apt-cache show'
+    ;;
 esac
 
 echo "Load .bash_aliases."
