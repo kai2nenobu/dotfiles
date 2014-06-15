@@ -53,6 +53,10 @@ if which groovyclient &> /dev/null; then
     alias groovy=groovyclient
 fi
 
+if which gradle &> /dev/null; then
+    alias gradle='gradle --daemon'
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
