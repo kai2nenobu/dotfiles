@@ -13,15 +13,15 @@ key *Eisuu = *LeftControl
 mod Alt += !!Muhenkan
 #key *Muhenkan = *RightAlt
 ## 単独で押したら ESC にする(one shot modifier)
-key ~R-*M-Muhenkan = Escape #HankakuZenkaku
-key R-*M-Muhenkan = &Ignore
+#key ~R-*M-Muhenkan = Escape #HankakuZenkaku
+#key R-*M-Muhenkan = &Ignore
 
 ## 変換をCrtlにする。
 mod Ctrl += !!Henkan
 #key *Henkan = *RightControl
 ## 単独で押したら ENTER にする(one shot modifier)
-key ~R-*C-Henkan = Enter
-key R-*C-Henkan = &Ignore
+#key ~R-*C-Henkan = Enter
+#key R-*C-Henkan = &Ignore
 
 #スペースをshiftとして使用(SandS)
 mod Shift += !!!Space
