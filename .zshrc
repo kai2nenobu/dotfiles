@@ -466,11 +466,6 @@ if which mosh &> /dev/null; then
   compdef mosh=ssh
 fi
 
-if [ -d "${HOME}/.rbenv" ]; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
-
 # 自動で tmux を起動する
 if which tmux &> /dev/null && [ -z $TMUX ]; then
   if tmux has-session &> /dev/null; then
