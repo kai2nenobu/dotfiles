@@ -16,16 +16,11 @@ fi
 # OS specific settings
 case $(uname -o) in
   "Cygwin")
-    #mount -c /
-    # mount "$USERPROFILE" /home/$USERNAME
-    export OPEN=cygstart
     # Add cygwin specific bin dir to PATH recursivey
     if [ -d ${HOME}/cygwin-bin ]; then
       export PATH=$(find ${HOME}/cygwin-bin -type d | tr '\n' ':')$PATH
     fi
     ;;
-  "GNU/Linux")
-    export OPEN=gnome-open;;
 esac
 
 # Load RVM into a shell session *as a function*
