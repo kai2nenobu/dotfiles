@@ -41,6 +41,12 @@ if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
   source $HOME/.rvm/scripts/rvm;
 fi
 
+# rbenv
+if [ -d "${HOME}/.rbenv" ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
 # Cask path
 if [ -d "${HOME}/.cask" ]; then
   export PATH="${HOME}/.cask/bin:$PATH"
@@ -56,6 +62,6 @@ export LESS='-R'
 #export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/home/kai/.gvm/bin/gvm-init.sh" ]] && source "/home/kai/.gvm/bin/gvm-init.sh"
+[[ -s "${HOME}/.gvm/bin/gvm-init.sh" ]] && source "${HOME}/.gvm/bin/gvm-init.sh"
 
 echo "Load .profile"
