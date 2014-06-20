@@ -255,7 +255,7 @@ ${HOME}/Dropbox/lecture"
       grep -E "\.(pdf|txt|odp|odt|ods|docx?|xlsx?|pptx?)$" | percol --match-method migemo)
     if [ $? -eq 0 ]; then
       # $OPEN ${DOCUMENT_DIR}/$SELECTED_FILE
-      $OPEN $SELECTED_FILE
+      open $SELECTED_FILE
     fi
   }
   alias sd='search-document-by-percol'
