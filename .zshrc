@@ -259,6 +259,8 @@ ${HOME}/Dropbox/lecture"
     fi
   }
   alias sd='search-document-by-percol'
+  zle -N search-document-by-percol
+  bindkey '^Xd' search-document-by-percol
 
   ## Complete file name by percol
   autoload -Uz split-shell-arguments
