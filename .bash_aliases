@@ -75,6 +75,13 @@ case $(uname -o) in
         echo "$elevate doesn't exist." >&2
       fi
     }
+
+    function putclip() {
+      cat "$@" > /dev/clipboard
+    }
+    function getclip() {
+      cat /dev/clipboard
+    }
     ;;
   "GNU/Linux")
     alias open=xdg-open
