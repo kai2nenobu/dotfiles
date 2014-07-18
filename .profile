@@ -20,6 +20,7 @@ case $(uname -o) in
     if [ -d ${HOME}/cygwin-bin ]; then
       export PATH=$(find ${HOME}/cygwin-bin -type d | tr '\n' ':')$PATH
     fi
+    unset tmp temp # Use chocolatey in Cygwin
     ;;
 esac
 
