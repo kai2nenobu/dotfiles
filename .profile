@@ -21,6 +21,8 @@ case $(uname -o) in
       export PATH=$(find ${HOME}/cygwin-bin -type d | tr '\n' ':')$PATH
     fi
     unset tmp temp # Use chocolatey in Cygwin
+    # Ignore CR in shell scripts
+    export SHELLOPTS='igncr'
     ;;
 esac
 
