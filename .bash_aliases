@@ -92,4 +92,8 @@ case $(uname -o) in
     ;;
 esac
 
+function milliseconds() {
+  expr $(date +%s%N) / 1000000
+}
+
 echo "Load .bash_aliases."
