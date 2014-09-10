@@ -68,15 +68,6 @@ case $(uname -o) in
     alias aptsh='apt-cyg -u describe'
     alias ipconfig='ipconfig /all | nkf'
 
-    function sudo() {
-      elevate='C:/Windows/System32/Elevate.cmd'
-      if [ -e "$elevate" ]; then
-        "$elevate" "$@"
-      else
-        echo "$elevate doesn't exist." >&2
-      fi
-    }
-
     function putclip() {
       cat "$@" > /dev/clipboard
     }
