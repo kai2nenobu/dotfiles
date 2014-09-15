@@ -785,8 +785,8 @@ plugins.options["twitter_client.automatically_begin"] = true;
 plugins.options["twitter_client.popup_new_statuses"] = true;
 plugins.options["twitter_client.prefer_screen_name"] = true; // ID で表示
 plugins.options["twitter_client.use_jmp"] = false; // twitter 自前の短縮 URL を使用する
-plugins.options["twitter_client.lists"] = ["kbkbkbkb1/todai-orch", "kbkbkbkb1/eeic09",
-                                           "kbkbkbkb1/hobby", "kbkbkbkb1/emacs"];
+plugins.options["twitter_client.lists"] = ["kai2nenobu/todai-orch", "kai2nenobu/eeic09",
+                                           "kai2nenobu/hobby", "kai2nenobu/emacs"];
 // keymap
 plugins.options["twitter_client.keymap"] = {
     "C-z"   : "prompt-toggle-edit-mode",
