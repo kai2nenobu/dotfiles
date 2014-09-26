@@ -58,6 +58,11 @@ if which gradle &> /dev/null; then
     alias gradle='gradle --daemon'
 fi
 
+if which vagrant &> /dev/null; then
+  alias vssh='vagrant ssh'
+  alias vg='vagrant'
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
