@@ -623,7 +623,7 @@ key.setGlobalKey(['<f1>', 'r'], function (ev, arg) {
 //// 2011-04-28 (Thu)
 //// https://gist.github.com/945841
 //// 直前に選択したタブに移動
-if (typeof gBrowser !== 'undefined') {
+if (typeof gBrowser !== 'undefined' && gBrowser.tabContainer) {
     let previousSelectedTabIndex = gBrowser.tabContainer.selectedIndex;
     let currentSelectedTabIndex = previousSelectedTabIndex;
     gBrowser.tabContainer.addEventListener("TabSelect", function(){
