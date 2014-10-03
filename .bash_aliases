@@ -25,6 +25,15 @@ alias psg='ps aux | grep'
 # Javaのコメントと空行を削除（結構適当）
 alias delcomment='grep -E -v -e "^[[:space:]]*$" -e "^[[:space:]]*/[*/]" -e "^[[:space:]]*\\*/?"'
 
+# ldapsearchの検索結果をBASE64でデコードする
+# ldapsearchの各属性は1行であると仮定する（-o ldif-wrap-no オプションをつけるとよい）
+# バイナリデータをデコードするとめちゃくちゃになるので注意
+# ref. http://www.perlmonks.org/bare/?node_id=963814
+# ref. http://stackoverflow.com/questions/475074/regex-to-parse-or-validate-base64-data
+function ldapdecode() {
+  perl -MMIME::Base64 -n -00 -e 's/([^:]+)::\s*([-A-Za-z0-9+\/=]*)/$1 . ": " . decode_base64($2)/eg;print'
+}
+
 # git aliases
 if which git > /dev/null; then
   alias g='git'
