@@ -146,7 +146,7 @@ if which percol &> /dev/null; then
     local SELECTED
     local git_log_format='%h %ad | %s'    # %h should be at the top
     # select by percol
-    SELECTED=$(git --no-pager log --pretty=format:${git_log_format} --date short | \
+    SELECTED=$(git --no-pager log --pretty="format:${git_log_format}" --date short | \
       percol --match-method migemo)
     if [ $? -ne 0 ]; then       # When percol fails
       zle -R -c                 # abort and refresh
@@ -274,8 +274,8 @@ ${HOME}/Dropbox/lecture"
     local ARG=""
     local ARG_EXPAND=""
     local NEW_ARG=""
-    local OLD_CURSOR=$CURSOR
-    local OLD_IFS=$IFS
+    local OLD_CURSOR="$CURSOR"
+    local OLD_IFS="$IFS"
 
     ## Discriminate cursor position
     split-shell-arguments
@@ -300,7 +300,7 @@ ${HOME}/Dropbox/lecture"
       FILE=""
       CANDIDATES=$(ls -A $DIR 2> /dev/null)
     else    # Divide an argument into DIR and FILE
-      if echo $ARG_EXPAND | grep '/' &> /dev/null; then
+      if echo "$ARG_EXPAND" | grep '/' &> /dev/null; then
         DIR=${ARG_EXPAND%/*}
       else
         DIR=""
@@ -308,7 +308,7 @@ ${HOME}/Dropbox/lecture"
       FILE=${ARG_EXPAND##*/}
       CANDIDATES=$(ls -d ${ARG_EXPAND}* 2> /dev/null | sed "s@${DIR}/@@")
     fi
-    AMOUNT=$(echo $CANDIDATES | wc -l)
+    AMOUNT=$(echo "$CANDIDATES" | wc -l)
     if [ "$CANDIDATES" = "" ]; then # $CANDIDATES has no candidates
       CURSOR=$OLD_CURSOR
       zle -M "No candidates."
@@ -317,7 +317,7 @@ ${HOME}/Dropbox/lecture"
       SELECTED=$CANDIDATES
     elif [ $AMOUNT -ge 2 ]; then  # $CANDIDATES has many candidates
       # select by percol
-      SELECTED=$(echo -n $CANDIDATES | percol --match-method migemo)
+      SELECTED=$(echo -n "$CANDIDATES" | percol --match-method migemo)
       if [ $? -ne 0 ]; then   # When percol fail
         CURSOR=$OLD_CURSOR
         zle -R -c
@@ -327,25 +327,25 @@ ${HOME}/Dropbox/lecture"
 
     ## Insert file(s) to command line
     # Escape special keys an $HOME
-    SELECTED=$(echo -n $SELECTED | sed  -e 's@\([[!#&() ]\)@\\\1@g' \
+    SELECTED=$(echo -n "$SELECTED" | sed  -e 's@\([[!#&() ]\)@\\\1@g' \
       -e 's@\([]*;<>^{|}~]\)@\\\1@g' -e "s@'@\\\\'@g" -e "s@${HOME}/@~/@g")
-    DIR=$(echo -n $DIR | sed  -e 's@\([[!"#&() ]\)@\\\1@g' \
+    DIR=$(echo -n "$DIR" | sed  -e 's@\([[!"#&() ]\)@\\\1@g' \
       -e 's@\([]*;<>^{|}~]\)@\\\1@g' -e "s@'@\\\\'@g" -e "s@${HOME}/@~/@g")
     # Separate with newline only
     IFS="
 "
     if [ "$DIR" = "" ] && [ "$FILE" = "" ]; then # An argument is empty
-      for file in $(echo -n $SELECTED); do
+      for file in $(echo -n "$SELECTED"); do
         LBUFFER="$LBUFFER$file "
       done
     elif [ "$DIR" = "" ]; then
-      for file in $(echo -n $SELECTED); do
+      for file in $(echo -n "$SELECTED"); do
         NEW_ARG="$NEW_ARG$file "
       done
       modify-current-argument $NEW_ARG
       CURSOR=$(($CURSOR + ${#NEW_ARG} - ${#ARG}))
     else  # $DIR is not empty
-      for file in $(echo -n $SELECTED); do
+      for file in $(echo -n "$SELECTED"); do
         NEW_ARG="$NEW_ARG${DIR}/$file "
       done
       modify-current-argument $NEW_ARG
