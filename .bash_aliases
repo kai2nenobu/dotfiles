@@ -85,7 +85,7 @@ sed -e 's/^#+BEGIN_SRC emacs-lisp//' -e 's/^#+END_SRC//' > ${USER_EMACS_DIRECTOR
       echo "${CASK_FILE} does not exist." >&2
       exit 1
     fi
-    set -- $(sed -n -r 's@\(depends-on "([^"]a+)"\)@\1@ p' "${CASK_FILE}")
+    set -- $(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")
     emacs --batch --eval \
 "(progn
   (require 'package)
