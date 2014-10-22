@@ -71,6 +71,35 @@ if which vagrant &> /dev/null; then
   alias vg='vagrant'
 fi
 
+if which emacs &> /dev/null; then
+  export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
+
+  alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
+
+  alias emacs-extract-init="sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/p' ${USER_EMACS_DIRECTORY}/org-init.d/init.org | \
+sed -e 's/^#+BEGIN_SRC emacs-lisp//' -e 's/^#+END_SRC//' > ${USER_EMACS_DIRECTORY}/org-init.d/init.el"
+
+  function emacs-sync-cask() {
+    CASK_FILE="${USER_EMACS_DIRECTORY}/Cask"
+    if [ ! -f "${CASK_FILE}" ]; then
+      echo "${CASK_FILE} does not exist." >&2
+      exit 1
+    fi
+    set -- $(sed -n -r 's@\(depends-on "([^"]a+)"\)@\1@ p' "${CASK_FILE}")
+    emacs --batch --eval \
+"(progn
+  (require 'package)
+  (add-to-list 'package-archives '(\"melpa\" . \"http://melpa.milkbox.net/packages/\"))
+  (princ package-archives)
+  (package-initialize)
+  (package-refresh-contents)
+  (mapc #'package-install
+        (mapcar #'intern argv))
+  )" \
+    "$@"
+  }
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
