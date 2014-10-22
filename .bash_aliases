@@ -90,7 +90,6 @@ sed -e 's/^#+BEGIN_SRC emacs-lisp//' -e 's/^#+END_SRC//' > ${USER_EMACS_DIRECTOR
 "(progn
   (require 'package)
   (add-to-list 'package-archives '(\"melpa\" . \"http://melpa.milkbox.net/packages/\"))
-  (princ package-archives)
   (package-initialize)
   (package-refresh-contents)
   (mapc #'package-install
