@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+; Configure an editor to view a source of HTML on IE
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\View Source Editor]
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\View Source Editor\Editor Name]
+@="C:\\emacs\\bin\\emacsclientw.exe"
