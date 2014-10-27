@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+; Arrange the location of keys on a keyboad
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00, 00,00,00,00, \
+04,00,00,00, \
+; Caps Lock => Left Ctrl
+1d,00,3a,00, \
+; Henkan => Right Ctrl
+1d,e0,79,00, \
+; Muhenkan => Left Alt
+38,00,7b,00, \
+00,00,00,00
