@@ -41,6 +41,11 @@ if [ -d "${HOME}/.cask" ]; then
   export PATH="${HOME}/.cask/bin:$PATH"
 fi
 
+# evm path
+if [ -d "${HOME}/.evm" ]; then
+  export PATH="${HOME}/.evm/bin:$PATH"
+fi
+
 # set enviroment
 export PATH=${HOME}/.local/bin:$PATH
 export EDITOR=emacsclient
