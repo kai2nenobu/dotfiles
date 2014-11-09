@@ -76,8 +76,10 @@ if which emacs &> /dev/null; then
 
   alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
 
-  alias emacs-extract-init="sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/p' ${USER_EMACS_DIRECTORY}/org-init.d/init.org | \
-sed -e 's/^#+BEGIN_SRC emacs-lisp//' -e 's/^#+END_SRC//' > ${USER_EMACS_DIRECTORY}/org-init.d/init.el"
+  function emacs-extract-init() {
+    sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' ${USER_EMACS_DIRECTORY}/org-init.d/init.org | \
+      sed -e '/^#+BEGIN_SRC emacs-lisp/ d' -e '/^#+END_SRC/ d'> ${USER_EMACS_DIRECTORY}/org-init.d/init.el
+  }
 
   function emacs-sync-cask() {
     CASK_FILE="${USER_EMACS_DIRECTORY}/Cask"
