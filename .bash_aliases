@@ -71,6 +71,12 @@ if which vagrant &> /dev/null; then
   alias vg='vagrant'
 fi
 
+if which evm &> /dev/null; then
+  function emacsclient() {
+    "$(evm bin)client" "$@"
+  }
+fi
+
 if which emacs &> /dev/null; then
   export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
