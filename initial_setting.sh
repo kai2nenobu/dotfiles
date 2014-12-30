@@ -8,7 +8,7 @@ FontDir=${DropboxDir}/fonts
 ## make symbolic link to configuration files.
 ## ただのファイルなら Destination で別名を指定することができるはず
 ConfFiles=".aspell.conf .aspell.en.prepl .aspell.en.pws
-.bash_aliases .bashrc .latexmkrc .mayu .offlineimaprc
+.bash_aliases .bashrc .latexmkrc .mayu 
 .profile .rsense .tmux.conf .Xmodmap .zsh_aliases .zshrc"
 for ConfFile in $ConfFiles; do
     ln -f -s ${ConfDir}/${ConfFile} ${HOME}/${ConfFile}
@@ -17,10 +17,10 @@ done
 ## make symbolic link to directory
 ## ディレクトリの場合、Destination で別名にすることができない。
 ## ln -f -s ${DropboxDir}/.emacs.d ${HOME}/.emacs.d にすると無限ループになるので注意
-ln -f -s ${DropboxDir}/.emacs.d ${HOME}
+#ln -f -s ${DropboxDir}/.emacs.d ${HOME}
 ln -f -s ${DropboxDir}/bin ${HOME}
 
-dirs=".keysnail .lookup .percol.d"
+dirs=".keysnail .percol.d"
 for dir in $dirs; do
     ln -f -s ${ConfDir}/${dir} ${HOME}
 done
