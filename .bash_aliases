@@ -95,7 +95,7 @@ if which emacs &> /dev/null; then
     emacs --batch --eval \
 "(progn
   (require 'package)
-  (add-to-list 'package-archives '(\"melpa\" . \"http://melpa.milkbox.net/packages/\"))
+  (add-to-list 'package-archives '(\"melpa\" . \"http://melpa.org/packages/\"))
   (package-initialize)
   (package-refresh-contents)
   (mapc #'package-install
