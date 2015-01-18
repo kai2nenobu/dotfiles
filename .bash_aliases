@@ -12,12 +12,6 @@ alias less='less -r'
 alias du1='du -h --max-depth 1'
 alias updatedb='time updatedb --localpaths="$HOME" --prunepaths="$(find ${HOME} -name .git) ${HOME}/AppData"'
 
-if which emacs &> /dev/null; then
-   alias e='emacs'
-   alias ec='emacsclient -a vi'
-   EDITOR='emacsclient -a vi'
-fi
-
 alias tmux='tmux -2'
 alias t='tmux attach || tmux'
 alias psg='ps aux | grep'
@@ -78,6 +72,9 @@ if which evm &> /dev/null; then
 fi
 
 if which emacs &> /dev/null; then
+  alias e='emacs'
+  alias ec='emacsclient -a vi'
+  EDITOR='emacsclient -a vi'
   export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
   alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
