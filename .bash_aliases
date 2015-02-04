@@ -94,6 +94,8 @@ if which emacs &> /dev/null; then
     set -- $(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")
     emacs --batch --eval \
 "(progn
+  (set-language-environment \"Japanese\")
+  (prefer-coding-system 'utf-8)
   (require 'package)
   (add-to-list 'package-archives '(\"org\" . \"http://orgmode.org/elpa/\") t)
   (add-to-list 'package-archives '(\"melpa\" . \"http://melpa.org/packages/\") t)
