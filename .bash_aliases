@@ -124,6 +124,16 @@ case $(uname -o) in
     function getclip() {
       cat /dev/clipboard
     }
+    function domaincontroller() {
+      # ログイン中のドメインコントローラ名を表示する
+      local script=$(mktemp --tmpdir 'XXXXXXXXXX.vbs')
+      trap "rm -f $script" EXIT SIGINT
+      cat > "$script" <<EOF
+Set objDomain = GetObject("LDAP://rootDSE")
+Wscript.Echo objDomain.Get("dnsHostName")
+EOF
+      cscript /Nologo $(cygpath --windows "$script")
+    }
     ;;
   "GNU/Linux")
     alias open=xdg-open
