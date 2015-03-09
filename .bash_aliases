@@ -153,4 +153,19 @@ alias install-gvm='curl -s get.gvmtool.net | bash'
 alias install-evm="sudo mkdir -p /usr/local/evm && sudo chown $USER: /usr/local/evm && curl -fsSkL https://raw.github.com/rejeep/evm/master/go | bash"
 alias install-cask='curl -fsSkL https://raw.github.com/cask/cask/master/go | python'
 
+# project specific .gitignore
+function ignore-gradle() {
+  cat <<EOF
+/bin/
+/build/
+/target/
+/.gradle/
+
+# Eclipse
+/.classpath
+/.project
+/.settings/
+EOF
+}
+
 echo "Load .bash_aliases."
