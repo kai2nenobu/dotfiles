@@ -31,6 +31,7 @@ function ldapdecode() {
 if which git > /dev/null; then
   alias g='git'
   alias gs='git status'
+  alias gst='git stash'
   alias gl='git log'
   alias gla='git log --decorate --graph --all'
   alias glo='git log --decorate --graph --all --oneline'
@@ -39,6 +40,7 @@ if which git > /dev/null; then
   alias ga='git add'
   alias gco='git checkout'
   alias gb='git branch'
+  alias gp='git pull'
 fi
 
 if which nkf &> /dev/null; then
