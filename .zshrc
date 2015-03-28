@@ -24,21 +24,15 @@ setopt list_packed
 bindkey -e
 
 # VCS settings
-setopt prompt_subst
-export my_vcs_info
 
 function title {
     print -n "\e]0;$@\a"
     export TITLE="${(pj: :)@}"
 }
+
 precmd(){
   echo -ne "\033]0;$USER@`hostname`: $PWD\007"
   LANG=en_US.UTF-8
-  if git rev-parse --abbrev-ref HEAD &> /dev/null; then
-      my_vcs_info=" %F{green}($(git rev-parse --abbrev-ref HEAD))%f"
-  else
-      my_vcs_info=''
-  fi
 }
 
 function finish {
@@ -48,8 +42,7 @@ function finish {
   notify-send -t 0 'Finish command' "Take $((end - start)) seconds\n'$*'"
 }
 
-PROMPT="%B%{[32m%}%n@%m%{[m%}%b $ "
-RPROMPT='[%B%{[34m%}%~%{[34m%}%b${my_vcs_info}]'
+source "${HOME}/.zsh.d/prompt.sh"
 
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
