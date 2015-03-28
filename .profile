@@ -55,9 +55,6 @@ export EXPERIMENT_MAIL='kai@gavo.t.u-tokyo.ac.jp'
 export LESS='-R'
 #export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${HOME}/.gvm/bin/gvm-init.sh" ]] && source "${HOME}/.gvm/bin/gvm-init.sh"
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists

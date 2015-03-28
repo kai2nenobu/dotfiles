@@ -468,6 +468,9 @@ if which mosh &> /dev/null; then
   compdef mosh=ssh
 fi
 
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "${HOME}/.gvm/bin/gvm-init.sh" ]] && source "${HOME}/.gvm/bin/gvm-init.sh"
+
 # 自動で tmux を起動する
 if which tmux &> /dev/null && [ -z $TMUX ]; then
   if tmux has-session &> /dev/null; then
