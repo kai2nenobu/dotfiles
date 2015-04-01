@@ -1,5 +1,5 @@
 # Global alias を使ってみる
-alias -g L='| less -r'
+alias -g L='| less -R'
 alias -g H='| head'
 alias -g N='| nkf'
 alias -g T='| tail'
