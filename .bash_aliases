@@ -62,6 +62,10 @@ if which gradle &> /dev/null; then
     alias gradle='gradle --daemon'
 fi
 
+if which gw &> /dev/null; then
+    alias gw='gw --console rich'
+fi
+
 if which vagrant &> /dev/null; then
   alias vssh='vagrant ssh'
   alias vg='vagrant'
