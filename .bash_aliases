@@ -28,7 +28,7 @@ function ldapdecode() {
 }
 
 # git aliases
-if which git > /dev/null; then
+if which git &> /dev/null; then
   alias g='git'
   alias gs='git status'
   alias gst='git stash'
@@ -50,7 +50,7 @@ if which nkf &> /dev/null; then
     alias urldecode='nkf --url-input -xw'
 fi
 
-if which notifier > /dev/null; then
+if which notifier &> /dev/null; then
   alias finished="notifier 'Finished!' 'Come back here'"
 fi
 
