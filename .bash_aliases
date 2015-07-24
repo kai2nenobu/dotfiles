@@ -91,6 +91,7 @@ if which emacs &> /dev/null; then
 
   function emacs-extract-init() {
     sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' ${USER_EMACS_DIRECTORY}/org-init.d/init.org | \
+      sed -e '/^#+BEGIN_SRC emacs-lisp.*:tangle no/,/^#+END_SRC/ d' | \
       sed -e '/^#+BEGIN_SRC emacs-lisp/ d' -e '/^#+END_SRC/ d'> ${USER_EMACS_DIRECTORY}/org-init.d/init.el
     emacs --batch --eval "(byte-compile-file \"${USER_EMACS_DIRECTORY}/org-init.d/init.el\")"
   }
