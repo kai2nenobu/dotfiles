@@ -123,10 +123,9 @@ fi
 case $(uname -o) in
   "Cygwin")
     alias open=cygstart
-    alias apt-cyg='apt-cyg -u'
-    alias apti='apt-cyg -u install'
-    alias apts='apt-cyg -u find'
-    alias aptsh='apt-cyg -u describe'
+    alias apti='apt-cyg install'
+    alias apts='apt-cyg listall' 
+    alias aptsh='apt-cyg show'
     alias ipconfig='ipconfig /all | nkf'
 
     function putclip() {
