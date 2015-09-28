@@ -94,5 +94,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/kai/.sdkman"
+[[ -s "/home/kai/.sdkman/bin/sdkman-init.sh" ]] && source "/home/kai/.sdkman/bin/sdkman-init.sh"
 
 echo "Load .bashrc"
