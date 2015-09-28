@@ -12,8 +12,6 @@ alias less='less -R'
 alias du1='du -h --max-depth 1'
 alias updatedb='time updatedb --localpaths="$HOME" --prunepaths="$(find ${HOME} -name .git) ${HOME}/AppData"'
 
-alias tmux='tmux -2'
-alias t='tmux attach || tmux'
 alias psg='ps aux | grep'
 
 alias httpd-python='python -m SimpleHTTPServer 80'
@@ -30,6 +28,12 @@ alias delcomment='grep -E -v -e "^[[:space:]]*$" -e "^[[:space:]]*/[*/]" -e "^[[
 function ldapdecode() {
   perl -MMIME::Base64 -n -00 -e 's/\n //g;s/:: (\S+)/": " . decode_base64($1)/eg;print'
 }
+
+# tmux aliases
+if which tmux &> /dev/null; then
+  alias tmux='tmux -2'
+  alias t='tmux attach || tmux'
+fi 
 
 # git aliases
 if which git &> /dev/null; then
