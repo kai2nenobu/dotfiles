@@ -1,30 +1,32 @@
 #!/bin/sh -x
 # 一応 Ubuntu 用ということにしよう
 # ~/Dropbox がある前提で。
-DropboxDir=${HOME}/Dropbox
-ConfDir=${DropboxDir}/program_config
-FontDir=${DropboxDir}/fonts
+DropboxDir="${HOME}/Dropbox"
+ConfDir="${DropboxDir}/program_config"
+FontDir="${DropboxDir}/fonts"
+
+if [ ! -e "${DropboxDir}" ]; then
+  echo "Not found Dropbox directory: ${DropboxDir}" >&2
+  exit 1
+fi
 
 ## make symbolic link to configuration files.
 ## ただのファイルなら Destination で別名を指定することができるはず
-ConfFiles=".aspell.conf .aspell.en.prepl .aspell.en.pws
-.bash_aliases .bashrc .latexmkrc .mayu 
-.profile .rsense .tmux.conf .Xmodmap .zsh_aliases .zshrc"
-for ConfFile in $ConfFiles; do
-    ln -f -s ${ConfDir}/${ConfFile} ${HOME}/${ConfFile}
+Confs=".aspell.conf .aspell.en.prepl .aspell.en.pws
+.bash_aliases .bashrc .keysnail .latexmkrc .mayu .percol.d
+.profile .rsense .tmux .tmux.conf .Xmodmap .zsh.d  .zsh_aliases
+.zshrc"
+for Conf in $Confs; do
+  if [ -e "${ConfDir}/${Conf}" ]; then
+    ln -f -s "${ConfDir}/${Conf}" "${HOME}"
+  fi
 done
 
 ## make symbolic link to directory
 ## ディレクトリの場合、Destination で別名にすることができない。
 ## ln -f -s ${DropboxDir}/.emacs.d ${HOME}/.emacs.d にすると無限ループになるので注意
-#ln -f -s ${DropboxDir}/.emacs.d ${HOME}
-ln -f -s ${DropboxDir}/bin ${HOME}
-
-dirs=".keysnail .percol.d"
-for dir in $dirs; do
-    ln -f -s ${ConfDir}/${dir} ${HOME}
-done
-
+ln -f -s "${DropboxDir}/.emacs.d" "${HOME}"
+ln -f -s "${DropboxDir}/bin" "${HOME}"
 
 # ## configureation of mayu
 # ## sudo の仕方がわからない
@@ -38,11 +40,9 @@ done
 # fi
 
 ## install fonts
-UserFontDir=${HOME}/.fonts
-mkdir $UserFontDir
-for FontFile in $(find $FontDir -name '*.ttf'); do
-    cp -n $FontFile $UserFontDir
-done
+UserFontDir="${HOME}/.fonts"
+mkdir -p "$UserFontDir"
+find "$FontDir" -name '*.ttf' -type f | xargs cp -t "$UserFontDir"
 
 # ## keybind setting
 # gconftool --set '/apps/gnome_settings_daemon/keybindings/email' --type string '<Mod4>m'
@@ -58,7 +58,7 @@ done
 # gconftool --set '/desktop/gnome/keybindings/custom1/binding' --type string '<Mod4>t'
 
 ## To use ibus in Emacs
-cat >> ${HOME}/.Xresources <<EOF
+cat >> "${HOME}/.Xresources" <<EOF
 # To use ibus in Emacs
 Emacs*useXIM: false
 EOF
