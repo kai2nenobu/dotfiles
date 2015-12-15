@@ -38,7 +38,7 @@ fi
 # git aliases
 if which git &> /dev/null; then
   alias g='git'
-  alias gs='git status'
+  alias gs='git status --short --branch'
   alias gst='git stash'
   alias gl='git log'
   alias gla='git log --decorate --graph --all'
