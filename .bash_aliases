@@ -33,7 +33,7 @@ function ldapdecode() {
 if which tmux &> /dev/null; then
   alias tmux='tmux -2'
   alias t='tmux attach || tmux'
-fi 
+fi
 
 # git aliases
 if which git &> /dev/null; then
@@ -43,7 +43,7 @@ if which git &> /dev/null; then
   alias gl='git log'
   alias gla='git log --decorate --graph --all'
   alias glo='git log --decorate --graph --all --oneline'
-  alias gd='git diff'
+  alias gd='git diff --histogram'
   alias gc='git commit'
   alias ga='git add'
   alias gco='git checkout'
@@ -128,7 +128,7 @@ case $(uname -o) in
   "Cygwin")
     alias open=cygstart
     alias apti='apt-cyg install'
-    alias apts='apt-cyg listall' 
+    alias apts='apt-cyg listall'
     alias aptsh='apt-cyg show'
     alias ipconfig='ipconfig /all | nkf'
 
