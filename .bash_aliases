@@ -18,6 +18,9 @@ alias httpd-python='python -m SimpleHTTPServer 80'
 alias httpd-python3='python -m http.server 80'
 alias httpd-ruby='ruby -run -e httpd . -p 80'
 
+# repair broken prompt (like after cat a binary file)
+alias clear2="echo -e '\ec'"
+
 # Javaのコメントと空行を削除（結構適当）
 alias delcomment='grep -E -v -e "^[[:space:]]*$" -e "^[[:space:]]*/[*/]" -e "^[[:space:]]*\\*/?"'
 
