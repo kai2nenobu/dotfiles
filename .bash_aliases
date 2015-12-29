@@ -52,6 +52,7 @@ if which git &> /dev/null; then
   alias gco='git checkout'
   alias gb='git branch'
   alias gp='git pull'
+  alias gn='git now --all --stat'
 fi
 
 if which nkf &> /dev/null; then
