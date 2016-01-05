@@ -33,6 +33,11 @@ function ldapdecode() {
 }
 
 # tmux aliases
+if which docker-machine &> /dev/null; then
+  alias dm='docker-machine'
+fi
+
+# tmux aliases
 if which tmux &> /dev/null; then
   alias tmux='tmux -2'
   alias t='tmux attach || tmux'
