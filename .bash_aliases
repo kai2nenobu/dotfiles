@@ -83,6 +83,10 @@ if which gw &> /dev/null; then
     alias gw='gw --console rich'
 fi
 
+if which lazybones &> /dev/null; then
+  alias lb='lazybones'
+fi
+
 if which vagrant &> /dev/null; then
   alias vssh='vagrant ssh'
   alias vg='vagrant'
