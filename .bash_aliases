@@ -177,6 +177,7 @@ function milliseconds() {
 # tool install
 alias install-rbenv='git clone https://github.com/sstephenson/rbenv.git ~/.rbenv && git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build'
 alias install-gvm='curl -s get.gvmtool.net | bash'
+alias install-sdkman='curl -s http://get.sdkman.io | bash'
 alias install-evm="sudo mkdir -p /usr/local/evm && sudo chown $USER: /usr/local/evm && curl -fsSkL https://raw.github.com/rejeep/evm/master/go | bash"
 alias install-cask='curl -fsSkL https://raw.github.com/cask/cask/master/go | python'
 
