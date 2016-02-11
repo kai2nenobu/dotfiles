@@ -223,12 +223,6 @@ key.setGlobalKey(["C-x", "C-r"], function (ev, arg) {
     ext.exec("restart-firefox", arg, ev);
 }, 'Firefoxを再起動する', true);
 
-//// プロンプト内でスペルチェック
-//// http://keysnail.g.hatena.ne.jp/mooz/20111129/1322537423
-let (p = document.querySelector("#keysnail-prompt-textbox")) {
-  p && p.setAttribute("spellcheck", "true");
-};
-
 //// 選択文字列で google 検索
 //// http://keysnail.g.hatena.ne.jp/mooz/20100318/1268923913
 key.defineKey([key.modes.CARET, key.modes.VIEW], 's', function (ev, arg) {
