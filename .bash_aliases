@@ -32,9 +32,19 @@ function ldapdecode() {
   perl -MMIME::Base64 -n -00 -e 's/\n //g;s/:: (\S+)/": " . decode_base64($1)/eg;print'
 }
 
-# tmux aliases
+# docker aliases
 if which docker-machine &> /dev/null; then
+  alias d='docker'
   alias dm='docker-machine'
+
+  ## dockerイメージ内で稼働しているサービスにアクセスできる "IP:PORT" を出力する関数
+  function d-address() {
+    local name=${1:?Specify a name of docker image}
+    local port=${2:?Specify a port number}
+    printf "%s:%s" \
+           $(docker-machine ip) \
+           $(docker port "$(docker ps -q -f name=$name)" "$port" | cut -d: -f2)
+  }
 fi
 
 # tmux aliases
