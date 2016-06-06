@@ -147,6 +147,11 @@ if which emacs &> /dev/null; then
   }
 fi
 
+if which winpty &> /dev/null; then
+  alias irb='winpty irb.cmd'
+  alias kotlinc='winpty kotlinc.bat'
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
