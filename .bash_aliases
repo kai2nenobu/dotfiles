@@ -68,7 +68,35 @@ if which git &> /dev/null; then
   alias gb='git branch'
   alias gp='git pull'
   alias gn='git now --all --stat'
-  alias git-start='git init; git commit --allow-empty -m "First empty commit"'
+
+  function git-start() {
+    local user=
+    local email=
+    local message="First empty commit"
+    while getopts :u:e:m: OPT; do
+      case $OPT in
+        u|+u)
+          user="$OPTARG"
+          ;;
+        e|+e)
+          email="$OPTARG"
+          ;;
+        m|+m)
+          message="$OPTARG"
+          ;;
+        *)
+          echo "usage: ${0##*/} [+-u ARG] [+-e ARG] [+-m ARG} [--] ARGS..."
+          exit 2
+      esac
+    done
+    shift $(( OPTIND - 1 ))
+    OPTIND=1
+
+    git init
+    [ -n "$user" ]  && git config user.name  "$user"
+    [ -n "$email" ] && git config user.email "$email"
+    git commit --allow-empty -m "$message"
+  }
 fi
 
 if which nkf &> /dev/null; then
