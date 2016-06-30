@@ -68,6 +68,7 @@ if which git &> /dev/null; then
   alias gb='git branch'
   alias gp='git pull'
   alias gn='git now --all --stat'
+  alias gam='git commmit --amend --no-edit'
 
   function git-start() {
     local user=
