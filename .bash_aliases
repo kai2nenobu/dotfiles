@@ -36,6 +36,7 @@ function ldapdecode() {
 if which docker-machine &> /dev/null; then
   alias d='docker'
   alias dm='docker-machine'
+  alias dc='docker-compose'
 
   ## dockerイメージ内で稼働しているサービスにアクセスできる "IP:PORT" を出力する関数
   function d-address() {
