@@ -32,6 +32,10 @@ function ldapdecode() {
   perl -MMIME::Base64 -n -00 -e 's/\n //g;s/:: (\S+)/": " . decode_base64($1)/eg;print'
 }
 
+# UTF-8 BOMの付け外し
+alias append_bom="sed '1s/^\(\xef\xbb\xbf\)\?/\xef\xbb\xbf/'"
+alias remove_bom="sed '1s/^\xef\xbb\xbf//'"
+
 # docker aliases
 if which docker-machine &> /dev/null; then
   alias d='docker'
