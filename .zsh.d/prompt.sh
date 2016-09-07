@@ -7,6 +7,13 @@ export _prompt_vcs_branch
 function _precmd_vcs_branch {
   if git rev-parse --abbrev-ref HEAD &> /dev/null; then
     _prompt_vcs_branch=" %F{green}($(git rev-parse --abbrev-ref HEAD))%f"
+  elif svn info . &> /dev/null; then # svn command not found, or not in working copy
+    local branch=$(svn info . | grep Relative | grep -E -o '\^/([^/]+/)*(trunk|branches/[^/]+)')
+    if [ $? -eq 0 ]; then
+      _prompt_vcs_branch=" %F{green}($branch)%f"
+    else
+      _prompt_vcs_branch=''
+    fi
   else
     _prompt_vcs_branch=''
   fi
