@@ -6,5 +6,6 @@ alias -g T='| tail'
 alias -g G='| grep'
 alias -g P='| percol'
 alias -g S='| sort'
+alias -g D='| colordiff | less -R'
 
 echo "Load .zsh_aliases."
