@@ -92,7 +92,7 @@ if which git &> /dev/null; then
           ;;
         *)
           echo "usage: ${0##*/} [+-u ARG] [+-e ARG] [+-m ARG} [--] ARGS..."
-          exit 2
+          return 2
       esac
     done
     shift $(( OPTIND - 1 ))
