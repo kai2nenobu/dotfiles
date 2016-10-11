@@ -74,6 +74,14 @@ if which git &> /dev/null; then
   alias gp='git pull'
   alias gn='git now --all --stat'
   alias gam='git commmit --amend --no-edit'
+  # git svn
+  alias gsb='git svn branch'
+  alias gsc='git svn dcommit'
+  alias gsi='git svn info'
+  alias gsl='git svn log'
+  alias gsr='git svn rebase'
+  alias gss='git svn status'
+  alias gsf='git svn fetch'
 
   function git-start() {
     local user=
