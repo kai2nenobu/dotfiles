@@ -1,11 +1,11 @@
 # Global alias を使ってみる
 alias -g L='| less -R'
-alias -g H='| head'
 alias -g N='| nkf'
 alias -g T='| tail'
 alias -g G='| grep'
 alias -g P='| percol'
 alias -g S='| sort'
 alias -g D='| colordiff | less -R'
+alias -g H='| hexdump -C'
 
 echo "Load .zsh_aliases."
