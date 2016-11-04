@@ -239,6 +239,19 @@ alias install-sdkman='curl -s http://get.sdkman.io | bash'
 alias install-evm="sudo mkdir -p /usr/local/evm && sudo chown $USER: /usr/local/evm && curl -fsSkL https://raw.github.com/rejeep/evm/master/go | bash"
 alias install-cask='curl -fsSkL https://raw.github.com/cask/cask/master/go | python'
 alias install-gibo='curl -sL https://raw.github.com/simonwhitaker/gibo/master/gibo -o ~/bin/gibo && chmod +x ~/bin/gibo && gibo -u'
+install-nkf() {
+  local tmpdir=$(mktemp --tmpdir --directory)
+  # execute in subprocess
+  (
+  cd "$tmpdir"
+  wget -O nkf.tar.gz 'https://osdn.net/frs/redir.php?m=jaist&f=%2Fnkf%2F64158%2Fnkf-2.1.4.tar.gz'
+  tar -xvf nkf.tar.gz
+  cd nkf-2.1.4
+  make
+  make install
+  )
+  rm -rf "$tmpdir"
+}
 
 # project specific .gitignore
 function ignore-gradle() {
