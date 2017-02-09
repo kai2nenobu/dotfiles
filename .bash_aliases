@@ -244,7 +244,7 @@ install-nkf() {
   # execute in subprocess
   (
   cd "$tmpdir"
-  wget -O nkf.tar.gz 'https://osdn.net/frs/redir.php?m=jaist&f=%2Fnkf%2F64158%2Fnkf-2.1.4.tar.gz'
+  curl -o nkf.tar.gz 'https://osdn.net/frs/redir.php?m=jaist&f=%2Fnkf%2F64158%2Fnkf-2.1.4.tar.gz'
   tar -xvf nkf.tar.gz
   cd nkf-2.1.4
   make
