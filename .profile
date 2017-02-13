@@ -22,6 +22,7 @@ case $(uname -o) in
     fi
     # Ignore CR in shell scripts
     export SHELLOPTS='igncr'
+    export JAVA_OPTS='-Dfile.encoding=UTF-8'
     ;;
 esac
 
