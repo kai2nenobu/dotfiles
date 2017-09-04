@@ -1,0 +1,104 @@
+#!/bin/bash
+
+set -euC
+
+## Detect Clipboard Implementation
+##
+## Possible implementation
+## - dev (if exists "/dev/clipboard" file)
+## - win (if exists "clip.exe" command)
+## - xsel (if exists "xsel" command)
+detect_implementation() {
+  if [ -e "/dev/clipboard" ]; then
+    impl=dev
+  elif which clip.exe > /dev/null 2>&1; then
+    impl=win
+  elif which xsel > /dev/null 2>&1; then
+    impl=xsel
+  else
+    echo 'Cannot detect a interface to access clipboard.' >&2
+    exit 2
+  fi
+  printf '%s' $impl
+}
+
+## /dev/clipboard (Cygwin, Git for Windows)
+dev_write_clipboard() {
+  cat > /dev/clipboard
+}
+
+dev_read_clipboard() {
+  cat /dev/clipboard
+}
+
+## Windows (Bash on Ubuntu on Windows)
+win_write_clipboard() {
+  clip.exe 2> /dev/null
+}
+
+win_read_clipboard() {
+  powershell.exe -Sta "Add-Type -as System.Windows.Forms; [System.Console]::Write([windows.forms.clipboard]::GetText())" 2> /dev/null
+}
+
+## xsel
+xsel_write_clipboard() {
+  xsel --clipboard --input
+}
+
+xsel_read_clipboard() {
+  xsel --clipboard --output
+}
+
+
+usage() {
+  cat >&2 <<EOF
+Usage:
+  ${0##*/} [-h] [-c [FILE]]
+
+Description:
+  Read or Write on clipboard.
+  One of "/dev/clipboard", "clip.exe" or "xsel" is required.
+
+Options:
+  -h:         Show this help message.
+  -c [FILE]:  Write a FILE content on clipboard.
+              if FILE is omitted, Write standard input instead.
+
+EOF
+}
+
+## Read options
+file=-
+is_read=true
+while [ $# -gt 0 ]; do
+  arg=$1
+  if [ "${arg:0:1}" = '-' ]; then  # Start with '-'
+    opt=${arg:1}
+    case $opt in
+      h)
+        usage
+        exit 0
+        ;;
+      c)
+        is_read=false
+        if [ $# -gt 1 ]; then
+          file=$2
+          shift 1
+        fi
+        ;;
+      *)
+        usage
+        exit 1
+        ;;
+    esac
+  fi
+  shift 1
+done
+
+impl=$(detect_implementation)
+
+if $is_read; then
+  ${impl}_read_clipboard
+else
+  cat "$file" | ${impl}_write_clipboard
+fi
