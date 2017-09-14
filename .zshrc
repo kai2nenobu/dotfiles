@@ -1,4 +1,8 @@
 # -*- mode: sh -*-
+
+[[ $- != *i* ]] && return  # Return immediately if non-interactive shell
+[[ -z "$TMUX" ]] && which tmux > /dev/null && exec tmux  # Automatically start tmux session
+
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
