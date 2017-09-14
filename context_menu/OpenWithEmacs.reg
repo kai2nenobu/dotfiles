@@ -1,0 +1,24 @@
+Windows Registry Editor Version 5.00
+
+;;;; Add context menu item to open in emacs
+
+;; For files
+[HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs]
+@="Open with Emacs"
+"Icon"="C:\\emacs\\bin\\emacs.exe"
+[HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs\command]
+@="C:\\emacs\\bin\\emacsclientw.exe \"%1\""
+
+;; For directories
+[HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs]
+@="Open with Emacs"
+"Icon"="C:\\emacs\\bin\\emacs.exe"
+[HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs\command]
+@="C:\\emacs\\bin\\emacsclientw.exe \"%L\""
+
+;; For explorer background
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs]
+@="Open with Emacs"
+"Icon"="C:\\emacs\\bin\\emacs.exe"
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs\command]
+@="C:\\emacs\\bin\\emacsclientw.exe \"%V\""
