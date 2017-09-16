@@ -4,21 +4,21 @@ Windows Registry Editor Version 5.00
 
 ;; For files
 [HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs]
-@="Open with Emacs"
+@="Open with Emacs (&E)"
 "Icon"="C:\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs\command]
 @="C:\\emacs\\bin\\emacsclientw.exe \"%1\""
 
 ;; For directories
 [HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs]
-@="Open with Emacs"
+@="Open with Emacs (&E)"
 "Icon"="C:\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs\command]
 @="C:\\emacs\\bin\\emacsclientw.exe \"%L\""
 
 ;; For explorer background
 [HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs]
-@="Open with Emacs"
+@="Open with Emacs (&E)"
 "Icon"="C:\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs\command]
 @="C:\\emacs\\bin\\emacsclientw.exe \"%V\""
