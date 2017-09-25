@@ -42,6 +42,14 @@ if which docker-machine &> /dev/null; then
   alias dm='docker-machine'
   alias dc='docker-compose'
 
+  ## 指定したdocker-machineを起動すると、共に環境変数を設定する
+  function docker-env() {
+    local machine=${1:-default}
+    docker-machine ls | grep "$machine" | grep 'Running' || \
+      docker-machine start "$machine"
+    eval "$(docker-machine env "$machine")"
+  }
+
   ## dockerイメージ内で稼働しているサービスにアクセスできる "IP:PORT" を出力する関数
   function d-address() {
     local name=${1:?Specify a name of docker image}

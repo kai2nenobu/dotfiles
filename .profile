@@ -27,13 +27,6 @@ case $(uname -o) in
     ;;
 esac
 
-# Load docker-machine environment
-if which docker-machine &> /dev/null; then
-  docker-machine ls | grep 'default' | grep 'Running' || \
-    docker-machine start 'default'
-  eval "$(docker-machine env default)"
-fi
-
 # Load RVM into a shell session *as a function*
 if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
   source $HOME/.rvm/scripts/rvm;
