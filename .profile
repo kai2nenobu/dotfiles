@@ -10,7 +10,7 @@ umask 022
 
 # set PATH so it includes user's private bin if it exists
 private_paths=("$HOME/bin" "$HOME/utils")
-for p in "$private_paths[@]"; do
+for p in "${private_paths[@]}"; do
   [ -d "$p" ] && export PATH="$p:$PATH"
 done
 
