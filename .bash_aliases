@@ -202,6 +202,20 @@ if which winpty &> /dev/null; then
   alias kotlinc='winpty kotlinc.bat'
 fi
 
+if which powershell &> /dev/null && which cygpath &> /dev/null; then
+  function sudo-bash() {
+    argList=$(printf ",'%s'" "$@")
+    argList=${argList:1}
+    powershell -NoProfile -Command "Start-Process '$(cygpath -am /)bin/bash' -ArgumentList $argList -Verb runas"
+  }
+
+  function sudo-sh() {
+    argList=$(printf ",'%s'" "$@")
+    argList=${argList:1}
+    powershell -NoProfile -Command "Start-Process '$(cygpath -am /)bin/sh' -ArgumentList $argList -Verb runas"
+  }
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
