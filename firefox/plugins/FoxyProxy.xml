@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<foxyproxy mode="patterns" selectedTabIndex="0" toolbaricon="true" toolsMenu="true" contextMenu="true" advancedMenus="false" previousMode="disabled" resetIconColors="true" useStatusBarPrefix="true" excludePatternsFromCycling="false" excludeDisabledFromCycling="false" ignoreProxyScheme="false" apiDisabled="false" proxyForVersionCheck="2373087660">
+<foxyproxy mode="disabled" selectedTabIndex="0" toolbaricon="true" toolsMenu="true" contextMenu="true" advancedMenus="false" previousMode="patterns" resetIconColors="true" useStatusBarPrefix="true" excludePatternsFromCycling="false" excludeDisabledFromCycling="false" ignoreProxyScheme="false" apiDisabled="false" proxyForVersionCheck="2373087660">
   <random includeDirect="false" includeDisabled="false"/>
   <statusbar icon="true" text="false" left="options" middle="cycle" right="contextmenu" width="0"/>
   <toolbar left="options" middle="cycle" right="contextmenu"/>
@@ -16,15 +16,15 @@
   </quickadd>
   <defaultPrefs origPrefetch="18"/>
   <proxies>
-    <proxy name="ConnectHome" id="811264605" notes="opensshでダイナミックフォワーディングしてSOCKSプロキシとして活用する。" fromSubscription="false" enabled="true" mode="manual" selectedTabIndex="2" lastresort="false" animatedIcons="true" includeInCycle="true" color="#00CBE6" proxyDNS="true" noInternalIPs="false" autoconfMode="pac" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
+    <proxy name="ConnectHome" id="811264605" notes="opensshでダイナミックフォワーディングしてSOCKSプロキシとして活用する。" fromSubscription="false" enabled="true" mode="manual" selectedTabIndex="1" lastresort="false" animatedIcons="true" includeInCycle="true" color="#00CBE6" proxyDNS="true" noInternalIPs="false" autoconfMode="pac" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
       <matches>
         <match enabled="true" name="ホームネットワーク" pattern="^https?://[-0-9a-zA-Z]+\.kaichan\.info(?::[0-9]+)?/.*$" isRegEx="true" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false"/>
       </matches>
       <autoconf url="" loadNotification="true" errorNotification="true" autoReload="false" reloadFreqMins="60" disableOnBadPAC="true"/>
       <autoconf url="http://wpad/wpad.dat" loadNotification="true" errorNotification="true" autoReload="false" reloadFreqMins="60" disableOnBadPAC="true"/>
-      <manualconf host="127.0.0.1" port="5000" socksversion="5" isSocks="true" isHttps="false" username="" password="" domain=""/>
+      <manualconf host="127.0.0.1" port="1080" socksversion="5" isSocks="true" isHttps="false" username="" password="" domain=""/>
     </proxy>
-    <proxy name="デフォルト" id="2373087660" notes="URL に一致するパターンがない場合用の設定です。" fromSubscription="false" enabled="true" mode="auto" selectedTabIndex="1" lastresort="true" animatedIcons="false" includeInCycle="false" color="#0055E5" proxyDNS="true" noInternalIPs="false" autoconfMode="wpad" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
+    <proxy name="デフォルト" id="2373087660" notes="URL に一致するパターンがない場合用の設定です。" fromSubscription="false" enabled="true" mode="auto" selectedTabIndex="0" lastresort="true" animatedIcons="false" includeInCycle="false" color="#0055E5" proxyDNS="true" noInternalIPs="false" autoconfMode="wpad" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
       <matches>
         <match enabled="true" name="すべて" pattern="*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false"/>
       </matches>
