@@ -1,2 +1,2 @@
-#!/bin/bash
-$* |& iconv -f cp932 -t utf-8
+#!/bin/sh
+$* 2>&1 | iconv -f cp932 -t utf-8
