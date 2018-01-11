@@ -15,7 +15,7 @@
           "active": true,
           "pattern": "^(?:[-_a-zA-Z0-9]+.kaichan.info(?::[0-9]+)?)$",
           "type": 2,
-          "protocols": 4
+          "protocols": 1
         }
       ],
       "blackPatterns": [
