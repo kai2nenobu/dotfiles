@@ -14,15 +14,15 @@ key *IC-*I- =
 mod Alt += !!無変換
 #key *無変換 = *RightAlt
 ## 単独で押したら ESC にする(one shot modifier)
-key ~R-*M-無変換 = Escape #半角/全角
-key R-*M-無変換 = &Ignore
+#key ~R-*M-無変換 = Escape #半角/全角
+#key R-*M-無変換 = &Ignore
 
 ## 変換をCrtlにする。
 mod Ctrl += !!変換
 #key *変換 = *RightControl
 ## 単独で押したら ENTER にする(one shot modifier)
-key ~R-*C-変換 = Enter
-key R-*C-変換 = &Ignore
+#key ~R-*C-変換 = Enter
+#key R-*C-変換 = &Ignore
 
 #スペースをshiftとして使用(SandS)
 mod Shift += !!!Space
