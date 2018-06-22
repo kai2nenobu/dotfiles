@@ -40,7 +40,7 @@ alias append_bom="sed '1s/^\(\xef\xbb\xbf\)\?/\xef\xbb\xbf/'"
 alias remove_bom="sed '1s/^\xef\xbb\xbf//'"
 
 # docker aliases
-if which docker-machine &> /dev/null; then
+if type docker-machine &> /dev/null; then
   alias d='docker'
   alias dm='docker-machine'
   alias dc='docker-compose'
@@ -70,13 +70,13 @@ function print256colours() {
 }
 
 # tmux aliases
-if which tmux &> /dev/null; then
+if type tmux &> /dev/null; then
   alias tmux='tmux -2'
   alias t='tmux attach || tmux'
 fi
 
 # git aliases
-if which git &> /dev/null; then
+if type git &> /dev/null; then
   alias g='git'
   alias gs='git status --short --branch'
   alias gst='git stash'
@@ -130,45 +130,45 @@ if which git &> /dev/null; then
   }
 fi
 
-if which nkf &> /dev/null; then
+if type nkf &> /dev/null; then
     # 半角カナをそのまま処理する。改行は削除される。UTF-8で出力
     alias urlencode='nkf -xwMQ | sed "s/=$//" | tr -d "\n" | tr = %'
     # 半角カナはそのまま処理する。UTF-8で出力
     alias urldecode='nkf --url-input -xw'
 fi
 
-if which notifier &> /dev/null; then
+if type notifier &> /dev/null; then
   alias finished="notifier 'Finished!' 'Come back here'"
 fi
 
-if which groovyclient &> /dev/null; then
+if type groovyclient &> /dev/null; then
     alias groovy=groovyclient
 fi
 
-if which gradle &> /dev/null; then
+if type gradle &> /dev/null; then
     alias gradle='gradle --daemon'
 fi
 
-if which gw &> /dev/null; then
+if type gw &> /dev/null; then
     alias gw='gw --console rich'
 fi
 
-if which lazybones &> /dev/null; then
+if type lazybones &> /dev/null; then
   alias lb='lazybones'
 fi
 
-if which vagrant &> /dev/null; then
+if type vagrant &> /dev/null; then
   alias vssh='vagrant ssh'
   alias vg='vagrant'
 fi
 
-if which evm &> /dev/null; then
+if type evm &> /dev/null; then
   function emacsclient() {
     "$(evm bin)client" "$@"
   }
 fi
 
-if which emacs &> /dev/null; then
+if type emacs &> /dev/null; then
   alias e='emacs'
   alias ec='emacsclient -a vi'
   EDITOR='emacsclient -a vi'
@@ -206,12 +206,12 @@ if which emacs &> /dev/null; then
   }
 fi
 
-if which winpty &> /dev/null; then
+if type winpty &> /dev/null; then
   alias irb='winpty irb.cmd'
   alias kotlinc='winpty kotlinc.bat'
 fi
 
-if which powershell &> /dev/null && which cygpath &> /dev/null; then
+if type powershell &> /dev/null && type cygpath &> /dev/null; then
   function sudo-bash() {
     argList=$(printf ",'%s'" "$@")
     argList=${argList:1}
