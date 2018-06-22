@@ -69,12 +69,6 @@ function print256colours() {
   bash -c "$(curl -s 'https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/e50a28ec54188d2413518788de6c6367ffcea4f7/print256colours.sh')"
 }
 
-# tmux aliases
-if type tmux &> /dev/null; then
-  alias tmux='tmux -2'
-  alias t='tmux attach || tmux'
-fi
-
 # git aliases
 if type git &> /dev/null; then
   alias g='git'
@@ -141,18 +135,6 @@ if type notifier &> /dev/null; then
   alias finished="notifier 'Finished!' 'Come back here'"
 fi
 
-if type groovyclient &> /dev/null; then
-    alias groovy=groovyclient
-fi
-
-if type gradle &> /dev/null; then
-    alias gradle='gradle --daemon'
-fi
-
-if type gw &> /dev/null; then
-    alias gw='gw --console rich'
-fi
-
 if type lazybones &> /dev/null; then
   alias lb='lazybones'
 fi
@@ -160,12 +142,6 @@ fi
 if type vagrant &> /dev/null; then
   alias vssh='vagrant ssh'
   alias vg='vagrant'
-fi
-
-if type evm &> /dev/null; then
-  function emacsclient() {
-    "$(evm bin)client" "$@"
-  }
 fi
 
 if type emacs &> /dev/null; then
