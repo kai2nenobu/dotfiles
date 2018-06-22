@@ -40,28 +40,26 @@ alias append_bom="sed '1s/^\(\xef\xbb\xbf\)\?/\xef\xbb\xbf/'"
 alias remove_bom="sed '1s/^\xef\xbb\xbf//'"
 
 # docker aliases
-if type docker-machine &> /dev/null; then
-  alias d='docker'
-  alias dm='docker-machine'
-  alias dc='docker-compose'
+alias d='docker'
+alias dm='docker-machine'
+alias dc='docker-compose'
 
-  ## 指定したdocker-machineを起動すると、共に環境変数を設定する
-  function docker-env() {
-    local machine=${1:-default}
-    docker-machine ls | grep "$machine" | grep 'Running' || \
-      docker-machine start "$machine"
-    eval "$(docker-machine env "$machine")"
-  }
+## 指定したdocker-machineを起動すると、共に環境変数を設定する
+function docker-env() {
+  local machine=${1:-default}
+  docker-machine ls | grep "$machine" | grep 'Running' || \
+    docker-machine start "$machine"
+  eval "$(docker-machine env "$machine")"
+}
 
-  ## dockerイメージ内で稼働しているサービスにアクセスできる "IP:PORT" を出力する関数
-  function d-address() {
-    local name=${1:?Specify a name of docker image}
-    local port=${2:?Specify a port number}
-    printf "%s:%s" \
-           $(docker-machine ip) \
-           $(docker port "$(docker ps -q -f name=$name)" "$port" | cut -d: -f2)
-  }
-fi
+## dockerイメージ内で稼働しているサービスにアクセスできる "IP:PORT" を出力する関数
+function d-address() {
+  local name=${1:?Specify a name of docker image}
+  local port=${2:?Specify a port number}
+  printf "%s:%s" \
+         $(docker-machine ip) \
+         $(docker port "$(docker ps -q -f name=$name)" "$port" | cut -d: -f2)
+}
 
 # Print 256 colors
 function print256colours() {
@@ -70,103 +68,92 @@ function print256colours() {
 }
 
 # git aliases
-if type git &> /dev/null; then
-  alias g='git'
-  alias gs='git status --short --branch'
-  alias gst='git stash'
-  alias gl='git log'
-  alias gla='git log --decorate --graph --all'
-  alias glo='git log --decorate --graph --all --oneline'
-  alias gd='git diff --histogram'
-  alias gc='git commit'
-  alias ga='git add'
-  alias gco='git checkout'
-  alias gb='git branch'
-  alias gp='git pull'
-  alias gn='git now --all --stat'
-  alias gam='git commmit --amend --no-edit'
-  # git svn
-  alias gsb='git svn branch'
-  alias gsc='git svn dcommit'
-  alias gsi='git svn info'
-  alias gsl='git svn log'
-  alias gsr='git svn rebase'
-  alias gss='git svn status'
-  alias gsf='git svn fetch'
+alias g='git'
+alias gs='git status --short --branch'
+alias gst='git stash'
+alias gl='git log'
+alias gla='git log --decorate --graph --all'
+alias glo='git log --decorate --graph --all --oneline'
+alias gd='git diff --histogram'
+alias gc='git commit'
+alias ga='git add'
+alias gco='git checkout'
+alias gb='git branch'
+alias gp='git pull'
+alias gn='git now --all --stat'
+alias gam='git commmit --amend --no-edit'
+# git svn
+alias gsb='git svn branch'
+alias gsc='git svn dcommit'
+alias gsi='git svn info'
+alias gsl='git svn log'
+alias gsr='git svn rebase'
+alias gss='git svn status'
+alias gsf='git svn fetch'
 
-  function git-start() {
-    local user=
-    local email=
-    local message="First empty commit"
-    while getopts :u:e:m: OPT; do
-      case $OPT in
-        u|+u)
-          user="$OPTARG"
-          ;;
-        e|+e)
-          email="$OPTARG"
-          ;;
-        m|+m)
-          message="$OPTARG"
-          ;;
-        *)
-          echo "usage: ${0##*/} [+-u ARG] [+-e ARG] [+-m ARG} [--] ARGS..."
-          return 2
-      esac
-    done
-    shift $(( OPTIND - 1 ))
-    OPTIND=1
+function git-start() {
+  local user=
+  local email=
+  local message="First empty commit"
+  while getopts :u:e:m: OPT; do
+    case $OPT in
+      u|+u)
+        user="$OPTARG"
+        ;;
+      e|+e)
+        email="$OPTARG"
+        ;;
+      m|+m)
+        message="$OPTARG"
+        ;;
+      *)
+        echo "usage: ${0##*/} [+-u ARG] [+-e ARG] [+-m ARG} [--] ARGS..."
+        return 2
+    esac
+  done
+  shift $(( OPTIND - 1 ))
+  OPTIND=1
 
-    git init
-    [ -n "$user" ]  && git config user.name  "$user"
-    [ -n "$email" ] && git config user.email "$email"
-    git commit --allow-empty -m "$message"
-  }
-fi
+  git init
+  [ -n "$user" ]  && git config user.name  "$user"
+  [ -n "$email" ] && git config user.email "$email"
+  git commit --allow-empty -m "$message"
+}
 
-if type nkf &> /dev/null; then
-    # 半角カナをそのまま処理する。改行は削除される。UTF-8で出力
-    alias urlencode='nkf -xwMQ | sed "s/=$//" | tr -d "\n" | tr = %'
-    # 半角カナはそのまま処理する。UTF-8で出力
-    alias urldecode='nkf --url-input -xw'
-fi
+# 半角カナをそのまま処理する。改行は削除される。UTF-8で出力
+alias urlencode='nkf -xwMQ | sed "s/=$//" | tr -d "\n" | tr = %'
+# 半角カナはそのまま処理する。UTF-8で出力
+alias urldecode='nkf --url-input -xw'
 
-if type notifier &> /dev/null; then
-  alias finished="notifier 'Finished!' 'Come back here'"
-fi
+alias finished="notifier 'Finished!' 'Come back here'"
 
-if type lazybones &> /dev/null; then
-  alias lb='lazybones'
-fi
+alias lb='lazybones'
 
-if type vagrant &> /dev/null; then
-  alias vssh='vagrant ssh'
-  alias vg='vagrant'
-fi
+alias vssh='vagrant ssh'
+alias vg='vagrant'
 
-if type emacs &> /dev/null; then
-  alias e='emacs'
-  alias ec='emacsclient -a vi'
-  EDITOR='emacsclient -a vi'
-  export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
+alias e='emacs'
+alias ec='emacsclient -a vi'
+EDITOR='emacsclient -a vi'
+export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
-  alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
+alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
 
-  function emacs-extract-init() {
-    sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' "${USER_EMACS_DIRECTORY}/org-init.d/init.org" | \
-      sed -e '/^#+BEGIN_SRC emacs-lisp.*:tangle no/,/^#+END_SRC/ d' | \
-      sed -e '/^#+BEGIN_SRC emacs-lisp/ d' -e '/^#+END_SRC/ d' > "${USER_EMACS_DIRECTORY}/org-init.d/init.el"
-    emacs --batch --eval "(byte-compile-file (expand-file-name \"org-init.d/init.el\" user-emacs-directory))"
-  }
+function emacs-extract-init() {
+  sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' "${USER_EMACS_DIRECTORY}/org-init.d/init.org" | \
+    sed -e '/^#+BEGIN_SRC emacs-lisp.*:tangle no/,/^#+END_SRC/ d' | \
+    sed -e '/^#+BEGIN_SRC emacs-lisp/ d' -e '/^#+END_SRC/ d' > "${USER_EMACS_DIRECTORY}/org-init.d/init.el"
+  emacs --batch --eval "(byte-compile-file (expand-file-name \"org-init.d/init.el\" user-emacs-directory))"
+}
 
-  function emacs-sync-cask() {
-    CASK_FILE="${USER_EMACS_DIRECTORY}/Cask"
-    if [ ! -f "${CASK_FILE}" ]; then
-      echo "${CASK_FILE} does not exist." >&2
-      exit 1
-    fi
-    set -- $(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")
-    emacs --batch --eval \
+function emacs-sync-cask() {
+  CASK_FILE="${USER_EMACS_DIRECTORY}/Cask"
+  if [ ! -f "${CASK_FILE}" ]; then
+    echo "${CASK_FILE} does not exist." >&2
+    exit 1
+  fi
+  set -- $(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")
+  emacs --batch --eval \
 "(progn
   (set-language-environment \"Japanese\")
   (prefer-coding-system 'utf-8)
@@ -179,8 +166,7 @@ if type emacs &> /dev/null; then
         (mapcar #'intern argv))
   )" \
     "$@"
-  }
-fi
+}
 
 if type winpty &> /dev/null; then
   alias irb='winpty irb.cmd'
