@@ -5,7 +5,6 @@
 ;= goto:eof
 ;= Add aliases below here
 e.=explorer .
-gl=git log --oneline --all --graph --decorate  $*
 ls=ls --show-control-chars -F --color $*
 pwd=cd
 clear=cls
@@ -15,3 +14,18 @@ vi=vim $*
 cmderr=cd /d "%CMDER_ROOT%"
 
 hoge=echo hoge
+
+g=git $*
+gs=git status --short --branch $*
+gst=git stash $*
+gl=git log $*
+gla=git log --decorate --graph --all $*
+glo=git log --decorate --graph --all --oneline $*
+gd=git diff --histogram $*
+gc=git commit $*
+ga=git add $*
+gco=git checkout $*
+gb=git branch $*
+gp=git pull $*
+gn=git now --all --stat $*
+gam=git commmit --amend --no-edit $*
