@@ -137,7 +137,7 @@ function cde () {
 }
 
 
-if which percol &> /dev/null; then
+if  (( $+commands[percol] )); then
   ## select git log
   function percol_git_log() {
     local SELECTED
@@ -415,7 +415,7 @@ ${HOME}/repo"
 alias cdb='change-directory-bookmark'
 
 ## tmux
-if which tmux &> /dev/null; then
+if (( $+commands[tmux] )); then
   ## tmux start
   ## http://stillpedant.hatenablog.com/entry/2012/11/30/214017
   function tmux-start() {
@@ -460,7 +460,7 @@ if which tmux &> /dev/null; then
   zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=*'
 fi
 
-if which mosh &> /dev/null; then
+if (( $+commands[mosh] )); then
   ## mosh を ssh と同様に補完する
   compdef mosh=ssh
 fi
