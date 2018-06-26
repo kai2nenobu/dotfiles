@@ -6,6 +6,8 @@
 ;= Add aliases below here
 e.=explorer .
 ls=ls --show-control-chars -F --color $*
+l=ls -AF --show-control-chars -F --color $*
+ll=ls -AlhF --show-control-chars -F --color $*
 pwd=cd
 clear=cls
 history=cat "%CMDER_ROOT%\config\.history"
