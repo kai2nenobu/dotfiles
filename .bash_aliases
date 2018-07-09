@@ -61,6 +61,12 @@ function d-address() {
          $(docker port "$(docker ps -q -f name=$name)" "$port" | cut -d: -f2)
 }
 
+## dockerイメージのタグ一覧を出力する（Docker Hubのイメージのみ対応）
+function docker-tags() {
+  local name=${1:?Specify a name of docker image}
+  curl -s "https://registry.hub.docker.com/v1/repositories/$name/tags" | jq -r '.[].name'
+}
+
 # Print 256 colors
 function print256colours() {
   # https://askubuntu.com/questions/821157/print-a-256-color-test-pattern-in-the-terminal/821163#821163
