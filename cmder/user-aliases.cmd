@@ -15,8 +15,7 @@ unalias=alias /d $1
 vi=vim $*
 cmderr=cd /d "%CMDER_ROOT%"
 
-hoge=echo hoge
-
+;= git
 g=git $*
 gs=git status --short --branch $*
 gst=git stash $*
@@ -31,3 +30,8 @@ gb=git branch $*
 gp=git pull $*
 gn=git now --all --stat $*
 gam=git commmit --amend --no-edit $*
+
+;= docker
+d=docker $*
+dm=docker-machine $*
+dc=docker-compose $*
