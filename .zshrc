@@ -136,6 +136,9 @@ function cde () {
     cd "$EMACS_CWD"
 }
 
+if which fzy &> /dev/null; then
+  source "${HOME}/.zsh.d/fzy.sh"
+fi
 
 if  (( $+commands[percol] )); then
   ## select git log
