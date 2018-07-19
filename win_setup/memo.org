@@ -1,0 +1,23 @@
+Windowsのセットアップで必要になったWindows、Powershell知識をまとめる。
+
+* Powershell
+** iex
+** 変数をダンプする
+=Select-Object= とか =ConvertTo-Json= を使う。
+
+#+BEGIN_SRC powershell
+$var | Select-Object -Property *
+#+END_SRC
+
+#+BEGIN_SRC powershell
+$var | ConvertTo-Json
+#+END_SRC
+
+=Select-Object= は1階層しか出力してくれないので、使えるなら =Convert-Json= のほうが良さそう。
+* Windows
+** IEのプロキシ自動検出時の設定
+- https://superuser.com/a/33613
+
+要はプロキシの自動検出っていうのは =http://wpad/wpad.dat= をPACファイルとして扱ってプロキシを決定するようだ。ということは =http://wpad/wpad.dat= をダウンロードしてJavaScriptとして評価すれば、実際にどのプロキシが使われるか判定できそうな気がした。
+
+ただしPACファイルには =isInNet= といったPACファイル特有のJavaScript関数があるため、素のJavaScriptエンジンでは評価できない。JScriptでも評価できなかった。IEのエンジンをコマンドラインから使う方法がわかればいいんだが…。
