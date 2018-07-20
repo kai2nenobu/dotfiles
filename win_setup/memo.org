@@ -14,6 +14,78 @@ $var | ConvertTo-Json
 #+END_SRC
 
 =Select-Object= は1階層しか出力してくれないので、使えるなら =Convert-Json= のほうが良さそう。
+** 関数の引数をハッシュテーブルで指定する
+- [[https://technet.microsoft.com/ja-jp/library/gg675931.aspx][Windows PowerShell: スプラッティング]]
+
+ハッシュテーブルで引数を指定する方法を「スプラッティング」というらしい。こんなやつ。
+
+#+BEGIN_SRC powershell
+$parms = @{'class'='Win32_BIOS';
+           'computername'='SERVER-R2';
+           'filter'='drivetype=3';
+           'credential'='Administrator'
+          }
+Get-WmiObject @parms
+#+END_SRC
+** 宣言してない変数へのアクセスを禁止する
+- [[https://operationslab.wordpress.com/2013/03/11/powershell-%25E3%2581%25A7%25E3%2581%25AF%25E5%25AD%2598%25E5%259C%25A8%25E3%2581%2597%25E3%2581%25AA%25E3%2581%2584%25E3%2583%2597%25E3%2583%25AD%25E3%2583%2591%25E3%2583%2586%25E3%2582%25A3%25E3%2581%25B8%25E3%2582%25A2%25E3%2582%25AF%25E3%2582%25BB%25E3%2582%25B9%25E3%2581%2599%25E3%2582%258B%25E3%2581%25A8-null/][PowerShell では存在しないプロパティへアクセスすると $null が返る]]
+- [[https://docs.microsoft.com/ja-jp/powershell/module/Microsoft.PowerShell.Core/Set-StrictMode?view=powershell-5.1][Set-StrictMode]]
+
+powershellはデフォルトでは宣言していない変数へアクセスすると =$null= が返ってくる。完全にバグのもと。JavaScriptの =use 'strict'= のようにpowershellも =Set-StrictMode= コマンドレットで挙動を変更できる。
+
+スクリプトの先頭で以下のように使う。
+
+#+BEGIN_SRC powershell
+Set-StrictMode -Version 1.0
+# or
+Set-StrictMode -Version 2.0
+# or
+Set-StrictMode -Version Latest
+#+END_SRC
+
+バージョンによって厳密さが異なる模様。
+** Invoke-WebRequestのプロキシ認証がよくわからない
+- [[http://mk-55.hatenablog.com/entry/2018/05/30/012513][Powershellを使って正しく認証プロキシ経由でWebアクセスする]]
+
+を参考に、認証情報を =PSCredential= にして =Invoke-WebRequest= の =-ProxyCredential= と =-Proxy= を設定して実行してみたが、どうもうまく認証できない。Wiresharkでパケットを見てみると、そもそも =Proxy-Authorization= ヘッダがついておらず、引数に渡したプロキシ設定がうまく効いていない感じ。 =-ProxyUseDefaultCredentials= をFalseにすれば？ みたいな情報もあったのでやってみたけど効果なし。
+
+なんか直接 =System.Net.WebClient= を使えば特に滞りなく認証プロキシで接続できたので、Powershell互換性のためにも =System.Net.WebClient= 使ったほうが早そう。
+** プロキシ設定の取得
+=[System.Net.WebRequest]::GetSystemWebProxy()= はOSで設定されているプロキシ設定を取得できるらしい。つまりはIEで =自動で検出する= の設定になっている時のプロキシ設定のことだと思う。 =[System.Net.WebProxy]::GetDefaultProxy()= とは違うらしい。
+
+#+BEGIN_SRC powershell
+$SystemProxy = [System.Net.WebRequest]::GetSystemWebProxy()
+$proxy = $SystemProxy.GetProxy($URL)
+#+END_SRC
+
+みたいにすれば、ターゲットのURLにどのプロキシが使われるかわかる。
+** ユーザから入力を受け取る
+- [[http://bayashita.com/p/entry/show/42][ユーザーの入力を受け付けて、入力内容を変数に入れて使用する方法]]
+
+=Read-Host= コマンドレットを使う。 =-AsSecureString= オプションを付けるとパスワードなどの秘密情報の読み取りに使える。
+** SecureStringを平文に戻す
+- [[http://bayashita.com/p/entry/show/43][セキュア文字列を復号して平文にする]]
+
+#+BEGIN_SRC powershell
+# ユーザーからの入力をセキュア文字列で受け付けます
+$a =(Read-Host なにか入力してください -AsSecureString)
+
+# System.Security.SecureString と表示されて中身は見られません
+Write-Host $a
+
+# セキュア文字列を複合して平文にします
+$bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($a)
+$str  = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+
+# ユーザーが入力した内容がそのまま表示されます
+Write-Host $str
+#+END_SRC
+
+** その他いろいろ
+- 終了コードは =exit 1= とかで指定する。
+- powershellの連想配列記法 =@{ 'key1' = 'value1' }= の実体は =System.Collections.Hashtable= らしい。
+- ~$ErrorActionPreference = "Stop"~ に設定していると =Write-Error= コマンドレットの実行自体がエラーとみなされて、スクリプトの実行が止まってしまうらしい。なんでやねん。終了コードも勝手に1になっちゃう。エラーを表示しつつ独自の終了コードで終了したい場合は =Write-Error -ErrorAction Continue= のように明示的に継続するよう指定するひつようがあるようだ。なんか別のエラー出力方法を考えたほうがいいかも。
+- なんかPowershellで =$ExitCode= という変数は予約されている？ 自分で =$ExitCode= という変数を定義していたのだが、勝手に書き換わってしまった。
 * Windows
 ** IEのプロキシ自動検出時の設定
 - https://superuser.com/a/33613
