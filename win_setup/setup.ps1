@@ -1,23 +1,76 @@
-$ErrorActionPreference = 'Stop'; # stop on all errors
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop';  # stop on all errors
 
-$ExitCode = @{
+$ExitCodes = @{
   Success = 0
-  FailToInstallChocolatey = 1
+  FailToInstallChocolatey = 11
 }
 
-$chocolateyUrl = 'https://chocolatey.org/install.ps1'
-$installScript = 'install.ps1'
+$proxy = @{
+  Url = $null
+  User = $null
+  Password = $null
+  PlainPassword = $null
+}
 
-# Download chocolatey install script
+$chocolateyUrl = 'http://chocolatey.org/install.ps1'
+$webClient = New-object System.Net.WebClient
+$installScript = $null
+
+# Download a chocolatey install script
 try {
-  $res = Invoke-WebRequest -Uri $chocolateyUrl -OutFile $installScript
+  $installScript = $webClient.DownloadString($chocolateyUrl)
 } catch [System.Net.WebException] {
   $ex = $_.Exception
   #$ex | ConvertTo-Json
   if ($ex.Response.StatusCode -eq 407) {
-    Write-Error 'Proxy configuration is required.'
+    Write-Warning 'Proxy configuration is required.'
+    # Detect or input proxy location
+    $SystemProxy = [System.Net.WebRequest]::GetSystemWebProxy()
+    $effectiveProxy = $SystemProxy.GetProxy($chocolateyUrl)
+    #Write-Output $effectiveProxy | Format-Table
+    if ($effectiveProxy) {
+      $proxy.Url = $effectiveProxy.AbsoluteUri
+    } else {
+      $proxy.Url = Read-Host 'Input proxy URL (like http://proxy.example.com:8080)'
+    }
+    $proxy.User = Read-Host "Input user for $($proxy.Url) (if required)"
+    $proxy.Password = Read-Host -AsSecureString "Input user for $($proxy.Url) (if required)"
+    if ($proxy.Password) {
+      $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($proxy.Password)
+      $proxy.PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+    }
+    #$proxy | Format-Table
+
+    # Retry download
+    $webProxy = New-Object System.Net.WebProxy $proxy.Url
+    if ($proxy.User) {
+      $webProxy.Credentials = New-Object System.Management.Automation.PSCredential $proxy.User, $proxy.Password
+    }
+    $webClient.Proxy = $webProxy
+    $installScript = $webClient.DownloadString($chocolateyUrl)
+    #$installScript | Format-String
   } else {
-    Write-Error 'Fail to fetch a chocolatey install script.'
-    exit $ExitCode.FailToInstallChocolatey
+    Write-Error -ErrorAction Continue 'Fail to fetch a chocolatey install script.'
+    exit $ExitCodes.FailToInstallChocolatey
   }
 }
+
+# Verify a chocolate install script
+if (-not $installScript) {
+  Write-Error -ErrorAction Continue 'chocolatey install script is empty. Something wrong.'
+  exit $ExitCodes.FailToInstallChocolatey
+}
+
+# Install chocolatey
+if ($proxy.Url) {
+  $env:chocolateyProxyLocation = $proxy.Url
+}
+if ($proxy.User) {
+  $env:chocolateyProxyUser = $proxy.User
+  $env:chocolateyProxyPassword = $proxy.PlainPassword
+}
+Set-ExecutionPolicy Bypass -Scope Process -Force
+Invoke-Expression $installScript
+
+exit $ExitCodes.Success
