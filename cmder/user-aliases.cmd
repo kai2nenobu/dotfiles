@@ -35,3 +35,4 @@ gam=git commmit --amend --no-edit $*
 d=docker $*
 dm=docker-machine $*
 dc=docker-compose $*
+dmenv=@for /f "tokens=*" %i in ('docker-machine env') in @%i
