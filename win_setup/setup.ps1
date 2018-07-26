@@ -1,5 +1,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop';  # stop on all errors
+#$DebugPreference = 'Continue'
 
 $ExitCodes = @{
   Success = 0
@@ -28,7 +29,7 @@ try {
     # Detect or input proxy location
     $SystemProxy = [System.Net.WebRequest]::GetSystemWebProxy()
     $effectiveProxy = $SystemProxy.GetProxy($chocolateyUrl)
-    #Write-Output $effectiveProxy | Format-Table
+    $effectiveProxy | Format-List | Out-String | Write-Debug
     if ($effectiveProxy) {
       $proxy.Url = $effectiveProxy.AbsoluteUri
     } else {
@@ -40,8 +41,7 @@ try {
       $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($proxy.Password)
       $proxy.PlainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
     }
-    #$proxy | Format-Table
-
+    $proxy.GetEnumerator() | Where-Object { $_.Name -ne "PlainPassword" } | Format-Table | Out-String | Write-Debug
     # Retry download
     $webProxy = New-Object System.Net.WebProxy $proxy.Url
     if ($proxy.User) {
@@ -49,7 +49,6 @@ try {
     }
     $webClient.Proxy = $webProxy
     $installScript = $webClient.DownloadString($chocolateyUrl)
-    #$installScript | Format-String
   } else {
     Write-Error -ErrorAction Continue 'Fail to fetch a chocolatey install script.'
     exit $ExitCodes.FailToInstallChocolatey
