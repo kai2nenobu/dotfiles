@@ -14,7 +14,7 @@ $proxy = @{
   PlainPassword = $null
 }
 
-$chocolateyUrl = 'http://chocolatey.org/install.ps1'
+$chocolateyUrl = 'https://chocolatey.org/install.ps1'
 $webClient = New-object System.Net.WebClient
 $installScript = $null
 
