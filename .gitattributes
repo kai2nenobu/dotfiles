@@ -9,3 +9,4 @@
 *.bat	eol=crlf
 *.reg	eol=crlf
 *.cmd	eol=crlf
+*.ps1	eol=crlf
