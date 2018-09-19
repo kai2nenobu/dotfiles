@@ -25,6 +25,14 @@ class Synchronizable {
 }
 
 class GoogleImeSync : Synchronizable {
+  <#
+  .DESCRIPTION
+  Google 日本語入力の設定を同期するクラス。辞書及びIME設定を同期できる。
+  ただし辞書は完全に上書きしてしまうので、同期前の単語は消え去ってしまうことに注意すること。
+
+  ref. https://productforums.google.com/forum/#!topic/ime-ja/ut-s3UFrO88
+  #>
+
   # 同期するファイル名
   [string[]] $Files = 'boundary.db', 'cform.db', 'config1.db', 'segment.db', 'user_dictionary.db'
   # 同期側ディレクトリ
@@ -33,7 +41,7 @@ class GoogleImeSync : Synchronizable {
   [string] $Local = (Join-Path ${env:USERPROFILE} 'AppData\LocalLow\Google\Google Japanese Input')
 
   Export() {
-    # TODO: Google IMEを停止する
+    $this.StopIme()
     if (!(Test-Path -Path $this.Sync)) {
       New-Item $this.Sync -ItemType Directory
     }
@@ -41,13 +49,20 @@ class GoogleImeSync : Synchronizable {
   }
 
   Import() {
-    # TODO: Google IMEを停止する
+    $this.StopIme()
     if (!(Test-Path -Path $this.Local)) {
       New-Item $this.Local -ItemType Directory
     }
     Copy-Item -Force -Path ($this.Sync + '\*') -Include $this.Files -Destination $this.Local
   }
 
+  StopIme() {
+    <#
+    .DESCRIPTION
+    設定ファイルの読み書きに影響を与えないように、Google IMEのプロセスを停止する。
+    #>
+    Get-Process -Name GoogleIMEJaConverter | Stop-Process
+  }
 }
 
 function ExportAll() {
