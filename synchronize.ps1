@@ -1,6 +1,13 @@
-﻿Set-StrictMode -Version Latest
+﻿
+Param(
+  [Parameter(Mandatory=$True, Position=1)]
+  [string]$SubCommand
+)
+
+Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop';  # stop on all errors
 #$DebugPreference = 'Continue'
+
 
 class Synchronizable {
   [string] RootDir() {
@@ -79,5 +86,13 @@ function ImportAll() {
   }
 }
 
-ExportAll
-#ImportAll
+#### Main Script Block ####
+
+if ($SubCommand -eq 'export') {
+  ExportAll
+} elseif ($SubCommand -eq 'import') {
+  ImportAll
+} else {
+  Write-Error -ea Continue 'SubCommand must be "export" or "import".'
+  exit 2
+}
