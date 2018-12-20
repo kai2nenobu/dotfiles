@@ -2,6 +2,25 @@
   vars_files:
   - private_vars.yml
   tasks:
+  - name: 自作パッケージ用のChocolateyソースを追加する
+    win_chocolatey_source:
+      name: kai2nenobu
+      state: present
+      source: https://www.myget.org/F/kai2nenobu
+  - name: Chocolateyパッケージをインストールする
+    win_chocolatey:
+      name:
+      - a5m2
+      - cmigemo
+      - emacs64
+      - Firefox
+      - GoogleChrome
+      - GoogleJapaneseInput
+      - git
+      - gradle
+      - jq
+      - Sudo
+      state: latest
   - name: playbook適用日時を保存する
     win_copy:
       dest: C:\ansible_applied.txt
