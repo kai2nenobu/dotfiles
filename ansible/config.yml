@@ -1,0 +1,8 @@
+- hosts: all
+  vars_files:
+  - private_vars.yml
+  tasks:
+  - name: playbook適用日時を保存する
+    win_copy:
+      dest: C:\ansible_applied.txt
+      content: "{{ ansible_date_time.iso8601 }}"
