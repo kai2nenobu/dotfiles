@@ -1,0 +1,42 @@
+version: 1
+rules:
+  - expected: jQuery
+    specs:
+      - from: jquery
+        to:   jQuery
+      - from: ＪＱＵＥＲＹ
+        to:   jQuery
+  - expected: Gradle
+    options:
+      wordBoundary: true
+## 製品名、固有名詞
+  - expected: Java
+    specs:
+      - from: JAVA
+        to: Java
+      - from: ＪＡＶＡ
+        to: Java
+      - from: javascript
+        to: Javascript
+  - expected: JavaScript
+    specs:
+      # 上記のJavaのルールと競合するかと思ったが、ちゃんとJavaScriptに変換できるっぽい
+      - from: javascript
+        to: JavaScript
+      - from: ｊａｖａｓｃｒｉｐｔ
+        to: JavaScript
+  - expected: GitHub
+  - expected: GitLab
+## 漢字の開き
+  - expected: ください
+    pattern: 下さい
+  - expected: できる
+    pattern: 出来る
+  - expected: よろしく
+    pattern: /宜しく|夜露死苦/
+  - expected: ありがとう
+    pattern: /有り?難う/
+  - expected: ございます
+    pattern: /御(座|ざ)います/
+  - expected: あらかじめ
+    pattern: 予め
