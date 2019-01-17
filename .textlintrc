@@ -1,0 +1,25 @@
+{
+  "rules": {
+    // 日本語技術文書向けプリセット
+    "preset-ja-technical-writing": {
+      // 文の長さを制限しない
+      "sentence-length": false
+    },
+    // 日本語文書の空白ルールプリセット
+    "preset-ja-spacing": {
+      "ja-space-around-code": {
+        "before": true,
+        "after": true
+      }
+    },
+    // 辞書による表記揺れチェック
+    "prh": {
+      "rulePaths": [
+        "./.prh.yml"
+      ]
+    }
+  },
+  "filters": {
+    "comments": true
+  }
+}
