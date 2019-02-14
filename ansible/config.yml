@@ -10,16 +10,30 @@
   - name: Chocolateyパッケージをインストールする
     win_chocolatey:
       name:
+      - 1password4
+      - 7zip
       - a5m2
+      - adoptopenjdk
+      - adoptopenjdk8
+      - cmdermini
       - cmigemo
       - emacs
       - Firefox
+      - git
       - GoogleChrome
       - GoogleJapaneseInput
-      - git
       - gradle
+      - graphviz
       - jq
+      - mape
+      - nkf
+      - peco
+      - sakuraeditor
       - Sudo
+      - vscode
+      - winmerge
+      - zoomit
+      state: latest
       state: latest
   - name: playbook適用日時を保存する
     win_copy:
