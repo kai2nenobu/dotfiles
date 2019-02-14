@@ -34,7 +34,15 @@
       - winmerge
       - zoomit
       state: latest
+  - name: Chocolateyパッケージをインストールする（依存除く）
+    # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
+    # 別途インストールする。
+    win_chocolatey:
+      name:
+      - plantuml
+      - spring-boot-cli
       state: latest
+      ignore_dependencies: true
   - name: playbook適用日時を保存する
     win_copy:
       dest: C:\ansible_applied.txt
