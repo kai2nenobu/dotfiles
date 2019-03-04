@@ -94,6 +94,21 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+## peco integration
+if which peco &> /dev/null; then
+  peco_history() {
+    declare l=$(HISTTIMEFORMAT=  history | tac |  awk '{for(i=2;i<NF;i++){printf("%s%s",$i,OFS=" ")}print $NF}'   |  peco --query "$READLINE_LINE")
+    READLINE_LINE="$l"
+    READLINE_POINT=${#l}
+  }
+  bind -x '"\C-r": peco_history'
+
+  peco_cd_recursive() {
+    cd "$(find -name '.git' -prune -o -type d -printf '%P\n' | peco)"
+  }
+  bind -x '"\C-x\C-d": peco_cd_recursive'
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/kai/.sdkman"
 [[ -s "/home/kai/.sdkman/bin/sdkman-init.sh" ]] && source "/home/kai/.sdkman/bin/sdkman-init.sh"
