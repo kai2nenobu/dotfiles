@@ -16,6 +16,14 @@
         - { path: ".zsh_aliases", dest: ".zsh_aliases" }
         - { path: ".zshrc", dest: ".zshrc" }
         - { path: "dot.ahk", dest: "dot.ahk" }
+    - name: dotfilesにディレクトリのシンボリックリンクをはる
+      win_shell: 'if not exist "{{ item.dest }}" mklink /d "{{ item.dest }}" "dotfiles\{{ item.path }}"'
+      args:
+        executable: cmd
+        chdir: "%USERPROFILE%"
+      with_items:
+        - { path: ".zsh.d", dest: ".zsh.d" }
+        - { path: "utils", dest: "utils" }
     - name: 自作パッケージ用のChocolateyソースを追加する
       win_chocolatey_source:
         name: kai2nenobu
