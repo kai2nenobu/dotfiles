@@ -2,6 +2,20 @@
   vars_files:
     - private_vars.yml
   tasks:
+    - name: dotfilesにシンボリックリンクをはる
+      win_shell: 'if not exist "{{ item.dest }}" mklink "{{ item.dest }}" "dotfiles\{{ item.path }}"'
+      args:
+        executable: cmd
+        chdir: "%USERPROFILE%"
+      with_items:
+        - { path: ".bash_aliases", dest: ".bash_aliases" }
+        - { path: ".bashrc", dest: ".bashrc" }
+        - { path: ".profile", dest: ".profile" }
+        - { path: ".profile", dest: ".zprofile" }
+        - { path: ".tmux.conf", dest: ".tmux.conf" }
+        - { path: ".zsh_aliases", dest: ".zsh_aliases" }
+        - { path: ".zshrc", dest: ".zshrc" }
+        - { path: "dot.ahk", dest: "dot.ahk" }
     - name: 自作パッケージ用のChocolateyソースを追加する
       win_chocolatey_source:
         name: kai2nenobu
