@@ -3,7 +3,7 @@
     - private_vars.yml
   tasks:
     - name: dotfilesにシンボリックリンクをはる
-      win_shell: 'if not exist "{{ item.dest }}" mklink "{{ item.dest }}" "dotfiles\{{ item.path }}"'
+      win_shell: 'del "{{ item.dest }}" && mklink "{{ item.dest }}" "dotfiles\{{ item.path }}"'
       args:
         executable: cmd
         chdir: "%USERPROFILE%"
@@ -17,7 +17,7 @@
         - { path: ".zshrc", dest: ".zshrc" }
         - { path: "dot.ahk", dest: "dot.ahk" }
     - name: dotfilesにディレクトリのシンボリックリンクをはる
-      win_shell: 'if not exist "{{ item.dest }}" mklink /d "{{ item.dest }}" "dotfiles\{{ item.path }}"'
+      win_shell: 'rmdir "{{ item.dest }}" && mklink /d "{{ item.dest }}" "dotfiles\{{ item.path }}"'
       args:
         executable: cmd
         chdir: "%USERPROFILE%"
