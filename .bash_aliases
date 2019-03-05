@@ -8,6 +8,7 @@ alias l='ls -AF'
 alias rm='rm -i'
 alias grep='grep --color=auto'
 alias less='less -R'
+alias gdiff='git diff'
 
 alias du1='du -h --max-depth 1'
 alias updatedb='time updatedb --localpaths="$HOME" --prunepaths="$(find ${HOME} -name .git) ${HOME}/AppData"'
