@@ -1,49 +1,49 @@
 - hosts: all
   vars_files:
-  - private_vars.yml
+    - private_vars.yml
   tasks:
-  - name: 自作パッケージ用のChocolateyソースを追加する
-    win_chocolatey_source:
-      name: kai2nenobu
-      state: present
-      source: https://www.myget.org/F/kai2nenobu
-  - name: Chocolateyパッケージをインストールする
-    win_chocolatey:
-      name:
-      - 1password4
-      - 7zip
-      - a5m2
-      - adoptopenjdk
-      - adoptopenjdk8
-      - cmdermini
-      - cmigemo
-      - emacs
-      - Firefox
-      - git
-      - GoogleChrome
-      - GoogleJapaneseInput
-      - gradle
-      - graphviz
-      - jq
-      - mape
-      - nkf
-      - peco
-      - sakuraeditor
-      - Sudo
-      - vscode
-      - winmerge
-      - zoomit
-      state: latest
-  - name: Chocolateyパッケージをインストールする（依存除く）
-    # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
-    # 別途インストールする。
-    win_chocolatey:
-      name:
-      - plantuml
-      - spring-boot-cli
-      state: latest
-      ignore_dependencies: true
-  - name: playbook適用日時を保存する
-    win_copy:
-      dest: C:\ansible_applied.txt
-      content: "{{ ansible_date_time.iso8601 }}"
+    - name: 自作パッケージ用のChocolateyソースを追加する
+      win_chocolatey_source:
+        name: kai2nenobu
+        state: present
+        source: https://www.myget.org/F/kai2nenobu
+    - name: Chocolateyパッケージをインストールする
+      win_chocolatey:
+        name:
+          - 1password4
+          - 7zip
+          - a5m2
+          - adoptopenjdk
+          - adoptopenjdk8
+          - cmdermini
+          - cmigemo
+          - emacs
+          - Firefox
+          - git
+          - GoogleChrome
+          - GoogleJapaneseInput
+          - gradle
+          - graphviz
+          - jq
+          - mape
+          - nkf
+          - peco
+          - sakuraeditor
+          - Sudo
+          - vscode
+          - winmerge
+          - zoomit
+        state: latest
+    - name: Chocolateyパッケージをインストールする（依存除く）
+      # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
+      # 別途インストールする。
+      win_chocolatey:
+        name:
+          - plantuml
+          - spring-boot-cli
+        state: latest
+        ignore_dependencies: true
+    - name: playbook適用日時を保存する
+      win_copy:
+        dest: C:\ansible_applied.txt
+        content: "{{ ansible_date_time.iso8601 }}"
