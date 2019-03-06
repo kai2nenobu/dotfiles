@@ -1,8 +1,8 @@
 @echo off
 
 if "%1" equ "add" (
-  if "%2" neq "" (
-    echo %2 >> "%USERPROFILE%\.peco-cd"
+  if "%~2" neq "" (
+    echo %~2 >> "%USERPROFILE%\.peco-cd"
     goto end
   )
   goto usage
@@ -33,8 +33,8 @@ rem
 rem If you have a problem caused by character-set, modify below part like:
 rem   'type ^"%USERPROFILE%\.peco-cd^" ^| iconv -f char -t utf-8 ^| peco'
 rem
-for /f %%i in ('type ^"%USERPROFILE%\.peco-cd^" ^| peco') do (
-  cd %%i
+for /f "delims=" %%i in ('type ^"%USERPROFILE%\.peco-cd^" ^| peco') do (
+  cd "%%i"
   break
 )
 
