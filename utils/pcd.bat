@@ -33,7 +33,7 @@ rem
 rem If you have a problem caused by character-set, modify below part like:
 rem   'type ^"%USERPROFILE%\.peco-cd^" ^| iconv -f char -t utf-8 ^| peco'
 rem
-for /f "delims=" %%i in ('type ^"%USERPROFILE%\.peco-cd^" ^| peco') do (
+for /f "delims=" %%i in ('type ^"%USERPROFILE%\.peco-cd^" ^| iconv -f cp932 -t utf-8 ^| peco ^| iconv -f utf-8 -t cp932') do (
   cd "%%i"
   break
 )
