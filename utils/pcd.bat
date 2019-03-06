@@ -2,7 +2,7 @@
 
 if "%1" equ "add" (
   if "%~2" neq "" (
-    echo %~2 >> "%USERPROFILE%\.peco-cd"
+    echo %~2>> "%USERPROFILE%\.peco-cd"
     goto end
   )
   goto usage
