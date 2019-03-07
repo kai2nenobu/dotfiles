@@ -32,6 +32,12 @@
         - { src: "utils", dest: "utils" }
       loop_control:
         loop_var: config_dir
+    - name: utilsディレクトリのパスを通す
+      tags: [configation]
+      win_path:
+        scope: user
+        elements:
+          - '%USERPROFILE%\utils'
     - name: 自作パッケージ用のChocolateyソースを追加する
       tags:
         - package
