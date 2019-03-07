@@ -1,2 +1,3 @@
+"\C-x\C-r": re-read-init-file
 #C-r: "type %CMDER_ROOT%\\config\\.history | tac | fzf\n"
 "\C-x\C-d": "pcd\C-j"
