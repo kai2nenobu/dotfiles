@@ -1,3 +1,3 @@
 "\C-x\C-r": re-read-init-file
-#C-r: "type %CMDER_ROOT%\\config\\.history | tac | fzf\n"
+C-r: "for /f \"usebackq tokens=1 delims=\" %i in (`type \"%CMDER_ROOT%\\config\\.history\" ^| tac ^| fzf`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
 "\C-x\C-d": "pcd\C-j"
