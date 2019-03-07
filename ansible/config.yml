@@ -3,7 +3,7 @@
     - private_vars.yml
   tasks:
     - name: 環境変数を設定する
-      tags: [configation]
+      tags: [configuration]
       win_environment:
         level: user
         name: '{{ item.name }}'
