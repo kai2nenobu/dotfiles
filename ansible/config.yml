@@ -2,6 +2,20 @@
   vars_files:
     - private_vars.yml
   tasks:
+    - name: 環境変数を設定する
+      tags: [configation]
+      win_environment:
+        level: user
+        name: '{{ item.name }}'
+        value: '{{ item.value }}'
+        state: present
+      with_items:
+        - { name: 'EDITOR', value: 'emacsclient' }
+        - { name: 'HOME', value: '%USERPROFILE%' }
+        - { name: 'LANG', value: 'ja_JP.UTF-8' }
+        - { name: 'MSYS', value: 'winsymlinks:nativestrict' }
+        - { name: 'MSYS2_PATH_TYPE', value: 'inherit' }
+        - { name: 'VAGRANT_DEFAULT_PROVIDER', value: 'hyperv' }
     - name: 設定ファイルのシンボリックリンクをはる
       tags: [configuration]
       include_tasks: tasks/link_config_file.yml
