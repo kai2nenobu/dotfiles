@@ -2,22 +2,20 @@
   vars_files:
     - private_vars.yml
   tasks:
-    - name: dotfilesにシンボリックリンクをはる
-      tags:
-        - configuration
-      win_shell: 'del "{{ item.dest }}" && mklink "{{ item.dest }}" "dotfiles\{{ item.path }}"'
-      args:
-        executable: cmd
-        chdir: "%USERPROFILE%"
+    - name: 設定ファイルのシンボリックリンクをはる
+      tags: [configuration]
+      include_tasks: tasks/link_config_file.yml
       with_items:
-        - { path: ".bash_aliases", dest: ".bash_aliases" }
-        - { path: ".bashrc", dest: ".bashrc" }
-        - { path: ".profile", dest: ".profile" }
-        - { path: ".profile", dest: ".zprofile" }
-        - { path: ".tmux.conf", dest: ".tmux.conf" }
-        - { path: ".zsh_aliases", dest: ".zsh_aliases" }
-        - { path: ".zshrc", dest: ".zshrc" }
-        - { path: "dot.ahk", dest: "dot.ahk" }
+        - { src: ".bash_aliases", dest: ".bash_aliases" }
+        - { src: ".bashrc", dest: ".bashrc" }
+        - { src: ".profile", dest: ".profile" }
+        - { src: ".profile", dest: ".zprofile" }
+        - { src: ".tmux.conf", dest: ".tmux.conf" }
+        - { src: ".zsh_aliases", dest: ".zsh_aliases" }
+        - { src: ".zshrc", dest: ".zshrc" }
+        - { src: "dot.ahk", dest: "dot.ahk" }
+      loop_control:
+        loop_var: config_file
     - name: dotfilesにディレクトリのシンボリックリンクをはる
       tags:
         - configuration

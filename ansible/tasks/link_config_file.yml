@@ -1,0 +1,13 @@
+- name: リンク先のファイルの状態を確認する
+  tags: [configuration]
+  win_stat:
+    path: '%USERPROFILE%\{{ config_file.dest }}'
+  register: config_file_stat
+- name: '"{{ config_file.src }}"のシンボリックリンクをはる'
+  win_shell: 'del "{{ config_file.dest }}" && mklink "{{ config_file.dest }}" "dotfiles\{{ config_file.src }}"'
+  tags: [configuration]
+  args:
+    executable: cmd
+    chdir: "%USERPROFILE%"
+  # リンク先が存在しないかシンボリックリンクでない場合のみ実行する
+  when: (not config_file_stat.stat.exists) or (not config_file_stat.stat.islnk)
