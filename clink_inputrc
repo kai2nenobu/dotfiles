@@ -1,0 +1,2 @@
+#C-r: "type %CMDER_ROOT%\\config\\.history | tac | fzf\n"
+"\C-x\C-d": "pcd\n"
