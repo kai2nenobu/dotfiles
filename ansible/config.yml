@@ -16,6 +16,14 @@
         - { src: "dot.ahk", dest: "dot.ahk" }
       loop_control:
         loop_var: config_file
+    - name: clink_inputrcをコピーする
+      # シンボリックリンクが動作しないので仕方ないがコピーですます
+      # ref. https://github.com/mridgers/clink/issues/461
+      tags: [configuration]
+      win_copy:
+        src: '%USERPROFILE%\dotfiles\clink_inputrc'
+        dest: '%USERPROFILE%\clink_inputrc'
+        remote_src: True
     - name: 設定ディレクトリのシンボリックリンクをはる
       tags: [configuration]
       include_tasks: tasks/link_config_dir.yml
