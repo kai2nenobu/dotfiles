@@ -1,4 +1,4 @@
 "\C-x\C-r": re-read-init-file
-C-r: " for /f \"usebackq tokens=1 delims=\" %i in (`tac \"%CMDER_ROOT%\\config\\.history\" ^| fzf`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
+C-r: " @for /f \"usebackq tokens=1 delims=\" %i in (`fzf --tac --prompt \"Choose history: \" --no-sort -0 -1 \"%CMDER_ROOT%\\config\\.history\"`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
 "\C-x\C-d": " pcd\C-j"
 "\C-x\C-b": " gco\C-j"
