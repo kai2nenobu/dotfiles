@@ -75,6 +75,18 @@
           - spring-boot-cli
         state: latest
         ignore_dependencies: true
+    - name: Cmder(mini)の設定をコピーする
+      tags:
+        - configuration
+      win_copy:
+        src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
+        dest: '%ChocolateyToolsLocation%\cmdermini\config\{{ item }}'
+        remote_src: True
+      with_items:
+        - prompt.lua
+        - settings
+        - user_aliases.cmd
+        - user_profile.cmd
     - name: playbook適用日時を保存する
       win_copy:
         dest: C:\ansible_applied.txt
