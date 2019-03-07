@@ -11,7 +11,7 @@
         state: present
       with_items:
         - { name: 'EDITOR', value: 'emacsclient' }
-        - { name: 'HOME', value: '%USERPROFILE%' }
+        - { name: 'HOME', value: '{{ ansible_env.USERPROFILE }}' }
         - { name: 'LANG', value: 'ja_JP.UTF-8' }
         - { name: 'MSYS', value: 'winsymlinks:nativestrict' }
         - { name: 'MSYS2_PATH_TYPE', value: 'inherit' }
