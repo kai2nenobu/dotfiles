@@ -38,6 +38,7 @@
         scope: user
         elements:
           - '%USERPROFILE%\utils'
+        state: present
     - name: 自作パッケージ用のChocolateyソースを追加する
       tags:
         - package
