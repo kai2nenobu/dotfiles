@@ -16,16 +16,14 @@
         - { src: "dot.ahk", dest: "dot.ahk" }
       loop_control:
         loop_var: config_file
-    - name: dotfilesにディレクトリのシンボリックリンクをはる
-      tags:
-        - configuration
-      win_shell: 'rmdir "{{ item.dest }}" && mklink /d "{{ item.dest }}" "dotfiles\{{ item.path }}"'
-      args:
-        executable: cmd
-        chdir: "%USERPROFILE%"
+    - name: 設定ディレクトリのシンボリックリンクをはる
+      tags: [configuration]
+      include_tasks: tasks/link_config_dir.yml
       with_items:
-        - { path: ".zsh.d", dest: ".zsh.d" }
-        - { path: "utils", dest: "utils" }
+        - { src: ".zsh.d", dest: ".zsh.d" }
+        - { src: "utils", dest: "utils" }
+      loop_control:
+        loop_var: config_dir
     - name: 自作パッケージ用のChocolateyソースを追加する
       tags:
         - package

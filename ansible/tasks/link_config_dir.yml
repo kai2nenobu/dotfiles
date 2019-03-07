@@ -1,0 +1,13 @@
+- name: リンク先のディレクトリの状態を確認する
+  tags: [configuration]
+  win_stat:
+    path: '%USERPROFILE%\{{ config_dir.dest }}'
+  register: config_dir_stat
+- name: '"{{ config_dir.src }}"のシンボリックリンクをはる'
+  win_shell: 'rmdir "{{ config_dir.dest }}" && mklink "{{ config_dir.dest }}" "dotfiles\{{ config_dir.src }}"'
+  tags: [configuration]
+  args:
+    executable: cmd
+    chdir: "%USERPROFILE%"
+  # リンク先が存在しないかシンボリックリンクでない場合のみ実行する
+  when: (not config_dir_stat.stat.exists) or (not config_dir_stat.stat.islnk)
