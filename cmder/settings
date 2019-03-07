@@ -57,7 +57,7 @@ history_file_lines = 10000
 # name: Skip adding lines prefixed with whitespace
 # type: bool
 # Ignore lines that begin with whitespace when adding lines in to the history.
-history_ignore_space = 0
+history_ignore_space = 1
 
 # name: Controls how duplicate entries are handled
 # type: enum
@@ -74,7 +74,7 @@ history_dupe_mode = 2
 # type: bool
 # When non-zero the history will be read from disk before editing a new line and
 # written to disk afterwards.
-history_io = 0
+history_io = 1
 
 # name: Sets how command history expansion is applied
 # type: enum
