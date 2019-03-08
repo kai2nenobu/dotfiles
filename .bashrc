@@ -109,6 +109,21 @@ if which peco &> /dev/null && [ -n "$ConEmuBuild" ]; then
   bind -x '"\C-x\C-d": peco_cd_recursive'
 fi
 
+## fzf integration
+if which fzf &> /dev/null && [ -n "$ConEmuBuild" ]; then
+  fzf_history() {
+    declare l=$(HISTTIMEFORMAT=  history | tac |  awk '{for(i=2;i<NF;i++){printf("%s%s",$i,OFS=" ")}print $NF}' | fzf --query "$READLINE_LINE" --prompt 'Choose history: ' -0 -1)
+    READLINE_LINE="$l"
+    READLINE_POINT=${#l}
+  }
+  bind -x '"\C-r": fzf_history'
+
+  fzf_cd_recursive() {
+    cd "$(find -name '.git' -prune -o -type d -printf '%P\n' | fzf --prompt 'Choose directory: ' -0 -1)"
+  }
+  bind -x '"\C-x\C-d": fzf_cd_recursive'
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/kai/.sdkman"
 [[ -s "/home/kai/.sdkman/bin/sdkman-init.sh" ]] && source "/home/kai/.sdkman/bin/sdkman-init.sh"
