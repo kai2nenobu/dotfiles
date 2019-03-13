@@ -4,10 +4,10 @@
     path: '%USERPROFILE%\{{ config_dir.dest }}'
   register: config_dir_stat
 - name: '"{{ config_dir.src }}"のシンボリックリンクをはる'
-  win_shell: 'rmdir "{{ config_dir.dest }}" && mklink "{{ config_dir.dest }}" "dotfiles\{{ config_dir.src }}"'
+  win_shell: 'mklink /d "{{ config_dir.dest }}" "dotfiles\{{ config_dir.src }}"'
   tags: [configuration]
   args:
     executable: cmd
     chdir: "%USERPROFILE%"
-  # リンク先が存在しないかシンボリックリンクでない場合のみ実行する
-  when: (not config_dir_stat.stat.exists) or (not config_dir_stat.stat.islnk)
+  # リンク先が存在しない場合のみ実行する
+  when: not config_dir_stat.stat.exists
