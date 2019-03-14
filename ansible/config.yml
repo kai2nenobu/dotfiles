@@ -16,6 +16,7 @@
         - { name: "MSYS", value: "winsymlinks:nativestrict" }
         - { name: "MSYS2_PATH_TYPE", value: "inherit" }
         - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
+        - { name: "MY_CMDER_CONFIG", value: "{{ ansible_env.USERPROFILE }}\\.cmder\\config" }
     - name: 設定ファイルのシンボリックリンクをはる
       tags: [configuration]
       include_tasks: tasks/link_config_file.yml
@@ -101,16 +102,25 @@
           - spring-boot-cli
         state: latest
         ignore_dependencies: true
-    - name: Cmder(mini)の設定をコピーする
+    ## TODO: Cmderを /C オプション付きで起動するショートカット or タスクバーアイコンを
+    ##   作成するタスクが必要。
+    - name: Cmderのユーザ個別設定ディレクトリを作成する
+      # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
+      tags: [configuration]
+      win_file:
+        path: '%MY_CMDER_CONFIG%'
+        state: directory
+    - name: Cmderの設定をコピーする
       tags:
         - configuration
       win_copy:
         src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
-        dest: '%ChocolateyToolsLocation%\cmdermini\config\{{ item }}'
+        dest: '%MY_CMDER_CONFIG%\{{ item }}'
         remote_src: True
       with_items:
         - prompt.lua
         - settings
+        - user-ConEmu.xml
         - user_aliases.cmd
         - user_profile.cmd
     - name: playbook適用日時を保存する
