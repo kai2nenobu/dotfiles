@@ -11,6 +11,7 @@
         state: present
       with_items:
         - { name: "EDITOR", value: "emacsclient" }
+        - { name: "FZF_DEFAULT_OPTS", value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"' }
         - { name: "HOME", value: "{{ ansible_env.USERPROFILE }}" }
         - { name: "LANG", value: "ja_JP.UTF-8" }
         - { name: "MSYS", value: "winsymlinks:nativestrict" }
