@@ -12,4 +12,5 @@
 :: set "PATH=%CMDER_ROOT%\vendor\whatever;%PATH%"
 
 set MY_VARIABLE=cmder
-set PATH=%CMDER_ROOT%\vendor\git-for-windows\mingw64\bin;%PATH%
+
+set PAGER=less
