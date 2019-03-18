@@ -106,13 +106,12 @@
     ##   作成するタスクが必要。
     - name: Cmderのユーザ個別設定ディレクトリを作成する
       # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
-      tags: [configuration]
+      tags: [configuration, cmder]
       win_file:
         path: '%MY_CMDER_CONFIG%'
         state: directory
     - name: Cmderの設定をコピーする
-      tags:
-        - configuration
+      tags: [configuration, cmder]
       win_copy:
         src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
         dest: '%MY_CMDER_CONFIG%\{{ item }}'
