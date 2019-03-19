@@ -28,3 +28,8 @@
       package:
         name: docker-ce-cli
         state: present
+    - name: Configure git
+      git_config:
+        name: core.autocrlf
+        scope: global
+        value: input
