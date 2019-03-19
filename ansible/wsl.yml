@@ -25,9 +25,10 @@
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
     - name: Install docker CLI
-      package:
+      apt:
         name: docker-ce-cli
         state: present
+        update_cache: yes
     - name: Configure git
       git_config:
         name: core.autocrlf
