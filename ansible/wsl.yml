@@ -1,5 +1,5 @@
 - hosts: all
-  become: true
+  become: yes
   environment: "{{ proxy_env | default({}) }}"
   tasks:
     - name: Add emacs ppa repository
