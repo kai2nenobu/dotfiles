@@ -10,3 +10,4 @@
 *.reg	eol=crlf
 *.cmd	eol=crlf
 *.ps1	eol=crlf
+.githooks/*	eol=lf
