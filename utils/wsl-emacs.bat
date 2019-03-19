@@ -8,4 +8,4 @@ exit /b
 ----- End of JScript comment, beginning of normal JScript  ------------------*/
 var ws = new ActiveXObject("Wscript.Shell");
 // Launch emacs in WSL
-ws.run('wsl bash -c "export DISPLAY=0:0 && exec emacs -r"', 0, false);
+ws.run('wsl bash -l -c "export DISPLAY=0:0 && xset -r 49 && exec emacs -r"', 0, false);
