@@ -30,6 +30,7 @@
         state: present
         update_cache: yes
     - name: Configure git
+      become: no
       git_config:
         name: core.autocrlf
         scope: global
