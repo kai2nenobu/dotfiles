@@ -1,4 +1,5 @@
 - hosts: windows10
+  environment: "{{ proxy_env | default({}) }}"
   roles:
     - windows10
 - hosts: wsl
