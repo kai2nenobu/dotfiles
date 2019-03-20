@@ -54,6 +54,17 @@
     src: '%USERPROFILE%\dotfiles\clink_inputrc'
     dest: '%USERPROFILE%\clink_inputrc'
     remote_src: True
+- name: ローカルツールディレクトリを作成する
+  tags: [configuration]
+  win_file:
+    path: '%USERPROFILE%\.local\bin'
+    state: directory
+- name: ローカルツールディレクトリにパスを通す
+  tags: [configation]
+  win_path:
+    scope: user
+    elements: '%USERPROFILE%\.local\bin'
+    state: present
 - name: 設定ディレクトリのシンボリックリンクをはる
   tags: [configuration]
   include_tasks: tasks/link_config_dir.yml
