@@ -14,6 +14,8 @@
     - { name: "MSYS2_PATH_TYPE", value: "inherit" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
     - { name: "MY_CMDER_CONFIG", value: "{{ ansible_env.USERPROFILE }}\\.cmder\\config" }
+    # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
+    - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
 - name: 設定ファイルのシンボリックリンクをはる
   tags: [configuration]
   include_tasks: tasks/link_config_file.yml
