@@ -1,8 +1,14 @@
-[local_windows]
+[windows10]
 localhost
 
-[local_windows:vars]
+[windows10:vars]
 ansible_host=localhost
 ansible_port=5986
 ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
+
+[wsl]
+localhost
+
+[wsl:vars]
+ansible_connection=local
