@@ -60,7 +60,7 @@
     path: '%USERPROFILE%\.local\bin'
     state: directory
 - name: ローカルツールディレクトリにパスを通す
-  tags: [configation]
+  tags: [configuation]
   win_path:
     scope: user
     elements: '%USERPROFILE%\.local\bin'

@@ -17,6 +17,11 @@
       - zsh
       - x11-xserver-utils
     state: present
+- name: Remove unnecessary packages
+  package:
+    name:
+      - openssh-server
+    state: absent
 - name: Add a gpg key for docker apt repository
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
