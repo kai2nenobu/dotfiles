@@ -1,6 +1,10 @@
-- name: Add emacs ppa repository
+- name: Add a gpg key for emacs ppa repository
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
+    state: present
+- name: Add an emacs ppa repository
   apt_repository:
-    repo: ppa:kelleyk/emacs
+    repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_distribution_release }} main
     state: present
 - name: Install development packages
   package:
