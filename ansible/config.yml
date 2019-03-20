@@ -32,6 +32,12 @@
         - { src: "dot.ahk", dest: "dot.ahk" }
       loop_control:
         loop_var: config_file
+    - name: ssh-agentサービスを有効にする
+      tags: [service]
+      win_service:
+        name: ssh-agent
+        start_mode: delayed
+        state: started
     - name: clink_inputrcをコピーする
       # シンボリックリンクが動作しないので仕方ないがコピーですます
       # ref. https://github.com/mridgers/clink/issues/461
