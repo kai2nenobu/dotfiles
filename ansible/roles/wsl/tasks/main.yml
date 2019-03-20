@@ -1,44 +1,40 @@
-- hosts: all
-  become: yes
-  environment: "{{ proxy_env | default({}) }}"
-  tasks:
-    - name: Add emacs ppa repository
-      apt_repository:
-        repo: ppa:kelleyk/emacs
-        state: present
-    - name: Install development packages
-      package:
-        name:
-          - cmigemo
-          - emacs26
-          - git
-          - tmux
-          - zsh
-          - x11-xserver-utils
-        state: present
-    - name: Add a docker apt repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
-        state: present
-    - name: Add a gpg key for docker apt repository
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Install docker CLI
-      apt:
-        name: docker-ce-cli
-        state: present
-        update_cache: yes
-    - name: Configure git
-      become: no
-      git_config:
-        name: core.autocrlf
-        scope: global
-        value: input
-    - name: 手っ取り早くシェル実行
-      become: no
-      # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー
-      shell: |
-        # Windows側のGit設定を引き継ぐ
-        git config --global user.name "$(cmd.exe /C git config --global user.name)"
-        git config --global user.email "$(cmd.exe /C git config --global user.email)"
+- name: Add emacs ppa repository
+  apt_repository:
+    repo: ppa:kelleyk/emacs
+    state: present
+- name: Install development packages
+  package:
+    name:
+      - cmigemo
+      - emacs26
+      - git
+      - tmux
+      - zsh
+      - x11-xserver-utils
+    state: present
+- name: Add a docker apt repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+- name: Add a gpg key for docker apt repository
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Install docker CLI
+  apt:
+    name: docker-ce-cli
+    state: present
+    update_cache: yes
+- name: Configure git
+  become: no
+  git_config:
+    name: core.autocrlf
+    scope: global
+    value: input
+- name: 手っ取り早くシェル実行
+  become: no
+  # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー
+  shell: |
+    # Windows側のGit設定を引き継ぐ
+    git config --global user.name "$(cmd.exe /C git config --global user.name)"
+    git config --global user.email "$(cmd.exe /C git config --global user.email)"
