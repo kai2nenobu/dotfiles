@@ -149,6 +149,18 @@
     - user-ConEmu.xml
     - user_aliases.cmd
     - user_profile.cmd
+- name: ssh-agent-wslをダウンロードする
+  tags: [configuration]
+  win_get_url:
+    url: https://github.com/rupor-github/ssh-agent-wsl/releases/download/v2.2/ssh-agent-wsl.7z
+    dest: '%TEMP%\ssh-agent-wsl.7z'
+    force: yes  # Download everytime
+    proxy_url: '{{ proxy_env.https_proxy | default(omit) }}'
+- name: ssh-agent-wslをローカルツールディレクトリに配置する
+  tags: [configuration]
+  win_shell: '7z e -aoa "-o%USERPROFILE%\.local\bin" "%TEMP%\ssh-agent-wsl.7z"'
+  args:
+    executable: cmd
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
