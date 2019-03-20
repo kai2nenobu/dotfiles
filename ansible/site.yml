@@ -1,6 +1,4 @@
 - hosts: windows10
-  vars_files:
-    - private_vars.yml
   roles:
     - windows10
 - hosts: wsl
