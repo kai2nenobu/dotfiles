@@ -174,7 +174,7 @@
     url: https://github.com/rupor-github/ssh-agent-wsl/releases/download/v2.2/ssh-agent-wsl.7z
     dest: '%TEMP%\ssh-agent-wsl.7z'
     force: yes  # Download everytime
-    proxy_url: '{{ proxy_env.https_proxy | default(omit) }}'
+    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
 - name: ssh-agent-wslをローカルツールディレクトリに配置する
   tags: [configuration]
   win_shell: '7z e -aoa "-o%USERPROFILE%\.local\bin" "%TEMP%\ssh-agent-wsl.7z"'
