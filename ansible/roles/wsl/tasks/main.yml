@@ -11,6 +11,13 @@
   copy:
     dest: /etc/profile.d/umask.sh
     content: umask 022
+- name: Integrate with ssh-agent-wsl
+  copy:
+    dest: /etc/profile.d/ssh-agent-wsl.sh
+    content: |
+      if which ssh-agent-wsl > /dev/null 2>&1; then
+        eval "$(ssh-agent-wsl -r)"
+      fi
 - name: Add a gpg key for emacs ppa repository
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
