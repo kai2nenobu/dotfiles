@@ -1,3 +1,16 @@
+- name: Configure wsl.conf
+  copy:
+    dest: /etc/wsl.conf
+    content: |
+      [automount]
+      enabled = true
+      root = /mnt/
+      options = "metadata,umask=22,fmask=11"
+      mountFsTab = true
+- name: Configure umask for wsl file systems
+  copy:
+    dest: /etc/profile.d/umask.sh
+    content: umask 022
 - name: Add a gpg key for emacs ppa repository
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
