@@ -8,12 +8,12 @@
   with_items:
     - { name: "EDITOR", value: "emacsclient" }
     - { name: "FZF_DEFAULT_OPTS", value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"' }
-    - { name: "HOME", value: "{{ ansible_env.USERPROFILE }}" }
+    - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
     - { name: "LANG", value: "ja_JP.UTF-8" }
     - { name: "MSYS", value: "winsymlinks:nativestrict" }
     - { name: "MSYS2_PATH_TYPE", value: "inherit" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
-    - { name: "MY_CMDER_CONFIG", value: "{{ ansible_env.USERPROFILE }}\\.cmder\\config" }
+    - { name: "MY_CMDER_CONFIG", value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config" }
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
     - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
 - name: 設定ファイルのシンボリックリンクをはる
@@ -183,4 +183,4 @@
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
-    content: "{{ ansible_date_time.iso8601 }}"
+    content: "{{ ansible_facts.date_time.iso8601 }}"

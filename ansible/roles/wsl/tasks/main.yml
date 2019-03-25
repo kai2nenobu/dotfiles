@@ -17,7 +17,7 @@
     state: present
 - name: Add an emacs ppa repository
   apt_repository:
-    repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_distribution_release }} main
+    repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Install development packages
   package:
@@ -41,7 +41,7 @@
     state: present
 - name: Add a docker apt repository
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
 - name: Install docker CLI
   apt:
