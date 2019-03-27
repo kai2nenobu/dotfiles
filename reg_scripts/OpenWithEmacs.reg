@@ -1,24 +1,24 @@
 Windows Registry Editor Version 5.00
 
-;;;; Add context menu item to open in emacs
+;;;; Add context menu item to open with emacs
 
 ;; For files
 [HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs]
 @="Open with Emacs (&E)"
-"Icon"="C:\\tools\\emacs\\bin\\emacs.exe"
+"Icon"="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\*\shell\OpenWithEmacs\command]
-@="C:\\tools\\emacs\\bin\\emacsclientw.exe \"%1\""
+@="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacsclientw.exe \"%1\""
 
 ;; For directories
 [HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs]
 @="Open with Emacs (&E)"
-"Icon"="C:\\tools\\emacs\\bin\\emacs.exe"
+"Icon"="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\Directory\shell\OpenWithEmacs\command]
-@="C:\\tools\\emacs\\bin\\emacsclientw.exe \"%L\""
+@="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacsclientw.exe \"%L\""
 
 ;; For explorer background
 [HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs]
 @="Open with Emacs (&E)"
-"Icon"="C:\\tools\\emacs\\bin\\emacs.exe"
+"Icon"="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacs.exe"
 [HKEY_CLASSES_ROOT\Directory\Background\shell\OpenWithEmacs\command]
-@="C:\\tools\\emacs\\bin\\emacsclientw.exe \"%V\""
+@="C:\\ProgramData\\chocolatey\\lib\\Emacs\\tools\\emacs\\bin\\emacsclientw.exe \"%V\""
