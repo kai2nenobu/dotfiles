@@ -12,5 +12,3 @@ var arg = WScript.Arguments.Item(0);
 var commandLine = '"emacsclient ' + '\\"$(wslpath -ua \'' + arg + '\')\\""';
 // Launch emacsclient in WSL
 ws.run('wsl bash -c ' + commandLine, 0, false);
-
-// TODO: Focus on emacs window
