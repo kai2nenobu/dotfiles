@@ -179,6 +179,7 @@
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml
+  when: False
 - name: ssh-agent-wslをダウンロードする
   tags: [configuration]
   win_get_url:
