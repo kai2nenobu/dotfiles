@@ -80,6 +80,11 @@
     elements:
       - '%USERPROFILE%\utils'
     state: present
+- name: chocolateyの終了コードを無視するワークアラウンド
+  # ref. https://github.com/ansible/ansible/issues/53860#issuecomment-473431360
+  win_chocolatey_feature:
+    name: useEnhancedExitCodes
+    state: disabled
 - name: 自作パッケージ用のChocolateyソースを追加する
   tags:
     - package
