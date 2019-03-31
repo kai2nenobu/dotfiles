@@ -138,6 +138,13 @@
       - spring-boot-cli
     state: latest
     ignore_dependencies: true
+- name: プレリリースパッケージをお試しする
+  tags: [package]
+  win_chocolatey:
+    name:
+      - mozc-emacs-helper
+    allow_prerelease: yes
+    state: latest
 - name: 自動起動スクリプトを作成する
   tags: [startup]
   vars:
