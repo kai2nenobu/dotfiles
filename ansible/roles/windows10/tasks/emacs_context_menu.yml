@@ -1,30 +1,39 @@
-- win_regedit_devel:
+- name: ファイルを右クリックでOpen with Emacs in WSL 1
+  win_regedit_devel:
     path: HKCU:\Software\Classes\*\shell\OpenWithEmacsInWSL
     data: Open with Emacs in WSL (&E)
-- win_regedit_devel:
+- name: ファイルを右クリックでOpen with Emacs in WSL 2
+  win_regedit_devel:
     path: HKCU:\Software\Classes\*\shell\OpenWithEmacsInWSL
     name: Icon
     data: C:\ProgramData\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe
-- win_regedit_devel:
+- name: ファイルを右クリックでOpen with Emacs in WSL 3
+  win_regedit_devel:
     path: HKCU:\Software\Classes\*\shell\OpenWithEmacsInWSL\command
     data: '"{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat" "%1"'
-- win_regedit_devel:
+- name: フォルダーを右クリックでOpen with Emacs in WSL 1
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\shell\OpenWithEmacsInWSL
     data: Open with Emacs in WSL (&E)
-- win_regedit_devel:
+- name: フォルダーを右クリックでOpen with Emacs in WSL 2
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\shell\OpenWithEmacsInWSL
     name: Icon
     data: C:\ProgramData\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe
-- win_regedit_devel:
+- name: フォルダーを右クリックでOpen with Emacs in WSL 3
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\shell\OpenWithEmacsInWSL\command
     data: '"{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat" "%L"'
-- win_regedit_devel:
+- name: 背景フォルダーを右クリックでOpen with Emacs in WSL 1
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\Background\shell\OpenWithEmacsInWSL
     data: Open with Emacs in WSL (&E)
-- win_regedit_devel:
+- name: 背景フォルダーを右クリックでOpen with Emacs in WSL 2
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\Background\shell\OpenWithEmacsInWSL
     name: Icon
     data: C:\ProgramData\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe
-- win_regedit_devel:
+- name: 背景フォルダーを右クリックでOpen with Emacs in WSL 3
+  win_regedit_devel:
     path: HKCU:\Software\Classes\Directory\Background\shell\OpenWithEmacsInWSL\command
     data: '"{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat" "%V"'
