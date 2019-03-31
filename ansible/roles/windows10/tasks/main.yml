@@ -18,7 +18,7 @@
     - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
 - name: 設定ファイルのシンボリックリンクをはる
   tags: [configuration]
-  include_tasks: tasks/link_config_file.yml
+  include_tasks: link_config_file.yml
   with_items:
     - { src: ".bash_aliases", dest: ".bash_aliases" }
     - { src: ".bashrc", dest: ".bashrc" }
@@ -68,7 +68,7 @@
     state: present
 - name: 設定ディレクトリのシンボリックリンクをはる
   tags: [configuration]
-  include_tasks: tasks/link_config_dir.yml
+  include_tasks: link_config_dir.yml
   with_items:
     - { src: ".zsh.d", dest: ".zsh.d" }
     - { src: "utils", dest: "utils" }
