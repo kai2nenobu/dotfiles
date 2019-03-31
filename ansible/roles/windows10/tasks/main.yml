@@ -28,6 +28,7 @@
     - { src: ".zsh_aliases", dest: ".zsh_aliases" }
     - { src: ".zshrc", dest: ".zshrc" }
     - { src: "dot.ahk", dest: "dot.ahk" }
+    - { src: "dot.nodoka", dest: "dot.nodoka" }
   loop_control:
     loop_var: config_file
 - name: ssh-agentサービスを有効にする
