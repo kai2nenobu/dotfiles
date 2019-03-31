@@ -55,6 +55,19 @@
     name: docker-ce-cli
     state: present
     update_cache: yes
+- name: Add a gpg key for wslu
+  apt_key:
+    url: https://packagecloud.io/whitewaterfoundry/wslu/gpgkey
+    state: present
+- name: Add a wslu apt repository
+  apt_repository:
+    repo: deb https://packagecloud.io/whitewaterfoundry/wslu/ubuntu/ {{ ansible_facts.distribution_release }} main
+    state: present
+- name: Install wslu
+  apt:
+    name: wslu
+    state: present
+    update_cache: yes
 - name: Configure git
   become: no
   git_config:
