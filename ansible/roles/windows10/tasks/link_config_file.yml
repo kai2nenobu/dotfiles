@@ -1,25 +1,23 @@
 - tags: [configuration]
-  set_fact:
-    config_src_path: '{{ ansible_facts.env.USERPROFILE }}\dotfiles\{{ config_file.src }}'
-    config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_file.dest }}'
-- name: リンク先のファイルの状態を確認する
-  tags: [configuration]
-  win_stat:
-    path: '{{ config_dest_path }}'
-  register: config_dest
-- name: '"{{ config_file.dest }}"を削除する'
-  tags: [configuration]
-  win_file:
-    path: '{{ config_dest_path }}'
-    state: absent
-  # リンク先が存在するがシンボリックリンクでなかったり、リンク元が異なる場合は一旦削除する
-  when:
-    - config_dest.stat.exists
-    - (not config_dest.stat.islnk) or (config_dest.stat.lnk_source != config_src_path)
-  register: del_config_dest
-- name: '"{{ config_file.src }}"のシンボリックリンクをはる'
-  win_shell: 'mklink "{{ config_dest_path }}" "{{ config_src_path }}"'
-  tags: [configuration]
-  args:
-    executable: cmd
-  when: not config_dest.stat.exists or del_config_dest.changed
+  block:
+    - set_fact:
+        config_src_path: '{{ ansible_facts.env.USERPROFILE }}\dotfiles\{{ config_file.src }}'
+        config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_file.dest }}'
+    - name: リンク先のファイルの状態を確認する
+      win_stat:
+        path: '{{ config_dest_path }}'
+      register: config_dest
+    - name: '"{{ config_file.dest }}"を削除する'
+      win_file:
+        path: '{{ config_dest_path }}'
+        state: absent
+      # リンク先が存在するがシンボリックリンクでなかったり、リンク元が異なる場合は一旦削除する
+      when:
+        - config_dest.stat.exists
+        - (not config_dest.stat.islnk) or (config_dest.stat.lnk_source != config_src_path)
+      register: del_config_dest
+    - name: '"{{ config_file.src }}"のシンボリックリンクをはる'
+      win_shell: 'mklink "{{ config_dest_path }}" "{{ config_src_path }}"'
+      args:
+        executable: cmd
+      when: not config_dest.stat.exists or del_config_dest.changed
