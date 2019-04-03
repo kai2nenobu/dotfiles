@@ -75,7 +75,7 @@
   loop_control:
     loop_var: config_dir
 - name: utilsディレクトリのパスを通す
-  tags: [configation]
+  tags: [configuration]
   win_path:
     scope: user
     elements:
