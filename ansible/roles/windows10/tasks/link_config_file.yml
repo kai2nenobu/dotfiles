@@ -1,9 +1,10 @@
 - tags: [configuration]
   block:
-    - set_fact:
+    - name: 設定ファイルのパスを絶対パス展開
+      set_fact:
         config_src_path: '{{ ansible_facts.env.USERPROFILE }}\dotfiles\{{ config_file.src }}'
         config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_file.dest }}'
-    - name: リンク先のファイルの状態を確認する
+    - name: '"{{ config_file.dest }}"の状態を確認する'
       win_stat:
         path: '{{ config_dest_path }}'
       register: config_dest
