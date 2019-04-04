@@ -1,0 +1,51 @@
+### 変数 local_proxy_type に応じたローカルプロキシソフトウェアをインストール、自動起動するロール。
+### local_proxy_type は 'enterprise' / 'dummy' のどちらかをとる。
+---
+- set_fact:
+    tags: [always]
+    mape_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start MAPE.lnk'
+    fiddler_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start Fiddler.lnk'
+## 社内プロキシがある場合
+- when: local_proxy_type == 'enterprise'
+  block:
+    - name: 自作パッケージ用のChocolateyソースを追加する
+      tags: [package]
+      win_chocolatey_source:
+        name: kai2nenobu
+        state: present
+        source: https://www.myget.org/F/kai2nenobu
+    - name: MAPEをインストールする
+      tags: [package]
+      win_chocolatey:
+        name: mape
+    - name: MAPEを自動起動するスクリプトを作成する
+      tags: [startup]
+      win_shortcut:
+        description: MAPEを起動する
+        src: 'C:\ProgramData\chocolatey\lib\mape\MAPE\mapegui.exe'
+        args: '/Start'
+        dest: '{{ mape_startup }}'
+        icon: 'C:\ProgramData\chocolatey\lib\mape\MAPE\Resources\OnIcon.ico'
+    - name: Fiddlerの自動起動スクリプトを削除する
+      tags: [startup]
+      win_shortcut:
+        dest: '{{ fiddler_startup }}'
+        state: absent
+## 社内プロキシを経由する必要はないけど、ダミーのローカルプロキシを立てたい場合
+- when: local_proxy_type == 'dummy'
+  block:
+    - name: Fiddlerをインストールする
+      tags: [package]
+      win_chocolatey:
+        name: fiddler
+    - name: Fiddlerを自動起動するスクリプトを作成する
+      tags: [startup]
+      win_shortcut:
+        description: Fiddlerを起動する
+        src: '%LOCALAPPDATA%\Programs\Fiddler\Fiddler.exe'
+        dest: '{{ fiddler_startup }}'
+    - name: MAPEの自動起動スクリプトを削除する
+      tags: [startup]
+      win_shortcut:
+        dest: '{{ mape_startup }}'
+        state: absent

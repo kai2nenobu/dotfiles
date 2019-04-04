@@ -117,7 +117,6 @@
       - graphviz
       - jq
       - lxrunoffline
-      - mape
       - nkf
       - peco
       - sakuraeditor
@@ -151,11 +150,6 @@
     startup_folder: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup'
   win_shortcut: '{{item}}'
   with_items:
-    - description: MAPEを起動する
-      src: 'C:\ProgramData\chocolatey\lib\mape\MAPE\mapegui.exe'
-      args: '/Start'
-      dest: '{{ startup_folder }}\Auto Start MAPE.lnk'
-      icon: 'C:\ProgramData\chocolatey\lib\mape\MAPE\Resources\OnIcon.ico'
     - description: VcXsrvを起動する
       src: 'C:\Program Files\VcXsrv\vcxsrv.exe'
       args: '-multiwindow'
