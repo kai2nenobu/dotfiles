@@ -1,11 +1,11 @@
 - hosts: windows10
   environment: "{{ proxy_env | default({}) }}"
-  roles:
-    - role: local-proxy
+  tasks:
+    - import_role: name=local-proxy
       when: local_proxy_type is defined
-    - windows10
+    - import_role: name=windows10
 - hosts: wsl
   become: yes
   environment: "{{ proxy_env | default({}) }}"
-  roles:
-    - wsl
+  tasks:
+    - import_role: name=wsl
