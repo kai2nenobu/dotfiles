@@ -1,16 +1,18 @@
 - hosts: windows10
   environment: "{{ proxy_env | default({}) }}"
-  tasks:
+  pre_tasks:
     - name: chocolateyの終了コードを無視するワークアラウンド
       # ref. https://github.com/ansible/ansible/issues/53860#issuecomment-473431360
+      tags: [always]
       win_chocolatey_feature:
         name: useEnhancedExitCodes
         state: disabled
-    - import_role: name=local-proxy
+  roles:
+    - role: local-proxy
       when: local_proxy_type is defined
-    - import_role: name=windows10
+    - windows10
 - hosts: wsl
   become: yes
   environment: "{{ proxy_env | default({}) }}"
-  tasks:
-    - import_role: name=wsl
+  roles:
+    - wsl
