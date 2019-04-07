@@ -7,13 +7,19 @@
     state: present
   with_items:
     - { name: "EDITOR", value: "emacsclient" }
-    - { name: "FZF_DEFAULT_OPTS", value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"' }
+    - {
+        name: "FZF_DEFAULT_OPTS",
+        value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"',
+      }
     - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
     - { name: "LANG", value: "ja_JP.UTF-8" }
     - { name: "MSYS", value: "winsymlinks:nativestrict" }
     - { name: "MSYS2_PATH_TYPE", value: "inherit" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
-    - { name: "MY_CMDER_CONFIG", value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config" }
+    - {
+        name: "MY_CMDER_CONFIG",
+        value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config",
+      }
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
     - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
 - name: 設定ファイルのシンボリックリンクをはる
@@ -40,13 +46,13 @@
 - name: OpenSSHサーバのサービスを確実に停止する
   tags: [service]
   win_service:
-    name: '{{ item }}'
+    name: "{{ item }}"
     start_mode: disabled
     state: stopped
   with_items:
     - sshproxy
     - sshbroker
-  ignore_errors: yes  # 未インストールの場合はエラーになるので無視
+  ignore_errors: yes # 未インストールの場合はエラーになるので無視
 - name: clink_inputrcをコピーする
   # シンボリックリンクが動作しないので仕方ないがコピーですます
   # ref. https://github.com/mridgers/clink/issues/461
@@ -143,11 +149,11 @@
   tags: [startup]
   vars:
     startup_folder: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup'
-  win_shortcut: '{{item}}'
+  win_shortcut: "{{item}}"
   with_items:
     - description: VcXsrvを起動する
       src: 'C:\Program Files\VcXsrv\vcxsrv.exe'
-      args: '-multiwindow'
+      args: "-multiwindow"
       dest: '{{ startup_folder }}\Auto Start VcXsrv.lnk'
     - description: ユーザAHKスクリプトを起動する
       src: 'C:\ProgramData\chocolatey\bin\AutoHotkey.exe'
@@ -159,7 +165,7 @@
   # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
   tags: [configuration, cmder]
   win_file:
-    path: '%MY_CMDER_CONFIG%'
+    path: "%MY_CMDER_CONFIG%"
     state: directory
 - name: Cmderの設定をコピーする
   tags: [configuration, cmder]
@@ -181,7 +187,7 @@
   win_get_url:
     url: https://github.com/rupor-github/ssh-agent-wsl/releases/download/v2.2/ssh-agent-wsl.7z
     dest: '%TEMP%\ssh-agent-wsl.7z'
-    force: yes  # Download everytime
+    force: yes # Download everytime
     proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
 - name: ssh-agent-wslをローカルツールディレクトリに配置する
   tags: [package]

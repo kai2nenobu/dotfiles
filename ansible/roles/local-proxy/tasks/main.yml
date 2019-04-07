@@ -23,13 +23,13 @@
       win_shortcut:
         description: MAPEを起動する
         src: 'C:\ProgramData\chocolatey\lib\mape\MAPE\mapegui.exe'
-        args: '/Start'
-        dest: '{{ mape_startup }}'
+        args: "/Start"
+        dest: "{{ mape_startup }}"
         icon: 'C:\ProgramData\chocolatey\lib\mape\MAPE\Resources\OnIcon.ico'
     - name: Fiddlerの自動起動スクリプトを削除する
       tags: [startup]
       win_shortcut:
-        dest: '{{ fiddler_startup }}'
+        dest: "{{ fiddler_startup }}"
         state: absent
 ## 社内プロキシを経由する必要はないけど、ダミーのローカルプロキシを立てたい場合
 - when: local_proxy_type == 'dummy'
@@ -43,9 +43,9 @@
       win_shortcut:
         description: Fiddlerを起動する
         src: '%LOCALAPPDATA%\Programs\Fiddler\Fiddler.exe'
-        dest: '{{ fiddler_startup }}'
+        dest: "{{ fiddler_startup }}"
     - name: MAPEの自動起動スクリプトを削除する
       tags: [startup]
       win_shortcut:
-        dest: '{{ mape_startup }}'
+        dest: "{{ mape_startup }}"
         state: absent

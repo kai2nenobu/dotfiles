@@ -6,11 +6,11 @@
         config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_dir.dest }}'
     - name: '"{{ config_dir.dest }}"の状態を確認する'
       win_stat:
-        path: '{{ config_dest_path }}'
+        path: "{{ config_dest_path }}"
       register: config_dest
     - name: '"{{ config_dir.dest }}"を削除する'
       win_file:
-        path: '{{ config_dest_path }}'
+        path: "{{ config_dest_path }}"
         state: absent
       # リンク先が存在するがシンボリックリンクでなかったり、リンク元が異なる場合は一旦削除する
       when:
