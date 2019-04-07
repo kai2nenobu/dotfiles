@@ -177,14 +177,14 @@
   tags: [registry]
   import_tasks: emacs_context_menu.yml
 - name: ssh-agent-wslをダウンロードする
-  tags: [configuration]
+  tags: [package]
   win_get_url:
     url: https://github.com/rupor-github/ssh-agent-wsl/releases/download/v2.2/ssh-agent-wsl.7z
     dest: '%TEMP%\ssh-agent-wsl.7z'
     force: yes  # Download everytime
     proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
 - name: ssh-agent-wslをローカルツールディレクトリに配置する
-  tags: [configuration]
+  tags: [package]
   win_shell: '7z e -aoa "-o%USERPROFILE%\.local\bin" "%TEMP%\ssh-agent-wsl.7z"'
   args:
     executable: cmd
