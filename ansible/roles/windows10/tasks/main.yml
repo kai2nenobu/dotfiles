@@ -43,16 +43,15 @@
     name: ssh-agent
     start_mode: delayed
     state: started
-- name: OpenSSHサーバのサービスを確実に停止する
+- name: OpenSSHサーバのサービスを確実に削除する
   tags: [service]
   win_service:
     name: "{{ item }}"
-    start_mode: disabled
-    state: stopped
+    state: absent
+    dependency_action: remove
   with_items:
     - sshproxy
     - sshbroker
-  ignore_errors: yes # 未インストールの場合はエラーになるので無視
 - name: clink_inputrcをコピーする
   # シンボリックリンクが動作しないので仕方ないがコピーですます
   # ref. https://github.com/mridgers/clink/issues/461
