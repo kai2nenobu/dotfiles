@@ -1,0 +1,14 @@
+<!--
+    ref. https://stackoverflow.com/a/48142344
+    > control intl.cpl,, /f:"%CD%\RemoveEnglishLayout"
+-->
+<gs:GlobalizationServices xmlns:gs="urn:longhornGlobalizationUnattend">
+  <gs:UserList>
+    <gs:User UserID="Current"/>
+  </gs:UserList>
+  <gs:InputPreferences>
+    <!-- Add en-US keyboard input and remove it immediately -->
+    <gs:InputLanguageID Action="add" ID="0409:00000409"/>
+    <gs:InputLanguageID Action="remove" ID="0409:00000409"/>
+  </gs:InputPreferences>
+</gs:GlobalizationServices>
