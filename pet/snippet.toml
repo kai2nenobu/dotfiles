@@ -1,7 +1,40 @@
 [[snippets]]
+  description = "SSLハンドシェイクをテストする"
+  command = "openssl s_client -connect <server=www.example.com>:<port=443> -showcerts"
+  tag = ["openssl"]
+  output = """
+CONNECTED(00000180)
+depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+verify return:1
+depth=1 C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA
+verify return:1
+depth=0 C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org
+verify return:1
+---
+Certificate chain
+ 0 s:C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org
+   i:C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA
+-----BEGIN CERTIFICATE-----
+MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
+(snip)
+"""
+
+[[snippets]]
   description = "HMACアルゴリズムでメッセージダイジェストを算出する"
   command = "openssl dgst -hex -sha256 -hmac \"Key of MAC\""
   tag = ["openssl"]
+  output = ""
+
+[[snippets]]
+  description = "Connect to MySQL Server"
+  command = "mysql --host \"<hostname>\" --user \"<user>\" --password <password> \"<database>\""
+  tag = ["mysql"]
+  output = ""
+
+[[snippets]]
+  description = "Execute SQL query"
+  command = "mysql --host \"<hostname>\" --user \"<user>\" --password <password> -e \"<query=SELECT 1>\" \"<database>\""
+  tag = ["mysql"]
   output = ""
 
 [[snippets]]
@@ -11,8 +44,29 @@
   output = ""
 
 [[snippets]]
+  description = "コマンド置換/Command substitution in cmd.exe"
+  command = "@for /f \"usebackq tokens=1 delims=\" %i in (`<command>`) do <next_command=@echo %i>"
+  tag = ["cmd"]
+  output = ""
+
+[[snippets]]
+  description = "Read a password with mask"
+  command = " @for /f \"usebackq delims=\" %i in (`powershell -Command \"$p = Read-Host '<prompt=Enter password>' -AsSecureString; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($p); $p = [Runtime.InteropServices.Marshal]::PtrToStringAuto($p); echo $p\"`) do @set <variable=PASS>=%i"
+  tag = ["cmd"]
+  output = ""
+
+[[snippets]]
+  description = "Add UTF-8 BOM by sed"
+  command = "sed -b '1s/^\\(\\xef\\xbb\\xbf\\)\\?/\\xef\\xbb\\xbf/' \"file\""
+  output = ""
+
+[[snippets]]
+  description = "Remove UTF-8 BOM by sed"
+  command = "sed -b '1s/^\\(\\xef\\xbb\\xbf\\)//' \"file-with-bom\""
+  output = ""
+
+[[snippets]]
   description = "Sample Snippet"
   command = "echo sample"
   tag = ["sample"]
   output = "sample"
-
