@@ -2,3 +2,4 @@
 C-r: " @for /f \"usebackq tokens=1 delims=\" %i in (`type \"%MY_CMDER_CONFIG%\\.history\" ^| fzf --tac --prompt \"Choose history: \" --no-sort -0 -1`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
 "\C-x\C-d": " pcd\C-j"
 "\C-x\C-b": " gco\C-j"
+"\C-x\C-p": " @for /f \"usebackq tokens=1 delims=\" %i in (`pet search`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
