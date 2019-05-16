@@ -6,7 +6,8 @@
     value: "{{ item.value }}"
     state: present
   with_items:
-    - { name: "EDITOR", value: "emacsclient" }
+    - name: "EDITOR"
+      value: '{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat'
     - {
         name: "FZF_DEFAULT_OPTS",
         value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"',
