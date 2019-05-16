@@ -1,0 +1,18 @@
+[[snippets]]
+  description = "HMACアルゴリズムでメッセージダイジェストを算出する"
+  command = "openssl dgst -hex -sha256 -hmac \"Key of MAC\""
+  tag = ["openssl"]
+  output = ""
+
+[[snippets]]
+  description = "chocolateyのソースリポジトリを追加する"
+  command = "choco source add --name \"name\" --source \"url\""
+  tag = ["chocolatey"]
+  output = ""
+
+[[snippets]]
+  description = "Sample Snippet"
+  command = "echo sample"
+  tag = ["sample"]
+  output = "sample"
+
