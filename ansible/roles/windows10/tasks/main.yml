@@ -227,6 +227,28 @@
     src: '%TEMP%\ghq_windows_amd64\ghq.exe'
     dest: '%USERPROFILE%\.local\bin\ghq.exe'
     remote_src: yes
+- name: petをダウンロードする
+  tags: [package]
+  win_get_url:
+    url: https://github.com/knqyf263/pet/releases/download/v0.3.4/pet_0.3.4_windows_amd64.tar.gz
+    dest: '%TEMP%\pet_windows_amd64.tar.gz'
+    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
+- name: petアーカイブを展開する (gz)
+  tags: [package]
+  win_unzip:
+    src: '%TEMP%\pet_windows_amd64.tar.gz'
+    dest: '%TEMP%'
+- name: petアーカイブを展開する (tar)
+  tags: [package]
+  win_unzip:
+    src: '%TEMP%\pet_windows_amd64.tar'
+    dest: '%TEMP%\pet_windows_amd64'
+- name: petをローカルツールディレクトリに配置する
+  tags: [package]
+  win_copy:
+    src: '%TEMP%\pet_windows_amd64\pet.exe'
+    dest: '%USERPROFILE%\.local\bin\pet.exe'
+    remote_src: yes
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
