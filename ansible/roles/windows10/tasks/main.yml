@@ -88,6 +88,12 @@
     elements:
       - '%USERPROFILE%\utils'
     state: present
+- name: Install PowerShell Community Extensions
+  tags: [package, test]
+  win_psmodule:
+    name: Pscx
+    state: present
+    allow_clobber: yes
 - name: 自作パッケージ用のChocolateyソースを追加する
   tags:
     - package
