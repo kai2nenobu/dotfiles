@@ -8,6 +8,11 @@
       win_stat:
         path: "{{ config_dest_path }}"
       register: config_dest
+    - name: '"{{ config_file.dest }}"の親ディレクトリを作成する'
+      win_file:
+        path: '{{ config_dest_path | win_dirname }}'
+        state: directory
+      when: not config_dest.stat.exists
     - name: '"{{ config_file.dest }}"を削除する'
       win_file:
         path: "{{ config_dest_path }}"
