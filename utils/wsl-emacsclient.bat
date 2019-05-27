@@ -3,7 +3,6 @@
 ::--- Batch section within JScript comment that calls the internal JScript ----
 @echo off
 cscript //E:JScript //nologo "%~f0" %*
-AutoHotkey.exe "%~p0\focus-wsl-emacs.ahk"
 exit /b
 
 ----- End of JScript comment, beginning of normal JScript  ------------------*/
