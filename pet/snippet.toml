@@ -21,7 +21,7 @@ MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
 
 [[snippets]]
   description = "HMACアルゴリズムでメッセージダイジェストを算出する"
-  command = "openssl dgst -hex -sha256 -hmac \"Key of MAC\""
+  command = "openssl dgst -hex -sha256 -hmac \"Key of MAC\" <files...=->"
   tag = ["openssl"]
   output = ""
 
