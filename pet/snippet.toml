@@ -66,6 +66,12 @@ MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
   output = ""
 
 [[snippets]]
+  description = "Register an additional public key (-f option is required)"
+  command = "ssh-copy-id -f -i \"<newly_register_key.pub>\" -o \"IdentityFile <already_registered_key.pub>\" <remote_host>"
+  tag =["ssh"]
+  output = ""
+
+[[snippets]]
   description = "Sample Snippet"
   command = "echo sample"
   tag = ["sample"]
