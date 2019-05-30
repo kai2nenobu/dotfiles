@@ -10,7 +10,7 @@
       value: '{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat'
     - {
         name: "FZF_DEFAULT_OPTS",
-        value: '--reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"',
+        value: '--exact --reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"',
       }
     - name: GIT_SSH
       value: '{{ ansible_facts.env.windir }}\system32\OpenSSH\ssh.exe'
