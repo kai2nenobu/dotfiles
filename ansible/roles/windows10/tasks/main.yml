@@ -197,6 +197,9 @@
     - user-ConEmu.xml
     - user_aliases.cmd
     - user_profile.cmd
+- name: よく使うアプリをタスクバーにピン留めする
+  tags: [configuration]
+  import_tasks: pin_to_taskbar.yml
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml

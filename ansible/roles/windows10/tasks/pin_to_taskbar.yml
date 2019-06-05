@@ -1,0 +1,49 @@
+## よく使うアプリケーションをタスクバーにピン留めするタスク。
+## ピン留めはグループポリシーでタスクバーレイアウトxmlを指定する方法で実現する。
+## ref. https://docs.microsoft.com/ja-jp/windows/configuration/windows-10-start-layout-options-and-policies
+- block:
+    - name: 変数設定
+      set_fact:
+        sc_dir_path: '%APPDATA%\Shortcuts'
+        # ここに列挙したアプリケーションをピン留めする
+        apps:
+          - name: Cmder
+            src: 'C:\tools\cmdermini\Cmder.exe'
+            arguments: '/C %USERPROFILE%\.cmder'
+            description: ユーザ個別設定のCmderを開く
+          - name: Firefox
+            src: 'C:\Program Files\Mozilla Firefox\firefox.exe'
+          - name: Outlook 2016
+            src: 'C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE'
+            description: 電子メール、スケジュール、連絡先、タスクを管理します。
+          - name: エクスプローラー
+            src: 'C:\Windows\explorer.exe'
+            description: コンピューターのファイルやフォルダーを表示します。
+          - name: Emacs on WSL
+            src: '%USERPROFILE%\utils\wsl-emacs.bat'
+            icon: '%ALLUSERSPROFILE%\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe'
+            description: WSL上のEmacsを起動します。
+          - name: Google Chrome
+            src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+          - name: Internet Explorer
+            src: 'C:\Program Files\internet explorer\iexplore.exe'
+          - name: リモート デスクトップ接続
+            src: '%windir%\system32\mstsc.exe'
+            description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
+    - name: ショートカット配置ディレクトリを作成する
+      win_file:
+        path: '{{ sc_dir_path }}'
+        state: directory
+    - name: ショートカット作成
+      win_shortcut:
+        src: '{{ item.src }}'
+        dest: '{{ sc_dir_path }}\{{ item.name }}.lnk'
+        arguments: '{{ item.arguments | default(omit) }}'
+        icon: '{{ item.icon | default(omit) }}'
+        description: '{{ item.description | default(omit) }}'
+      loop: '{{ apps }}'
+    - name: レイアウトxmlをテンプレート展開する
+      win_template:
+        src: TaskBarLayout.xml.j2
+        dest: '{{ sc_dir_path }}\TaskBarLayout.xml'
+    # TODO: グループポリシーでレイアウトxmlを設定する
