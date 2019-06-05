@@ -154,15 +154,6 @@
       - mozc-emacs-helper
     allow_prerelease: yes
     state: latest
-- name: copy script
-  tags: [never]
-  win_copy:
-    src: PinToTaskBar.ps1
-    dest: '{{ ansible_facts.env.TEMP }}\PinToTaskBar.ps1'
-    remote_src: no
-- name: pin
-  tags: [never]
-  win_command: powershell.exe -ExecutionPolicy RemoteSigned -File "{{ ansible_facts.env.TEMP }}\PinToTaskBar.ps1" -Target "C:\Python37\python.exe"
 - name: 自動起動スクリプトを作成する
   tags: [startup]
   vars:
