@@ -30,6 +30,8 @@
           - name: リモート デスクトップ接続
             src: '%windir%\system32\mstsc.exe'
             description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
+          - name: Sourcetree
+            src: 'C:\Program Files (x86)\Atlassian\Sourcetree\SourceTree.exe'
     - name: ショートカット配置ディレクトリを作成する
       win_file:
         path: '{{ sc_dir_path }}'
