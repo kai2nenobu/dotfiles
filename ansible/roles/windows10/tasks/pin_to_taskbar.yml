@@ -11,6 +11,7 @@
             src: 'C:\tools\cmdermini\Cmder.exe'
             arguments: '/C "%USERPROFILE%\.cmder"'
             description: ユーザ個別設定のCmderを開く
+            #appid: 'Maximus5.ConEmu.b482823ea988e12ffc028ea2e346a6f9'
           - name: Firefox
             src: 'C:\Program Files\Mozilla Firefox\firefox.exe'
           - name: Outlook 2016
@@ -24,6 +25,7 @@
             arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
             icon: '%ALLUSERSPROFILE%\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe'
             description: WSL上のEmacsを起動します。
+            #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
           - name: Google Chrome
             src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
           - name: Internet Explorer
@@ -50,3 +52,4 @@
         src: TaskBarLayout.xml.j2
         dest: '{{ sc_dir_path }}\TaskBarLayout.xml'
     # TODO: グループポリシーでレイアウトxmlを設定する
+    # TODO: アイコンが分裂しないようにショートカットのアプリケーションIDを設定する
