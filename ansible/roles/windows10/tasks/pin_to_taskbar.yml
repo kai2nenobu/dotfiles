@@ -20,7 +20,8 @@
             src: 'C:\Windows\explorer.exe'
             description: コンピューターのファイルやフォルダーを表示します。
           - name: Emacs on WSL
-            src: '%USERPROFILE%\utils\wsl-emacs.bat'
+            src: 'cmd.exe'
+            arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
             icon: '%ALLUSERSPROFILE%\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe'
             description: WSL上のEmacsを起動します。
           - name: Google Chrome
