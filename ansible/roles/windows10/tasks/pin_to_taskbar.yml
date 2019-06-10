@@ -9,7 +9,7 @@
         apps:
           - name: Cmder
             src: 'C:\tools\cmdermini\Cmder.exe'
-            arguments: '/C %USERPROFILE%\.cmder'
+            arguments: '/C "%USERPROFILE%\.cmder"'
             description: ユーザ個別設定のCmderを開く
           - name: Firefox
             src: 'C:\Program Files\Mozilla Firefox\firefox.exe'
