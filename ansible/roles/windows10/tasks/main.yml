@@ -121,6 +121,7 @@
       - Firefox
       - fzf
       - git
+      - ghq
       - GoogleChrome
       - GoogleJapaneseInput
       - gradle
@@ -207,23 +208,6 @@
   win_shell: '7z e -aoa "-o%USERPROFILE%\.local\bin" "%TEMP%\ssh-agent-wsl.7z"'
   args:
     executable: cmd
-- name: ghqをダウンロードする
-  tags: [package]
-  win_get_url:
-    url: https://github.com/motemen/ghq/releases/download/v0.12.2/ghq_windows_amd64.zip
-    dest: '%TEMP%\ghq_windows_amd64.zip'
-    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
-- name: ghqのアーカイブを展開する
-  tags: [package]
-  win_unzip:
-    src: '%TEMP%\ghq_windows_amd64.zip'
-    dest: '%TEMP%'
-- name: ghqをローカルツールディレクトリに配置する
-  tags: [package]
-  win_copy:
-    src: '%TEMP%\ghq_windows_amd64\ghq.exe'
-    dest: '%USERPROFILE%\.local\bin\ghq.exe'
-    remote_src: yes
 - name: petをダウンロードする
   tags: [package]
   win_get_url:
