@@ -130,8 +130,10 @@
       - lxrunoffline
       - nkf
       - peco
+      - pet
       - sakuraeditor
       - sourcetree
+      - ssh-agent-wsl
       - Sudo
       - vcxsrv
       - vscode
@@ -196,40 +198,6 @@
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml
-- name: ssh-agent-wslをダウンロードする
-  tags: [package]
-  win_get_url:
-    url: https://github.com/rupor-github/ssh-agent-wsl/releases/download/v2.2/ssh-agent-wsl.7z
-    dest: '%TEMP%\ssh-agent-wsl.7z'
-    force: yes # Download everytime
-    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
-- name: ssh-agent-wslをローカルツールディレクトリに配置する
-  tags: [package]
-  win_shell: '7z e -aoa "-o%USERPROFILE%\.local\bin" "%TEMP%\ssh-agent-wsl.7z"'
-  args:
-    executable: cmd
-- name: petをダウンロードする
-  tags: [package]
-  win_get_url:
-    url: https://github.com/knqyf263/pet/releases/download/v0.3.4/pet_0.3.4_windows_amd64.tar.gz
-    dest: '%TEMP%\pet_windows_amd64.tar.gz'
-    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
-- name: petアーカイブを展開する (gz)
-  tags: [package]
-  win_unzip:
-    src: '%TEMP%\pet_windows_amd64.tar.gz'
-    dest: '%TEMP%'
-- name: petアーカイブを展開する (tar)
-  tags: [package]
-  win_unzip:
-    src: '%TEMP%\pet_windows_amd64.tar'
-    dest: '%TEMP%\pet_windows_amd64'
-- name: petをローカルツールディレクトリに配置する
-  tags: [package]
-  win_copy:
-    src: '%TEMP%\pet_windows_amd64\pet.exe'
-    dest: '%USERPROFILE%\.local\bin\pet.exe'
-    remote_src: yes
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
