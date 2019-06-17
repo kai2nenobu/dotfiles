@@ -91,14 +91,13 @@
       - '%USERPROFILE%\utils'
     state: present
 - name: Install PowerShell Community Extensions
-  tags: [package, test]
+  tags: [package]
   win_psmodule:
     name: Pscx
     state: present
     allow_clobber: yes
 - name: Chocolateyパッケージをインストールする (chocolatey.org)
-  tags:
-    - package
+  tags: [package]
   win_chocolatey:
     name:
       - 1password4
@@ -128,8 +127,7 @@
       - zoomit
     state: latest
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
-  tags:
-    - package
+  tags: [package]
   win_chocolatey:
     name:
       - a5m2
@@ -142,8 +140,7 @@
     source: https://www.myget.org/F/kai2nenobu
     state: latest
 - name: Chocolateyパッケージをインストールする（依存除く）
-  tags:
-    - package
+  tags: [package]
   # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
   # 別途インストールする。
   win_chocolatey:
