@@ -216,6 +216,12 @@
       - name: リモート デスクトップ接続
         src: '%windir%\system32\mstsc.exe'
         description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
+      - name: Emacs
+        src: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\runemacs.exe'
+        arguments: '-r'
+        directory: '%USERPROFILE'
+        description: Emacsを起動します。
+        #appid: 'GNU.Emacs'
       - name: Sourcetree
         src: 'C:\Program Files (x86)\Atlassian\Sourcetree\SourceTree.exe'
 - name: 「Emacsで開く」をコンテキストメニューに追加する
