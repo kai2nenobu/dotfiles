@@ -96,49 +96,50 @@
     name: Pscx
     state: present
     allow_clobber: yes
-- name: 自作パッケージ用のChocolateyソースを追加する
-  tags:
-    - package
-  win_chocolatey_source:
-    name: kai2nenobu
-    state: present
-    source: https://www.myget.org/F/kai2nenobu
-- name: Chocolateyパッケージをインストールする
+- name: Chocolateyパッケージをインストールする (chocolatey.org)
   tags:
     - package
   win_chocolatey:
     name:
       - 1password4
       - 7zip
-      - a5m2
       - adoptopenjdk
       - adoptopenjdk11
       - adoptopenjdk8
       - autohotkey.portable
       - cmdermini
-      - cmigemo
       - emacs
       - Firefox
       - fzf
       - git
-      - ghq
       - GoogleChrome
       - GoogleJapaneseInput
       - gradle
       - graphviz
       - jq
       - lxrunoffline
-      - nkf
       - peco
-      - pet
       - sakuraeditor
       - sourcetree
-      - ssh-agent-wsl
       - Sudo
       - vcxsrv
       - vscode
       - winmerge
       - zoomit
+    state: latest
+- name: Chocolateyパッケージをインストールする (kai2nenobu)
+  tags:
+    - package
+  win_chocolatey:
+    name:
+      - a5m2
+      - cmigemo
+      - ghq
+      - mozc-emacs-helper
+      - nkf
+      - pet
+      - ssh-agent-wsl
+    source: https://www.myget.org/F/kai2nenobu
     state: latest
 - name: Chocolateyパッケージをインストールする（依存除く）
   tags:
@@ -151,13 +152,6 @@
       - spring-boot-cli
     state: latest
     ignore_dependencies: true
-- name: プレリリースパッケージをお試しする
-  tags: [package]
-  win_chocolatey:
-    name:
-      - mozc-emacs-helper
-    allow_prerelease: yes
-    state: latest
 - name: 自動起動スクリプトを作成する
   tags: [startup]
   vars:

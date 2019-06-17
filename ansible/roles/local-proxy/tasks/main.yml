@@ -8,16 +8,11 @@
 ## 社内プロキシがある場合
 - when: local_proxy_type == 'enterprise'
   block:
-    - name: 自作パッケージ用のChocolateyソースを追加する
-      tags: [package]
-      win_chocolatey_source:
-        name: kai2nenobu
-        state: present
-        source: https://www.myget.org/F/kai2nenobu
     - name: MAPEをインストールする
       tags: [package]
       win_chocolatey:
         name: mape
+        source: https://www.myget.org/F/kai2nenobu
     - name: MAPEを自動起動するスクリプトを作成する
       tags: [startup]
       win_shortcut:
