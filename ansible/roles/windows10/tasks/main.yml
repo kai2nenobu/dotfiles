@@ -186,6 +186,38 @@
 - name: よく使うアプリをタスクバーにピン留めする
   tags: [configuration]
   import_tasks: pin_to_taskbar.yml
+  vars:
+    # ピン留めするアプリケーション一覧
+    apps:
+      - name: Cmder
+        src: 'C:\tools\cmdermini\Cmder.exe'
+        arguments: '/C "%USERPROFILE%\.cmder"'
+        description: ユーザ個別設定のCmderを開く
+        #appid: 'Maximus5.ConEmu.b482823ea988e12ffc028ea2e346a6f9'
+      - name: Firefox
+        src: 'C:\Program Files\Mozilla Firefox\firefox.exe'
+      - name: Outlook 2016
+        src: 'C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE'
+        description: 電子メール、スケジュール、連絡先、タスクを管理します。
+      - name: エクスプローラー
+        src: 'C:\Windows\explorer.exe'
+        description: コンピューターのファイルやフォルダーを表示します。
+      - name: Emacs on WSL
+        src: 'cmd.exe'
+        arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
+        directory: "{{ '%' + 'USERPROFILE' + '%' }}"
+        icon: '%ALLUSERSPROFILE%\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe'
+        description: WSL上のEmacsを起動します。
+        #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
+      - name: Google Chrome
+        src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+      - name: Internet Explorer
+        src: 'C:\Program Files\internet explorer\iexplore.exe'
+      - name: リモート デスクトップ接続
+        src: '%windir%\system32\mstsc.exe'
+        description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
+      - name: Sourcetree
+        src: 'C:\Program Files (x86)\Atlassian\Sourcetree\SourceTree.exe'
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml
