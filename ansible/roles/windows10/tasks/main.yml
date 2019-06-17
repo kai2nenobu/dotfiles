@@ -160,7 +160,7 @@
       args: "-multiwindow"
       dest: '{{ startup_folder }}\Auto Start VcXsrv.lnk'
     - description: ユーザAHKスクリプトを起動する
-      src: 'C:\ProgramData\chocolatey\bin\AutoHotkey.exe'
+      src: '%ChocolateyInstall%\bin\AutoHotkey.exe'
       args: '%USERPROFILE%\dot.ahk'
       dest: '{{ startup_folder }}\User AHK.lnk'
 ## TODO: Cmderを /C オプション付きで起動するショートカット or タスクバーアイコンを
@@ -206,7 +206,7 @@
         src: 'cmd.exe'
         arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
         directory: '%USERPROFILE'
-        icon: '%ALLUSERSPROFILE%\chocolatey\lib\Emacs\tools\emacs\bin\emacs.exe'
+        icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe'
         description: WSL上のEmacsを起動します。
         #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
       - name: Google Chrome
