@@ -11,6 +11,8 @@
 :: you can add your plugins to the cmder path like so
 :: set "PATH=%CMDER_ROOT%\vendor\whatever;%PATH%"
 
+echo Load user profile (%~f0)
+
 set MY_VARIABLE=cmder
 
 set PAGER=less
