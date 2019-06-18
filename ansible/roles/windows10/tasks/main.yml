@@ -203,9 +203,9 @@
         src: 'C:\Windows\explorer.exe'
         description: コンピューターのファイルやフォルダーを表示します。
       - name: Emacs on WSL
-        src: 'cmd.exe'
+        src: "cmd.exe"
         arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
-        directory: '%USERPROFILE'
+        directory: "%USERPROFILE"
         icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe'
         description: WSL上のEmacsを起動します。
         #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
@@ -218,8 +218,8 @@
         description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
       - name: Emacs
         src: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\runemacs.exe'
-        arguments: '-r'
-        directory: '%USERPROFILE'
+        arguments: "-r"
+        directory: "%USERPROFILE"
         description: Emacsを起動します。
         #appid: 'GNU.Emacs'
       - name: Sourcetree

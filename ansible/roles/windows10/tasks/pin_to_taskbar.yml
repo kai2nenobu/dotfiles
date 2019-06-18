@@ -13,20 +13,20 @@
     - name: 変数設定
       set_fact:
         sc_dir_path: '%APPDATA%\Shortcuts'
-        apps: '{{ apps | default([]) }}'
+        apps: "{{ apps | default([]) }}"
     - name: ショートカット配置ディレクトリを作成する
       win_file:
-        path: '{{ sc_dir_path }}'
+        path: "{{ sc_dir_path }}"
         state: directory
     - name: ショートカット作成
       win_shortcut:
-        src: '{{ item.src }}'
+        src: "{{ item.src }}"
         dest: '{{ sc_dir_path }}\{{ item.name }}.lnk'
-        arguments: '{{ item.arguments | default(omit) }}'
-        directory: '{{ item.directory | default(omit) }}'
-        icon: '{{ item.icon | default(omit) }}'
-        description: '{{ item.description | default(omit) }}'
-      loop: '{{ apps }}'
+        arguments: "{{ item.arguments | default(omit) }}"
+        directory: "{{ item.directory | default(omit) }}"
+        icon: "{{ item.icon | default(omit) }}"
+        description: "{{ item.description | default(omit) }}"
+      loop: "{{ apps }}"
     - name: レイアウトxmlをテンプレート展開する
       win_template:
         src: TaskBarLayout.xml.j2
