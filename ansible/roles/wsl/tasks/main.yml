@@ -32,6 +32,8 @@
       - cmigemo
       - connect-proxy
       - emacs26
+      - nodejs
+      - npm
       - git
       - tmux
       - zsh
@@ -81,6 +83,10 @@
 - name: Install a ripgrep package
   apt: deb="/tmp/ripgrep_0.10.0_amd64.deb"
   when: my_ripgrep_installed.changed
+- name: Install node tools
+  npm:
+    name: prettier
+    global: yes
 - name: Configure git
   become: no
   git_config:
