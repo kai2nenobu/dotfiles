@@ -31,10 +31,12 @@
     name:
       - cmigemo
       - connect-proxy
+      - curl
       - emacs26
       - nodejs
       - npm
       - git
+      - ruby-serverspec
       - tmux
       - zsh
       - x11-xserver-utils
