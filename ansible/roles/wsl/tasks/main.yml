@@ -36,12 +36,19 @@
       - nodejs
       - npm
       - git
-      - ruby-serverspec
       - tmux
       - zsh
       - x11-xserver-utils
     state: present
     update_cache: yes
+- name: Install serverspec dependencies
+  apt:
+    name:
+      - build-essential
+      - libffi-dev
+      - ruby-bundler
+      - ruby-dev
+    state: present
 - name: Remove unnecessary packages
   package:
     name:
