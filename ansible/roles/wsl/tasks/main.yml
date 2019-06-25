@@ -27,7 +27,7 @@
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Install development packages
-  package:
+  apt:
     name:
       - cmigemo
       - connect-proxy
