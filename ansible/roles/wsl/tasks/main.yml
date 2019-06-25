@@ -39,6 +39,7 @@
       - zsh
       - x11-xserver-utils
     state: present
+    update_cache: yes
 - name: Remove unnecessary packages
   package:
     name:
