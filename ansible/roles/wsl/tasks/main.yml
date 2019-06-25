@@ -35,6 +35,7 @@
       - emacs26
       - nodejs
       - npm
+      - man
       - git
       - tmux
       - zsh
