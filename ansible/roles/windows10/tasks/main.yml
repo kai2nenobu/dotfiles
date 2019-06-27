@@ -1,5 +1,5 @@
 - name: 環境変数を設定する
-  tags: [configuration]
+  tags: [config]
   win_environment:
     level: user
     name: "{{ item.name }}"
@@ -26,7 +26,7 @@
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
     - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
 - name: 設定ファイルのシンボリックリンクをはる
-  tags: [configuration]
+  tags: [config]
   include_tasks: link_config_file.yml
   with_items:
     - { src: ".bash_aliases", dest: ".bash_aliases" }
@@ -59,24 +59,24 @@
 - name: clink_inputrcをコピーする
   # シンボリックリンクが動作しないので仕方ないがコピーですます
   # ref. https://github.com/mridgers/clink/issues/461
-  tags: [configuration]
+  tags: [config]
   win_copy:
     src: '%USERPROFILE%\dotfiles\clink_inputrc'
     dest: '%USERPROFILE%\clink_inputrc'
     remote_src: True
 - name: ローカルツールディレクトリを作成する
-  tags: [configuration]
+  tags: [config]
   win_file:
     path: '%USERPROFILE%\.local\bin'
     state: directory
 - name: ローカルツールディレクトリにパスを通す
-  tags: [configuration]
+  tags: [config]
   win_path:
     scope: user
     elements: '%USERPROFILE%\.local\bin'
     state: present
 - name: 設定ディレクトリのシンボリックリンクをはる
-  tags: [configuration]
+  tags: [config]
   include_tasks: link_config_dir.yml
   with_items:
     - { src: ".zsh.d", dest: ".zsh.d" }
@@ -84,7 +84,7 @@
   loop_control:
     loop_var: config_dir
 - name: utilsディレクトリのパスを通す
-  tags: [configuration]
+  tags: [config]
   win_path:
     scope: user
     elements:
@@ -174,12 +174,12 @@
 ##   作成するタスクが必要。
 - name: Cmderのユーザ個別設定ディレクトリを作成する
   # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
-  tags: [configuration, cmder]
+  tags: [config, cmder]
   win_file:
     path: "%MY_CMDER_CONFIG%"
     state: directory
 - name: Cmderの設定をコピーする
-  tags: [configuration, cmder]
+  tags: [config, cmder]
   win_copy:
     src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
     dest: '%MY_CMDER_CONFIG%\{{ item }}'
@@ -191,7 +191,7 @@
     - user_aliases.cmd
     - user_profile.cmd
 - name: よく使うアプリをタスクバーにピン留めする
-  tags: [configuration]
+  tags: [config]
   import_tasks: pin_to_taskbar.yml
   vars:
     # ピン留めするアプリケーション一覧
