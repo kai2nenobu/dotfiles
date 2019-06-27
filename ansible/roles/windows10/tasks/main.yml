@@ -149,6 +149,13 @@
       - spring-boot-cli
     state: latest
     ignore_dependencies: true
+- name: connect.exeをOpenSSHフォルダにコピーする
+  ## connect.exeをパスに通すため
+  tags: [misc]
+  win_copy:
+    src: 'C:\Program Files\Git\mingw64\bin\connect.exe'
+    dest: 'C:\Windows\System32\OpenSSH\connect.exe'
+    remote_src: yes
 - name: 自動起動スクリプトを作成する
   tags: [startup]
   vars:
