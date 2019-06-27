@@ -29,7 +29,7 @@
   tags: [config]
   include_tasks: windows_config.yml
 - name: IEのお気に入りバー設定
-  tags: [config,test]
+  tags: [config]
   win_shortcut:
     src: "{{ item.url }}"
     dest: '%USERPROFILE%\Favorites\Links\{{ item.name }}.url'
