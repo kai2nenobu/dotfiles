@@ -28,6 +28,16 @@
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
+- name: IEのお気に入りバー設定
+  tags: [config,test]
+  win_shortcut:
+    src: "{{ item.url }}"
+    dest: '%USERPROFILE%\Favorites\Links\{{ item.name }}.url'
+  loop:
+    - name: Office 365 Home
+      url: https://www.office.com/
+    - name: Office 365 Outlook
+      url: https://outlook.office.com/owa/
 - name: 設定ファイルのシンボリックリンクをはる
   tags: [config]
   include_tasks: link_config_file.yml
