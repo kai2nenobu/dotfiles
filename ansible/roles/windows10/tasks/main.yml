@@ -91,7 +91,7 @@
       - '%USERPROFILE%\utils'
     state: present
 - name: Install PowerShell Community Extensions
-  tags: [package]
+  tags: [package,never]
   win_psmodule:
     name: Pscx
     state: present
@@ -111,8 +111,8 @@
       - Firefox
       - fzf
       - git
-      - GoogleChrome
-      - GoogleJapaneseInput
+#      - GoogleChrome
+#      - GoogleJapaneseInput
       - gradle
       - graphviz
       - jq
