@@ -15,6 +15,7 @@ unalias=alias /d $1
 vi=vim $*
 cmderr=cd /d "%CMDER_ROOT%"
 \find="%GIT_INSTALL_ROOT%\usr\bin\find.exe"
+etchosts=sudo notepad "c:\Windows\System32\drivers\etc\hosts"
 
 ;= git
 g=git $*
