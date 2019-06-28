@@ -76,3 +76,15 @@ MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
   command = "echo sample"
   tag = ["sample"]
   output = "sample"
+
+[[snippets]]
+  description = "Show security protocol (SSL/TLS)"
+  command = "[Net.ServicePointManager]::SecurityProtocol"
+  tag = ["powershell"]
+  output = ""
+
+[[snippets]]
+  description = "Allow only restricted security protocol (SSL/TLS)"
+  command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12"
+  tag = ["powershell"]
+  output = ""
