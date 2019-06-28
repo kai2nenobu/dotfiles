@@ -239,7 +239,7 @@
       - name: Emacs
         src: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\runemacs.exe'
         arguments: "-r"
-        directory: "%USERPROFILE"
+        directory: "%USERPROFILE%"
         description: Emacsを起動します。
         #appid: 'GNU.Emacs'
       - name: Sourcetree
