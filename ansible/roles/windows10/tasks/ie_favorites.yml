@@ -5,6 +5,7 @@
         dir: favorite_links
         extensions: [yaml, yml]
         name: favorite_links
+        ignore_unknown_extensions: yes
     - name: IEのお気に入りバー設定
       win_shortcut:
         src: "{{ item.url }}"
