@@ -1,0 +1,5 @@
+default:
+  - name: Office 365 Home
+    url: https://www.office.com/
+  - name: Office 365 Outlook
+    url: https://outlook.office.com/owa/
