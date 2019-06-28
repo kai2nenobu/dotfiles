@@ -2,22 +2,7 @@
   description = "SSLハンドシェイクをテストする"
   command = "openssl s_client -connect <server=www.example.com>:<port=443> -showcerts"
   tag = ["openssl"]
-  output = """
-CONNECTED(00000180)
-depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
-verify return:1
-depth=1 C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA
-verify return:1
-depth=0 C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org
-verify return:1
----
-Certificate chain
- 0 s:C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org
-   i:C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA
------BEGIN CERTIFICATE-----
-MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
-(snip)
-"""
+  output = "CONNECTED(00000180)\r\ndepth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA\r\nverify return:1\r\ndepth=1 C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA\r\nverify return:1\r\ndepth=0 C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org\r\nverify return:1\r\n---\r\nCertificate chain\r\n 0 s:C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org\r\n   i:C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA\r\n-----BEGIN CERTIFICATE-----\r\nMIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN\r\n(snip)\r\n"
 
 [[snippets]]
   description = "HMACアルゴリズムでメッセージダイジェストを算出する"
@@ -68,7 +53,7 @@ MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN
 [[snippets]]
   description = "Register an additional public key (-f option is required)"
   command = "ssh-copy-id -f -i \"<newly_register_key.pub>\" -o \"IdentityFile <already_registered_key.pub>\" <remote_host>"
-  tag =["ssh"]
+  tag = ["ssh"]
   output = ""
 
 [[snippets]]
