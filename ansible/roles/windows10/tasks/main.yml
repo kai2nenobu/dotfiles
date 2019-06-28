@@ -41,7 +41,9 @@
 - name: 設定ファイルのシンボリックリンクをはる
   tags: [config]
   include_tasks: link_config_file.yml
-  with_items:
+  loop:
+    # src: dotfilesからの相対パス
+    # dest: %USERPROFILE% からの相対パス
     - { src: ".bash_aliases", dest: ".bash_aliases" }
     - { src: ".bashrc", dest: ".bashrc" }
     - { src: ".profile", dest: ".profile" }
