@@ -217,6 +217,7 @@
       - name: エクスプローラー
         src: 'C:\Windows\explorer.exe'
         description: コンピューターのファイルやフォルダーを表示します。
+        #appid: 'Microsoft.Windows.Explorer'
       - name: Emacs on WSL
         src: "cmd.exe"
         arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
@@ -239,6 +240,7 @@
         #appid: 'GNU.Emacs'
       - name: Sourcetree
         src: 'C:\Program Files (x86)\Atlassian\Sourcetree\SourceTree.exe'
+        #appid: 'com.squirrel.SourceTree.SourceTree'
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml
