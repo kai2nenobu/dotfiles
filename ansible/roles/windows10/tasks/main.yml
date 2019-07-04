@@ -108,7 +108,6 @@
   tags: [package]
   win_chocolatey:
     name:
-      - 1password4
       - 7zip
       - adoptopenjdk
       - adoptopenjdk11
