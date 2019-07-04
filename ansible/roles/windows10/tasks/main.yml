@@ -244,6 +244,13 @@
 - name: 「Emacsで開く」をコンテキストメニューに追加する
   tags: [registry]
   import_tasks: emacs_context_menu.yml
+- name: Win7AppIdをダウンロードする
+  tags: [package,test]
+  win_get_url:
+    url: https://github.com/mintty/utils/raw/master/Win7AppId1.1.exe
+    dest: '%USERPROFILE%\.local\bin\Win7AppId.exe'
+    force: yes
+    proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
