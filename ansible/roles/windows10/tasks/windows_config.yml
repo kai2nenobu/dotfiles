@@ -1,9 +1,9 @@
 - name: 各種レジストリによる設定変更
   tags: [config]
   win_regedit:
-    key: '{{ item.key }}'
-    value: '{{ item.value }}'
-    data: '{{ item.data }}'
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    data: "{{ item.data }}"
     datatype: '{{ item.datatype | default("dword") }}'
   loop:
     # UACを「アプリがコンピューターに変更を加えようとする場合のみ通知する（既定）」に設定

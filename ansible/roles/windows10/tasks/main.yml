@@ -99,7 +99,7 @@
       - '%USERPROFILE%\utils'
     state: present
 - name: Install PowerShell Community Extensions
-  tags: [package,never]
+  tags: [package, never]
   win_psmodule:
     name: Pscx
     state: present
@@ -118,8 +118,8 @@
       - Firefox
       - fzf
       - git
-#      - GoogleChrome
-#      - GoogleJapaneseInput
+      #      - GoogleChrome
+      #      - GoogleJapaneseInput
       - gradle
       - graphviz
       - jq
@@ -244,7 +244,7 @@
   tags: [registry]
   import_tasks: emacs_context_menu.yml
 - name: Win7AppIdをダウンロードする
-  tags: [package,test]
+  tags: [package, test]
   win_get_url:
     url: https://github.com/mintty/utils/raw/master/Win7AppId1.1.exe
     dest: '%USERPROFILE%\.local\bin\Win7AppId.exe'
