@@ -72,15 +72,47 @@ class GoogleImeSync : Synchronizable {
   }
 }
 
+class OutlookSignatureSync : Synchronizable {
+  <#
+  .DESCRIPTION
+    Outlookの署名を同期する。
+  #>
+
+  # 同期側ディレクトリ
+  [string] $Sync = $this.RelativeDir('Microsoft\Signatures')
+  # ローカル配置ディレクトリ
+  [string] $Local = (Join-Path ${env:APPDATA} 'Microsoft\Signatures')
+
+  Export() {
+    if (!(Test-Path -Path $this.Sync)) {
+      New-Item $this.Sync -ItemType Directory
+    }
+    Copy-Item -Force -Path ($this.Local + '\*') -Recurse -Destination $this.Sync
+  }
+
+  Import() {
+    if (!(Test-Path -Path $this.Local)) {
+      New-Item $this.Local -ItemType Directory
+    }
+    Copy-Item -Force -Path ($this.Sync + '\*') -Recurse -Destination $this.Local
+  }
+}
+
 function ExportAll() {
-  $Synchronizers = @([GoogleImeSync]::new())
+  $Synchronizers = @(
+    [GoogleImeSync]::new()
+    ,[OutlookSignatureSync]::new()
+  )
   foreach ($Sync in $Synchronizers) {
     $Sync.Export()
   }
 }
 
 function ImportAll() {
-  $Synchronizers = @([GoogleImeSync]::new())
+  $Synchronizers = @(
+    [GoogleImeSync]::new()
+    ,[OutlookSignatureSync]::new()
+  )
   foreach ($Sync in $Synchronizers) {
     $Sync.Import()
   }
