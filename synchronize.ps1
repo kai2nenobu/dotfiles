@@ -68,7 +68,7 @@ class GoogleImeSync : Synchronizable {
     .DESCRIPTION
     設定ファイルの読み書きに影響を与えないように、Google IMEのプロセスを停止する。
     #>
-    Get-Process -Name GoogleIMEJaConverter | Stop-Process
+    Get-Process -Name [G]oogleIMEJaConverter | Stop-Process
   }
 }
 
