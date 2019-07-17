@@ -69,6 +69,24 @@
   output = ""
 
 [[snippets]]
+  description = "Enable the local proxy in cmd.exe"
+  command = "set \"http_proxy=http://localhost:8888\" && set \"https_proxy=http://localhost:8888\" && set \"no_proxy=localhost\""
+  tag = ["cmd"]
+  output = ""
+
+[[snippets]]
+  description = "Enable the local proxy in powershell"
+  command = "$env:http_proxy = 'http://localhost:8888'; $env:https_proxy = 'http://localhost:8888'; $env:no_proxy = 'localhost'"
+  tag = ["powershell"]
+  output = ""
+
+[[snippets]]
+  description = "Enable the local proxy in bash"
+  command = "export http_proxy=http://localhost:8888 && export https_proxy=http://localhost:8888 && export no_proxy=localhost"
+  tag = ["bash"]
+  output = ""
+
+[[snippets]]
   description = "Allow only restricted security protocol (SSL/TLS)"
   command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12"
   tag = ["powershell"]
