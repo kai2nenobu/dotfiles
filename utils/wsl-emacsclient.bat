@@ -10,4 +10,5 @@ var ws = new ActiveXObject("Wscript.Shell");
 var arg = WScript.Arguments.Item(0);
 var commandLine = '"emacsclient ' + '\\"$(wslpath -ua \'' + arg + '\')\\""';
 // Launch emacsclient in WSL
-ws.run('wsl bash -c ' + commandLine, 0, false);
+var exitStatus = ws.run('wsl bash -c ' + commandLine, 0, true);
+WScript.Quit(exitStatus);
