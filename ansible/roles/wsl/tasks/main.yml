@@ -18,6 +18,11 @@
       if which ssh-agent-wsl > /dev/null 2>&1; then
         eval "$(ssh-agent-wsl -r)"
       fi
+- name: Configure pipenv
+  # Create a virtualenv for pipenv in the project directory
+  copy:
+    dest: /etc/profile.d/pipenv.sh
+    content: export PIPENV_VENV_IN_PROJECT=true
 - name: Configure man to install all manuals
   file:
     path: /etc/dpkg/dpkg.cfg.d/excludes
@@ -99,6 +104,10 @@
 - name: Install a ripgrep package
   apt: deb="/tmp/ripgrep_0.10.0_amd64.deb"
   when: my_ripgrep_installed.changed
+- name: Install pip tools
+  pip:
+    name: pipenv
+    executable: pip3
 - name: Install node tools
   npm:
     name: prettier
