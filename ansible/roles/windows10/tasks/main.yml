@@ -246,7 +246,7 @@
 - name: Win7AppIdをダウンロードする
   tags: [package, test]
   win_get_url:
-    url: https://github.com/mintty/utils/raw/master/Win7AppId1.1.exe
+    url: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/win7appid/Win7AppId1.1.exe
     dest: '%USERPROFILE%\.local\bin\Win7AppId.exe'
     force: yes
     proxy_url: "{{ (proxy_env | default({})).https_proxy | default(omit) }}"
