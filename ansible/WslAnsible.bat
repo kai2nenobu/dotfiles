@@ -17,7 +17,7 @@ if %ERRORLEVEL% equ 0 (
 )
 
 REM wsl.exe を使う場合（既定のディストリで実行するよ）
-wsl.exe bash -c "cd $(wslpath -ua '%HERE%'); export ANSIBLE_LOG_PATH=./logs/ansible.$(date +%%Y%%m%%d_%%H%%M%%S).log; ansible-playbook -vvv -i hosts site.yml %*"
+wsl.exe bash -c "cd $(wslpath -ua '%HERE%'); export ANSIBLE_LOG_PATH=./logs/ansible.$(date +%%Y%%m%%d_%%H%%M%%S).log; LANG=ja_JP.UTF-8 ansible-playbook -vvv -i hosts site.yml %*"
 
 REM LxRunOffline を使う場合（-n で指定しgsたディストリで実行するよ）
 REM LxRunOffline.exe run -n Ubuntu-18.04 -c "cd $(wslpath -ua '%USERPROFILE%\repo\setupper\ansible'); ansible-playbook -vvv -i hosts config.yml"

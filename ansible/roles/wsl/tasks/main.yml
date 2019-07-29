@@ -38,6 +38,7 @@
       - curl
       - emacs26
       - git
+      - language-pack-ja
       - man
       - nodejs
       - npm
