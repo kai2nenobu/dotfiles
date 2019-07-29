@@ -37,13 +37,13 @@
       - connect-proxy
       - curl
       - emacs26
+      - git
+      - man
       - nodejs
       - npm
-      - man
-      - git
       - tmux
-      - zsh
       - x11-xserver-utils
+      - zsh
     state: present
     update_cache: yes
 - name: Install serverspec dependencies
