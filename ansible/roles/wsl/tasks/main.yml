@@ -18,6 +18,10 @@
       if which ssh-agent-wsl > /dev/null 2>&1; then
         eval "$(ssh-agent-wsl -r)"
       fi
+- name: Configure man to install all manuals
+  file:
+    path: /etc/dpkg/dpkg.cfg.d/excludes
+    state: absent
 - name: Add a gpg key for emacs ppa repository
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
