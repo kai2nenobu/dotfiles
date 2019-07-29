@@ -96,14 +96,7 @@
   register: my_ripgrep_installed
   failed_when: my_ripgrep_installed.rc > 1
   changed_when: my_ripgrep_installed.rc == 1
-- name: Download a ripgrep debian package
-  get_url:
-    url: https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
-    dest: /tmp/ripgrep_0.10.0_amd64.deb
-  when: my_ripgrep_installed.changed
-- name: Install a ripgrep package
-  apt: deb="/tmp/ripgrep_0.10.0_amd64.deb"
-  when: my_ripgrep_installed.changed
+  notify: Install ripgrep
 - name: Install pip tools
   pip:
     name: pipenv
