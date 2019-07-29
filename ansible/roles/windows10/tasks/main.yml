@@ -132,7 +132,7 @@
       - vscode
       - winmerge
       - zoomit
-    state: latest
+    state: present
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
   tags: [package]
   win_chocolatey:
@@ -145,7 +145,7 @@
       - pet
       - ssh-agent-wsl
     source: https://www.myget.org/F/kai2nenobu
-    state: latest
+    state: present
 - name: Chocolateyパッケージをインストールする（依存除く）
   tags: [package]
   # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
@@ -154,7 +154,7 @@
     name:
       - plantuml
       - spring-boot-cli
-    state: latest
+    state: present
     ignore_dependencies: true
 - name: connect.exeをOpenSSHフォルダにコピーする
   ## connect.exeをパスに通すため
@@ -167,7 +167,7 @@
   tags: [startup]
   vars:
     startup_folder: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup'
-  win_shortcut: "{{item}}"
+  win_shortcut: "{{ item }}"
   with_items:
     - description: VcXsrvを起動する
       src: 'C:\Program Files\VcXsrv\vcxsrv.exe'

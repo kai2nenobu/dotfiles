@@ -1,7 +1,8 @@
 ### 変数 local_proxy_type に応じたローカルプロキシソフトウェアをインストール、自動起動するロール。
 ### local_proxy_type は 'enterprise' / 'dummy' のどちらかをとる。
 ---
-- set_fact:
+- name: 変数設定
+  set_fact:
     tags: [always]
     mape_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start MAPE.lnk'
     fiddler_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start Fiddler.lnk'
