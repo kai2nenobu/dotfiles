@@ -5,3 +5,5 @@ group_vars/windows10/credential.yml
 
 logs/*
 !logs/.gitkeep
+.venv/
+Pipfile.lock
