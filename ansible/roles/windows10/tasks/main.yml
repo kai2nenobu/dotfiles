@@ -71,7 +71,7 @@
     name: "Clear ssh-agent identities"
     actions:
       - path: wscript
-        arguments: '/NoLogo /E:JScript "{{ ansible_facts.env.USERPROFILE }}\utils\clear_ssh_key.ps1"'
+        arguments: '/NoLogo /E:JScript "{{ ansible_facts.env.USERPROFILE }}\utils\clear_ssh_identities.ps1"'
     description: ssh-agentの秘密鍵情報を定期的にクリアする
     state: present
     enabled: yes
