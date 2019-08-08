@@ -31,7 +31,7 @@ function log {
   )
   $logFile = "${env:TEMP}\clear_ssh_identities.log"
   $timestamp = Get-Date -Format "o"
-  "[{0}] {1}" -f $timestamp,$message | Out-File -Append $logFile
+  "[{0}] {1}" -f $timestamp,$message | Out-File -Encoding utf8 -Append $logFile
 }
 
 $addCommand = 'C:\Windows\System32\OpenSSH\ssh-add.exe'
