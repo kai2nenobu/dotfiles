@@ -18,7 +18,6 @@
     - { name: "LANG", value: "ja_JP.UTF-8" }
     - { name: "MSYS", value: "winsymlinks:nativestrict" }
     - { name: "MSYS2_PATH_TYPE", value: "inherit" }
-    - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
     - {
         name: "MY_CMDER_CONFIG",
