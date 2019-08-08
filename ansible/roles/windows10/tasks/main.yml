@@ -65,6 +65,23 @@
   with_items:
     - sshproxy
     - sshbroker
+- name: ssh-agentの秘密鍵情報を定期的にクリアする
+  tags: [cron]
+  win_scheduled_task:
+    name: "Clear ssh-agent identities"
+    actions:
+      - path: wscript
+        arguments: '/NoLogo /E:JScript "{{ ansible_facts.env.USERPROFILE }}\utils\clear_ssh_key.ps1"'
+    description: ssh-agentの秘密鍵情報を定期的にクリアする
+    state: present
+    enabled: yes
+    logon_type: interactive_token # ユーザがログオンしているときのみ実行する
+    triggers:
+      # 1時間ごとに繰り返し
+      - type: time
+        start_boundary: '1970-01-01T00:00:00'
+        repetition:
+          interval: 'PT1H'
 - name: clink_inputrcをコピーする
   # シンボリックリンクが動作しないので仕方ないがコピーですます
   # ref. https://github.com/mridgers/clink/issues/461
