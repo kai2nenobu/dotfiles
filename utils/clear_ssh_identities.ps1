@@ -29,7 +29,7 @@ function log {
     [Parameter(ValueFromPipeline=$true,Mandatory=$true)]
     [string]$message
   )
-  $logFile = "${env:TEMP}\clear_ssh_key.log"
+  $logFile = "${env:TEMP}\clear_ssh_identities.log"
   $timestamp = Get-Date -Format "o"
   "[{0}] {1}" -f $timestamp,$message | Out-File -Append $logFile
 }
