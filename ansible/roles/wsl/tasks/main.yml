@@ -16,7 +16,7 @@
     dest: /etc/profile.d/ssh-agent-wsl.sh
     content: |
       if which ssh-agent-wsl > /dev/null 2>&1; then
-        eval "$(ssh-agent-wsl -r)"
+        eval "$(ssh-agent-wsl -r -a "$HOME/.ssh/ssh-agent-wsl.sock")"
       fi
 - name: Configure man to install all manuals
   file:
