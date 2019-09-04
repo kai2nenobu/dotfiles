@@ -38,8 +38,11 @@
       - curl
       - emacs26
       - git
+      - info
       - language-pack-ja
-      - man
+      - man-db
+      - manpages
+      - manpages-dev
       - nodejs
       - npm
       - tmux
