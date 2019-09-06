@@ -128,55 +128,58 @@
 - name: Chocolateyパッケージをインストールする (chocolatey.org)
   tags: [package]
   win_chocolatey:
-    name:
-      - 7zip
-      - adoptopenjdk
-      - adoptopenjdk11
-      - adoptopenjdk8
-      - autohotkey.portable
-      - cmdermini
-      - emacs
-      - Firefox
-      - fzf
-      - git
-      #      - GoogleChrome
-      #      - GoogleJapaneseInput
-      - gradle
-      - graphviz
-      - jq
-      - lxrunoffline
-      - peco
-      - sakuraeditor
-      - sourcetree
-      - Sudo
-      - vcxsrv
-      - vscode
-      - winmerge
-      - zoomit
+    name: "{{ item }}"
     state: present
+  loop:
+    - 7zip
+    - adoptopenjdk
+    - adoptopenjdk11
+    - adoptopenjdk8
+    - autohotkey.portable
+    - cmdermini
+    - emacs
+    - Firefox
+    - fzf
+    - git
+    #      - GoogleChrome
+    #      - GoogleJapaneseInput
+    - gradle
+    - graphviz
+    - jq
+    - lxrunoffline
+    - peco
+    - sakuraeditor
+    - sourcetree
+    - Sudo
+    - vcxsrv
+    - vscode
+    - winmerge
+    - zoomit
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
   tags: [package]
   win_chocolatey:
-    name:
-      - a5m2
-      - cmigemo
-      - ghq
-      - mozc-emacs-helper
-      - nkf
-      - pet
-      - ssh-agent-wsl
+    name: "{{ item }}"
     source: https://www.myget.org/F/kai2nenobu
     state: present
+  loop:
+    - a5m2
+    - cmigemo
+    - ghq
+    - mozc-emacs-helper
+    - nkf
+    - pet
+    - ssh-agent-wsl
 - name: Chocolateyパッケージをインストールする（依存除く）
   tags: [package]
   # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
   # 別途インストールする。
   win_chocolatey:
-    name:
-      - plantuml
-      - spring-boot-cli
+    name: "{{ item }}"
     state: present
     ignore_dependencies: true
+  loop:
+    - plantuml
+    - spring-boot-cli
 - name: connect.exeをOpenSSHフォルダにコピーする
   ## connect.exeをパスに通すため
   tags: [misc]
