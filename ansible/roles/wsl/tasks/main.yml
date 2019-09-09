@@ -45,6 +45,7 @@
       - manpages-dev
       - nodejs
       - npm
+      - python3-pip
       - tmux
       - x11-xserver-utils
       - zsh
