@@ -51,6 +51,7 @@
     - { src: "dot.ahk", dest: "dot.ahk" }
     - { src: "dot.nodoka", dest: "dot.nodoka" }
     - { src: 'pet\snippet.toml', dest: 'AppData\Roaming\pet\snippet.toml' }
+    - { src: 'profile.ps1', dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1' }
   loop_control:
     loop_var: config_file
 - name: ssh-agentサービスを有効にする

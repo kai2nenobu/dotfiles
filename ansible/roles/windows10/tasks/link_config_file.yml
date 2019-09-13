@@ -1,4 +1,4 @@
-- tags: [configuration]
+- tags: [config]
   block:
     - name: 設定ファイルのパスを絶対パス展開
       set_fact:
