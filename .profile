@@ -64,6 +64,13 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# if pyenv is installed
+if [ -e "$HOME/.pyenv/bin/pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  #eval "$(pyenv init -)"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
