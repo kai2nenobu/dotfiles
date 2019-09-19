@@ -91,3 +91,9 @@
   command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12"
   tag = ["powershell"]
   output = ""
+
+[[snippets]]
+  description = "Initialize project by Gradle"
+  command = "gradle init --dsl <dsl=groovy> --type <type=java-library> --package <package=com.example> --project-name <project name=java-example> --test-framework <test framework=junit-jupiter>"
+  tag = ["gradle"]
+  output = ""
