@@ -4,3 +4,4 @@ C-r: " @for /f \"usebackq tokens=1 delims=\" %i in (`type \"%MY_CMDER_CONFIG%\\.
 "\C-x\C-b": " gco\C-j"
 "\C-x\C-p": " @for /f \"usebackq tokens=1 delims=\" %i in (`pet search`) do @set \"MY_CLINK_LAST=%i\"\C-j%MY_CLINK_LAST%\M-\C-e"
 "\C-x\C-e": " @for /f \"usebackq tokens=1 delims=\" %i in (`fd --hidden --no-ignore --exclude .git ^| fzf`) do %EDITOR% \"%i\"\C-j"
+"\C-x\C-h": reverse-search-history
