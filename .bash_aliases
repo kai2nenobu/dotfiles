@@ -226,6 +226,9 @@ EOF
     alias apts='apt-cache search'
     alias aptsh='apt-cache show'
     ;;
+  "Msys")
+    alias ssh='winpty ssh'
+    alias scp='winpty scp'
 esac
 
 function milliseconds() {
