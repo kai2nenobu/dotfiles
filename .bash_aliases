@@ -229,6 +229,7 @@ EOF
   "Msys")
     alias ssh='winpty ssh'
     alias scp='winpty scp'
+    alias ssh-add='winpty ssh-add'
 esac
 
 function milliseconds() {
