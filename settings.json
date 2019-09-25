@@ -1,0 +1,11 @@
+{
+    // Python仮想環境のパス
+    "python.venvPath": ".venv",
+    // ファイル自動保存設定
+    "files.autoSave": "afterDelay",
+    // ファイルを自動保存する遅延時間（ミリ秒）
+    "files.autoSaveDelay": 500,
+    "editor.fontSize": 15,
+    "editor.renderWhitespace": "boundary",
+    "editor.fontFamily": "Ricty, Consolas, 'Courier New', monospace"
+}
