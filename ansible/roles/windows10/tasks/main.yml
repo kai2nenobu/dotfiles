@@ -28,7 +28,7 @@
         value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config",
       }
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
-    - { name: "WSLENV", value: "USERPROFILE/p:http_proxy:https_proxy:no_proxy" }
+    - { name: "WSLENV", value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy" }
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
