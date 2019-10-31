@@ -111,10 +111,10 @@
     global: yes
 - name: Configure git
   become: no
-  git_config:
-    name: core.autocrlf
-    scope: global
-    value: input
+  git_config: '{{ item }}'
+  loop:
+    - { scope: 'global', name: 'core.autocrlf', value: 'input' }
+    - { scope: 'global', name: 'merge.conflictStyle',  value: 'diff3' }
 - name: 手っ取り早くシェル実行
   become: no
   # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー
