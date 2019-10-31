@@ -142,6 +142,7 @@
     - cmdermini
     - emacs
     - Firefox
+    - fd
     - fzf
     - git
     #      - GoogleChrome
@@ -151,6 +152,7 @@
     - jq
     - lxrunoffline
     - peco
+    - ripgrep
     - sakuraeditor
     - sourcetree
     - Sudo
