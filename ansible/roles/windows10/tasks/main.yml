@@ -279,6 +279,13 @@
     dest: '%USERPROFILE%\.local\bin\Win7AppId.exe'
     force: yes
     proxy_url: "{{ proxy_env.https_proxy | default(omit) }}"
+- name: Git設定
+  tags: [config]
+  include_tasks: git_config.yml
+  loop:
+    - { name: 'core.autocrlf', value: 'input' }
+    - { name: 'core.quotePath', value: 'false' }
+    - { name: 'merge.conflictStyle',  value: 'diff3' }
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt

@@ -1,0 +1,24 @@
+## Gitを設定するタスク。
+## git_configモジュールがWindowsで利用できないので苦肉の策で作った。
+##
+## - 対応しているスコープはsystemとglobalのみ
+## - 複数行や空白を含む設定値が設定できるかは未検証
+##
+## ref. https://docs.ansible.com/ansible/latest/modules/git_config_module.html
+## ref. https://github.com/ansible/ansible/issues/34298
+##
+## 変数:
+##   - name 設定名
+##   - value 設定値
+##   - scope スコープ。デフォルトは global (optional)
+- tags: [config]
+  vars:
+    scope: "{{ item.scope | default('global') }}"
+  block:
+    - name: "設定値確認 ({{ item.name }})"
+      win_command: 'git config --default "" --{{ scope }} {{ item.name }}'
+      register: current_value
+      changed_when: no  # 常にok
+    - name: "設定値上書き ({{ item.name }})"
+      win_command: "git config --{{ scope }} {{ item.name }} {{ item.value }}"
+      when: "item.value != current_value.stdout_lines[0]"
