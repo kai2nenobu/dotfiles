@@ -285,7 +285,8 @@
   loop:
     - { name: 'core.autocrlf', value: 'input' }
     - { name: 'core.quotePath', value: 'false' }
-    - { name: 'merge.conflictStyle',  value: 'diff3' }
+    - { name: 'merge.conflictStyle', value: 'diff3' }
+    - { name: 'merge.ff', value: 'false' }
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
