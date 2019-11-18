@@ -11,13 +11,14 @@
   copy:
     dest: /etc/profile.d/umask.sh
     content: umask 022
-- name: Integrate with ssh-agent-wsl
+- name: Delete a deprecated script for ssh-agent-wsl
+  file:
+    path: /etc/profile.d/ssh-agent-wsl.sh
+    state: absent
+- name: Integrate with wsl-ssh-agent
   copy:
-    dest: /etc/profile.d/ssh-agent-wsl.sh
-    content: |
-      if which ssh-agent-wsl > /dev/null 2>&1; then
-        eval "$(ssh-agent-wsl -r -a "$HOME/.ssh/ssh-agent-wsl.sock")"
-      fi
+    dest: /etc/profile.d/wsl-ssh-agent.sh
+    content: '[ -n "$WSL_AUTH_SOCK" ] && export SSH_AUTH_SOCK=$WSL_AUTH_SOCK'
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   copy:
