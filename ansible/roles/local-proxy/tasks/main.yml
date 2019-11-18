@@ -2,8 +2,8 @@
 ### local_proxy_type は 'enterprise' / 'dummy' のどちらかをとる。
 ---
 - name: 変数設定
+  tags: [always]
   set_fact:
-    tags: [always]
     mape_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start MAPE.lnk'
     fiddler_startup: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Auto Start Fiddler.lnk'
 ## 社内プロキシがある場合
