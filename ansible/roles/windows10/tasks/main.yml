@@ -173,6 +173,7 @@
     - mozc-emacs-helper
     - nkf
     - pet
+    - wsl-ssh-agent
 - name: Chocolateyパッケージをインストールする（依存除く）
   tags: [package]
   # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
@@ -206,7 +207,7 @@
       args: '%USERPROFILE%\dot.ahk'
       dest: '{{ startup_folder }}\User AHK.lnk'
     - description: wsl-ssh-agentを起動する
-      src: '%USERPROFILE%\Downloads\wsl-ssh-agent-gui.exe'
+      src: 'wsl-ssh-agent-gui.exe'
       args: '-setenv -envname WSL_AUTH_SOCK'
       dest: '{{ startup_folder }}\wsl-ssh-agent.lnk'
 ## TODO: Cmderを /C オプション付きで起動するショートカット or タスクバーアイコンを
