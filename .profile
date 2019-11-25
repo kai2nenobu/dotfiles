@@ -71,6 +71,12 @@ if [ -e "$HOME/.pyenv/bin/pyenv" ]; then
   #eval "$(pyenv init -)"
 fi
 
+# if go directory exists
+if [ -e "$HOME/go" ]; then
+  export GOPATH="$HOME/go"
+  export PATH="$GOPATH/bin:$PATH"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
