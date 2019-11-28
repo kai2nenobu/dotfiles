@@ -9,6 +9,8 @@ Sleep, 100
 ;; paste to an active window
 If (WinActive("emacs") && WinActive("ahk_exe vcxsrv.exe")) {
     Send, ^y
+} Else If(WinActive("ahk_exe powershell.exe")) {
+    Send, !{Space}ep
 } Else {
     Send, ^v
 }
