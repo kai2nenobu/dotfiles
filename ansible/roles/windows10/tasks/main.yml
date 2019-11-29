@@ -19,6 +19,7 @@
       value: '{{ ansible_facts.env.windir }}\system32\OpenSSH\ssh.exe'
     - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
     - { name: "LANG", value: "ja_JP.UTF-8" }
+    - { name: "LESSCHARSET", value: "utf-8" }
     - { name: "MSYS", value: "winsymlinks:nativestrict" }
     - { name: "MSYS2_PATH_TYPE", value: "inherit" }
     - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
