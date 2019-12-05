@@ -292,6 +292,7 @@
     - { name: 'core.quotePath', value: 'false' }
     - { name: 'merge.conflictStyle', value: 'diff3' }
     - { name: 'merge.ff', value: 'false' }
+    - { name: 'alias.dry-merge', value: 'merge --no-commit --no-ff' }
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt
