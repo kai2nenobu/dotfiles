@@ -256,6 +256,15 @@ install-nkf() {
   )
   rm -rf "$tmpdir"
 }
+install-git-secrets() {
+  (
+  cd /tmp
+  rm -rf git-secrets
+  git clone 'https://github.com/awslabs/git-secrets.git'
+  cd git-secrets
+  make install PREFIX=~/.local
+  )
+}
 
 # project specific .gitignore
 function ignore-gradle() {
