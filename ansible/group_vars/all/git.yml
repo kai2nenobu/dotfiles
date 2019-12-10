@@ -1,0 +1,12 @@
+## Gitの全体共通設定
+git_configs:
+  - name: core.autocrlf
+    value: input
+  - name: core.quotePath
+    value: 'false'
+  - name: merge.conflictStyle
+    value: diff3
+  - name: merge.ff
+    value: 'false'
+  - name: alias.dry-merge
+    value: merge --no-commit --no-ff
