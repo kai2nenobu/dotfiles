@@ -3,6 +3,9 @@ git_configs:
   # WindowsではCRLFでチェックアウトする。それ以外LFでチェックアウト。
   - name: core.autocrlf
     value: "{{ ansible_facts.distribution.startswith('Microsoft Windows') | ternary('true', 'input') }}"
+  # 改行文字が混在しているファイルのチェックインを禁止する
+  - name: core.safecrlf
+    value: 'true'
   - name: core.quotePath
     value: 'false'
   - name: merge.conflictStyle
