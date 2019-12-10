@@ -1,7 +1,8 @@
 ## Gitの全体共通設定
 git_configs:
+  # WindowsではCRLFでチェックアウトする。それ以外LFでチェックアウト。
   - name: core.autocrlf
-    value: input
+    value: "{{ ansible_facts.distribution.startswith('Microsoft Windows') | ternary('true', 'input') }}"
   - name: core.quotePath
     value: 'false'
   - name: merge.conflictStyle
