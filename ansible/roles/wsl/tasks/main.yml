@@ -113,7 +113,7 @@
 - name: Configure git
   become: no
   git_config: "{{ {'scope':'global'} | combine(item) }}" # デフォルトのスコープを global にする
-  loop: '{{ git_configs }}'
+  loop: "{{ git_configs }}"
 - name: 手っ取り早くシェル実行
   become: no
   # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー

@@ -11,10 +11,8 @@
   with_items:
     - name: "EDITOR"
       value: '{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat'
-    - {
-        name: "FZF_DEFAULT_OPTS",
-        value: '--exact --reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"',
-      }
+    - name: "FZF_DEFAULT_OPTS"
+      value: '--exact --reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"'
     - name: GIT_SSH
       value: '{{ ansible_facts.env.windir }}\system32\OpenSSH\ssh.exe'
     - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
@@ -25,12 +23,11 @@
     - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
     - { name: "PYTHONUTF8", value: "1" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
-    - {
-        name: "MY_CMDER_CONFIG",
-        value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config",
-      }
+    - name: "MY_CMDER_CONFIG"
+      value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config"
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
-    - { name: "WSLENV", value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:WSL_AUTH_SOCK/up" }
+    - name: "WSLENV"
+      value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:WSL_AUTH_SOCK/up"
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
@@ -53,8 +50,10 @@
     - { src: "dot.ahk", dest: "dot.ahk" }
     - { src: "dot.nodoka", dest: "dot.nodoka" }
     - { src: 'pet\snippet.toml', dest: 'AppData\Roaming\pet\snippet.toml' }
-    - { src: 'profile.ps1', dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1' }
-    - { src: 'vscode\settings.json', dest: 'AppData\Roaming\Code\User\settings.json' }
+    - src: "profile.ps1"
+      dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1'
+    - src: 'vscode\settings.json'
+      dest: 'AppData\Roaming\Code\User\settings.json'
   loop_control:
     loop_var: config_file
 - name: ssh-agentサービスを有効にする
@@ -86,9 +85,9 @@
     triggers:
       # 1時間ごとに繰り返し
       - type: time
-        start_boundary: '1970-01-01T00:00:00'
+        start_boundary: "1970-01-01T00:00:00"
         repetition:
-          interval: 'PT1H'
+          interval: "PT1H"
 - name: clink_inputrcをコピーする
   # シンボリックリンクが動作しないので仕方ないがコピーですます
   # ref. https://github.com/mridgers/clink/issues/461
@@ -208,8 +207,8 @@
       args: '%USERPROFILE%\dot.ahk'
       dest: '{{ startup_folder }}\User AHK.lnk'
     - description: wsl-ssh-agentを起動する
-      src: 'wsl-ssh-agent-gui.exe'
-      args: '-setenv -envname WSL_AUTH_SOCK'
+      src: "wsl-ssh-agent-gui.exe"
+      args: "-setenv -envname WSL_AUTH_SOCK"
       dest: '{{ startup_folder }}\wsl-ssh-agent.lnk'
 ## TODO: Cmderを /C オプション付きで起動するショートカット or タスクバーアイコンを
 ##   作成するタスクが必要。
@@ -287,7 +286,7 @@
 - name: Git設定
   tags: [config]
   include_tasks: git_config.yml
-  loop: '{{ git_configs }}'
+  loop: "{{ git_configs }}"
 - name: playbook適用日時を保存する
   win_copy:
     dest: C:\ansible_applied.txt

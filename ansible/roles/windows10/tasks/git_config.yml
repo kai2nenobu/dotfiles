@@ -18,7 +18,7 @@
     - name: "設定値確認 ({{ item.name }})"
       win_command: 'git config --default "" --{{ scope }} "{{ item.name }}"'
       register: current_value
-      changed_when: no  # 常にok
+      changed_when: no # 常にok
     - name: "設定値上書き ({{ item.name }})"
       win_command: 'git config --{{ scope }} "{{ item.name }}" "{{ item.value }}"'
       when: "item.value != current_value.stdout_lines[0]"
