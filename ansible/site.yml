@@ -5,8 +5,16 @@
     - role: local-proxy
       when: local_proxy_type is defined
     - windows10
+  tasks:
+    - import_role:
+        name: company
+      when: lookup("env", "ANSIBLE_MY_PROFILE") == "company"
 - hosts: wsl
   become: yes
   environment: "{{ proxy_env | default({}) }}"
   roles:
     - wsl
+  tasks:
+    - import_role:
+        name: company
+      when: lookup("env", "ANSIBLE_MY_PROFILE") == "company"

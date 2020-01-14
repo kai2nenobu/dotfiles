@@ -1,0 +1,4 @@
+## 会社特有ロール
+- src: https://gitlab.s-onsite-env.com/t-kai/ansible-company-role
+  scm: git
+  name: company
