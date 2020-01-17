@@ -155,11 +155,11 @@
     - ripgrep
     - sakuraeditor
     - sourcetree
+    - sysinternals
     - Sudo
     - vcxsrv
     - vscode
     - winmerge
-    - zoomit
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
   tags: [package]
   win_chocolatey:
