@@ -1,5 +1,8 @@
 ## Gitの全体共通設定
 git_configs:
+  # コミットメッセージ中のハサミ行以下を除去する（# を残す）
+  - name: commit.cleanup
+    value: scissors
   # WindowsではCRLFでチェックアウトする。それ以外LFでチェックアウト。
   - name: core.autocrlf
     value: "{{ ansible_facts.distribution.startswith('Microsoft Windows') | ternary('true', 'input') }}"
