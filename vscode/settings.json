@@ -12,5 +12,9 @@
     "files.defaultLanguage": "markdown",
     "files.associations": {
         "*.tmp": "markdown"
-    }
+    },
+    // Remote Development
+    "remote.SSH.defaultExtensions": [
+        "lfs.vscode-emacs-friendly"
+    ]
 }
