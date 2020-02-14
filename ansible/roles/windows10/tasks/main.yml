@@ -54,6 +54,8 @@
       dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1'
     - src: 'vscode\settings.json'
       dest: 'AppData\Roaming\Code\User\settings.json'
+    - src: 'vscode\keybindings.json'
+      dest: 'AppData\Roaming\Code\User\keybindngs.json'
   loop_control:
     loop_var: config_file
 - name: ssh-agentサービスを有効にする
