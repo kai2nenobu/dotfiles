@@ -16,5 +16,11 @@
     // Remote Development
     "remote.SSH.defaultExtensions": [
         "lfs.vscode-emacs-friendly"
+    ],
+    "remote.containers.defaultExtensions": [
+        "lfs.vscode-emacs-friendly"
+    ],
+    "remote.WSL.defaultExtensions": [  // 2020-02-14 時点でこんな設定はないようだ
+        "lfs.vscode-emacs-friendly"
     ]
 }
