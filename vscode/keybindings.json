@@ -1,0 +1,13 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+    {
+        "key": "Ctrl+q Ctrl+q",
+        "command": "workbench.action.quickOpenView",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "Ctrl+q Ctrl+t",
+        "command": "editor.action.toggleWordWrap",
+        "when": "editorTextFocus"
+    }
+]
