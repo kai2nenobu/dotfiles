@@ -22,5 +22,7 @@
     ],
     "remote.WSL.defaultExtensions": [  // 2020-02-14 時点でこんな設定はないようだ
         "lfs.vscode-emacs-friendly"
-    ]
+    ],
+    "git.autofetch": true,
+    "git.confirmSync": false
 }
