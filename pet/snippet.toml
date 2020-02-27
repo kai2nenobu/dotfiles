@@ -97,3 +97,9 @@
   command = "gradle init --dsl <dsl=groovy> --type <type=java-library> --package <package=com.example> --project-name <project name=java-example> --test-framework <test framework=junit-jupiter>"
   tag = ["gradle"]
   output = ""
+
+[[snippets]]
+  description = "Delete a ssh server entry in ~/.ssh/known_hosts"
+  command = "ssh-keygen -R \"<hostname>\""
+  tag = ["ssh"]
+  output = ""
