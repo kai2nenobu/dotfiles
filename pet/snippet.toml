@@ -1,11 +1,11 @@
 [[snippets]]
-  description = "SSLハンドシェイクをテストする"
+  description = "Test a SSL handshake"
   command = "openssl s_client -connect <server=www.example.com>:<port=443> -showcerts"
   tag = ["openssl"]
   output = "CONNECTED(00000180)\r\ndepth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA\r\nverify return:1\r\ndepth=1 C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA\r\nverify return:1\r\ndepth=0 C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org\r\nverify return:1\r\n---\r\nCertificate chain\r\n 0 s:C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org\r\n   i:C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA\r\n-----BEGIN CERTIFICATE-----\r\nMIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN\r\n(snip)\r\n"
 
 [[snippets]]
-  description = "HMACアルゴリズムでメッセージダイジェストを算出する"
+  description = "Calculate a message digest with HMAC algorithm"
   command = "openssl dgst -hex -sha256 -hmac \"Key of MAC\" <files...=->"
   tag = ["openssl"]
   output = ""
