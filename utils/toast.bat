@@ -6,10 +6,14 @@ mklink /h "%PS1FILE%" "%BATFILE%" >NUL
 set BATCH_ARGS=%*
 if defined BATCH_ARGS set BATCH_ARGS=%BATCH_ARGS:"=\"%
 if defined BATCH_ARGS set BATCH_ARGS=%BATCH_ARGS:^^=^%
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "%PS1FILE%" %BATCH_ARGS%
+PowerShell -NoProfile -ExecutionPolicy RemoteSigned -File "%PS1FILE%" %BATCH_ARGS%
+set PS1_STATUS=%ERRORLEVEL%
 del "%PS1FILE%"
-endlocal & exit /b
+endlocal & exit /b %PS1_STATUS%
 : #>
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 function main {
   param(
