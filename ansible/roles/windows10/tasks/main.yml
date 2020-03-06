@@ -18,7 +18,7 @@
     - name: "FZF_DEFAULT_OPTS"
       value: '--exact --reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"'
     - name: GIT_SSH
-      value: '{{ ansible_facts.env.windir }}\system32\OpenSSH\ssh.exe'
+      value: 'C:\Program Files\OpenSSH-Win64\ssh.exe'
     - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
     - { name: "LANG", value: "ja_JP.UTF-8" }
     - { name: "LESSCHARSET", value: "utf-8" }
@@ -194,7 +194,7 @@
   tags: [misc]
   win_copy:
     src: 'C:\Program Files\Git\mingw64\bin\connect.exe'
-    dest: 'C:\Windows\System32\OpenSSH\connect.exe'
+    dest: 'C:\Program Files\OpenSSH-Win64\connect.exe'
     remote_src: yes
 - name: 自動起動スクリプトを作成する
   tags: [startup]
