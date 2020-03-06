@@ -9,6 +9,10 @@
     value: "{{ item.value }}"
     state: present
   with_items:
+    - name: "CMDER_ROOT"
+      value: 'C:\tools\cmdermini'
+    - name: "CMDER_USER_CONFIG"
+      value: '{{ ansible_facts.env.USERPROFILE }}\.cmder\config'
     - name: "EDITOR"
       value: '{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat'
     - name: "FZF_DEFAULT_OPTS"
@@ -23,8 +27,6 @@
     - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
     - { name: "PYTHONUTF8", value: "1" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
-    - name: "MY_CMDER_CONFIG"
-      value: "{{ ansible_facts.env.USERPROFILE }}\\.cmder\\config"
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
     - name: "WSLENV"
       value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:WSL_AUTH_SOCK/up:ANSIBLE_MY_PROFILE"
@@ -212,19 +214,17 @@
       src: "wsl-ssh-agent-gui.exe"
       args: "-setenv -envname WSL_AUTH_SOCK"
       dest: '{{ startup_folder }}\wsl-ssh-agent.lnk'
-## TODO: Cmderを /C オプション付きで起動するショートカット or タスクバーアイコンを
-##   作成するタスクが必要。
 - name: Cmderのユーザ個別設定ディレクトリを作成する
   # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
   tags: [config, cmder]
   win_file:
-    path: "%MY_CMDER_CONFIG%"
+    path: "%CMDER_USER_CONFIG%"
     state: directory
 - name: Cmderの設定をコピーする
   tags: [config, cmder]
   win_copy:
     src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
-    dest: '%MY_CMDER_CONFIG%\{{ item }}'
+    dest: '%CMDER_USER_CONFIG%\{{ item }}'
     remote_src: True
   with_items:
     - prompt.lua
@@ -240,7 +240,6 @@
     apps:
       - name: Cmder
         src: 'C:\tools\cmdermini\Cmder.exe'
-        arguments: '/C "%USERPROFILE%\.cmder"'
         description: ユーザ個別設定のCmderを開く
         #appid: 'Maximus5.ConEmu.b482823ea988e12ffc028ea2e346a6f9'
       - name: Firefox
