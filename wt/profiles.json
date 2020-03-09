@@ -13,7 +13,8 @@
         {
             // Put settings here that you want to apply to all profiles
             "fontFace": "Ricty",
-            "fontSize": 15
+            "fontSize": 15,
+            "colorSheme": "Campbell"
         },
         "list":
         [
