@@ -5,9 +5,15 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+function _log() {
+  echo "[$(date --iso-8601=s)]" "$@" >&2
+}
+
 # Load scripts in .bash.d
 for script in ~/.bash.d/*.bash; do
+  _log "Loading \"$script\""
   source "$script"
+  _log "Complete loading \"$script\""
 done
 
-echo "Load .bashrc"
+_log "Load .bashrc"
