@@ -25,3 +25,14 @@ if [ -n "$CMDER_USER_CONFIG" ]; then
   }
   bind -x '"\C-x\C-r": _fzf_cmder_history'
 fi
+
+if _find_command ghq; then
+  ## ghq管理下のリポジトリに移動する
+  _fzf_ghq_cd() {
+    declare dir=$(ghq list -p | fzf)
+    if [ -n "$dir" ]; then
+      cd "$dir"
+    fi
+  }
+  bind -x '"\C-x\C-g": _fzf_ghq_cd'
+fi
