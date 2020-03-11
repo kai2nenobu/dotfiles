@@ -18,4 +18,16 @@ if ! type __git_ps1 &> /dev/null; then
   fi
 fi
 
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]\[\033[1;31m\]`_prompt_exit_code`\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[1;33m\]`__git_ps1`\[\033[00m\]\n\$ '
+PS1=''
+PS1="$PS1"'\[\033[01;32m\]'       # GREEN
+PS1="$PS1"'\u@\h'                 # user@host
+PS1="$PS1"'\[\033[1;31m\]'        # RED
+PS1="$PS1"'`_prompt_exit_code`'   # <exit code>
+PS1="$PS1"'\[\033[00m\]'          # RESET COLOR
+PS1="$PS1"':'                     # :
+PS1="$PS1"'\[\033[01;34m\]'       # BLUE
+PS1="$PS1"'\w'                    # current working directory
+PS1="$PS1"'\[\033[1;33m\]'        # YELLOW
+PS1="$PS1"'`__git_ps1`'           # git info (if available)
+PS1="$PS1"'\[\033[00m\]'          # RESET COLOR
+PS1="$PS1"'\n\$ '                 # newline and $
