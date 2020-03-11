@@ -115,6 +115,7 @@
   tags: [config]
   include_tasks: link_config_dir.yml
   with_items:
+    - { src: ".bash.d", dest: ".bash.d" }
     - { src: ".zsh.d", dest: ".zsh.d" }
     - { src: "utils", dest: "utils" }
   loop_control:
