@@ -34,7 +34,7 @@ function log {
   "[{0}] {1}" -f $timestamp,$message | Out-File -Encoding utf8 -Append $logFile
 }
 
-$addCommand = 'C:\Windows\System32\OpenSSH\ssh-add.exe'
+$addCommand = 'C:\Program Files\OpenSSH-Win64\ssh-add.exe'
 
 if (-not (Test-Path -LiteralPath $addCommand)) {
   log ("ssh-add command not found at {0}" -f $addCommand)
