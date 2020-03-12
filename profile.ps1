@@ -48,4 +48,10 @@ Set-Alias d docker
 Set-Alias dc docker-compose
 Set-Alias dm docker-machine
 
+## Windowws Terminal
+if ($env:WT_SESSION) {
+  $OutputEncoding = [Text.Encoding]::UTF8
+  'Use utf-8 in only Windows Terminal'
+}
+
 "Read a profile from `"$profile`""
