@@ -16,6 +16,20 @@ _fzf_cd_recursive() {
 }
 bind -x '"\C-x\C-d": _fzf_cd_recursive'
 
+## 作業ディレクトリの以下のファイルを補完する
+_fzf_complete_file() {
+  local find_cli
+  if _find_command fd; then
+    find_cli='fd --path-separator /'
+  else
+    find_cli='find'
+  fi
+  declare file=$(MSYS2_ARG_CONV_EXCL="*" ${find_cli} | fzf --prompt 'Choose file: ' --no-sort -0 -1)
+  READLINE_LINE="$READLINE_LINE$file"
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-x\C-f": _fzf_complete_file'
+
 if [ -n "$CMDER_USER_CONFIG" ]; then
   ## Cmderの履歴を絞り込む
   _fzf_cmder_history() {
