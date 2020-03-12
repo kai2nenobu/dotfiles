@@ -60,6 +60,12 @@ if _find_command peco &> /dev/null && [ -n "$ConEmuBuild" ]; then
   bind -x '"\C-x\C-d": peco_cd_recursive'
 fi
 
+## BAT_PAGERがWindowsの絶対パスならパス変換する
+if [[ "$BAT_PAGER" =~ ^[c-zC-Z]:\\ ]] && _find_command cygpath; then
+  _log 'You gotta BAT'
+  BAT_PAGER=$(cygpath -am "$BAT_PAGER")
+fi
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
 [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
