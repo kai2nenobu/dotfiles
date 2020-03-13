@@ -170,6 +170,15 @@
     - vcxsrv
     - vscode
     - winmerge
+## OpenSSHは固定バージョンをインストールする
+- name: openssh 7.9.0.1 をインストール
+  tags: [package]
+  win_chocolatey:
+    name: openssh
+    version: 7.9.0.1
+    package_params: '"/SSHAgentFeature"'
+    pinned: yes
+    state: present
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
   tags: [package]
   win_chocolatey:
