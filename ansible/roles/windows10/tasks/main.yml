@@ -303,7 +303,7 @@
   tags: [config]
   include_tasks: git_config.yml
   loop: "{{ git_configs }}"
-- name: playbook適用日時を保存する
-  win_copy:
-    dest: C:\ansible_applied.txt
-    content: "{{ ansible_facts.date_time.iso8601 }}"
+- name: playbook適用日時を出力
+  tags: [always]
+  debug:
+    msg: "Done at {{ ansible_facts.date_time.iso8601 }}"
