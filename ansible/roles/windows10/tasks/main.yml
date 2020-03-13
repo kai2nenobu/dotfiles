@@ -270,7 +270,7 @@
         src: "cmd.exe"
         arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
         directory: "%USERPROFILE%"
-        icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe'
+        icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe,0'
         description: WSL上のEmacsを起動します。
         #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
       - name: Google Chrome
