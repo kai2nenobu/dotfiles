@@ -21,7 +21,7 @@
         src: 'C:\ProgramData\chocolatey\lib\mape\MAPE\mapegui.exe'
         args: "/Start"
         dest: "{{ mape_startup }}"
-        icon: 'C:\ProgramData\chocolatey\lib\mape\MAPE\Resources\OnIcon.ico'
+        icon: 'C:\ProgramData\chocolatey\lib\mape\MAPE\Resources\OnIcon.ico,0'
     - name: Fiddlerの自動起動スクリプトを削除する
       tags: [startup]
       win_shortcut:
