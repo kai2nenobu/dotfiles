@@ -33,7 +33,7 @@ rem
 rem If you have a problem caused by character-set, modify below part like:
 rem   'type ^"%USERPROFILE%\.fzf-cd^" ^| iconv -f char -t utf-8 ^| fzf'
 rem
-for /f "delims=" %%i in ('type ^"%USERPROFILE%\.fzf-cd^" ^| iconv -f cp932 -t utf-8 ^| fzf --prompt "Choose directory: " -0 -1 ^| iconv -f utf-8 -t cp932') do (
+for /f "delims=" %%i in ('type ^"%USERPROFILE%\.fzf-cd^" ^| fzf --prompt "Choose directory: " -0 -1') do (
   cd /d "%%i"
   break
 )
