@@ -6,7 +6,7 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
     "defaultProfile": "{d5540625-3974-5e6f-8545-0f9d614da12a}",
-
+    "copyOnSelect": true,
     "profiles":
     {
         "defaults":
