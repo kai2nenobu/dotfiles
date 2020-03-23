@@ -7,6 +7,7 @@
 
     "defaultProfile": "{d5540625-3974-5e6f-8545-0f9d614da12a}",
     "copyOnSelect": true,
+    "launchMode": "maximized",
     "profiles":
     {
         "defaults":
