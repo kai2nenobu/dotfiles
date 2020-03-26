@@ -55,18 +55,9 @@ Set-Alias dm docker-machine
 if ($env:WT_SESSION) {
   $OutputEncoding = [Text.Encoding]::UTF8
   'Use utf-8 in only Windows Terminal'
-
-  Set-PSReadLineKeyHandler `
-    -BriefDescription _SearchHistoryByFzf `
-    -Description 'Search history by fzf command' `
-    -Key 'Ctrl+r' `
-    -ScriptBlock {
-      param($key, $arg)
-      $history=(Get-Content -Encoding UTF8 (Get-PSReadlineOption).HistorySavePath | fzf --tac --prompt 'Choose history: ' -0 -1)
-      if ($history) {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Insert($history)
-      }
-    }
 }
+
+<# PSFzf Integartion #>
+Import-Module PSFzf -ArgumentList 'Ctrl+t','Ctrl+r'
 
 "Read a profile from `"$profile`""
