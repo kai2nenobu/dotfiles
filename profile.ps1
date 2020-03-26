@@ -1,6 +1,9 @@
 Set-PSReadLineOption -EditMode Emacs
 
 <# Alias configuration #>
+# Remove unnesessary aliases
+Remove-Item alias:cat,alias:curl,alias:ls
+
 # git
 Set-Alias g git
 function gs() {
