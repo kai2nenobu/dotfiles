@@ -60,4 +60,11 @@ if ($env:WT_SESSION) {
 <# PSFzf Integartion #>
 Import-Module PSFzf -ArgumentList 'Ctrl+t','Ctrl+r'
 
+<# Git for Windows #>
+$gitPath = 'C:\Program Files\Git'
+if (Test-Path $gitPath) {
+  "Found Git for Windows at ${gitPath}"
+  $env:PATH = "${env:PATH};${gitPath}\usr\bin"
+}
+
 "Read a profile from `"$profile`""
