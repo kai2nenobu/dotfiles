@@ -103,3 +103,9 @@
   command = "ssh-keygen -R \"<hostname>\""
   tag = ["ssh"]
   output = ""
+
+[[snippets]]
+  description = "Sync machine time with NICT API (in JST)"
+  command = "Set-Date ([datetime]'1970/01/01 09:00:00').AddSeconds((Invoke-RestMethod -Uri https://ntp-a1.nict.go.jp/cgi-bin/json).st)"
+  tag = ["time", "powershell"]
+  output = ""
