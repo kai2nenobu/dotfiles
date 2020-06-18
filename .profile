@@ -83,3 +83,5 @@ echo "Load .profile"
 # mode: sh
 # sh-shell: bash
 # End:
+
+export PATH="$HOME/.poetry/bin:$PATH"
