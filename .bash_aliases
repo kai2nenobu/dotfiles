@@ -265,6 +265,16 @@ install-git-secrets() {
   make install PREFIX=~/.local
   )
 }
+install-ghq() {
+  local location=~/.local/bin
+  local version=1.1.4
+  local zip=$(mktemp)
+  mkdir -p "$location"
+  curl -L -o "$zip" "https://github.com/x-motemen/ghq/releases/download/v${version}/ghq_linux_amd64.zip"
+  unzip -j "$zip" ghq_linux_amd64/ghq -d "$location"
+  rm -f "$zip"
+}
+
 
 # project specific .gitignore
 function ignore-gradle() {
