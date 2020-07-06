@@ -274,7 +274,9 @@ install-ghq() {
   unzip -j "$zip" ghq_linux_amd64/ghq -d "$location"
   rm -f "$zip"
 }
-
+install-poetry() {
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+}
 
 # project specific .gitignore
 function ignore-gradle() {
