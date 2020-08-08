@@ -23,6 +23,17 @@
     "remote.WSL.defaultExtensions": [  // 2020-02-14 時点でこんな設定はないようだ
         "lfs.vscode-emacs-friendly"
     ],
+    // Codespaces
+    "codespaces.accountProvider": "GitHub",
+    "codespaces.defaultExtensions": [
+        "ms-vsonline.vsonline",
+        "GitHub.vscode-pull-request-github",
+        "ms-vsliveshare.vsliveshare",
+        "visualstudioexptteam.vscodeintellicode",
+        "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
+        "lfs.vscode-emacs-friendly",  // Emacs Friendly Keymap
+        "eamodio.gitlens", // GitLens
+    ],
     "git.autofetch": true,
     "git.confirmSync": false
 }
