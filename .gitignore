@@ -2,3 +2,6 @@
 .mozc
 # とりあえず保留
 .hatena
+
+# なんかGitHub Codespacesに勝手に作られてたディレクトリ
+pythonenv3.8/
