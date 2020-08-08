@@ -1,13 +1,5 @@
-.bash_aliases	eol=lf
-.bashrc	eol=lf
-.profile	eol=lf
-.tmux.conf	eol=lf
-.zsh_aliases	eol=lf
-.zshrc	eol=lf
-*.sh	eol=lf
-*.bash	eol=lf
+*	text=auto eol=lf
 *.bat	eol=crlf
 *.reg	eol=crlf
 *.cmd	eol=crlf
 *.ps1	eol=crlf
-.githooks/*	eol=lf

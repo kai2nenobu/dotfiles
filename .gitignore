@@ -1,4 +1,2 @@
-# 頻繁に自動的に変更されるので，とりあえず無視
-.mozc
-# とりあえず保留
-.hatena
+# なんかGitHub Codespacesに勝手に作られてたディレクトリ
+pythonenv3.8/
