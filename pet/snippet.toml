@@ -109,3 +109,9 @@
   command = "Set-Date ([datetime]'1970/01/01 09:00:00').AddSeconds((Invoke-RestMethod -Uri https://ntp-a1.nict.go.jp/cgi-bin/json).st)"
   tag = ["time", "powershell"]
   output = ""
+
+[[snippets]]
+  description = "Fetch emoji list"
+  command = "curl \"https://unicode.org/Public/emoji/<version=13.0>/emoji-test.txt\""
+  tag = ["console", "emoji"]
+  output = ""
