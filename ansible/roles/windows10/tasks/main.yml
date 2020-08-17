@@ -164,6 +164,7 @@
     - less
     - lxrunoffline
     - peco
+    - powershell.portable # Cross-platform PowerShell
     - ripgrep
     - sakuraeditor
     - sourcetree
