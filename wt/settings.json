@@ -38,6 +38,7 @@
                 "guid": "{556be506-a70c-43e3-92d4-571afab3b61b}",
                 "name": "PowerShell Core",
                 "commandline": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
+                "startingDirectory" : "%USERPROFILE%",
                 "hidden": false
             },
             {
