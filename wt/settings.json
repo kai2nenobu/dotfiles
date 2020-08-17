@@ -35,6 +35,12 @@
                 "hidden": false
             },
             {
+                "guid": "{556be506-a70c-43e3-92d4-571afab3b61b}",
+                "name": "PowerShell Core",
+                "commandline": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
+                "hidden": false
+            },
+            {
                 // Make changes here to the powershell.exe profile
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
