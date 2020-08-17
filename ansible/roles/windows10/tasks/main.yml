@@ -17,7 +17,7 @@
     - name: "CMDER_USER_CONFIG"
       value: '{{ ansible_facts.env.USERPROFILE }}\.cmder\config'
     - name: "EDITOR"
-      value: '{{ ansible_facts.env.USERPROFILE }}\utils\wsl-emacsclient.bat'
+      value: "{{ ansible_facts.env.USERPROFILE | regex_replace('\\\\', '/') }}/utils/wsl-emacsclient.bat"
     - name: "FZF_DEFAULT_OPTS"
       value: '--exact --reverse --inline-info --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"'
     - name: GIT_SSH
