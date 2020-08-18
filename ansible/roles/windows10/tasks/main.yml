@@ -62,7 +62,7 @@
     - src: 'vscode\settings.json'
       dest: 'AppData\Roaming\Code\User\settings.json'
     - src: 'vscode\keybindings.json'
-      dest: 'AppData\Roaming\Code\User\keybindngs.json'
+      dest: 'AppData\Roaming\Code\User\keybindings.json'
   loop_control:
     loop_var: config_file
 - name: ssh-agentサービスを有効にする
