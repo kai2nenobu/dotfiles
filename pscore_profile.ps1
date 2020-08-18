@@ -20,9 +20,9 @@ function Disable-Proxy {
 
 function ghq_set_location {
   ghq list --full-path `
-    | Invoke-Fzf -Info inline -Height 20 -Exit0 `
+    | Invoke-Fzf -Layout reverse -Info inline -Height 20 -Exit0 `
     | %{ Set-Location -LiteralPath $_ }
-  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+  [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() # Rewrite Prompt
 }
 
 function fzf_integration {
