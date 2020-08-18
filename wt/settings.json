@@ -39,6 +39,7 @@
                 "name": "PowerShell Core",
                 "commandline": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
                 "startingDirectory" : "%USERPROFILE%",
+                "fontFace": "HackGenNerd Console",
                 "hidden": false
             },
             {

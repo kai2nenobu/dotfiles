@@ -38,4 +38,8 @@ function fzf_integration {
 
 fzf_integration
 
+Import-Module posh-git
+Import-Module oh-my-posh
+Set-Theme Paradox
+
 Set-StrictMode -Off
