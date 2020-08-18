@@ -1,3 +1,5 @@
+Set-StrictMode -Version Latest
+
 Set-PSReadLineOption -EditMode Emacs
 
 function Enable-Proxy {
@@ -14,3 +16,5 @@ function Disable-Proxy {
   $env:no_proxy = ''
   $PSDefaultParameterValues = @{}
 }
+
+Set-StrictMode -Off
