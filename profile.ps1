@@ -1,4 +1,5 @@
 Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -HistoryNoDuplicates:$True
 
 <# Alias configuration #>
 # Remove unnesessary aliases

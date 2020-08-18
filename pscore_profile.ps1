@@ -1,6 +1,7 @@
 Set-StrictMode -Version Latest
 
 Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -HistoryNoDuplicates:$True
 
 function Enable-Proxy {
   $url = 'http://localhost:8888'
