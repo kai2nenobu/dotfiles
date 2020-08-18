@@ -18,6 +18,13 @@ function Disable-Proxy {
   $PSDefaultParameterValues = @{}
 }
 
+function ghq_set_location {
+  ghq list --full-path `
+    | Invoke-Fzf -Info inline -Height 20 -Exit0 `
+    | %{ Set-Location -LiteralPath $_ }
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+}
+
 function fzf_integration {
   $psFzfModule = (Get-Module -ListAvailable PSFzf)
   if (-not $psFzfModule) {
@@ -26,6 +33,7 @@ function fzf_integration {
   "Use PSFzf ({0})" -f $psFzfModule.Path
   Import-Module $psFzfModule
   Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+  Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+g' -ScriptBlock { ghq_set_location }
 }
 
 fzf_integration
