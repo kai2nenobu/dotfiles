@@ -13,6 +13,8 @@
     "files.associations": {
         "*.tmp": "markdown"
     },
+    // 統合ターミナルにPowerShell Coreを使用する
+    "terminal.integrated.shell.windows": "C:\\ProgramData\\chocolatey\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
     // Remote Development
     "remote.SSH.defaultExtensions": [
         "lfs.vscode-emacs-friendly"
