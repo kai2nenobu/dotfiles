@@ -8,6 +8,7 @@
     "editor.fontSize": 15,
     "editor.renderWhitespace": "boundary",
     "editor.fontFamily": "HackGenNerd, Consolas, 'Courier New', monospace",
+    "editor.mouseWheelZoom": true,
     /* デフォルト言語をmarkdownにする */
     "files.defaultLanguage": "markdown",
     "files.associations": {
