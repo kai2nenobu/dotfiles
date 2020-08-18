@@ -9,5 +9,17 @@
         "key": "Ctrl+q Ctrl+t",
         "command": "editor.action.toggleWordWrap",
         "when": "editorTextFocus"
+    },
+    {
+        // 統合ターミナルで Ctrl+x を使えるようにする
+        "key": "Ctrl+x",
+        "command": "Ctrl+x",
+        "when": "terminalFocus"
+    },
+    {
+        // 統合ターミナルで Ctrl+k を使えるようにする
+        "key": "Ctrl+k",
+        "command": "Ctrl+k",
+        "when": "terminalFocus"
     }
 ]
