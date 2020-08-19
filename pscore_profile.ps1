@@ -3,6 +3,10 @@ Set-StrictMode -Version Latest
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -HistoryNoDuplicates:$True
 
+## Load aliases
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $here 'ps_alias.ps1')
+
 function Enable-Proxy {
   $url = 'http://localhost:8888'
   $env:http_proxy = $url

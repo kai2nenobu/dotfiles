@@ -1,56 +1,9 @@
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -HistoryNoDuplicates:$True
 
-<# Alias configuration #>
-# Remove unnesessary aliases
-Remove-Item alias:cat,alias:curl,alias:ls
-
-# git
-Set-Alias g git
-function gs() {
-  Start-Process git -ArgumentList status,--short,--branch -NoNewWindow -Wait
-}
-function gst() {
-  Start-Process git -ArgumentList stash -NoNewWindow -Wait
-}
-#function gl() {
-#  Start-Process git -ArgumentList log -NoNewWindow -Wait
-#}
-function gla() {
-  Start-Process git -ArgumentList log,--decorate,--graph,--all -NoNewWindow -Wait
-}
-function glo() {
-  Start-Process git -ArgumentList log,--decorate,--graph,--all,--oneline -NoNewWindow -Wait
-}
-function gd() {
-  Start-Process git -ArgumentList diff,--histogram -NoNewWindow -Wait
-}
-#function gc() {
-#  Start-Process git -ArgumentList commit -NoNewWindow -Wait
-#}
-function ga() {
-  Start-Process git -ArgumentList add -NoNewWindow -Wait
-}
-function gco() {
-  Start-Process git -ArgumentList checkout -NoNewWindow -Wait
-}
-function gb() {
-  Start-Process git -ArgumentList branch -NoNewWindow -Wait
-}
-#function gp() {
-#  Start-Process git -ArgumentList pull -NoNewWindow -Wait
-#}
-function gn() {
-  Start-Process git -ArgumentList now,--all,--stat -NoNewWindow -Wait
-}
-function gam() {
-  Start-Process git -ArgumentList commmit,--amend,--no-edit -NoNewWindow -Wait
-}
-
-# docker
-Set-Alias d docker
-Set-Alias dc docker-compose
-Set-Alias dm docker-machine
+## Load aliases
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $here 'ps_alias.ps1')
 
 ## Windowws Terminal
 if ($env:WT_SESSION) {
