@@ -59,8 +59,12 @@
       dest: 'AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
     - src: "profile.ps1"
       dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1'
+    - src: "ps_alias.ps1"
+      dest: 'Documents\WindowsPowerShell\ps_alias.ps1'
     - src: "pscore_profile.ps1"
       dest: 'Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
+    - src: "ps_alias.ps1"
+      dest: 'Documents\PowerShell\ps_alias.ps1'
     - src: 'vscode\settings.json'
       dest: 'AppData\Roaming\Code\User\settings.json'
     - src: 'vscode\keybindings.json'
