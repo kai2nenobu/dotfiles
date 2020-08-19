@@ -22,6 +22,15 @@ function Disable-Proxy {
   $PSDefaultParameterValues = @{}
 }
 
+function pet_insert {
+  $commandLine = (pet search)
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+  if (-not [string]::IsNullOrEmpty($commandLine)) {
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($commandLine)
+  }
+}
+Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+p' -ScriptBlock { pet_insert }
+
 function ghq_set_location {
   ghq list --full-path `
     | Invoke-Fzf -Layout reverse -Info inline -Height 20 -Exit0 `
