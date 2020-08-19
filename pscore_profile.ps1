@@ -22,6 +22,15 @@ function Disable-Proxy {
   $PSDefaultParameterValues = @{}
 }
 
+function fd_insert_file {
+  $file = fd | fzf --prompt "Choose file: " --exit-0
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+  if (-not [string]::IsNullOrEmpty($file)) {
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($file)
+  }
+}
+Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+f' -ScriptBlock { fd_insert_file }
+
 function pet_insert {
   $commandLine = (pet search)
   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
