@@ -9,9 +9,6 @@
     value: "{{ item.value }}"
     state: present
   with_items:
-    ## batのページャー設定。絶対パスは / で区切ること！
-    - name: "BAT_PAGER"
-      value: 'C:/ProgramData/chocolatey/bin/less.exe'
     - name: "CMDER_ROOT"
       value: 'C:\tools\cmdermini'
     - name: "CMDER_USER_CONFIG"
