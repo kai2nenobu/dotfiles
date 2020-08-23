@@ -28,6 +28,15 @@
   file:
     path: /etc/dpkg/dpkg.cfg.d/excludes
     state: absent
+- name: Use fonts on Windows 10
+  copy:
+    dest: /etc/fonts/local.conf
+    content: |
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+      <fontconfig>
+        <dir>/mnt/c/Windows/Fonts</dir>
+      </fontconfig>
 - name: Add a gpg key for emacs ppa repository
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
