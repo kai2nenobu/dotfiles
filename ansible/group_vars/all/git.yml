@@ -15,6 +15,9 @@ git_configs:
   # デフォルトは --no-ff でマージする
   - name: merge.ff
     value: "false"
+  # rebase時に自動stashする
+  - name: rebase.autostash
+    value: "true"
   # エイリアス設定
   - name: alias.dry-merge
     value: merge --no-commit --no-ff
