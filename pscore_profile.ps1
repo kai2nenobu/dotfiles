@@ -1,5 +1,15 @@
 Set-StrictMode -Version Latest
 
+function remove_win_ps_modules {
+  <#
+  .SYNOPSIS
+  Remove Windows Powershell Module paths from PSModulePATH environment variable
+  #>
+  $newPath = $env:PSModulePATH -split ';',"`n" | where { $_ -notmatch "WindowsPowerShell" } | Join-String -Separator ';'
+  $env:PSModulePATH = $newPath
+}
+remove_win_ps_modules
+
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -HistoryNoDuplicates:$True
 
