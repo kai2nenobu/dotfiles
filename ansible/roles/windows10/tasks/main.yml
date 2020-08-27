@@ -29,9 +29,23 @@
     - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
     - { name: "PYTHONUTF8", value: "1" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
-    # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
-    - name: "WSLENV"
-      value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:ANSIBLE_MY_PROFILE:WSL_AUTH_SOCK/up"
+# ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
+- name: WSLENV環境変数を設定する
+  tags: [config]
+  win_environment:
+    level: user
+    name: WSLENV
+    value: "{{ wslenv_list | join(':')}}"
+    state: present
+  vars:
+    wslenv_list:
+      # このリストを : で結合したものがWSLENVの値になる。
+      - USERPROFILE/up
+      - http_proxy
+      - https_proxy
+      - no_proxy
+      - ANSIBLE_MY_PROFILE
+      - WSL_AUTH_SOCK/up
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
