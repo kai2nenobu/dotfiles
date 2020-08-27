@@ -1,4 +1,5 @@
 - name: Configure wsl.conf
+  tags: [config]
   copy:
     dest: /etc/wsl.conf
     content: |
@@ -8,27 +9,33 @@
       options = "metadata,umask=22,fmask=11"
       mountFsTab = true
 - name: Configure umask for wsl file systems
+  tags: [config]
   copy:
     dest: /etc/profile.d/umask.sh
     content: umask 022
 - name: Delete a deprecated script for ssh-agent-wsl
+  tags: [config]
   file:
     path: /etc/profile.d/ssh-agent-wsl.sh
     state: absent
 - name: Integrate with wsl-ssh-agent
+  tags: [config]
   copy:
     dest: /etc/profile.d/wsl-ssh-agent.sh
     content: '[ -n "$WSL_AUTH_SOCK" ] && export SSH_AUTH_SOCK=$WSL_AUTH_SOCK'
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
+  tags: [config]
   copy:
     dest: /etc/profile.d/pipenv.sh
     content: export PIPENV_VENV_IN_PROJECT=true
 - name: Configure man to install all manuals
+  tags: [config]
   file:
     path: /etc/dpkg/dpkg.cfg.d/excludes
     state: absent
 - name: Use fonts on Windows 10
+  tags: [config]
   copy:
     dest: /etc/fonts/local.conf
     content: |
@@ -110,10 +117,12 @@
     name: prettier
     global: yes
 - name: Configure git
+  tags: [config]
   become: no
   git_config: "{{ {'scope':'global'} | combine(item) }}" # デフォルトのスコープを global にする
   loop: "{{ git_configs }}"
 - name: 手っ取り早くシェル実行
+  tags: [config]
   become: no
   # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー
   shell: |
