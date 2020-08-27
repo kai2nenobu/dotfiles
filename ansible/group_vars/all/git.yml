@@ -18,6 +18,15 @@ git_configs:
   # rebase時に自動stashする
   - name: rebase.autostash
     value: "true"
+  # delta設定
+  - name: core.pager
+    value: delta --line-numbers
+  - name: delta.syntax-theme
+    value: Dracula
+  - name: delta.plus-style
+    value: 'syntax #003800'
+  - name: delta.minus-style
+    value: 'syntax #3f0001'
   # エイリアス設定
   - name: alias.dry-merge
     value: merge --no-commit --no-ff
