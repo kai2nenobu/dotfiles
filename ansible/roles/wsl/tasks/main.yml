@@ -117,6 +117,8 @@
     - https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
     # delta
     - https://github.com/dandavison/delta/releases/download/0.4.1/git-delta_0.4.1_amd64.deb
+    # bat
+    - https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
 - name: Install pip tools
   tags: [package]
   pip:
