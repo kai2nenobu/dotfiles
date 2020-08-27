@@ -45,6 +45,7 @@
       - https_proxy
       - no_proxy
       - ANSIBLE_MY_PROFILE
+      - WSL_GATEWAY
       - WSL_AUTH_SOCK/up
 - name: Windows OS設定
   tags: [config]
