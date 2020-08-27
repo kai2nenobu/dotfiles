@@ -29,7 +29,7 @@
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
     # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
     - name: "WSLENV"
-      value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:WSL_AUTH_SOCK/up:ANSIBLE_MY_PROFILE"
+      value: "USERPROFILE/up:http_proxy:https_proxy:no_proxy:ANSIBLE_MY_PROFILE:WSL_AUTH_SOCK/up"
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
