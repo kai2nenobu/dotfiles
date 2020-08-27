@@ -45,14 +45,17 @@
         <dir>/mnt/c/Windows/Fonts</dir>
       </fontconfig>
 - name: Add a gpg key for emacs ppa repository
+  tags: [package]
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
     state: present
 - name: Add an emacs ppa repository
+  tags: [package]
   apt_repository:
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Install development packages
+  tags: [package]
   apt:
     name:
       - cmigemo
@@ -75,6 +78,7 @@
     state: present
     update_cache: yes
 - name: Install serverspec dependencies
+  tags: [package]
   apt:
     name:
       - build-essential
@@ -83,19 +87,23 @@
       - ruby-dev
     state: present
 - name: Remove unnecessary packages
+  tags: [package]
   package:
     name:
       - openssh-server
     state: absent
 - name: Add a gpg key for docker apt repository
+  tags: [package]
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 - name: Add a docker apt repository
+  tags: [package]
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
 - name: Install docker CLI
+  tags: [package]
   apt:
     name: docker-ce-cli
     state: present
@@ -109,10 +117,12 @@
   apt:
     deb: https://github.com/dandavison/delta/releases/download/0.4.1/git-delta_0.4.1_amd64.deb
 - name: Install pip tools
+  tags: [package]
   pip:
     name: pipenv
     executable: pip3
 - name: Install node tools
+  tags: [package]
   npm:
     name: prettier
     global: yes
