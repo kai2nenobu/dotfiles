@@ -93,12 +93,10 @@
     name: docker-ce-cli
     state: present
     update_cache: yes
-- name: Check if ripgrep is installed
-  command: dpkg-query -W ripgrep
-  register: my_ripgrep_installed
-  failed_when: my_ripgrep_installed.rc > 1
-  changed_when: my_ripgrep_installed.rc == 1
-  notify: Install ripgrep
+- name: Install ripgrep
+  tags: [package]
+  apt:
+    deb: https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
 - name: Install pip tools
   pip:
     name: pipenv

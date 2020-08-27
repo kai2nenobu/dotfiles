@@ -1,8 +1,0 @@
-- name: Download a ripgrep debian package
-  get_url:
-    url: https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
-    dest: /tmp/ripgrep_0.10.0_amd64.deb
-  listen: Install ripgrep
-- name: Install a ripgrep package
-  apt: deb="/tmp/ripgrep_0.10.0_amd64.deb"
-  listen: Install ripgrep
