@@ -82,6 +82,8 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
   . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
 
+export PATH="$HOME/.poetry/bin:$PATH"
+
 echo "Load .profile"
 
 # Local Variables:
@@ -89,4 +91,3 @@ echo "Load .profile"
 # sh-shell: bash
 # End:
 
-export PATH="$HOME/.poetry/bin:$PATH"
