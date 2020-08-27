@@ -77,6 +77,11 @@ if [ -e "$HOME/go" ]; then
   export PATH="$GOPATH/bin:$PATH"
 fi
 
+# added by Nix installer
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
