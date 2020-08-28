@@ -18,11 +18,17 @@
   file:
     path: /etc/profile.d/ssh-agent-wsl.sh
     state: absent
-- name: Integrate with wsl-ssh-agent
+- name: Delete a deprecated script for wsl-ssh-agent
+  tags: [config]
+  file:
+    path: /etc/profile.d/wsl-ssh-agent.sh
+    state: absent
+- name: Integrate with ssh-agent on Windows
   tags: [config]
   copy:
-    dest: /etc/profile.d/wsl-ssh-agent.sh
-    content: '[ -n "$WSL_AUTH_SOCK" ] && export SSH_AUTH_SOCK=$WSL_AUTH_SOCK'
+    src: ssh-agent.sh
+    dest: /etc/profile.d/ssh-agent.sh
+    mode: '0644'
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]
