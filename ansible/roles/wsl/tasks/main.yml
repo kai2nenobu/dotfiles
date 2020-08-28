@@ -8,11 +8,13 @@
       root = /mnt/
       options = "metadata,umask=22,fmask=11"
       mountFsTab = true
+    mode: '0644'
 - name: Configure umask for wsl file systems
   tags: [config]
   copy:
     dest: /etc/profile.d/umask.sh
     content: umask 022
+    mode: '0644'
 - name: Delete a deprecated script for ssh-agent-wsl
   tags: [config]
   file:
