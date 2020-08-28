@@ -10,17 +10,17 @@
       mountFsTab = true
     mode: '0644'
 - name: Delete a deprecated umask setting
-  tags: [config]
+  tags: [config, deprecated]
   file:
     path: /etc/profile.d/umask.sh
     state: absent
 - name: Delete a deprecated script for ssh-agent-wsl
-  tags: [config]
+  tags: [config, deprecated]
   file:
     path: /etc/profile.d/ssh-agent-wsl.sh
     state: absent
 - name: Delete a deprecated script for wsl-ssh-agent
-  tags: [config]
+  tags: [config, deprecated]
   file:
     path: /etc/profile.d/wsl-ssh-agent.sh
     state: absent
