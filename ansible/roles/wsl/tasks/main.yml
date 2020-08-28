@@ -44,6 +44,11 @@
       <fontconfig>
         <dir>/mnt/c/Windows/Fonts</dir>
       </fontconfig>
+- name: Update apt cache
+  tags: [package]
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   apt_key:
@@ -76,7 +81,6 @@
       - x11-xserver-utils
       - zsh
     state: present
-    update_cache: yes
 - name: Install utility packages
   tags: [package]
   apt:
@@ -112,7 +116,6 @@
   apt:
     name: docker-ce-cli
     state: present
-    update_cache: yes
 - name: Install .deb packages
   tags: [package]
   apt:
