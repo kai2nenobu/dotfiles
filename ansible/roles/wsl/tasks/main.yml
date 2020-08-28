@@ -44,11 +44,6 @@
       <fontconfig>
         <dir>/mnt/c/Windows/Fonts</dir>
       </fontconfig>
-- name: Update apt cache
-  tags: [package]
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   apt_key:
@@ -59,6 +54,21 @@
   apt_repository:
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
+- name: Add a gpg key for docker apt repository
+  tags: [package]
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Add a docker apt repository
+  tags: [package]
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
+    state: present
+- name: Update apt cache
+  tags: [package]
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
 - name: Install development packages
   tags: [package]
   apt:
@@ -101,16 +111,6 @@
     name:
       - openssh-server
     state: absent
-- name: Add a gpg key for docker apt repository
-  tags: [package]
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-- name: Add a docker apt repository
-  tags: [package]
-  apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
-    state: present
 - name: Install docker CLI
   tags: [package]
   apt:
