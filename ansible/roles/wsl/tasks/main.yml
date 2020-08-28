@@ -77,6 +77,11 @@
       - zsh
     state: present
     update_cache: yes
+- name: Install utility packages
+  tags: [package]
+  apt:
+    name:
+      - socat
 - name: Install serverspec dependencies
   tags: [package]
   apt:
