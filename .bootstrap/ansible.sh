@@ -5,7 +5,7 @@
 ### Prerequisite:
 ###   OS: Ubuntu 18.04
 
-SUDO=sudo
+SUDO=sudo --preserve-env=http_proxy,https_proxy,no_proxy
 # Not use sudo if root
 [ "$(id -u)" = 0 ] && SUDO=
 
