@@ -10,6 +10,5 @@ SUDO=sudo --preserve-env=http_proxy,https_proxy,no_proxy
 [ "$(id -u)" = 0 ] && SUDO=
 
 $SUDO apt update
-$SUDO apt upgrade -y
 $SUDO apt install -y software-properties-common python3-pip python3-setuptools
 $SUDO pip3 install ansible pywinrm
