@@ -35,7 +35,7 @@
   win_environment:
     level: user
     name: WSLENV
-    value: "{{ wslenv_list | join(':')}}"
+    value: "{{ wslenv_list | join(':') }}"
     state: present
   vars:
     wslenv_list:
