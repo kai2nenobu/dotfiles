@@ -19,6 +19,7 @@
         src: "{{ extract_dir }}.zip"
         dest: /tmp
         remote_src: yes
+        mode: '0644'
     - name: Copy ghq executable
       copy:
         src: "{{ extract_dir }}/ghq"

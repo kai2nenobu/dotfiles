@@ -36,6 +36,7 @@
   copy:
     dest: /etc/profile.d/pipenv.sh
     content: export PIPENV_VENV_IN_PROJECT=true
+    mode: '0644'
 - name: Configure man to install all manuals
   tags: [config]
   file:
@@ -51,6 +52,7 @@
       <fontconfig>
         <dir>/mnt/c/Windows/Fonts</dir>
       </fontconfig>
+    mode: '0644'
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   apt_key:
