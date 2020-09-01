@@ -1,6 +1,7 @@
 - tags: [package]
   block:
-    - set_fact:
+    - name: Set a variable for extract directory
+      set_fact:
         extract_dir: /tmp/ghq_linux_amd64
     - name: Download a ghq archive
       get_url:
