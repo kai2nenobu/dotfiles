@@ -9,6 +9,12 @@ license = "MIT"
 python = "^3.6"
 
 [tool.poetry.dev-dependencies]
+taskipy = "^1.3.0"
+jinja2 = "^2.11.2"
+ansible-lint = "^4.3.3"
+
+[tool.taskipy.tasks]
+lint = "ansible-lint site.yml"
 
 [build-system]
 requires = ["poetry>=0.12"]
