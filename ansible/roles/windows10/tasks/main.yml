@@ -158,6 +158,23 @@
     name: Pscx
     state: present
     allow_clobber: yes
+# Powershell!
+- name: Powershell Coreをインストールする
+  tags: [package]
+  win_chocolatey:
+    name: powershell.portable
+    state: present
+- name: 変数設定
+  tags: [always]
+  set_fact:
+    pwsh_exe: 'C:\ProgramData\chocolatey\bin\pwsh.exe'
+- name: PowerShell Coreのモジュールをインストールする
+  tags: [package]
+  include_tasks: pwsh_module.yml
+  loop:
+    - PSFzf
+    - oh-my-posh
+    - posh-git
 - name: Chocolateyパッケージをインストールする (chocolatey.org)
   tags: [package]
   win_chocolatey:
@@ -184,7 +201,6 @@
     - less
     - lxrunoffline
     - peco
-    - powershell.portable # Cross-platform PowerShell
     - ripgrep
     - sakuraeditor
     - sourcetree
