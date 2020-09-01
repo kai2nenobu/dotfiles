@@ -1,6 +1,5 @@
 - hosts: windows10
   environment: "{{ proxy_env | default({}) }}"
-  pre_tasks:
   roles:
     - role: local-proxy
       when: local_proxy_type is defined
