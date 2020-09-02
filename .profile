@@ -82,7 +82,10 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
   . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
 
-export PATH="$HOME/.poetry/bin:$PATH"
+if [ -d "$HOME/.poetry" ]; then
+  export PATH="$HOME/.poetry/bin:$PATH"
+  which python3 &> /dev/null && alias poetry='python3 $HOME/.poetry/bin/poetry'
+fi
 
 echo "Load .profile"
 
