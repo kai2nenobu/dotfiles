@@ -13,8 +13,8 @@
         "defaults":
         {
             // Put settings here that you want to apply to all profiles
-            "fontFace": "Ricty",
-            "fontSize": 15,
+            "fontFace": "HackGen Console",
+            "fontSize": 14,
             "colorSheme": "Campbell"
         },
         "list":
@@ -40,7 +40,6 @@
                 "commandline": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
                 "icon": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\assets\\PowerShell_black.ico",
                 "startingDirectory" : "%USERPROFILE%",
-                "fontFace": "HackGen Console",
                 "hidden": false
             },
             {
