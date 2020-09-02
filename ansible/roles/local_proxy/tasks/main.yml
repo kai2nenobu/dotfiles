@@ -13,7 +13,6 @@
       tags: [package]
       win_chocolatey:
         name: mape
-        source: https://www.myget.org/F/kai2nenobu
     - name: MAPEを自動起動するスクリプトを作成する
       tags: [startup]
       win_shortcut:
