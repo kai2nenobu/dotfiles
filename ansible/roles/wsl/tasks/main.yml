@@ -42,17 +42,11 @@
   file:
     path: /etc/dpkg/dpkg.cfg.d/excludes
     state: absent
-- name: Use fonts on Windows 10
-  tags: [config]
-  copy:
-    dest: /etc/fonts/local.conf
-    content: |
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-      <fontconfig>
-        <dir>/mnt/c/Windows/Fonts</dir>
-      </fontconfig>
-    mode: '0644'
+- name: Remove a deprecated font configuration
+  tags: [config, deprecated]
+  file:
+    path: /etc/fonts/local.conf
+    state: absent
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   apt_key:
@@ -86,6 +80,8 @@
       - connect-proxy
       - curl
       - emacs26
+      - fonts-ipafont
+      - fonts-ipaexfont
       - git
       - info
       - language-pack-ja
