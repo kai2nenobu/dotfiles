@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run the bootstrap script
-        run: bash -eu bootstrap.sh
+        run: bash -e bootstrap.sh
   container-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run the bootstrap script
-        run: docker run ubuntu:18.04 bash -eu bootstrap.sh
+        run: docker run -v "$PWD:/mnt" -w /mnt ubuntu:18.04 bash -e bootstrap.sh
