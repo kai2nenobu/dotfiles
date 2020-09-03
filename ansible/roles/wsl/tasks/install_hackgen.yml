@@ -13,7 +13,7 @@
         extract_dir: /tmp/{{ font.name }}_{{ font.version }}
     - name: Download a {{ font.name }} archive
       get_url:
-        url: https://github.com/yuru7/HackGen/releases/download/{{ font.version }}/{{ extract_dir }}.zip
+        url: https://github.com/yuru7/HackGen/releases/download/{{ font.version }}/{{ font.name }}_{{ font.version }}.zip
         dest: "{{ extract_dir }}.zip"
         checksum: "{{ font.checksum }}"
       register: download_archive
