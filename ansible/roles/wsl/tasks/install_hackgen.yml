@@ -1,0 +1,42 @@
+## Install HackGen font. This task requires "font" loop var.
+##
+## ["font" object structure]
+## font:
+##   name: Name of font
+##   version: Version of font
+##   checksum: Checksum of archive zip
+- name: Install {{ font.name }} font
+  tags: [package]
+  block:
+    - name: Set a variable for extract directory
+      set_fact:
+        extract_dir: /tmp/{{ font.name }}_{{ font.version }}
+    - name: Download a {{ font.name }} archive
+      get_url:
+        url: https://github.com/yuru7/HackGen/releases/download/{{ font.version }}/{{ extract_dir }}.zip
+        dest: "{{ extract_dir }}.zip"
+        checksum: "{{ font.checksum }}"
+      register: download_archive
+    - name: Delete the extracted directory if download a new archive
+      file:
+        path: "{{ extract_dir }}"
+        state: absent
+      when: download_archive.changed
+    - name: Extract the archive
+      unarchive:
+        src: "{{ extract_dir }}.zip"
+        dest: /tmp
+        remote_src: yes
+        mode: '0644'
+    - name: List font files
+      find:
+        paths: "{{ extract_dir }}"
+        patterns: "*.ttf"
+      register: ttf_list
+    - name: Copy {{ font.name }} fonts
+      copy:
+        src: "{{ item }}"
+        remote_src: yes
+        dest: /usr/local/share/fonts
+        mode: '0644'
+      loop: "{{ ttf_list.files | map(attribute='path') | list }}"

@@ -137,6 +137,17 @@
     # bat
     - https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
 - import_tasks: install_ghq.yml
+- include_tasks: install_hackgen.yml
+  tags: [package]
+  loop:
+    - name: HackGen
+      version: v2.1.1
+      checksum: sha256:f6a901b646e434d1763490ee46b4b06eca2825b4eb7efb90ef347319a407236d
+    - name: HackGenNerd
+      version: v2.1.1
+      checksum: sha256:e776dc97e2b265f768f412040a5a64bc10066d6bc8082f2a5aa5a03a02578219
+  loop_control:
+    loop_var: font
 - name: Install pip tools
   tags: [package]
   pip:
