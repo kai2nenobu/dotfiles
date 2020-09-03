@@ -6,7 +6,7 @@
     - name: Download a ghq archive
       get_url:
         url: https://github.com/x-motemen/ghq/releases/download/v1.1.5/ghq_linux_amd64.zip
-        dest: /tmp
+        dest: "{{ extract_dir }}.zip"
         checksum: sha256:417b7a6f71a80cff32e9f61a6578f7ec3b58e0470863ad719760c3fada938e70
       register: download_archive
     - name: Delete the extracted directory if download a new archive
