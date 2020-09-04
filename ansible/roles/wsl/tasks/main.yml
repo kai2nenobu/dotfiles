@@ -132,6 +132,8 @@
     - https://github.com/dandavison/delta/releases/download/0.4.1/git-delta_0.4.1_amd64.deb
     # bat
     - https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
+    # fzf
+    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.20.0-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
