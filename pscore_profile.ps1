@@ -57,6 +57,18 @@ function ghq_set_location {
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() # Rewrite Prompt
 }
 
+function directory_set_location {
+  <#
+  .SYNOPSIS
+  ghqとpcdのディレクトリ一覧から選択したディレクトリに移動する。
+  #>
+  $ghq_dirs = @(ghq list --full-path)
+  $pcd_dirs = @(Get-Content "$env:USERPROFILE\.fzf-cd")
+  $ghq_dirs + $pcd_dirs | Invoke-Fzf -Layout reverse -Info inline -Height 20 -Exit0 `
+    | %{ Set-Location -LiteralPath $_ }
+  [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() # Rewrite Prompt
+}
+
 function fzf_integration {
   $psFzfModule = (Get-Module -ListAvailable PSFzf)
   if (-not $psFzfModule) {
@@ -66,6 +78,7 @@ function fzf_integration {
   Import-Module $psFzfModule
   Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
   Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+g' -ScriptBlock { ghq_set_location }
+  Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+d' -ScriptBlock { directory_set_location }
 }
 
 fzf_integration
