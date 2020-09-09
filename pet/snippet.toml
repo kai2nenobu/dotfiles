@@ -115,3 +115,9 @@
   command = "curl \"https://unicode.org/Public/emoji/<version=13.0>/emoji-test.txt\""
   tag = ["console", "emoji"]
   output = ""
+
+[[snippets]]
+  description = "Transfer the directory via ssh"
+  command = "tar zcf - \"<dir>\" | ssh \"<host>\" tar zxvf -"
+  tag = ["ssh"]
+  output = ""
