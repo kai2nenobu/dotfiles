@@ -1,13 +1,15 @@
 #!/bin/sh
 
+host=$(hostname.exe | tr -d "\r\n")
 windows_ip=${WSL_GATEWAY:-127.0.0.1}
 
 cat <<EOF
 {
     "_meta": {
         "hostvars": {
-            "$windows_ip": {
+            "$host": {
                 "ansible_connection": "winrm",
+                "ansible_host": "$windows_ip",
                 "ansible_port": 5986,
                 "ansible_winrm_server_cert_validation": "ignore"
             },
@@ -25,7 +27,7 @@ cat <<EOF
     },
     "windows10": {
         "hosts": [
-            "$windows_ip"
+            "$host"
         ]
     },
     "wsl": {
