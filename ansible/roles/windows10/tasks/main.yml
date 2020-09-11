@@ -190,12 +190,14 @@
     - autohotkey.portable
     - bat
     - cmdermini
+    - delta
     - emacs
     - Firefox
     - fd
     - font-hackgen
     - font-hackgen-nerd
     - fzf
+    - gh
     - git
     #      - GoogleChrome
     #      - GoogleJapaneseInput
