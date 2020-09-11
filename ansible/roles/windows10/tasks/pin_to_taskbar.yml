@@ -27,6 +27,8 @@
         icon: "{{ item.icon | default(omit) }}"
         description: "{{ item.description | default(omit) }}"
       loop: "{{ apps }}"
+      loop_control:
+        label: "{{ item. name }}"
     - name: レイアウトxmlをテンプレート展開する
       win_template:
         src: TaskBarLayout.xml.j2

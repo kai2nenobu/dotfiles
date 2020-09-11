@@ -8,7 +8,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items:
+  loop:
     - name: "CMDER_ROOT"
       value: 'C:\tools\cmdermini'
     - name: "CMDER_USER_CONFIG"
@@ -29,6 +29,8 @@
     - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
     - { name: "PYTHONUTF8", value: "1" }
     - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
+  loop_control:
+    label: "{{ item.name }}={{ item.value }}"
 # ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
 - name: WSLENV環境変数を設定する
   tags: [config]
