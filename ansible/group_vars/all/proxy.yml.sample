@@ -1,8 +1,0 @@
-# If proxy is required, comment out and change below
-#proxy_env:
-#  http_proxy: http://proxy.example.com:8080
-#  https_proxy: http://proxy.example.com:8080
-
-# If local proxy software is required.
-# Possible value is 'enterprise' or 'dummy'.
-#local_proxy_type: enterprise

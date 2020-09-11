@@ -1,0 +1,21 @@
+### 【ホスト個別の設定ファイルサンプル】
+### ansibleで管理するホストが増える場合は、このファイルを
+### <hostname>.yml という名前でコピーする。
+### 実際の設定ファイルには認証情報などのセンシティブな情報も
+### 含むまれるので、Gitリポジトリで追跡しないこと。
+###
+### 以下に設定可能な項目を列挙する。
+
+## Credential to connect Windows10
+#ansible_user: 'DOMAIN\your_name'
+#ansible_password: your_password
+#ansible_winrm_transport: ntlm
+
+## If proxy is required, comment out and change below
+#proxy_env:
+#  http_proxy: http://127.0.0.1:8888
+#  https_proxy: http://127.0.0.1:8888
+
+## If local proxy software is required.
+## Possible value is 'enterprise' or 'dummy'.
+#local_proxy_type: enterprise
