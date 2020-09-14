@@ -12,6 +12,7 @@
   become: yes
   environment: "{{ proxy_env | default({}) }}"
   roles:
+    - dev_ubuntu
     - wsl
   tasks:
     - import_role:

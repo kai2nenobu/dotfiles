@@ -1,0 +1,122 @@
+- name: Configure pipenv
+  # Create a virtualenv for pipenv in the project directory
+  tags: [config]
+  copy:
+    dest: /etc/profile.d/pipenv.sh
+    content: export PIPENV_VENV_IN_PROJECT=true
+    mode: '0644'
+- name: Configure man to install all manuals
+  tags: [config]
+  file:
+    path: /etc/dpkg/dpkg.cfg.d/excludes
+    state: absent
+- name: Add a gpg key for emacs ppa repository
+  tags: [package]
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
+    state: present
+- name: Add an emacs ppa repository
+  tags: [package]
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
+    state: present
+- name: Add a gpg key for docker apt repository
+  tags: [package]
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Add a docker apt repository
+  tags: [package]
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
+    state: present
+- name: Update apt cache
+  tags: [package]
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+- name: Install development packages
+  tags: [package]
+  apt:
+    name:
+      - cmigemo
+      - connect-proxy
+      - curl
+      - emacs26
+      - fonts-ipafont
+      - fonts-ipaexfont
+      - git
+      - info
+      - language-pack-ja
+      - man-db
+      - manpages
+      - manpages-dev
+      - nodejs
+      - npm
+      - python3-pip
+      - python3-setuptools
+      - python3-venv
+      - tmux
+      #- ubuntu-wsl
+      - x11-xserver-utils
+      - zsh
+    state: present
+- name: Install utility packages
+  tags: [package]
+  apt:
+    name:
+      - socat
+- name: Install serverspec dependencies
+  tags: [package]
+  apt:
+    name:
+      - build-essential
+      - libffi-dev
+      - ruby-bundler
+      - ruby-dev
+    state: present
+- name: Install docker CLI
+  tags: [package]
+  apt:
+    name: docker-ce-cli
+    state: present
+- name: Install .deb packages
+  tags: [package]
+  apt:
+    deb: "{{ item }}"
+  loop:
+    # ripgrep
+    - https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+    # delta
+    - https://github.com/dandavison/delta/releases/download/0.4.1/git-delta_0.4.1_amd64.deb
+    # bat
+    - https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
+    # fzf
+    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.20.0-1_amd64.deb
+- import_tasks: install_ghq.yml
+- include_tasks: install_hackgen.yml
+  tags: [package]
+  loop:
+    - name: HackGen
+      version: v2.1.1
+      checksum: sha256:f6a901b646e434d1763490ee46b4b06eca2825b4eb7efb90ef347319a407236d
+    - name: HackGenNerd
+      version: v2.1.1
+      checksum: sha256:e776dc97e2b265f768f412040a5a64bc10066d6bc8082f2a5aa5a03a02578219
+  loop_control:
+    loop_var: font
+- name: Install pip tools
+  tags: [package]
+  pip:
+    name: pipenv
+    executable: pip3
+- name: Install node tools
+  tags: [package]
+  npm:
+    name: prettier
+    global: yes
+- name: Configure git
+  tags: [config]
+  become: no
+  git_config: "{{ {'scope':'global'} | combine(item) }}" # デフォルトのスコープを global にする
+  loop: "{{ git_configs }}"
