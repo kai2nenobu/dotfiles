@@ -19,3 +19,7 @@
 ## If local proxy software is required.
 ## Possible value is 'enterprise' or 'dummy'.
 #local_proxy_type: enterprise
+
+## WSLホストをプロキシとして使用するかどうか
+## WSL_GATEWAYという環境変数が設定済みの前提
+#wsl_use_host_proxy: no

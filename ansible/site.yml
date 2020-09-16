@@ -11,6 +11,15 @@
 - hosts: wsl
   become: yes
   environment: "{{ proxy_env | default({}) }}"
+  pre_tasks:
+    - name: Configure proxy
+      tags: [always]
+      set_fact:
+        proxy_env:
+          http_proxy: "http://{{ lookup('env','WSL_GATEWAY') }}:8888"
+          https_proxy: "http://{{ lookup('env','WSL_GATEWAY') }}:8888"
+          no_proxy: "localhost,127.0.0.1"
+      when: wsl_use_host_proxy
   roles:
     - dev_ubuntu
     - wsl
