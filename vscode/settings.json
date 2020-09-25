@@ -1,42 +1,39 @@
 {
-    // Python仮想環境のパス
-    "python.venvPath": ".venv",
-    // ファイル自動保存設定
-    "files.autoSave": "afterDelay",
-    // ファイルを自動保存する遅延時間（ミリ秒）
-    "files.autoSaveDelay": 500,
-    "editor.fontSize": 15,
-    "editor.renderWhitespace": "boundary",
-    "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
-    "editor.mouseWheelZoom": true,
-    /* デフォルト言語をmarkdownにする */
-    "files.defaultLanguage": "markdown",
-    "files.associations": {
-        "*.tmp": "markdown"
-    },
-    // 統合ターミナルにPowerShell Coreを使用する
-    "terminal.integrated.shell.windows": "C:\\ProgramData\\chocolatey\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
-    // Remote Development
-    "remote.SSH.defaultExtensions": [
-        "lfs.vscode-emacs-friendly"
-    ],
-    "remote.containers.defaultExtensions": [
-        "lfs.vscode-emacs-friendly"
-    ],
-    "remote.WSL.defaultExtensions": [  // 2020-02-14 時点でこんな設定はないようだ
-        "lfs.vscode-emacs-friendly"
-    ],
-    // Codespaces
-    "codespaces.accountProvider": "GitHub",
-    "codespaces.defaultExtensions": [
-        "ms-vsonline.vsonline",
-        "GitHub.vscode-pull-request-github",
-        "ms-vsliveshare.vsliveshare",
-        "visualstudioexptteam.vscodeintellicode",
-        "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
-        "lfs.vscode-emacs-friendly",  // Emacs Friendly Keymap
-        "eamodio.gitlens", // GitLens
-    ],
-    "git.autofetch": true,
-    "git.confirmSync": false
+  // Python仮想環境のパス
+  "python.venvPath": ".venv",
+  // ファイル自動保存設定
+  "files.autoSave": "afterDelay",
+  // ファイルを自動保存する遅延時間（ミリ秒）
+  "files.autoSaveDelay": 500,
+  "editor.fontSize": 15,
+  "editor.renderWhitespace": "boundary",
+  "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
+  "editor.mouseWheelZoom": true,
+  /* デフォルト言語をmarkdownにする */
+  "files.defaultLanguage": "markdown",
+  "files.associations": {
+    "*.tmp": "markdown"
+  },
+  // 統合ターミナルにPowerShell Coreを使用する
+  "terminal.integrated.shell.windows": "C:\\ProgramData\\chocolatey\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
+  // Remote Development
+  "remote.SSH.defaultExtensions": ["lfs.vscode-emacs-friendly"],
+  "remote.containers.defaultExtensions": ["lfs.vscode-emacs-friendly"],
+  "remote.WSL.defaultExtensions": [
+    // 2020-02-14 時点でこんな設定はないようだ
+    "lfs.vscode-emacs-friendly"
+  ],
+  // Codespaces
+  "codespaces.accountProvider": "GitHub",
+  "codespaces.defaultExtensions": [
+    "ms-vsonline.vsonline",
+    "GitHub.vscode-pull-request-github",
+    "ms-vsliveshare.vsliveshare",
+    "visualstudioexptteam.vscodeintellicode",
+    "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
+    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
+    "eamodio.gitlens" // GitLens
+  ],
+  "git.autofetch": true,
+  "git.confirmSync": false
 }
