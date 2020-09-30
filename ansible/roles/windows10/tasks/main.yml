@@ -206,6 +206,7 @@
     - jq
     - less
     - lxrunoffline
+    - microsoft-edge
     - peco
     - ripgrep
     - sakuraeditor
@@ -317,6 +318,11 @@
         #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
       - name: Google Chrome
         src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+      - name: Microsoft Edge
+        src: 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+        arguments: '--profile-directory="Profile 1"'
+        description: Microsoft Edge
+        #appid: 'MSEdge.UserData.Profile1'
       - name: Internet Explorer
         src: 'C:\Program Files\internet explorer\iexplore.exe'
       - name: リモート デスクトップ接続
