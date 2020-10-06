@@ -35,6 +35,12 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
+- name: Uninstall needless packages
+  tags: [package]
+  apt:
+    name:
+      - emacs26
+    state: absent
 - name: Install development packages
   tags: [package]
   apt:
@@ -42,7 +48,7 @@
       - cmigemo
       - connect-proxy
       - curl
-      - emacs26
+      - emacs27
       - fonts-ipafont
       - fonts-ipaexfont
       - git
