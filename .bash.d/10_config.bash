@@ -29,6 +29,12 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Disable start (Ctrl+Q) and stop (Ctrl+S) on tty
+if [[ $- == *i* ]]; then
+  stty start undef
+  stty stop undef
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
