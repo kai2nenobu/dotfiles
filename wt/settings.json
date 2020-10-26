@@ -5,7 +5,7 @@
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
-    "defaultProfile": "{d5540625-3974-5e6f-8545-0f9d614da12a}",
+    "defaultProfile": "{556be506-a70c-43e3-92d4-571afab3b61b}",
     "copyOnSelect": true,
     "launchMode": "maximized",
     "profiles":
