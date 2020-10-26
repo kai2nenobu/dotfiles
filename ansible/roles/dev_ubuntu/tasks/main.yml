@@ -104,11 +104,11 @@
   tags: [package]
   loop:
     - name: HackGen
-      version: v2.1.1
-      checksum: sha256:f6a901b646e434d1763490ee46b4b06eca2825b4eb7efb90ef347319a407236d
+      version: v2.2.0
+      checksum: sha256:48b1de8a62ea7b15b85786c7efe63993083dbe6a177b216e56d3a3a6fae5b7d6
     - name: HackGenNerd
-      version: v2.1.1
-      checksum: sha256:e776dc97e2b265f768f412040a5a64bc10066d6bc8082f2a5aa5a03a02578219
+      version: v2.2.0
+      checksum: sha256:38a074f00894465e3313b5abce104bb803c31e6f78c73fa989cf5b755ba80e92
   loop_control:
     loop_var: font
 - name: Install pip tools
