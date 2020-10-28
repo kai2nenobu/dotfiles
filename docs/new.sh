@@ -5,8 +5,11 @@
 
 ### Functions
 fetch_dotfiles() {
-  DOTFIELS_URL=https://github.com/kai2nenobu/dotfiles/archive/master.tar.gz
-  curl -sSL --retry 5 "$DOTFIELS_URL"
+  dotfiels_url=https://github.com/kai2nenobu/dotfiles/archive/master.tar.gz
+  dotfiles_dir="$HOME/dotfiles"
+  mkdir -p "$dotfiles_dir"
+  curl -sSL --retry 5 "$dotfiels_url" | \
+    tar xzf - --strip-component=1 --directory="$dotfiles_dir"
 }
 
 ### Main
