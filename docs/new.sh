@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euC
+
 ### Linux向け初期セットアップスクリプト
 
 
