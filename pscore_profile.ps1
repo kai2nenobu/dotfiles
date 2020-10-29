@@ -1,5 +1,34 @@
 Set-StrictMode -Version Latest
 
+
+### Utilties
+
+function Msys2-Path {
+  <#
+  .SYNOPSIS
+  Enable or Disable MSYS2
+  #>
+  [CmdletBinding()]
+  Param(
+    [switch]$Enable,
+    [switch]$Disable
+  )
+  $local_msys2_path='C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin'
+  if (-not ($Enable -xor $Disable)) {
+    Write-Error('Specify one of "-Enable" or "-Disable".')
+    return
+  }
+  if ($Enable) {
+    $env:PATH = $env:PATH + ';' + $local_msys2_path
+    'Enable MSYS2 PATH!'
+  }
+  if ($Disable) {
+    $regex = [regex]::Escape(';' + $local_msys2_path)
+    $env:PATH = $env:PATH -replace $regex,''
+    'Disable MSYS2 PATH!'
+  }
+}
+
 function remove_win_ps_modules {
   <#
   .SYNOPSIS
