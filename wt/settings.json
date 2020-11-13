@@ -60,6 +60,6 @@
     // To unbind a default keybinding, set the command to "unbound"
     "keybindings": [
         {"command": "nextTab", "keys": "alt+n"},
-        {"command": "previousTab", "keys": "alt+p"}
+        {"command": "prevTab", "keys": "alt+p"}
     ]
 }
