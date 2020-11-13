@@ -8,6 +8,7 @@
     "defaultProfile": "{556be506-a70c-43e3-92d4-571afab3b61b}",
     "copyOnSelect": true,
     "launchMode": "maximized",
+    "useTabSwitcher": false,
     "profiles":
     {
         "defaults":
