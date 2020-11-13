@@ -58,5 +58,8 @@
 
     // Add any keybinding overrides to this array.
     // To unbind a default keybinding, set the command to "unbound"
-    "keybindings": []
+    "keybindings": [
+        {"command": "nextTab", "keys": "alt+n"},
+        {"command": "previousTab", "keys": "alt+p"}
+    ]
 }
