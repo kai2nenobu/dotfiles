@@ -41,6 +41,11 @@ remove_win_ps_modules
 
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -HistoryNoDuplicates:$True
+# Don't save space-prefixed commands. ref: https://github.com/PowerShell/PowerShell/issues/10403#issuecomment-523833700
+Set-PSReadLineOption -AddToHistoryHandler {
+  param($line)
+  $line -notmatch '^\s+|AsPlainText'
+}
 
 ## Load aliases
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
