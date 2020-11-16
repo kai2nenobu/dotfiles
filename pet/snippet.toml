@@ -124,6 +124,6 @@
 
 [[snippets]]
   description = "Pull multiple git repositories in PowerShell"
-  command = """foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host -Text "${PWD}: $(git status | Select-Object -First 2 | Join-String -Separator ': ')" -ForegroundColor Green; git pull --rebase --autostash }"""
+  command = """foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${PWD}: $(git status | Select-Object -First 2 | Join-String -Separator ': ')" -ForegroundColor Green; git pull --rebase --autostash }"""
   tag = ["powershell", "git"]
   output = ""
