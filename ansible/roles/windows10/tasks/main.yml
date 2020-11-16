@@ -262,7 +262,7 @@
   with_items:
     - description: VcXsrvを起動する
       src: 'C:\Program Files\VcXsrv\vcxsrv.exe'
-      args: "-multiwindow"
+      args: "-multiwindow -ac"
       dest: '{{ startup_folder }}\Auto Start VcXsrv.lnk'
     - description: ユーザAHKスクリプトを起動する
       src: '%ChocolateyInstall%\bin\AutoHotkey.exe'
