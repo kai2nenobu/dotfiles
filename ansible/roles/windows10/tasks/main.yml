@@ -68,6 +68,7 @@
     - { src: ".tmux.conf", dest: ".tmux.conf" }
     - { src: ".zsh_aliases", dest: ".zsh_aliases" }
     - { src: ".zshrc", dest: ".zshrc" }
+    - { src: 'bat\config', dest: 'AppData\Roaming\bat\config' }
     - { src: "dot.ahk", dest: "dot.ahk" }
     - { src: "dot.nodoka", dest: "dot.nodoka" }
     - { src: 'pet\snippet.toml', dest: 'AppData\Roaming\pet\snippet.toml' }
