@@ -7,7 +7,7 @@ set -euC
 
 ### Functions
 fetch_dotfiles() {
-  dotfiels_url=https://github.com/kai2nenobu/dotfiles/archive/master.tar.gz
+  dotfiels_url=https://github.com/kai2nenobu/dotfiles/archive/main.tar.gz
   dotfiles_dir="$HOME/dotfiles"
   mkdir -p "$dotfiles_dir"
   curl -sSL --retry 5 "$dotfiels_url" | \
