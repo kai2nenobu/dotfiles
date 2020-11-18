@@ -1,2 +1,4 @@
 # デフォルトテーマ
 --theme=TwoDark
+# 拡張子、ファイル名と言語のマッピング
+--map-syntax "poetry.lock:TOML"
