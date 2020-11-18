@@ -121,4 +121,8 @@ Import-Module posh-git
 Import-Module oh-my-posh
 Set-Theme Paradox
 
+# パイプのエンコーディングをUTF-8にする
+# ref. https://news.mynavi.jp/itsearch/article/hardware/5170
+[System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 Set-StrictMode -Off
