@@ -3,43 +3,43 @@
 # git
 Set-Alias g git
 function gs() {
-  Start-Process git -ArgumentList status,--short,--branch -NoNewWindow -Wait
+  git status --short --branch $args
 }
 function gst() {
-  Start-Process git -ArgumentList stash -NoNewWindow -Wait
+  git stash $args
 }
 #function gl() {
-#  Start-Process git -ArgumentList log -NoNewWindow -Wait
+#  git log $args
 #}
 function gla() {
-  Start-Process git -ArgumentList log,--decorate,--graph,--all -NoNewWindow -Wait
+  git log --decorate --graph --all $args
 }
 function glo() {
-  Start-Process git -ArgumentList log,--decorate,--graph,--all,--oneline -NoNewWindow -Wait
+  git log --decorate --graph --all --oneline $args
 }
 function gd() {
-  Start-Process git -ArgumentList diff,--histogram -NoNewWindow -Wait
+  git diff --histogram $args
 }
 #function gc() {
-#  Start-Process git -ArgumentList commit -NoNewWindow -Wait
+#  git commit $args
 #}
 function ga() {
-  Start-Process git -ArgumentList add -NoNewWindow -Wait
+  git add $args
 }
 function gco() {
-  Start-Process git -ArgumentList checkout -NoNewWindow -Wait
+  git checkout $args
 }
 function gb() {
-  Start-Process git -ArgumentList branch -NoNewWindow -Wait
+  git branch $args
 }
 #function gp() {
-#  Start-Process git -ArgumentList pull -NoNewWindow -Wait
+#  git pull $args
 #}
 function gn() {
-  Start-Process git -ArgumentList now,--all,--stat -NoNewWindow -Wait
+  git now --all --stat $args
 }
 function gam() {
-  Start-Process git -ArgumentList commmit,--amend,--no-edit -NoNewWindow -Wait
+  git commmit --amend --no-edit $args
 }
 
 # docker
