@@ -46,3 +46,21 @@ function gam() {
 Set-Alias d docker
 Set-Alias dc docker-compose
 Set-Alias dm docker-machine
+
+## Unix tools
+$GIT_DIR = 'C:\Program Files\Git'
+# コマンド名とオプションの連想配列
+$tool_hash = @{
+  grep = @('--color');
+  head = @()
+  tail = @()
+}
+$tool_hash.Keys | ForEach-Object {
+  ## 動的に関数定義
+  Set-Item -Path "function:global:$_" -Value {
+    $name = $MyInvocation.MyCommand.Name  # 関数名を取得する
+    $exe = "${GIT_DIR}\usr\bin\${name}.exe"
+    $opts = $tool_hash[$name]
+    $input | & $exe @opts $args
+  }
+}
