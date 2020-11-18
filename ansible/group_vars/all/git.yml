@@ -1,5 +1,8 @@
 ## Gitの全体共通設定
 git_configs:
+  # デフォルトブランチをmainにする（要バージョン2.28.0以上）
+  - name: init.defaultBranch
+    value: main
   # コミットメッセージ中のハサミ行以下を除去する（# を残す）
   - name: commit.cleanup
     value: scissors
