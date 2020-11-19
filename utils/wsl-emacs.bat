@@ -10,7 +10,7 @@ var ws = new ActiveXObject("Wscript.Shell");
 var debug = WScript.Arguments.Count() > 0 && (WScript.Arguments(0) === '-d' || WScript.Arguments(0) === '--debug');
 // Launch emacs in WSL
 if (debug) {
-  ws.run('wsl bash -l -c "if [ -d /run/WSL ]; then export DISPLAY=$(grep -oP \"(?<=nameserver ).+\" /etc/resolv.conf):0; else export DISPLAY=:0; fi && xset -r 49 && emacs --debug -r"', 3, true);
+  ws.run('wsl bash -l -c "xset -r 49 && emacs --debug -r"', 3, true);
 } else {
-  ws.run('wsl bash -l -c "if [ -d /run/WSL ]; then export DISPLAY=$(grep -oP \"(?<=nameserver ).+\" /etc/resolv.conf):0; else export DISPLAY=:0; fi && xset -r 49 && exec emacs -r"', 0, false);
+  ws.run('wsl bash -l -c "xset -r 49 && exec emacs -r"', 0, false);
 }
