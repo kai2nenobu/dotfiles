@@ -30,6 +30,12 @@
     src: ssh-agent.sh
     dest: /etc/profile.d/ssh-agent.sh
     mode: '0644'
+- name: Detect a gateway for WSL
+  tags: [config]
+  copy:
+    src: detect-wsl-gateway.sh
+    dest: /etc/profile.d/detect-wsl-gateway.sh
+    mode: '0644'
 - name: Update apt cache
   tags: [package]
   apt:
