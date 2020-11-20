@@ -47,6 +47,7 @@
       - https_proxy
       - no_proxy
       - ANSIBLE_MY_PROFILE
+      - FZF_DEFAULT_OPTS
       - WSL_GATEWAY
       - WSL_AUTH_SOCK/up
 - name: Windows OS設定
