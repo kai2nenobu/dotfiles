@@ -2,7 +2,7 @@
     - name: "{{ item }}がインストール済みかチェックする"
       tags: [package]
       win_command: >-
-        {{ pwsh_exe }} -NoProfile -Command
+        "{{ pwsh_exe }}" -NoProfile -Command
         "Get-InstalledModule -ea Stop {{ item }}"
       register: module_installed
       changed_when: no # 常にok
@@ -10,6 +10,6 @@
     - name: "{{ item }}をインストールする"
       tags: [package]
       win_command: >-
-        {{ pwsh_exe }} -NoProfile -Command
+        "{{ pwsh_exe }}" -NoProfile -Command
         "Install-Module -ea Stop {{ item }}"
       when: module_installed.rc != 0
