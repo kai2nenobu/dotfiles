@@ -5,67 +5,71 @@
     value: "{{ item.value }}"
     data: "{{ item.data }}"
     datatype: '{{ item.datatype | default("dword") }}'
+  loop_control:
+    label: "{{ item.description }}"
   loop:
-    # UACを「アプリがコンピューターに変更を加えようとする場合のみ通知する（既定）」に設定
-    - key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    - description: UACを「アプリがコンピューターに変更を加えようとする場合のみ通知する（既定）」に設定1
+      key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
       value: ConsentPromptBehaviorAdmin
       data: 5
-    - key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    - description: UACを「アプリがコンピューターに変更を加えようとする場合のみ通知する（既定）」に設定2
+      key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
       value: EnableLUA
       data: 1
-    - key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+    - description: UACを「アプリがコンピューターに変更を加えようとする場合のみ通知する（既定）」に設定3
+      key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
       value: PromptOnSecureDesktop
       data: 1
-    # 「右シフトキーが8秒間押されたときにフィルターキーを有効にする」の無効化
-    - key: HKCU:\Control Panel\Accessibility\Keyboard Response
+    - description: 「右シフトキーが8秒間押されたときにフィルターキーを有効にする」の無効化
+      key: HKCU:\Control Panel\Accessibility\Keyboard Response
       value: Flags
       data: 98
       datatype: string
-    # 「ときどきスタート画面におすすめを表示する」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
+    - description: 「ときどきスタート画面におすすめを表示する」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
       value: SystemPaneSuggestionsEnabled
       data: 0
-    # 「Windowsを使用するためのヒントやおすすめの方法を取得」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
+    - description: 「Windowsを使用するためのヒントやおすすめの方法を取得」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
       value: SoftLandingEnabled
       data: 0
-    # エクスプローラーの「隠しファイル、隠しフォルダー、および隠しドライブを表示する」の有効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: エクスプローラーの「隠しファイル、隠しフォルダー、および隠しドライブを表示する」の有効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: Hidden
       data: 1
-    # エクスプローラーの「登録されている拡張子は表示しない」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: エクスプローラーの「登録されている拡張子は表示しない」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: HideFileExt
       data: 0
-    # エクスプローラーの「エクスプローラーで開く」を"PC"に
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: エクスプローラーの「エクスプローラーで開く」を"PC"に
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: LaunchTo
       data: 1
-    # エクスプローラーの「保護されたオペレーションシステムファイルを表示しない」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: エクスプローラーの「保護されたオペレーションシステムファイルを表示しない」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: ShowSuperHidden
       data: 1
-    # 「小さいタスクバーボタンを使う」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: 「小さいタスクバーボタンを使う」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: TaskbarSmallIcons
       data: 0
-    # 「タスクバーを固定する」の無効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+    - description: 「タスクバーを固定する」の無効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: TaskbarSizeMove
       data: 1
-    # エクスプローラーの「タイトルバーに完全なパスを表示する」の有効化
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CabinetState
+    - description:  エクスプローラーの「タイトルバーに完全なパスを表示する」の有効化
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CabinetState
       value: FullPath
       data: 1
-    # タスクバーに「検索アイコンを表示する」
-    - key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search
+    - description: タスクバーに「検索アイコンを表示する」
+      key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search
       value: SearchboxTaskbarMode
       data: 1
-    # タスクバー：「通知領域にすべてのアイコンを表示する」を有効にする
-    - key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
+    - description: 「通知領域にすべてのアイコンを表示する」を有効にする
+      key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
       value: EnableAutoTray
       data: 0
-    # IE：お気に入りバーを表示する
-    - key: HKCU:\Software\Microsoft\Internet Explorer\MINIE
+    - description: IE：お気に入りバーを表示する
+      key: HKCU:\Software\Microsoft\Internet Explorer\MINIE
       value: LinksBandEnabled
       data: 1
