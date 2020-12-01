@@ -38,8 +38,8 @@
             {
                 "guid": "{556be506-a70c-43e3-92d4-571afab3b61b}",
                 "name": "PowerShell Core",
-                "commandline": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\pwsh.exe",
-                "icon": "%ChocolateyInstall%\\lib\\powershell.portable\\tools\\pwsh\\assets\\PowerShell_black.ico",
+                "commandline": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+                "icon": "C:\\Program Files\\PowerShell\\7\\assets\\Powershell_black.ico",
                 "startingDirectory" : "%USERPROFILE%",
                 "hidden": false
             },
