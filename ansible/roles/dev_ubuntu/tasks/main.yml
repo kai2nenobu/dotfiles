@@ -40,6 +40,8 @@
   apt:
     name:
       - emacs26
+      - emacs26-common
+      - emacs26-el
     state: absent
 - name: Install development packages
   tags: [package]
