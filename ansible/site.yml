@@ -21,8 +21,8 @@
           no_proxy: "localhost,127.0.0.1"
       when: wsl_use_host_proxy | default(false)
   roles:
-    - dev_ubuntu
     - wsl
+    - dev_ubuntu
   tasks:
     - import_role:
         name: company
