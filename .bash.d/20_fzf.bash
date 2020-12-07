@@ -1,3 +1,6 @@
+## Globally ignored rule
+# shellcheck disable=SC2155
+
 if ! _find_command fzf; then
   _log "Not found 'fzf' in PATH" && return
 fi

@@ -1,3 +1,6 @@
+## Globally ignored rule
+# shellcheck disable=SC2155
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
