@@ -11,7 +11,7 @@ fi
 
 ## 履歴を絞り込む
 _fzf_history() {
-  declare l=$(HISTTIMEFORMAT=  history | tac |  awk '{for(i=2;i<NF;i++){printf("%s%s",$i,OFS=" ")}print $NF}' | fzf --query "$READLINE_LINE" --prompt 'Choose history: ' --no-sort -0 -1)
+  declare l=$(HISTTIMEFORMAT='' history | tac |  awk '{for(i=2;i<NF;i++){printf("%s%s",$i,OFS=" ")}print $NF}' | fzf --query "$READLINE_LINE" --prompt 'Choose history: ' --no-sort -0 -1)
   READLINE_LINE="$l"
   READLINE_POINT=${#l}
 }

@@ -3,7 +3,7 @@
 ### 環境をセットアップするスクリプト
 ### なるべくいろんな環境をセットアップするスクリプトにしたいところ。
 
-HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+HERE=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 
 sh "${HERE}/.bootstrap/ansible.sh"
 
