@@ -96,21 +96,21 @@
     # ripgrep
     - https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
     # delta
-    - https://github.com/dandavison/delta/releases/download/0.4.1/git-delta_0.4.1_amd64.deb
+    - https://github.com/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb
     # bat
-    - https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
+    - https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
     # fzf
-    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.20.0-1_amd64.deb
+    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
   loop:
     - name: HackGen
-      version: v2.2.0
-      checksum: sha256:48b1de8a62ea7b15b85786c7efe63993083dbe6a177b216e56d3a3a6fae5b7d6
+      version: v2.2.2
+      checksum: sha256:1bd8f6b9e15845f03c5e5cb7cd2721246428f391448eb654e8bc6e9decaf756c
     - name: HackGenNerd
-      version: v2.2.0
-      checksum: sha256:38a074f00894465e3313b5abce104bb803c31e6f78c73fa989cf5b755ba80e92
+      version: v2.2.2
+      checksum: sha256:6fab4426d23fef268e81d589ab8d7401c4e4910369579196141a4f6535eadaf2
   loop_control:
     loop_var: font
 - name: Install pip tools
