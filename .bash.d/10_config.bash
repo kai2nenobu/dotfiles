@@ -58,6 +58,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 ## peco integration
+# shellcheck disable=SC2154
 if _find_command peco &> /dev/null && [ -n "$ConEmuBuild" ]; then
   peco_history() {
     declare l=$(HISTTIMEFORMAT=  history | tac |  awk '{for(i=2;i<NF;i++){printf("%s%s",$i,OFS=" ")}print $NF}'   |  peco --query "$READLINE_LINE")
