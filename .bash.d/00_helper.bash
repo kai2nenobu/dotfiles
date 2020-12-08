@@ -5,7 +5,7 @@
 ## コマンドが見つかったら正常終了、
 ## コマンドが見つからなかったら以上終了する。
 function _find_command() {
-  which "$1" &> /dev/null
+  command -v "$1" &> /dev/null
 }
 
 ## ターミナルがWindows Terminalかどうか判定する。
