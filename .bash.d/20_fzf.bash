@@ -19,7 +19,7 @@ bind -x '"\C-r": _fzf_history'
 
 ## 作業ディレクトリの以下のディレクトリに移動する
 _fzf_cd_recursive() {
-  cd "$(find -name '.git' -prune -o -type d -printf '%P\n' | fzf --prompt 'Choose directory: ' -0 -1)"
+  cd "$(find -name '.git' -prune -o -type d -printf '%P\n' | fzf --prompt 'Choose directory: ' -0 -1)" || return
 }
 bind -x '"\C-x\C-d": _fzf_cd_recursive'
 
@@ -52,7 +52,7 @@ if _find_command ghq; then
   _fzf_ghq_cd() {
     declare dir=$(ghq list -p | fzf)
     if [ -n "$dir" ]; then
-      cd "$dir"
+      cd "$dir" || return
     fi
   }
   bind -x '"\C-x\C-g": _fzf_ghq_cd'
