@@ -40,7 +40,7 @@ bind -x '"\C-x\C-f": _fzf_complete_file'
 if [ -n "$CMDER_USER_CONFIG" ]; then
   ## Cmderの履歴を絞り込む
   _fzf_cmder_history() {
-    declare l=$(cat "${CMDER_USER_CONFIG}/.history" | fzf --tac --query "$READLINE_LINE" --prompt 'Choose history: ' --no-sort -0 -1)
+    declare l=$(fzf --tac --query "$READLINE_LINE" --prompt 'Choose history: ' --no-sort -0 -1 < "${CMDER_USER_CONFIG}/.history")
     READLINE_LINE="$l"
     READLINE_POINT=${#l}
   }
