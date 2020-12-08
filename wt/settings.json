@@ -50,6 +50,12 @@
                 "name": "Windows PowerShell",
                 "commandline": "powershell.exe",
                 "hidden": false
+            },
+            {
+                "guid": "{3085389a-6b3e-417a-89ee-9324a3b14107}",
+                "hidden": false,
+                "name": "WSL Default",
+                "commandline": "wsl.exe ~"
             }
         ]
     },
