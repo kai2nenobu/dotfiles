@@ -10,6 +10,7 @@ function _prompt_exit_code() {
 if ! type __git_ps1 &> /dev/null; then
   git_prompt='/c/Program Files/Git/etc/profile.d/git-prompt.sh'
   if [ -f "$git_prompt" ]; then
+    # shellcheck disable=SC1090
     . "$git_prompt"
   else
     function __git_ps1() {
