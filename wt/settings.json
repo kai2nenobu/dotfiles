@@ -9,6 +9,7 @@
     "copyOnSelect": true,
     "launchMode": "maximized",
     "useTabSwitcher": false,
+    "disabledProfileSources":  ["Windows.Terminal.Wsl", "Windows.Terminal.Azure", "Windows.Terminal.PowershellCore"],
     "profiles":
     {
         "defaults":
