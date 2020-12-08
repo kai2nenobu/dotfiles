@@ -71,7 +71,7 @@ if _find_command peco &> /dev/null && [ -n "$ConEmuBuild" ]; then
   bind -x '"\C-r": peco_history'
 
   peco_cd_recursive() {
-    cd "$(find -name '.git' -prune -o -type d -printf '%P\n' | peco)" || return
+    cd "$(find . -name '.git' -prune -o -type d -printf '%P\n' | peco)" || return
   }
   bind -x '"\C-x\C-d": peco_cd_recursive'
 fi
