@@ -19,6 +19,7 @@ ansible-lint = "^4.3.3"
 apply = "ansible-playbook -i hosts.sh site.yml"
 lint = "ansible-lint site.yml"
 encrypt = "ansible-vault encrypt_string"
+ping = "ansible -m ping -i hosts.sh all"
 
 [build-system]
 requires = ["poetry>=0.12"]
