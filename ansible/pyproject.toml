@@ -16,7 +16,7 @@ jinja2 = "^2.11.2"
 ansible-lint = "^4.3.3"
 
 [tool.taskipy.tasks]
-apply = "ansible-playbook site.yml"
+apply = "ansible-playbook -i hosts.sh site.yml"
 lint = "ansible-lint site.yml"
 encrypt = "ansible-vault encrypt_string"
 
