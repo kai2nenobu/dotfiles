@@ -4,7 +4,7 @@
   copy:
     dest: /etc/profile.d/pipenv.sh
     content: export PIPENV_VENV_IN_PROJECT=true
-    mode: '0644'
+    mode: "0644"
 - name: Configure man to install all manuals
   tags: [config]
   file:
