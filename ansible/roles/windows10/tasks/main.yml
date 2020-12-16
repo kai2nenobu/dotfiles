@@ -43,9 +43,6 @@
     wslenv_list:
       # このリストを : で結合したものがWSLENVの値になる。
       - USERPROFILE/up
-      - http_proxy
-      - https_proxy
-      - no_proxy
       - ANSIBLE_MY_PROFILE
       - FZF_DEFAULT_OPTS
       - WSL_GATEWAY
