@@ -120,6 +120,8 @@
     enabled: yes
     run_level: highest
     logon_type: interactive_token
+    disallow_start_if_on_batteries: no
+    username: "{{ ansible_user }}"
     triggers:
       # ユーザがログインしたときに実行する
       - type: logon
@@ -135,6 +137,8 @@
     state: present
     enabled: yes
     logon_type: interactive_token # ユーザがログオンしているときのみ実行する
+    disallow_start_if_on_batteries: no
+    username: "{{ ansible_user }}"
     triggers:
       # 1時間ごとに繰り返し
       - type: time
