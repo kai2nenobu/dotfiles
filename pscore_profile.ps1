@@ -11,7 +11,8 @@ function Msys2-Path {
   [CmdletBinding()]
   Param(
     [switch]$Enable,
-    [switch]$Disable
+    [switch]$Disable,
+    [switch]$Prepend=$false
   )
   $local_msys2_path='C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin'
   if (-not ($Enable -xor $Disable)) {
@@ -19,11 +20,15 @@ function Msys2-Path {
     return
   }
   if ($Enable) {
-    $env:PATH = $env:PATH + ';' + $local_msys2_path
+    if ($Prepend) {
+      $env:PATH = $local_msys2_path + ';' + $env:PATH
+    } else {
+      $env:PATH = $env:PATH + ';' + $local_msys2_path
+    }
     'Enable MSYS2 PATH!'
   }
   if ($Disable) {
-    $regex = [regex]::Escape(';' + $local_msys2_path)
+    $regex = ';?' + [regex]::Escape($local_msys2_path) + ';?'
     $env:PATH = $env:PATH -replace $regex,''
     'Disable MSYS2 PATH!'
   }
