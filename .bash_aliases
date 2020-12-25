@@ -1,4 +1,6 @@
 # -*- mode: sh -*-
+# shellcheck disable=SC2155  # GLOBAL IGNORE
+#   SC2155: Declare and assign separately to avoid masking return values.
 
 # general aliases
 alias ls='ls --color=auto --show-control-chars'
@@ -61,8 +63,8 @@ function d-address() {
   local name=${1:?Specify a name of docker image}
   local port=${2:?Specify a port number}
   printf "%s:%s" \
-         $(docker-machine ip) \
-         $(docker port "$(docker ps -q -f name=$name)" "$port" | cut -d: -f2)
+         "$(docker-machine ip)" \
+         "$(docker port "$(docker ps -q -f name="$name")" "$port" | cut -d: -f2)"
 }
 
 ## dockerイメージのタグ一覧を出力する（Docker Hubのイメージのみ対応）
