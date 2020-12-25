@@ -1,6 +1,17 @@
 [[package]]
 name = "ansible"
-version = "2.9.13"
+version = "2.10.4"
+description = "Radically simple IT automation"
+category = "main"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
+
+[package.dependencies]
+ansible-base = ">=2.10.3,<2.11"
+
+[[package]]
+name = "ansible-base"
+version = "2.10.4"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -9,10 +20,8 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
 [package.dependencies]
 cryptography = "*"
 jinja2 = "*"
+packaging = "*"
 PyYAML = "*"
-
-[package.extras]
-azure = ["packaging", "requests", "xmltodict", "azure-cli-core (2.0.35)", "azure-cli-nspkg (3.0.2)", "azure-common (1.1.11)", "azure-mgmt-authorization (0.51.1)", "azure-mgmt-batch (5.0.1)", "azure-mgmt-cdn (3.0.0)", "azure-mgmt-compute (4.4.0)", "azure-mgmt-containerinstance (1.4.0)", "azure-mgmt-containerregistry (2.0.0)", "azure-mgmt-containerservice (4.4.0)", "azure-mgmt-dns (2.1.0)", "azure-mgmt-keyvault (1.1.0)", "azure-mgmt-marketplaceordering (0.1.0)", "azure-mgmt-monitor (0.5.2)", "azure-mgmt-network (2.3.0)", "azure-mgmt-nspkg (2.0.0)", "azure-mgmt-redis (5.0.0)", "azure-mgmt-resource (2.1.0)", "azure-mgmt-rdbms (1.4.1)", "azure-mgmt-servicebus (0.5.3)", "azure-mgmt-sql (0.10.0)", "azure-mgmt-storage (3.1.0)", "azure-mgmt-trafficmanager (0.50.0)", "azure-mgmt-web (0.41.0)", "azure-nspkg (2.0.0)", "azure-storage (0.35.1)", "msrest (0.6.1)", "msrestazure (0.5.0)", "azure-keyvault (1.0.0a1)", "azure-graphrbac (0.40.0)", "azure-mgmt-cosmosdb (0.5.2)", "azure-mgmt-hdinsight (0.1.0)", "azure-mgmt-devtestlabs (3.0.0)", "azure-mgmt-loganalytics (0.2.0)", "azure-mgmt-automation (0.1.1)", "azure-mgmt-iothub (0.7.0)"]
 
 [[package]]
 name = "ansible-lint"
@@ -155,6 +164,17 @@ python-versions = ">=2.6,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 cryptography = ["cryptography (<2.2)", "cryptography"]
 
 [[package]]
+name = "packaging"
+version = "20.8"
+description = "Core utilities for Python packages"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.dependencies]
+pyparsing = ">=2.0.2"
+
+[[package]]
 name = "psutil"
 version = "5.7.2"
 description = "Cross-platform lib for process and system monitoring in Python."
@@ -180,6 +200,14 @@ description = "Pygments is a syntax highlighting package written in Python."
 category = "dev"
 optional = false
 python-versions = ">=3.5"
+
+[[package]]
+name = "pyparsing"
+version = "2.4.7"
+description = "Python parsing module"
+category = "main"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "pywinrm"
@@ -340,11 +368,14 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "ab94b0dfdf8d64d486ec08095c94b241dd28c29ebac485afa19d93f24569387e"
+content-hash = "06fb312b05100dfae700797e91b1d569a9b8b9dbd7ff4916272a1f23e245baef"
 
 [metadata.files]
 ansible = [
-    {file = "ansible-2.9.13.tar.gz", hash = "sha256:3ab21588992fbfe9de3173aefd63da1267dc12892a60f5cfdc055fe19c549644"},
+    {file = "ansible-2.10.4.tar.gz", hash = "sha256:98e718aea82199be62db7731373d660627aa1e938d34446588f2f49c228638ee"},
+]
+ansible-base = [
+    {file = "ansible-base-2.10.4.tar.gz", hash = "sha256:d4dad569864c08d8efb6ad99acf48ec46d7d118f8ced64f1185f8eac2c280ec3"},
 ]
 ansible-lint = [
     {file = "ansible-lint-4.3.3.tar.gz", hash = "sha256:2e96ef1572cfae7a7fab3ec4d9cda4ae1fc2c38f6a430d772ea3576ab05fb570"},
@@ -475,6 +506,10 @@ ntlm-auth = [
     {file = "ntlm-auth-1.5.0.tar.gz", hash = "sha256:c9667d361dc09f6b3750283d503c689070ff7d89f2f6ff0d38088d5436ff8543"},
     {file = "ntlm_auth-1.5.0-py2.py3-none-any.whl", hash = "sha256:f1527c581dbf149349134fc2d789d50af2a400e193206956fa0ab456ccc5a8ba"},
 ]
+packaging = [
+    {file = "packaging-20.8-py2.py3-none-any.whl", hash = "sha256:24e0da08660a87484d1602c30bb4902d74816b6985b93de36926f5bc95741858"},
+    {file = "packaging-20.8.tar.gz", hash = "sha256:78598185a7008a470d64526a8059de9aaa449238f280fc9eb6b13ba6c4109093"},
+]
 psutil = [
     {file = "psutil-5.7.2-cp27-none-win32.whl", hash = "sha256:f2018461733b23f308c298653c8903d32aaad7873d25e1d228765e91ae42c3f2"},
     {file = "psutil-5.7.2-cp27-none-win_amd64.whl", hash = "sha256:66c18ca7680a31bf16ee22b1d21b6397869dda8059dbdb57d9f27efa6615f195"},
@@ -495,6 +530,10 @@ pycparser = [
 pygments = [
     {file = "Pygments-2.6.1-py3-none-any.whl", hash = "sha256:ff7a40b4860b727ab48fad6360eb351cc1b33cbf9b15a0f689ca5353e9463324"},
     {file = "Pygments-2.6.1.tar.gz", hash = "sha256:647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44"},
+]
+pyparsing = [
+    {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},
+    {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
 ]
 pywinrm = [
     {file = "pywinrm-0.4.1.tar.gz", hash = "sha256:4ede5c6c85b53780ad0dbf9abef2fa2ea58f44c82256a84a63eae5f1205cea81"},
