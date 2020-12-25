@@ -50,6 +50,13 @@
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
+- name: ユーザー権限でシンボリックリンクをはれるようにする
+  tags: [config]
+  win_user_right:
+    name: "SeCreateSymbolicLinkPrivilege"
+    users:
+    - "{{ ansible_user }}"
+    action: add
 - name: IEのお気に入り設定
   tags: [config]
   include_tasks: ie_favorites.yml
