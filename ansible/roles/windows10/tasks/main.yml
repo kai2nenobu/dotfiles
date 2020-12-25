@@ -108,6 +108,22 @@
   with_items:
     - sshproxy
     - sshbroker
+- name: ログイン時にWSL2のゲートウェイアドレスを設定する
+  tags: [startup]
+  win_scheduled_task:
+    name: "Configure WSL2 Address"
+    actions:
+      - path: powershell
+        arguments: '-NoProfile -File "{{ ansible_facts.env.USERPROFILE }}\utils\wsl2_address.ps1"'
+    description: ログイン時にWSL2のゲートウェイアドレスを設定する
+    state: present
+    enabled: yes
+    run_level: highest
+    logon_type: interactive_token
+    triggers:
+      # ユーザがログインしたときに実行する
+      - type: logon
+        delay: "PT10S"  # 10秒遅延
 - name: ssh-agentの秘密鍵情報を定期的にクリアする
   tags: [cron]
   win_scheduled_task:
