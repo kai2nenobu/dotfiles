@@ -11,5 +11,5 @@
       tags: [package]
       win_command: >-
         "{{ pwsh_exe }}" -NoProfile -Command
-        "Install-Module -ea Stop {{ item }}"
+        "Install-Module -ea Stop -AllowClobber {{ item }}"
       when: module_installed.rc != 0
