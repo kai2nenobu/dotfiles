@@ -11,6 +11,8 @@ If (WinActive("emacs") && WinActive("ahk_exe vcxsrv.exe")) {
     Send, ^y
 } Else If(WinActive("ahk_exe powershell.exe")) {
     Send, !{Space}ep
+} Else If(WinActive("ahk_exe WindowsTerminal.exe")) {
+    Send, +{insert}
 } Else {
     Send, ^v
 }
