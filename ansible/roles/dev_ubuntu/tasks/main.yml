@@ -69,6 +69,20 @@
       - x11-xserver-utils
       - zsh
     state: present
+- name: Install development packages on Ubuntu 20.04 or later
+  tags: [test, package]
+  when: ansible_facts.distribution_version is version('20.04', '>=')
+  block:
+    - name: Install fd
+      apt:
+        name:
+          - fd-find
+        state: present
+    - name: Create a symbolic link to fd binary # because "fd-find" locates fd binary on /usr/bin/fdfind
+      file:
+        src: /usr/lib/cargo/bin/fd
+        dest: /usr/bin/fd
+        state: link
 - name: Install utility packages
   tags: [package]
   apt:
