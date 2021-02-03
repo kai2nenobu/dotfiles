@@ -6,22 +6,27 @@ LOCAL_HOOK="${GIT_ROOT}/.git/hooks/${HOOK_NAME}"
 REPO_HOOK="${GIT_ROOT}/.githooks/${HOOK_NAME}"
 GLOBAL_HOOKS="${HOOK_ROOT}/${HOOK_NAME}.d"
 
+# shellcheck source=./utils.bash
+. "${HOOK_ROOT}/utils.bash"
+
 run_local_hook() {
   if [ -x "$LOCAL_HOOK" ]; then
-     "$LOCAL_HOOK" "$@"
+    debug ">> Run $(basename "$hook")"
+    "$LOCAL_HOOK" "$@"
   fi
 }
 
 run_repo_hook() {
   if [ -x "$REPO_HOOK" ]; then
-     "$REPO_HOOK" "$@"
+    "$REPO_HOOK" "$@"
   fi
 }
 
 run_global_hooks() {
   find "$GLOBAL_HOOKS" -type f | while read -r hook; do
     if [ -x "$hook" ]; then
-       "$hook" "$@"
+      debug ">> Run $(basename "$hook")"
+      "$hook" "$@"
     fi
   done
 }
