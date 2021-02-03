@@ -152,3 +152,9 @@ origin/HEAD
 origin/develop
 origin/master
 """
+
+[[snippets]]
+  description = "Replace ubuntu apt repository servers to mirror servers"
+  command = 'sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list'
+  tag = ["ubuntu", "apt"]
+  output =""
