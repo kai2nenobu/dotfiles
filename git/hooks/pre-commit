@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euC
+
+exec 1>&2
+
+CURRENT_DIR=$(dirname "$(readlink -e "$0")")
+# shellcheck source=./base_hook.bash
+source "${CURRENT_DIR}/base_hook.bash"
