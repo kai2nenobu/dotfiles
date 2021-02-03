@@ -33,3 +33,6 @@ git_configs:
   # エイリアス設定
   - name: alias.dry-merge
     value: merge --no-commit --no-ff
+  # グローバルフック設定
+  - name: core.hooksPath
+    value: '~/.config/git/hooks'

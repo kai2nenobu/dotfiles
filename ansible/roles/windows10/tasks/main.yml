@@ -171,6 +171,7 @@
     - { src: ".bash.d", dest: ".bash.d" }
     - { src: ".zsh.d", dest: ".zsh.d" }
     - { src: "utils", dest: "utils" }
+    - { src: "git/hooks", dest: ".config/git/hooks" }
   loop_control:
     loop_var: config_dir
 - name: utilsディレクトリのパスを通す
