@@ -87,10 +87,13 @@ if [ -d "$HOME/.poetry" ]; then
   which python3 &> /dev/null && alias poetry='python3 $HOME/.poetry/bin/poetry'
 fi
 
+if [ -d "$HOME/.cargo" ]; then
+  source "$HOME/.cargo/env"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
 # mode: sh
 # sh-shell: bash
 # End:
-
