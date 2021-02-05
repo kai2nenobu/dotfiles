@@ -11,7 +11,7 @@ GLOBAL_HOOKS="${HOOK_ROOT}/${HOOK_NAME}.d"
 
 run_local_hook() {
   if [ -x "$LOCAL_HOOK" ]; then
-    debug ">> Run $(basename "$hook")"
+    debug ">> Run $(basename "$LOCAL_HOOK")"
     "$LOCAL_HOOK" "$@"
   fi
 }
