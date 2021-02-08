@@ -7,8 +7,12 @@ SHELL := /bin/bash
 # all targets are phony
 .PHONY: $(shell grep -oE ^[a-zA-Z_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
+# Move to the script directory avoid SC1091
+# ref. https://github.com/koalaman/shellcheck/issues/1837
 lint: ## Lint shell scripts by shellcheck
-	@find . -name "*.bash" -or -name "*.sh" | xargs shellcheck
+	@find . -name "*.bash" -or -name "*.sh" | while read -r script; do \
+	  ( cd "$$(dirname $$script)"; shellcheck -x "$$(basename $$script)"; ); \
+	done
 
 help: ## Print this help
 	@echo 'Usage: make [target]'
