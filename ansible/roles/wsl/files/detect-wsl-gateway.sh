@@ -1,3 +1,4 @@
+# shellcheck shell=sh
 if [ -d "/run/WSL" ]; then
   # WSL2
   ip=${WSL_GATEWAY:-127.0.0.1}
