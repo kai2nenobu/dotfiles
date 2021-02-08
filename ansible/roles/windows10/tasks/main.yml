@@ -140,11 +140,7 @@
 - name: 設定ディレクトリのシンボリックリンクをはる
   tags: [config]
   include_tasks: link_config_dir.yml
-  with_items:
-    - { src: ".bash.d", dest: ".bash.d" }
-    - { src: ".zsh.d", dest: ".zsh.d" }
-    - { src: "utils", dest: "utils" }
-    - { src: "git/hooks", dest: ".config/git/hooks" }
+  loop: "{{ symlink_config_dirs }}"
   loop_control:
     loop_var: config_dir
 - name: utilsディレクトリのパスを通す
