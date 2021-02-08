@@ -140,6 +140,23 @@
   npm:
     name: prettier
     global: yes
+- name: Create a parent directory of config files
+  tags: [config]
+  become: no
+  file:
+    path: "~/{{ item.dest | dirname }}"
+    state: directory
+  loop: "{{ symlink_config_files }}"
+  when: item.condition | default(true)
+- name: Link to config files
+  tags: [config]
+  become: no
+  file:
+    src: "~/dotfiles/{{ item.src }}"
+    path: "~/{{ item.dest }}"
+    state: link
+  loop: "{{ symlink_config_files }}"
+  when: item.condition | default(true)
 - name: Configure git
   tags: [config]
   become: no
