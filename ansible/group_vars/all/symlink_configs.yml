@@ -9,10 +9,16 @@ symlink_config_files:
   - { src: ".tmux.conf", dest: ".tmux.conf" }
   - { src: ".zsh_aliases", dest: ".zsh_aliases" }
   - { src: ".zshrc", dest: ".zshrc" }
-  - { src: 'bat/config', dest: 'AppData/Roaming/bat/config' }
+  - src: 'bat/config'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('AppData/Roaming/bat/config', '.config/bat/config') }}
   - { src: "dot.ahk", dest: "dot.ahk" }
   - { src: "dot.nodoka", dest: "dot.nodoka" }
-  - { src: 'pet/snippet.toml', dest: 'AppData/Roaming/pet/snippet.toml' }
+  - src: 'pet/snippet.toml'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('AppData/Roaming/pet/snippet.toml', '.config/pet/snippet.toml') }}
   - src: 'wt/settings.json'
     dest: 'AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
   - src: "profile.ps1"
@@ -20,10 +26,19 @@ symlink_config_files:
   - src: "ps_alias.ps1"
     dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
   - src: "pscore_profile.ps1"
-    dest: 'Documents/PowerShell/Microsoft.PowerShell_profile.ps1'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
+                    '.config/powershell/Microsoft.PowerShell_profile.ps1') }}
   - src: "ps_alias.ps1"
-    dest: 'Documents/PowerShell/ps_alias.ps1'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('Documents/PowerShell/ps_alias.ps1', '.config/powershell/ps_alias.ps1') }}
   - src: 'vscode/settings.json'
-    dest: 'AppData/Roaming/Code/User/settings.json'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('AppData/Roaming/Code/User/settings.json', '.config/Code/User/settings.json') }}
   - src: 'vscode/keybindings.json'
-    dest: 'AppData/Roaming/Code/User/keybindings.json'
+    dest: >-
+      {{ (ansible_facts.os_family == 'Windows')
+          | ternary('AppData/Roaming/Code/User/keybindings.json', '.config/Code/User/keybindings.json') }}
