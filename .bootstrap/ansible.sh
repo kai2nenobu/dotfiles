@@ -10,6 +10,6 @@ SUDO='sudo -E'
 [ "$(id -u)" = 0 ] && SUDO=
 
 $SUDO apt update
-$SUDO DEBIAN_FRONTEND=noninteractive apt install -y \
+$SUDO env DEBIAN_FRONTEND=noninteractive apt install -y \
       software-properties-common python3-pip python3-setuptools
 $SUDO pip3 install ansible pywinrm
