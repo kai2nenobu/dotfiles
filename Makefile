@@ -10,7 +10,7 @@ SHELL := /bin/bash
 # Move to the script directory avoid SC1091
 # ref. https://github.com/koalaman/shellcheck/issues/1837
 lint: ## Lint shell scripts by shellcheck
-	@find . -name "*.bash" -or -name "*.sh" | while read -r script; do \
+	@find . -name "*.bash" -or -name "*.sh" -or -name "pre-commit" | while read -r script; do \
 	  ( cd "$$(dirname $$script)"; shellcheck -x "$$(basename $$script)"; ); \
 	done
 
