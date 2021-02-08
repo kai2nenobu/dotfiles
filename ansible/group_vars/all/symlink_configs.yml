@@ -21,10 +21,13 @@ symlink_config_files:
           | ternary('AppData/Roaming/pet/snippet.toml', '.config/pet/snippet.toml') }}
   - src: 'wt/settings.json'
     dest: 'AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+    condition: "{{ ansible_facts.os_family == 'Windows' }}"
   - src: "profile.ps1"
     dest: 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1'
+    condition: "{{ ansible_facts.os_family == 'Windows' }}"
   - src: "ps_alias.ps1"
     dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
+    condition: "{{ ansible_facts.os_family == 'Windows' }}"
   - src: "pscore_profile.ps1"
     dest: >-
       {{ (ansible_facts.os_family == 'Windows')
