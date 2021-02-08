@@ -1,0 +1,38 @@
+## Gitの全体共通設定
+git_configs:
+  # デフォルトブランチをmainにする（要バージョン2.28.0以上）
+  - name: init.defaultBranch
+    value: main
+  # コミットメッセージ中のハサミ行以下を除去する（# を残す）
+  - name: commit.cleanup
+    value: scissors
+  # WindowsではCRLFでチェックアウトする。それ以外LFでチェックアウト。
+  - name: core.autocrlf
+    value: "{{ (ansible_facts.os_family == 'Windows') | ternary('true', 'input') }}"
+  # 日本語パスをクォートしない
+  - name: core.quotePath
+    value: "false"
+  # コンフリクトマーカーを3wayにする
+  - name: merge.conflictStyle
+    value: diff3
+  # デフォルトは --no-ff でマージする
+  - name: merge.ff
+    value: "false"
+  # rebase時に自動stashする
+  - name: rebase.autostash
+    value: "true"
+  # delta設定
+  - name: core.pager
+    value: delta --line-numbers
+  - name: delta.syntax-theme
+    value: Dracula
+  - name: delta.plus-style
+    value: 'syntax #003800'
+  - name: delta.minus-style
+    value: 'syntax #3f0001'
+  # エイリアス設定
+  - name: alias.dry-merge
+    value: merge --no-commit --no-ff
+  # グローバルフック設定
+  - name: core.hooksPath
+    value: '~/.config/git/hooks'

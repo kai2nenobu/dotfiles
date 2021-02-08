@@ -1,0 +1,37 @@
+## よく使うアプリケーションをタスクバーにピン留めするタスク。
+## ピン留めはグループポリシーでタスクバーレイアウトxmlを指定する方法で実現する。
+## ref. https://docs.microsoft.com/ja-jp/windows/configuration/windows-10-start-layout-options-and-policies
+##
+## 変数:
+##   - apps ピン留めするアプリケーションの配列
+##     - src アプリケーションの実行ファイル
+##     - arguments 実行ファイルに渡す引数 (optional)
+##     - directory 作業ディレクトリ (optional)
+##     - icon ショートカットのアイコン (optional)
+##     - description ショートカットの説明 (optional)
+- block:
+    - name: 変数設定
+      set_fact:
+        sc_dir_path: '%APPDATA%\Shortcuts'
+        apps: "{{ apps | default([]) }}"
+    - name: ショートカット配置ディレクトリを作成する
+      win_file:
+        path: "{{ sc_dir_path }}"
+        state: directory
+    - name: ショートカット作成
+      win_shortcut:
+        src: "{{ item.src }}"
+        dest: '{{ sc_dir_path }}\{{ item.name }}.lnk'
+        arguments: "{{ item.arguments | default(omit) }}"
+        directory: "{{ item.directory | default(omit) }}"
+        icon: "{{ item.icon | default(omit) }}"
+        description: "{{ item.description | default(omit) }}"
+      loop: "{{ apps }}"
+      loop_control:
+        label: "{{ item. name }}"
+    - name: レイアウトxmlをテンプレート展開する
+      win_template:
+        src: TaskBarLayout.xml.j2
+        dest: '{{ sc_dir_path }}\TaskBarLayout.xml'
+    # TODO: グループポリシーでレイアウトxmlを設定する
+    # TODO: アイコンが分裂しないようにショートカットのアプリケーションIDを設定する

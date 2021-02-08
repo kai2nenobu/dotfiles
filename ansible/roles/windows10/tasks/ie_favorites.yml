@@ -1,0 +1,13 @@
+- tags: [config]
+  block:
+    - name: IEのお気に入りバー設定変数の読み込み
+      include_vars:
+        dir: favorite_links
+        extensions: [yaml, yml]
+        name: favorite_links
+        ignore_unknown_extensions: yes
+    - name: IEのお気に入りバー設定
+      win_shortcut:
+        src: "{{ item.url }}"
+        dest: '%USERPROFILE%\Favorites\Links\{{ item.name }}.url'
+      loop: "{{ favorite_links | dict2items | map(attribute='value') | flatten }}"

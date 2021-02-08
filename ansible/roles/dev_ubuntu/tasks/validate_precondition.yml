@@ -1,0 +1,8 @@
+- name: Validate OS distribution (support only Ubuntu)
+  assert:
+    that: ansible_facts.distribution == "Ubuntu"
+    fail_msg: '"{{ ansible_facts.distribution }}" is not a supported OS.'
+- name: Validate OS version (support only Ubuntu 18.04 or later)
+  assert:
+    that: ansible_facts.distribution_version is version('18.04', '>=')
+    fail_msg: '"{{ ansible_facts.distribution_version }}" is not a supported version.'

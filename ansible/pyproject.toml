@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "my-ansible-roles"
+version = "0.1.0"
+description = "My Ansible Roles"
+authors = ["Tsunenobu Kai <kai2nenobu@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+ansible = "^2.10.4"
+pywinrm = "^0.4.1"
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.5.1"
+jinja2 = "^2.11.2"
+ansible-lint = "^4.3.3"
+
+[tool.taskipy.tasks]
+apply = "ansible-playbook -i hosts.sh site.yml"
+lint = "ansible-lint site.yml"
+encrypt = "ansible-vault encrypt_string"
+ping = "ansible -m ping -i hosts.sh all"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

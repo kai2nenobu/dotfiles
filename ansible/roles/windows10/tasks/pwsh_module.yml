@@ -1,0 +1,15 @@
+- block:
+    - name: "{{ item }}がインストール済みかチェックする"
+      tags: [package]
+      win_command: >-
+        "{{ pwsh_exe }}" -NoProfile -Command
+        "Get-InstalledModule -ea Stop {{ item }}"
+      register: module_installed
+      changed_when: no # 常にok
+      failed_when: no # 常に成功
+    - name: "{{ item }}をインストールする"
+      tags: [package]
+      win_command: >-
+        "{{ pwsh_exe }}" -NoProfile -Command
+        "Install-Module -ea Stop -AllowClobber {{ item }}"
+      when: module_installed.rc != 0

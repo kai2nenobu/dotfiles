@@ -1,0 +1,21 @@
+- hosts: windows10
+  environment: "{{ proxy_env | default({}) }}"
+  roles:
+    - role: local_proxy
+      when: local_proxy_type is defined
+    - windows10
+- hosts: wsl
+  become: yes
+  environment: "{{ proxy_env | default({}) }}"
+  pre_tasks:
+    - name: Configure proxy
+      tags: [always]
+      set_fact:
+        proxy_env:
+          http_proxy: "http://{{ lookup('env','WSL_GATEWAY') }}:8888"
+          https_proxy: "http://{{ lookup('env','WSL_GATEWAY') }}:8888"
+          no_proxy: "localhost,127.0.0.1"
+      when: wsl_use_host_proxy | default(false)
+  roles:
+    - wsl
+    - dev_ubuntu

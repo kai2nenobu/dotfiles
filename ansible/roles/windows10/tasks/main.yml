@@ -1,0 +1,360 @@
+- name: 前提条件を検証する
+  tags: [validation]
+  import_tasks: validate_precondition.yml
+- name: 環境変数を設定する
+  tags: [config]
+  win_environment:
+    level: user
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - name: "CMDER_ROOT"
+      value: 'C:\tools\cmdermini'
+    - name: "CMDER_USER_CONFIG"
+      value: '{{ ansible_facts.env.USERPROFILE }}\.cmder\config'
+    - name: "EDITOR"
+      value: "{{ ansible_facts.env.USERPROFILE | regex_replace('\\\\', '/') }}/utils/wsl-emacsclient.bat"
+    - name: "FZF_DEFAULT_OPTS"
+      value: >-
+        --exact --reverse --inline-info
+        --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"
+    - name: GIT_SSH
+      value: 'C:\Program Files\OpenSSH-Win64\ssh.exe'
+    - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
+    - { name: "LANG", value: "ja_JP.UTF-8" }
+    - { name: "LESSCHARSET", value: "utf-8" }
+    - { name: "MSYS", value: "winsymlinks:nativestrict" }
+    - { name: "MSYS2_PATH_TYPE", value: "inherit" }
+    - { name: "PIPENV_VENV_IN_PROJECT", value: "true" }
+    - { name: "PYTHONUTF8", value: "1" }
+    - { name: "VAGRANT_DEFAULT_PROVIDER", value: "hyperv" }
+  loop_control:
+    label: "{{ item.name }}={{ item.value }}"
+# ref. https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/
+- name: WSLENV環境変数を設定する
+  tags: [config]
+  win_environment:
+    level: user
+    name: WSLENV
+    value: "{{ wslenv_list | join(':') }}"
+    state: present
+  vars:
+    wslenv_list:
+      # このリストを : で結合したものがWSLENVの値になる。
+      - USERPROFILE/up
+      - ANSIBLE_MY_PROFILE
+      - FZF_DEFAULT_OPTS
+      - WSL_GATEWAY
+      - WSL_AUTH_SOCK/up
+- name: Windows OS設定
+  tags: [config]
+  include_tasks: windows_config.yml
+- name: ユーザー権限でシンボリックリンクをはれるようにする
+  tags: [config]
+  win_user_right:
+    name: "SeCreateSymbolicLinkPrivilege"
+    users:
+    - "{{ ansible_user }}"
+    action: add
+- name: IEのお気に入り設定
+  tags: [config]
+  include_tasks: ie_favorites.yml
+- name: 設定ファイルのシンボリックリンクをはる
+  tags: [config]
+  include_tasks: link_config_file.yml
+  loop: "{{ symlink_config_files }}"
+  loop_control:
+    loop_var: config_file
+- name: ssh-agentサービスを有効にする
+  tags: [service]
+  win_service:
+    name: ssh-agent
+    start_mode: delayed
+    state: started
+- name: OpenSSHサーバのサービスを確実に削除する
+  tags: [service]
+  win_service:
+    name: "{{ item }}"
+    state: absent
+    dependency_action: remove
+  with_items:
+    - sshproxy
+    - sshbroker
+- name: ログイン時にWSL2のゲートウェイアドレスを設定する
+  tags: [startup]
+  win_scheduled_task:
+    name: "Configure WSL2 Address"
+    actions:
+      - path: powershell
+        arguments: '-NoProfile -File "{{ ansible_facts.env.USERPROFILE }}\utils\wsl2_address.ps1"'
+    description: ログイン時にWSL2のゲートウェイアドレスを設定する
+    state: present
+    enabled: yes
+    run_level: highest
+    logon_type: interactive_token
+    disallow_start_if_on_batteries: no
+    username: "{{ ansible_user }}"
+    triggers:
+      # ユーザがログインしたときに実行する
+      - type: logon
+        delay: "PT10S"  # 10秒遅延
+- name: ssh-agentの秘密鍵情報を定期的にクリアする
+  tags: [cron]
+  win_scheduled_task:
+    name: "Clear ssh-agent identities"
+    actions:
+      - path: wscript
+        arguments: '/NoLogo /E:JScript "{{ ansible_facts.env.USERPROFILE }}\utils\clear_ssh_identities.ps1"'
+    description: ssh-agentの秘密鍵情報を定期的にクリアする
+    state: present
+    enabled: yes
+    logon_type: interactive_token # ユーザがログオンしているときのみ実行する
+    disallow_start_if_on_batteries: no
+    username: "{{ ansible_user }}"
+    triggers:
+      # 1時間ごとに繰り返し
+      - type: time
+        start_boundary: "1970-01-01T00:00:00"
+        repetition:
+          interval: "PT1H"
+- name: clink_inputrcをコピーする
+  # シンボリックリンクが動作しないので仕方ないがコピーですます
+  # ref. https://github.com/mridgers/clink/issues/461
+  tags: [config]
+  win_copy:
+    src: '%USERPROFILE%\dotfiles\clink_inputrc'
+    dest: '%USERPROFILE%\clink_inputrc'
+    remote_src: True
+- name: ローカルツールディレクトリを作成する
+  tags: [config]
+  win_file:
+    path: '%USERPROFILE%\.local\bin'
+    state: directory
+- name: ローカルツールディレクトリにパスを通す
+  tags: [config]
+  win_path:
+    scope: user
+    elements: '%USERPROFILE%\.local\bin'
+    state: present
+- name: 設定ディレクトリのシンボリックリンクをはる
+  tags: [config]
+  include_tasks: link_config_dir.yml
+  loop: "{{ symlink_config_dirs }}"
+  loop_control:
+    loop_var: config_dir
+- name: utilsディレクトリのパスを通す
+  tags: [config]
+  win_path:
+    scope: user
+    elements:
+      - '%USERPROFILE%\utils'
+    state: present
+- name: Install PowerShell Community Extensions
+  tags: [package, never]
+  win_psmodule:
+    name: Pscx
+    state: present
+    allow_clobber: yes
+# Powershell!
+- name: Powershell Coreをインストールする
+  tags: [package]
+  win_chocolatey:
+    name: powershell-core
+    state: present
+- name: 変数設定
+  tags: [always]
+  set_fact:
+    pwsh_exe: 'C:\Program Files\PowerShell\7\pwsh.exe'
+- name: PSGalleryを信頼する
+  tags: [package]
+  # TODO: すでにTrustedの場合は実行しないようにしたい
+  win_command: >-
+    "{{ pwsh_exe }}" -NoProfile -Command
+    "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted"
+  changed_when: no # 常にok
+- name: PowerShell Coreのモジュールをインストールする
+  tags: [package]
+  include_tasks: pwsh_module.yml
+  loop:
+    - PSFzf
+    - oh-my-posh
+    - posh-git
+- name: Chocolateyパッケージをインストールする (chocolatey.org)
+  tags: [package]
+  win_chocolatey:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - 7zip
+    - adoptopenjdk
+    - adoptopenjdk11
+    - adoptopenjdk8
+    - autohotkey.portable
+    - bat
+    - cmdermini
+    - delta
+    - emacs
+    - Firefox
+    - fd
+    - font-hackgen
+    - font-hackgen-nerd
+    - fzf
+    - gh
+    - git
+    #      - GoogleChrome
+    #      - GoogleJapaneseInput
+    - gradle
+    - graphviz
+    - jq
+    - less
+    - lxrunoffline
+    - microsoft-edge
+    - peco
+    - ripgrep
+    - sakuraeditor
+    - sourcetree
+    - sysinternals
+    - Sudo
+    - vcxsrv
+    - vscode
+    - winmerge
+- name: openssh をインストール
+  tags: [package]
+  win_chocolatey:
+    name: openssh
+    package_params: '"/SSHAgentFeature"'
+    state: present
+- name: Chocolateyパッケージをインストールする (kai2nenobu)
+  tags: [package]
+  win_chocolatey:
+    name: "{{ item }}"
+    source: https://www.myget.org/F/kai2nenobu
+    state: present
+  loop:
+    - a5m2
+    - cmigemo
+    - ghq
+    - mozc-emacs-helper
+    - nkf
+    - pet
+    - wsl-ssh-agent
+- name: Chocolateyパッケージをインストールする（依存除く）
+  tags: [package]
+  # 依存パッケージを一緒にインストールすると問題があるパッケージたちは
+  # 別途インストールする。
+  win_chocolatey:
+    name: "{{ item }}"
+    state: present
+    ignore_dependencies: true
+  loop:
+    - plantuml
+    - spring-boot-cli
+- name: connect.exeをOpenSSHフォルダにコピーする
+  ## connect.exeをパスに通すため
+  tags: [misc]
+  win_copy:
+    src: 'C:\Program Files\Git\mingw64\bin\connect.exe'
+    dest: 'C:\Program Files\OpenSSH-Win64\connect.exe'
+    remote_src: yes
+- name: 自動起動スクリプトを作成する
+  tags: [startup]
+  vars:
+    startup_folder: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup'
+  win_shortcut: "{{ item }}"
+  with_items:
+    - description: VcXsrvを起動する
+      src: 'C:\Program Files\VcXsrv\vcxsrv.exe'
+      args: "-multiwindow -ac"
+      dest: '{{ startup_folder }}\Auto Start VcXsrv.lnk'
+    - description: ユーザAHKスクリプトを起動する
+      src: '%ChocolateyInstall%\bin\AutoHotkey.exe'
+      args: '%USERPROFILE%\dot.ahk'
+      dest: '{{ startup_folder }}\User AHK.lnk'
+    - description: wsl-ssh-agentを起動する
+      src: "wsl-ssh-agent-gui.exe"
+      args: "-setenv -envname WSL_AUTH_SOCK"
+      dest: '{{ startup_folder }}\wsl-ssh-agent.lnk'
+- name: Cmderのユーザ個別設定ディレクトリを作成する
+  # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
+  tags: [config, cmder]
+  win_file:
+    path: "%CMDER_USER_CONFIG%"
+    state: directory
+- name: Cmderの設定をコピーする
+  tags: [config, cmder]
+  win_copy:
+    src: '%USERPROFILE%\dotfiles\cmder\{{ item }}'
+    dest: '%CMDER_USER_CONFIG%\{{ item }}'
+    remote_src: True
+  with_items:
+    - prompt.lua
+    - settings
+    - user-ConEmu.xml
+    - user_aliases.cmd
+    - user_profile.cmd
+- name: よく使うアプリをタスクバーにピン留めする
+  tags: [config]
+  import_tasks: pin_to_taskbar.yml
+  vars:
+    # ピン留めするアプリケーション一覧
+    apps:
+      - name: Cmder
+        src: 'C:\tools\cmdermini\Cmder.exe'
+        description: ユーザ個別設定のCmderを開く
+        #appid: 'Maximus5.ConEmu.b482823ea988e12ffc028ea2e346a6f9'
+      - name: Firefox
+        src: 'C:\Program Files\Mozilla Firefox\firefox.exe'
+      - name: Outlook 2016
+        src: 'C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE'
+        description: 電子メール、スケジュール、連絡先、タスクを管理します。
+      - name: エクスプローラー
+        src: 'C:\Windows\explorer.exe'
+        description: コンピューターのファイルやフォルダーを表示します。
+        #appid: 'Microsoft.Windows.Explorer'
+      - name: Emacs on WSL
+        src: "cmd.exe"
+        arguments: '/c "%USERPROFILE%\utils\wsl-emacs.bat"'
+        directory: "%USERPROFILE%"
+        icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe,0'
+        description: WSL上のEmacsを起動します。
+        #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
+      - name: Google Chrome
+        src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+      - name: Microsoft Edge
+        src: 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+        arguments: '--profile-directory="Profile 1"'
+        description: Microsoft Edge
+        #appid: 'MSEdge.UserData.Profile1'
+      - name: Internet Explorer
+        src: 'C:\Program Files\internet explorer\iexplore.exe'
+      - name: リモート デスクトップ接続
+        src: '%windir%\system32\mstsc.exe'
+        description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
+      - name: Emacs
+        src: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\runemacs.exe'
+        arguments: "-r"
+        directory: "%USERPROFILE%"
+        description: Emacsを起動します。
+        #appid: 'GNU.Emacs'
+      - name: Sourcetree
+        src: 'C:\Program Files (x86)\Atlassian\Sourcetree\SourceTree.exe'
+        #appid: 'com.squirrel.SourceTree.SourceTree'
+- name: 「Emacsで開く」をコンテキストメニューに追加する
+  tags: [registry]
+  import_tasks: emacs_context_menu.yml
+- name: Win7AppIdをダウンロードする
+  tags: [package]
+  win_get_url:
+    url: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/win7appid/Win7AppId1.1.exe
+    dest: '%USERPROFILE%\.local\bin\Win7AppId.exe'
+    force: yes
+    proxy_url: "{{ proxy_env.https_proxy | default(omit) }}"
+- name: Git設定
+  tags: [config]
+  include_tasks: git_config.yml
+  loop: "{{ git_configs }}"
+- name: playbook適用日時を出力
+  tags: [always]
+  debug:
+    msg: "Done at {{ ansible_facts.date_time.iso8601 }}"

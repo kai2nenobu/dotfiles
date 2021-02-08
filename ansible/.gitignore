@@ -1,0 +1,8 @@
+*.retry
+*.log
+host_vars/*.yml
+
+logs/*
+!logs/.gitkeep
+.venv/
+Pipfile.lock
