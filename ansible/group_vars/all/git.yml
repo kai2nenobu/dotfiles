@@ -8,7 +8,7 @@ git_configs:
     value: scissors
   # WindowsではCRLFでチェックアウトする。それ以外LFでチェックアウト。
   - name: core.autocrlf
-    value: "{{ ansible_facts.distribution.startswith('Microsoft Windows') | ternary('true', 'input') }}"
+    value: "{{ (ansible_facts.os_family == 'Windows') | ternary('true', 'input') }}"
   # 日本語パスをクォートしない
   - name: core.quotePath
     value: "false"

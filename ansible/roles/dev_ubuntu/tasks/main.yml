@@ -73,7 +73,7 @@
       - zsh
     state: present
 - name: Install development packages on Ubuntu 20.04 or later
-  tags: [test, package]
+  tags: [package]
   when: ansible_facts.distribution_version is version('20.04', '>=')
   block:
     - name: Install fd

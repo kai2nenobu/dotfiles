@@ -1,7 +1,7 @@
-## シンボリックリンクをはるファイル
+## シンボリックリンクをはるファイルたち
 symlink_config_files:
   # src: dotfilesからの相対パス
-  # dest: %USERPROFILE% からの相対パス
+  # dest: %USERPROFILE% / $HOME からの相対パス
   - { src: ".bash_aliases", dest: ".bash_aliases" }
   - { src: ".bashrc", dest: ".bashrc" }
   - { src: ".profile", dest: ".profile" }
