@@ -9,21 +9,21 @@ symlink_config_files:
   - { src: ".tmux.conf", dest: ".tmux.conf" }
   - { src: ".zsh_aliases", dest: ".zsh_aliases" }
   - { src: ".zshrc", dest: ".zshrc" }
-  - { src: 'bat\config', dest: 'AppData\Roaming\bat\config' }
+  - { src: 'bat/config', dest: 'AppData/Roaming/bat/config' }
   - { src: "dot.ahk", dest: "dot.ahk" }
   - { src: "dot.nodoka", dest: "dot.nodoka" }
-  - { src: 'pet\snippet.toml', dest: 'AppData\Roaming\pet\snippet.toml' }
-  - src: 'wt\settings.json'
-    dest: 'AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
+  - { src: 'pet/snippet.toml', dest: 'AppData/Roaming/pet/snippet.toml' }
+  - src: 'wt/settings.json'
+    dest: 'AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
   - src: "profile.ps1"
-    dest: 'Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1'
+    dest: 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1'
   - src: "ps_alias.ps1"
-    dest: 'Documents\WindowsPowerShell\ps_alias.ps1'
+    dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
   - src: "pscore_profile.ps1"
-    dest: 'Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
+    dest: 'Documents/PowerShell/Microsoft.PowerShell_profile.ps1'
   - src: "ps_alias.ps1"
-    dest: 'Documents\PowerShell\ps_alias.ps1'
-  - src: 'vscode\settings.json'
-    dest: 'AppData\Roaming\Code\User\settings.json'
-  - src: 'vscode\keybindings.json'
-    dest: 'AppData\Roaming\Code\User\keybindings.json'
+    dest: 'Documents/PowerShell/ps_alias.ps1'
+  - src: 'vscode/settings.json'
+    dest: 'AppData/Roaming/Code/User/settings.json'
+  - src: 'vscode/keybindings.json'
+    dest: 'AppData/Roaming/Code/User/keybindings.json'
