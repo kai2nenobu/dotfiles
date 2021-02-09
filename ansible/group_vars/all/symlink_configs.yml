@@ -2,47 +2,47 @@
 symlink_config_files:
   # src: dotfilesからの相対パス
   # dest: %USERPROFILE% / $HOME からの相対パス
-  - { src: ".bash_aliases", dest: ".bash_aliases" }
-  - { src: ".bashrc", dest: ".bashrc" }
-  - { src: ".profile", dest: ".profile" }
-  - { src: ".profile", dest: ".zprofile" }
-  - { src: ".tmux.conf", dest: ".tmux.conf" }
-  - src: 'bat/config'
+  - { src: "configs/.bash_aliases", dest: ".bash_aliases" }
+  - { src: "configs/.bashrc", dest: ".bashrc" }
+  - { src: "configs/.profile", dest: ".profile" }
+  - { src: "configs/.profile", dest: ".zprofile" }
+  - { src: "configs/.tmux.conf", dest: ".tmux.conf" }
+  - src: 'configs/bat/config'
     dest: >-
       {{ is_windows | ternary( 'AppData/Roaming/bat/config', '.config/bat/config') }}
-  - { src: "dot.ahk", dest: "dot.ahk" }
-  - { src: "dot.nodoka", dest: "dot.nodoka" }
-  - src: 'pet/snippet.toml'
+  - { src: "configs/dot.ahk", dest: "dot.ahk" }
+  - { src: "configs/dot.nodoka", dest: "dot.nodoka" }
+  - src: 'configs/pet/snippet.toml'
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/pet/snippet.toml',
                               '.config/pet/snippet.toml') }}
-  - src: 'wt/settings.json'
+  - src: 'configs/wt/settings.json'
     dest: 'AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
     condition: "{{ is_windows }}"
-  - src: "profile.ps1"
+  - src: "configs/profile.ps1"
     dest: 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1'
     condition: "{{ is_windows }}"
-  - src: "ps_alias.ps1"
+  - src: "configs/ps_alias.ps1"
     dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
     condition: "{{ is_windows }}"
-  - src: "pscore_profile.ps1"
+  - src: "configs/pscore_profile.ps1"
     dest: >-
       {{ is_windows | ternary('Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
                               '.config/powershell/Microsoft.PowerShell_profile.ps1') }}
-  - src: "ps_alias.ps1"
+  - src: "configs/ps_alias.ps1"
     dest: >-
       {{ is_windows | ternary('Documents/PowerShell/ps_alias.ps1',
                               '.config/powershell/ps_alias.ps1') }}
-  - src: 'vscode/settings.json'
+  - src: 'configs/vscode/settings.json'
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/Code/User/settings.json',
                               '.config/Code/User/settings.json') }}
-  - src: 'vscode/keybindings.json'
+  - src: 'configs/vscode/keybindings.json'
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/Code/User/keybindings.json',
                               '.config/Code/User/keybindings.json') }}
 ## シンボリックリンクをはるディレクトリたち
 symlink_config_dirs:
-  - { src: ".bash.d", dest: ".bash.d" }
+  - { src: "configs/.bash.d", dest: ".bash.d" }
   - { src: "utils", dest: "utils" }
-  - { src: "git/hooks", dest: ".config/git/hooks" }
+  - { src: "configs/git/hooks", dest: ".config/git/hooks" }
