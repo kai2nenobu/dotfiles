@@ -12,7 +12,8 @@ cat <<EOF
                 "ansible_host": "$windows_ip",
                 "ansible_port": 5986,
                 "ansible_winrm_server_cert_validation": "ignore",
-                "ansible_winrm_read_timeout_sec": 60
+                "ansible_winrm_read_timeout_sec": 90,
+                "ansible_winrm_operation_timeout_sec": 60
             },
             "localwsl": {
                 "ansible_connection": "local"
