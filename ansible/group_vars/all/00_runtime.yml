@@ -1,1 +1,1 @@
-is_windows: {{ ansible_facts.os_family == 'Windows' }}
+is_windows: "{{ ansible_facts.os_family == 'Windows' }}"
