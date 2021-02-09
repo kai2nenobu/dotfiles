@@ -7,6 +7,7 @@
     - name: '"{{ config_file.dest }}"の状態を確認する'
       win_stat:
         path: "{{ config_dest_path }}"
+        get_checksum: no
       register: config_dest
     - name: '"{{ config_file.dest }}"の親ディレクトリを作成する'
       win_file:
