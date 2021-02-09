@@ -24,7 +24,7 @@ symlink_config_files:
     condition: "{{ is_windows }}"
   - src: "ps_alias.ps1"
     dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
-    condition: "{{ is_window }}"
+    condition: "{{ is_windows }}"
   - src: "pscore_profile.ps1"
     dest: >-
       {{ is_windows | ternary('Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
