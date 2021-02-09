@@ -105,6 +105,7 @@
   apt:
     name: docker-ce-cli
     state: present
+  when: ansible_facts.env.GITHUB_ACTIONS is not defined
 - name: Install .deb packages
   tags: [package]
   apt:
