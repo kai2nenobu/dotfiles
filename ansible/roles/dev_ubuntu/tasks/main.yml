@@ -155,6 +155,7 @@
     src: "~/dotfiles/{{ item.src }}"
     path: "~/{{ item.dest }}"
     state: link
+    force: yes
   loop: "{{ symlink_config_files }}"
   when: item.condition | default(true)
 - name: Create a parent directory of config dirs
@@ -172,6 +173,7 @@
     src: "~/dotfiles/{{ item.src }}"
     path: "~/{{ item.dest }}"
     state: link
+    force: yes
   loop: "{{ symlink_config_dirs }}"
   when: item.condition | default(true)
 - name: Configure git
