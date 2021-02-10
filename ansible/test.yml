@@ -2,5 +2,6 @@
   vars:
     ansible_connection: local
   roles:
-    - wsl
+    - role: wsl
+      when: is_wsl
     - dev_ubuntu

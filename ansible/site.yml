@@ -16,5 +16,6 @@
           no_proxy: "localhost,127.0.0.1"
       when: wsl_use_host_proxy | default(false)
   roles:
-    - wsl
+    - role: wsl
+      when: is_wsl
     - dev_ubuntu
