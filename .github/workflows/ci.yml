@@ -91,7 +91,7 @@ jobs:
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Generate a vault password
-        run: tr -dc A-Za-z0-9 < /dev/urandom | head -c 32 > ~/.ansible_vault_pass
+        run: printf '%s' 'P@ssw0rd' > ~/.ansible_vault_pass
       - name: Apply ansible playbook
         run: ansible-playbook -i localhost, test.yml
         working-directory: ansible
