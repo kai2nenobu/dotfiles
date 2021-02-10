@@ -1,5 +1,4 @@
 - hosts: localhost
-  become: yes
   vars:
     ansible_connection: local
   roles:

@@ -34,6 +34,7 @@
         patterns: "*.ttf"
       register: ttf_list
     - name: Copy {{ font.name }} fonts
+      become: yes
       copy:
         src: "{{ item }}"
         remote_src: yes
