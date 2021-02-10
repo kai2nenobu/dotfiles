@@ -37,5 +37,17 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: Launch a target container
+        run: docker run -d --name target --init -v "$PWD:/root/dotfiles" -w /root/dotfiles ubuntu:20.04 tail -f
       - name: Run the bootstrap script
-        run: docker run -v "$PWD:/mnt" -w /mnt ubuntu:18.04 bash -e bootstrap.sh
+        run: docker exec target bash -c "./bootstrap.sh"
+      - name: Generate a vault password
+        run: >-
+          docker exec target bash -c
+          "tr -dc A-Za-z0-9 < /dev/urandom | head -c 32 > ~/.ansible_vault_pass"
+      - name: Apply ansible playbook
+        run: >-
+          docker exec target bash -c
+          "cd ansible && ansible-playbook -i localhost, test.yml"
+      - name: Kill the target container
+        run: docker rm --force target
