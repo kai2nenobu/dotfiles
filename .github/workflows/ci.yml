@@ -22,8 +22,11 @@ jobs:
         working-directory: ansible
       - name: Lint
         run: make lint
-  vm-ubuntu:
-    runs-on: ubuntu-20.04
+  vm:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-20.04', 'ubuntu-18.04']
     steps:
       - uses: actions/checkout@v2
       - name: Run the bootstrap script
@@ -33,12 +36,17 @@ jobs:
       - name: Apply ansible playbook
         run: ansible-playbook -i localhost, test.yml
         working-directory: ansible
-  container-ubuntu:
+  container:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        image: ['ubuntu:20.04', 'ubuntu:18.04']
     steps:
       - uses: actions/checkout@v2
       - name: Launch a target container
-        run: docker run -d --name target --init -v "$PWD:/root/dotfiles" -w /root/dotfiles ubuntu:20.04 tail -f
+        run: >-
+          docker run -d --name target --init -v "$PWD:/root/dotfiles" -w /root/dotfiles
+          ${{ matrix.image }} tail -f
       - name: Run the bootstrap script
         run: docker exec target bash -c "./bootstrap.sh"
       - name: Generate a vault password
