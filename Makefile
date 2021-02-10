@@ -7,8 +7,13 @@ SHELL := /bin/bash
 # all targets are phony
 .PHONY: $(shell grep -oE ^[a-zA-Z_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
-lint: ## Lint shell scripts by shellcheck
+lint-shellcheck: ## Lint shell scripts by shellcheck
 	@find . -name "*.bash" -or -name "*.sh" -or -name "pre-commit" | xargs shellcheck -e SC1091
+
+lint-ansible: ## Lint ansible playbooks by ansible-lint
+	@cd ansible; poetry run ansible-lint site.yml
+
+lint: lint-shellcheck lint-ansible ## Lint whole files
 
 help: ## Print this help
 	@echo 'Usage: make [target]'
