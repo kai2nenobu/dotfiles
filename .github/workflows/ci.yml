@@ -33,8 +33,6 @@ jobs:
         run: cp -avr "${{ github.workspace }}" ~
       - name: Run the bootstrap script
         run: bash -e bootstrap.sh
-      - name: Generate a vault password
-        run: tr -dc A-Za-z0-9 < /dev/urandom | head -c 32 > ~/.ansible_vault_pass
       - name: Apply ansible playbook
         run: ansible-playbook -i localhost, test.yml
         working-directory: ansible
@@ -54,10 +52,6 @@ jobs:
           ${{ matrix.image }} tail -f
       - name: Run the bootstrap script
         run: docker exec target bash -c "./bootstrap.sh"
-      - name: Generate a vault password
-        run: >-
-          docker exec target bash -c
-          "tr -dc A-Za-z0-9 < /dev/urandom | head -c 32 > ~/.ansible_vault_pass"
       - name: Apply ansible playbook
         run: >-
           docker exec target bash -c
@@ -91,8 +85,6 @@ jobs:
         run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
       - name: Run the bootstrap script
         run: ./bootstrap.sh
-      - name: Generate a vault password
-        run: printf '%s' 'P@ssw0rd' > ~/.ansible_vault_pass
       - name: Apply ansible playbook
         run: ansible-playbook -i localhost, test.yml
         working-directory: ansible
