@@ -1,5 +1,6 @@
 - name: Configure wsl.conf
   tags: [config]
+  become: yes
   copy:
     dest: /etc/wsl.conf
     content: |
@@ -11,44 +12,52 @@
     mode: '0644'
 - name: Delete a deprecated umask setting
   tags: [config, deprecated]
+  become: yes
   file:
     path: /etc/profile.d/umask.sh
     state: absent
 - name: Delete a deprecated script for ssh-agent-wsl
   tags: [config, deprecated]
+  become: yes
   file:
     path: /etc/profile.d/ssh-agent-wsl.sh
     state: absent
 - name: Delete a deprecated script for wsl-ssh-agent
   tags: [config, deprecated]
+  become: yes
   file:
     path: /etc/profile.d/wsl-ssh-agent.sh
     state: absent
 - name: Integrate with ssh-agent on Windows
   tags: [config]
+  become: yes
   copy:
     src: ssh-agent.sh
     dest: /etc/profile.d/ssh-agent.sh
     mode: '0644'
 - name: Detect a gateway for WSL
   tags: [config]
+  become: yes
   copy:
     src: detect-wsl-gateway.sh
     dest: /etc/profile.d/detect-wsl-gateway.sh
     mode: '0644'
 - name: Update apt cache
   tags: [package]
+  become: yes
   apt:
     update_cache: yes
     cache_valid_time: 3600
 - name: Install wsl utilitiy
   tags: [package]
+  become: yes
   apt:
     name:
       - ubuntu-wsl
     state: present
 - name: Remove unnecessary packages
   tags: [package]
+  become: yes
   package:
     name:
       - openssh-server
