@@ -38,6 +38,9 @@ jobs:
       - name: Apply ansible playbook
         run: ansible-playbook -i localhost, test.yml
         working-directory: ansible
+      - name: Apply ansible playbook again
+        run: ansible-playbook -i localhost, test.yml
+        working-directory: ansible
   container:
     runs-on: ubuntu-20.04
     strategy:
@@ -56,6 +59,10 @@ jobs:
           docker exec target bash -c
           "tr -dc A-Za-z0-9 < /dev/urandom | head -c 32 > ~/.ansible_vault_pass"
       - name: Apply ansible playbook
+        run: >-
+          docker exec target bash -c
+          "cd ansible && ansible-playbook -i localhost, test.yml"
+      - name: Apply ansible playbook again
         run: >-
           docker exec target bash -c
           "cd ansible && ansible-playbook -i localhost, test.yml"
