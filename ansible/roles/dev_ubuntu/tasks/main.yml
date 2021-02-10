@@ -163,6 +163,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
+    mode: '0755'
   loop: "{{ symlink_config_files }}"
   when: item.condition | default(true)
 - name: Link to config files
@@ -181,6 +182,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
+    mode: '0755'
   loop: "{{ symlink_config_dirs }}"
   when: item.condition | default(true)
 - name: Link to config dirs
