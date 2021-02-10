@@ -80,6 +80,9 @@ jobs:
           distribution: Ubuntu-20.04
           set-as-default: 'true'
           wsl-shell-user: wsl
+      - name: Enable no password sudo by user
+        shell: cmd
+        run: wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
       - name: Copy dotfiles
         run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
       - name: Run the bootstrap script
