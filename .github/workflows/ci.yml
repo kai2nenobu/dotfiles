@@ -85,7 +85,8 @@ jobs:
           wsl-shell-user: wsl
       - name: Enable no password sudo by user
         shell: cmd
-        run: wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+        run: >-
+          wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
       - name: Copy dotfiles
         run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
       - name: Run the bootstrap script
