@@ -34,11 +34,9 @@ jobs:
       - name: Run the bootstrap script
         run: bash -e bootstrap.sh
       - name: Apply ansible playbook
-        run: ansible-playbook -i localhost, test.yml
-        working-directory: ansible
+        run: cd ~/dotfiles/ansible && ansible-playbook -i localhost, test.yml
       - name: Apply ansible playbook again
-        run: ansible-playbook -i localhost, test.yml
-        working-directory: ansible
+        run: cd ~/dotfiles/ansible && ansible-playbook -i localhost, test.yml
   container:
     runs-on: ubuntu-20.04
     strategy:
@@ -86,8 +84,6 @@ jobs:
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
-        run: ansible-playbook -i localhost, test.yml
-        working-directory: ansible
+        run: cd ~/dotfiles/ansible && ansible-playbook -i localhost, test.yml
       - name: Apply ansible playbook again
-        run: ansible-playbook -i localhost, test.yml
-        working-directory: ansible
+        run: cd ~/dotfiles/ansible && ansible-playbook -i localhost, test.yml
