@@ -123,16 +123,18 @@
   tags: [package]
   become: yes
   apt:
-    deb: "{{ item }}"
+    deb: "{{ item.url }}"
+  when: item.condition | default(true)
   loop:
     # ripgrep
-    - https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+    - url: https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
     # delta
-    - https://github.com/dandavison/delta/releases/download/0.5.1/git-delta_0.5.1_amd64.deb
+    - url: https://github.com/dandavison/delta/releases/download/0.5.1/git-delta_0.5.1_amd64.deb
+      condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # bat
-    - https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
+    - url: https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
     # fzf
-    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
+    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
