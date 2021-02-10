@@ -1,1 +1,2 @@
 is_windows: "{{ ansible_facts.os_family == 'Windows' }}"
+is_wsl: "{{ ansible_facts.kernel is search('microsoft', ignorecase=True) }}"

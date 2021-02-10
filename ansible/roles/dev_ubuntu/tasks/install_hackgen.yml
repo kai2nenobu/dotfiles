@@ -27,13 +27,14 @@
         src: "{{ extract_dir }}.zip"
         dest: /tmp
         remote_src: yes
-        mode: '0644'
+        mode: '0700'
     - name: List font files
       find:
         paths: "{{ extract_dir }}"
         patterns: "*.ttf"
       register: ttf_list
     - name: Copy {{ font.name }} fonts
+      become: yes
       copy:
         src: "{{ item }}"
         remote_src: yes

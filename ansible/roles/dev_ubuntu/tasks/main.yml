@@ -4,42 +4,50 @@
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]
+  become: yes
   copy:
     dest: /etc/profile.d/pipenv.sh
     content: export PIPENV_VENV_IN_PROJECT=true
     mode: "0644"
 - name: Configure man to install all manuals
   tags: [config]
+  become: yes
   file:
     path: /etc/dpkg/dpkg.cfg.d/excludes
     state: absent
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
+  become: yes
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
     state: present
 - name: Add an emacs ppa repository
   tags: [package]
+  become: yes
   apt_repository:
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Add a gpg key for docker apt repository
   tags: [package]
+  become: yes
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 - name: Add a docker apt repository
   tags: [package]
+  become: yes
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
 - name: Update apt cache
   tags: [package]
+  become: yes
   apt:
     update_cache: yes
     cache_valid_time: 3600
 - name: Uninstall needless packages
   tags: [package]
+  become: yes
   apt:
     name:
       - emacs26
@@ -48,6 +56,7 @@
     state: absent
 - name: Install development packages
   tags: [package]
+  become: yes
   apt:
     name:
       - cmigemo
@@ -74,6 +83,7 @@
     state: present
 - name: Install development packages on Ubuntu 20.04 or later
   tags: [package]
+  become: yes
   when: ansible_facts.distribution_version is version('20.04', '>=')
   block:
     - name: Install fd
@@ -88,11 +98,13 @@
         state: link
 - name: Install utility packages
   tags: [package]
+  become: yes
   apt:
     name:
       - socat
 - name: Install serverspec dependencies
   tags: [package]
+  become: yes
   apt:
     name:
       - build-essential
@@ -102,22 +114,27 @@
     state: present
 - name: Install docker CLI
   tags: [package]
+  become: yes
   apt:
     name: docker-ce-cli
     state: present
+  when: ansible_facts.env.GITHUB_ACTIONS is not defined
 - name: Install .deb packages
   tags: [package]
+  become: yes
   apt:
-    deb: "{{ item }}"
+    deb: "{{ item.url }}"
+  when: item.condition | default(true)
   loop:
     # ripgrep
-    - https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+    - url: https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
     # delta
-    - https://github.com/dandavison/delta/releases/download/0.5.1/git-delta_0.5.1_amd64.deb
+    - url: https://github.com/dandavison/delta/releases/download/0.5.1/git-delta_0.5.1_amd64.deb
+      condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # bat
-    - https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
+    - url: https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
     # fzf
-    - http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
+    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
@@ -132,11 +149,13 @@
     loop_var: font
 - name: Install pip tools
   tags: [package]
+  become: yes
   pip:
     name: pipenv
     executable: pip3
 - name: Install node tools
   tags: [package]
+  become: yes
   npm:
     name: prettier
     global: yes
@@ -146,6 +165,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
+    mode: '0755'
   loop: "{{ symlink_config_files }}"
   when: item.condition | default(true)
 - name: Link to config files
@@ -164,6 +184,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
+    mode: '0755'
   loop: "{{ symlink_config_dirs }}"
   when: item.condition | default(true)
 - name: Link to config dirs
