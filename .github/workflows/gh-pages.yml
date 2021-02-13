@@ -24,6 +24,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download venv archives
         uses: actions/download-artifact@v2
+        with:
+          path: docs
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
