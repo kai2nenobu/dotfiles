@@ -5,7 +5,7 @@
 
 set -eu
 
-DIR=$(dirname "$(readlink -e "$0")")
+cwd="$PWD"
 
 ## Install prerequisites
 sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list
@@ -33,4 +33,4 @@ mv "$venv_location" "$TARGET_LOCATION"
 cd "$TARGET_LOCATION"
 find . -name "*.pyc" -print0 | xargs -0 --no-run-if-empty -- rm
 grep "$venv_location" -RIl | xargs --no-run-if-empty -- sed -i "s@${venv_location}@${TARGET_LOCATION}@g"
-tar zcf "${DIR}/docs/${NAME}-${VERSION_ID}-ansible-venv.tar.gz" .
+tar zcf "${cwd}/docs/${NAME}-${VERSION_ID}-ansible-venv.tar.gz" .
