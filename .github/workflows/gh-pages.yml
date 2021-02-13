@@ -1,0 +1,26 @@
+name: github pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  create-venv:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create venv
+        run: sudo ./ci/create_ansible_venv.sh
+      - name: Upload the venv archive as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: 'docs/*.tar.gz'
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: create-venv
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download venv archives
+        uses: actions/download-artifact@v2
