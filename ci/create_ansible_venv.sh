@@ -21,6 +21,7 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 
 ## Install dependent packages into venv
 cd ansible
+poetry env use /usr/bin/python3
 poetry install --no-dev
 
 ## Move venv into a fixed location
