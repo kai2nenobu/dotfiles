@@ -8,7 +8,10 @@ on:
 
 jobs:
   create-venv:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-18.04]
     steps:
       - uses: actions/checkout@v2
       - name: Create venv
@@ -16,7 +19,7 @@ jobs:
       - name: Upload the venv archive as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu-20.04
+          name: ${{ matrix.os }}
           path: '*.tar.gz'
   deploy:
     runs-on: ubuntu-20.04
