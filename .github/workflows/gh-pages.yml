@@ -31,5 +31,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
+          cname: dotfiles.kaichan.info
           enable_jekyll: true
           force_orphan: true
