@@ -34,4 +34,4 @@ mv "$venv_location" "$TARGET_LOCATION"
 cd "$TARGET_LOCATION"
 find . -name "*.pyc" -print0 | xargs -0 --no-run-if-empty -- rm
 grep "$venv_location" -RIl | xargs --no-run-if-empty -- sed -i "s@${venv_location}@${TARGET_LOCATION}@g"
-tar zcf "${cwd}/docs/${NAME}-${VERSION_ID}-ansible-venv.tar.gz" .
+tar zcf "${cwd}/${ID}-${VERSION_ID}-ansible-venv.tar.gz" .

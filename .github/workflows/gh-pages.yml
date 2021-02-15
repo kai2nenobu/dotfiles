@@ -16,7 +16,8 @@ jobs:
       - name: Upload the venv archive as artifact
         uses: actions/upload-artifact@v2
         with:
-          path: 'docs/*.tar.gz'
+          name: ubuntu-20.04
+          path: '*.tar.gz'
   deploy:
     runs-on: ubuntu-20.04
     needs: create-venv
@@ -25,7 +26,11 @@ jobs:
       - name: Download venv archives
         uses: actions/download-artifact@v2
         with:
-          path: docs
+          path: /tmp
+      - name: Move archives into docs directory
+        run: |
+          mkdir -p docs/venv
+          find /tmp -type f -name "*.tar.gz" | xargs mv -t docs/venv
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
