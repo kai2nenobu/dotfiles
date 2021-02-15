@@ -123,9 +123,13 @@ function fzf_integration {
 
 fzf_integration
 
-Import-Module posh-git
-Import-Module oh-my-posh
-Set-Theme Paradox
+# Import-Module posh-git
+# Import-Module oh-my-posh
+# Set-Theme Paradox
+
+## Enable starship
+Get-Command -ea SilentlyContinue starship > $null `
+  && Invoke-Expression (&starship init powershell)
 
 # パイプのエンコーディングをUTF-8にする
 # ref. https://news.mynavi.jp/itsearch/article/hardware/5170

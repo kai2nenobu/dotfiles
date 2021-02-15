@@ -91,6 +91,10 @@ if [ -d "$HOME/.cargo" ]; then
   source "$HOME/.cargo/env"
 fi
 
+if command -v starship &> /dev/null; then
+  eval "$(starship init bash)"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
