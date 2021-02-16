@@ -1,0 +1,4 @@
+## プライベートなGit設定
+_git_configs:
+  - name: foo.bar
+    value: baz
