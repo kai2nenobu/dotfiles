@@ -62,11 +62,3 @@
     name:
       - openssh-server
     state: absent
-- name: 手っ取り早くシェル実行
-  tags: [config]
-  become: no
-  # ansibleモジュールでの書き方がわからないところを無理やりシェルで解決するコーナー
-  shell: |
-    # Windows側のGit設定を引き継ぐ
-    git config --global user.name "$(cmd.exe /C git config --global user.name)"
-    git config --global user.email "$(cmd.exe /C git config --global user.email)"

@@ -353,7 +353,9 @@
 - name: Git設定
   tags: [config]
   include_tasks: git_config.yml
-  loop: "{{ git_configs }}"
+  with_items:
+    - "{{ git_configs }} "
+    - "{{ _git_configs | default([]) }}"
 - name: playbook適用日時を出力
   tags: [always]
   debug:

@@ -207,4 +207,6 @@
   tags: [config]
   become: no
   git_config: "{{ {'scope':'global'} | combine(item) }}" # デフォルトのスコープを global にする
-  loop: "{{ git_configs }}"
+  with_items:
+    - "{{ git_configs }} "
+    - "{{ _git_configs | default([]) }}"
