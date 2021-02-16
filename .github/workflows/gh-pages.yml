@@ -8,18 +8,20 @@ on:
 
 jobs:
   create-venv:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04]
+        image: ['ubuntu:20.04', 'ubuntu:18.04']
     steps:
       - uses: actions/checkout@v2
-      - name: Create venv
-        run: sudo ./ci/create_ansible_venv.sh
+      - name: Create venv in docker
+        run: |
+          set -eux
+          docker run -v "$PWD:/root/dotfiles" -w /root/dotfiles ${{ matrix.image }} ./ci/create_ansible_venv.sh
       - name: Upload the venv archive as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os }}
+          name: ${{ matrix.image }}
           path: '*.tar.gz'
   deploy:
     runs-on: ubuntu-20.04
