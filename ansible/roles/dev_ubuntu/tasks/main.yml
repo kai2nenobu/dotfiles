@@ -1,6 +1,18 @@
 - name: Validate the role precondition
   tags: [validation]
   import_tasks: validate_precondition.yml
+- name: Update apt cache
+  tags: [package]
+  become: yes
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+- name: Install ansible module requirements
+  tags: [package]
+  become: yes
+  apt:
+    name:
+      - gpg  # for ansible.builtin.apt_key
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]
@@ -39,12 +51,6 @@
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
-- name: Update apt cache
-  tags: [package]
-  become: yes
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
 - name: Uninstall needless packages
   tags: [package]
   become: yes

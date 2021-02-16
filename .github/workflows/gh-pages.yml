@@ -1,0 +1,50 @@
+name: github pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'ci/create_ansible_venv.sh'
+      - '.github/workflows/gh-pages.yml'
+
+jobs:
+  create-venv:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        image: ['ubuntu-20.04', 'ubuntu-18.04']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create venv in docker
+        run: |
+          set -eux
+          image=$(echo '${{ matrix.image }}' | tr '-' ':')
+          docker run -e LANG=C.UTF-8 -v "$PWD:/root/dotfiles" -w /root/dotfiles \
+            "$image" ./ci/create_ansible_venv.sh
+      - name: Upload the venv archive as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.image }}
+          path: '*.tar.gz'
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: create-venv
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download venv archives
+        uses: actions/download-artifact@v2
+        with:
+          path: /tmp
+      - name: Move archives into docs directory
+        run: |
+          mkdir -p docs/venv
+          find /tmp -type f -name "*.tar.gz" | xargs mv -t docs/venv
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          cname: dotfiles.kaichan.info
+          enable_jekyll: true
+          force_orphan: true
