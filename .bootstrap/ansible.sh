@@ -15,7 +15,7 @@ fi
 
 if [ "$ID" = "ubuntu" ]; then
   # Install requirements
-  $SUDO apt update && $SUDO env DEBIAN_FRONTEND=noninteractive apt install -y python3
+  $SUDO apt update && $SUDO env DEBIAN_FRONTEND=noninteractive apt install -y python3 curl
   # Download ansible venv
   URL=https://dotfiles.kaichan.info/venv
   venv_name="${ID}-${VERSION_ID}-ansible-venv.tar.gz"
