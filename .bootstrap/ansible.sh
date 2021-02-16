@@ -21,7 +21,7 @@ if [ "$ID" = "ubuntu" ]; then
   venv_name="${ID}-${VERSION_ID}-ansible-venv.tar.gz"
   venv_location=/opt/ansible-venv
   $SUDO mkdir -p "$venv_location"
-  curl -sSL "${URL}/${venv_name}" | $SUDO tar zxv --directory "$venv_location"
+  curl -sSL "${URL}/${venv_name}" | $SUDO tar zx --directory "$venv_location"
 else
   ## Other than Ubuntu
   $SUDO apt update
