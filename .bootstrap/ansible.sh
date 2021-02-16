@@ -20,8 +20,8 @@ if [ "$ID" = "ubuntu" ]; then
   URL=https://dotfiles.kaichan.info/venv
   venv_name="${ID}-${VERSION_ID}-ansible-venv.tar.gz"
   venv_location=/opt/ansible-venv
-  sudo mkdir -p "$venv_location"
-  curl -sSL "${URL}/${venv_name}" | tar zxv --directory "$venv_location"
+  $SUDO mkdir -p "$venv_location"
+  curl -sSL "${URL}/${venv_name}" | $SUDO tar zxv --directory "$venv_location"
 else
   ## Other than Ubuntu
   $SUDO apt update
