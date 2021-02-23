@@ -15,7 +15,7 @@
         "defaults":
         {
             // Put settings here that you want to apply to all profiles
-            "fontFace": "HackGen Console",
+            "fontFace": "HackGenNerd Console",
             "fontSize": 14,
             "colorSheme": "Campbell"
         },
