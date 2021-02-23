@@ -2,8 +2,8 @@
   block:
     - name: 設定ディレクトリのパスを絶対パス展開
       set_fact:
-        config_src_path: '{{ ansible_facts.env.USERPROFILE }}\dotfiles\{{ config_dir.src }}'
-        config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_dir.dest }}'
+        config_src_path: '{{ ansible_facts.env.USERPROFILE }}\dotfiles\{{ config_dir.src | regex_replace("/", "\\") }}'
+        config_dest_path: '{{ ansible_facts.env.USERPROFILE }}\{{ config_dir.dest | regex_replace("/", "\\") }}'
     - name: '"{{ config_dir.dest }}"の状態を確認する'
       win_stat:
         path: "{{ config_dest_path }}"
