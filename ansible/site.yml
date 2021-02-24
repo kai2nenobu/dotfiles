@@ -4,6 +4,7 @@
     - role: local_proxy
       when: local_proxy_type is defined
     - windows10
+    - starship
 - hosts: wsl
   environment: "{{ proxy_env | default({}) }}"
   pre_tasks:
@@ -19,3 +20,4 @@
     - role: wsl
       when: is_wsl
     - dev_ubuntu
+    - starship

@@ -1,0 +1,6 @@
+add_newline = false
+
+[character]
+{% if starship_config.character.success_symbol | default(false) %}
+success_symbol = "[{{ starship_config.character.success_symbol }}](bold green)"
+{% endif %}
