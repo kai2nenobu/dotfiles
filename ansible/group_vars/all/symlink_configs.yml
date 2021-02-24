@@ -41,7 +41,8 @@ symlink_config_files:
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/Code/User/keybindings.json',
                               '.config/Code/User/keybindings.json') }}
-  - { src: 'configs/starship.toml', dest: '.config/starship.toml' }
+  - src: "{{ is_windows | ternary('configs/starship.win.toml', 'configs/starship.linux.toml') }}"
+    dest: '.config/starship.toml'
 ## シンボリックリンクをはるディレクトリたち
 symlink_config_dirs:
   - { src: "configs/.bash.d", dest: ".bash.d" }
