@@ -116,6 +116,10 @@ jobs:
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys' /remove 'NT AUTHORITY\Authenticated Users'
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
           Restart-Service -Name sshd -Force
+      - name: Enable no password sudo by user
+        shell: cmd
+        run: >-
+          wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
       - name: Copy dotfiles
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
