@@ -25,6 +25,7 @@ jobs:
   vm:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: ['ubuntu-20.04', 'ubuntu-18.04']
     steps:
@@ -40,6 +41,7 @@ jobs:
   container:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         image: ['ubuntu:20.04', 'ubuntu:18.04']
     steps:
@@ -63,6 +65,7 @@ jobs:
   windows:
     runs-on: windows-2019
     strategy:
+      fail-fast: false
       matrix:
         include:
           - group: wsl
