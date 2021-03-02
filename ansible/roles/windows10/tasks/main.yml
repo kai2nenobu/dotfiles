@@ -314,7 +314,7 @@
       - name: Outlook 2016
         src: 'C:\Program Files (x86)\Microsoft Office\root\Office16\OUTLOOK.EXE'
         description: 電子メール、スケジュール、連絡先、タスクを管理します。
-      - name: エクスプローラー
+      - name: Explorer
         src: 'C:\Windows\explorer.exe'
         description: コンピューターのファイルやフォルダーを表示します。
         #appid: 'Microsoft.Windows.Explorer'
@@ -334,7 +334,7 @@
         #appid: 'MSEdge.UserData.Profile1'
       - name: Internet Explorer
         src: 'C:\Program Files\internet explorer\iexplore.exe'
-      - name: リモート デスクトップ接続
+      - name: Remote Desktop
         src: '%windir%\system32\mstsc.exe'
         description: お使いのコンピューターから別の場所にあるコンピューターに接続して、プログラムを実行したりファイルにアクセスしたりできます。
       - name: Emacs
