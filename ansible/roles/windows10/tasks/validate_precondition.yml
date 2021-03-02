@@ -1,12 +1,12 @@
 - name: Validate OS distribution (support only Windows 10)
-  fail: msg='"{{ ansible_facts.distribution }}" is not a supported OS.'
-  when:
-    - ansible_facts.distribution is not search("Windows 10")
+  assert:
+    that: ansible_facts.distribution is search("Windows 10")
+    fail_msg: '"{{ ansible_facts.distribution }}" is not a supported OS.'
 - name: Validate OS version (support only Windows 10 1803 or later)
-  fail: msg='"{{ ansible_facts.distribution_version }}" is not a supported version.'
-  when:
-    - ansible_facts.distribution_version is version('10.0.17134.0', '<')
+  assert:
+    that: ansible_facts.distribution_version is version('10.0.17134.0', '>=')
+    fail_msg: '"{{ ansible_facts.distribution_version }}" is not a supported version.'
 - name: Validate powershell version (support only version 5 or later)
-  fail: msg='"{{ ansible_facts.powershell_version }}" is not a supported powershell version.'
-  when:
-    - ansible_facts.powershell_version < 5
+  assert:
+    that: ansible_facts.powershell_version >= 5
+    fail_msg: '"{{ ansible_facts.powershell_version }}" is not a supported powershell version.'
