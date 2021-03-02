@@ -206,6 +206,7 @@
     #      - GoogleJapaneseInput
     - gradle
     - graphviz
+    - gsudo
     - jq
     - less
     - lxrunoffline
@@ -215,7 +216,6 @@
     - sakuraeditor
     - sourcetree
     - sysinternals
-    - Sudo
     - vcxsrv
     - vscode
     - winmerge
