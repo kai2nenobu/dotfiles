@@ -106,8 +106,7 @@ jobs:
         if: ${{ matrix.group == 'windows' }}
       - name: Copy dotfiles
         run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
-        if: ${{ matrix.group == 'wsl' }}
-      - name: Copy dotfiles
+      - name: Copy dotfiles in Windows
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
         if: ${{ matrix.group == 'windows' }}
