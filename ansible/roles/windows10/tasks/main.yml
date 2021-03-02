@@ -225,6 +225,12 @@
     name: openssh
     package_params: '"/SSHAgentFeature"'
     state: present
+- name: オプション機能のOpenSSHをPATHから除外する
+  tags: [config]
+  win_path:
+    elements: '%SYSTEMROOT%\System32\OpenSSH'
+    scope: machine
+    state: absent
 - name: Chocolateyパッケージをインストールする (kai2nenobu)
   tags: [package]
   win_chocolatey:
