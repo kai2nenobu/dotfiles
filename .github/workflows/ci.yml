@@ -87,3 +87,38 @@ jobs:
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+  windows:
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: wsl-bash {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Vampire/setup-wsl@v1
+        with:
+          distribution: Ubuntu-20.04
+          set-as-default: 'true'
+          wsl-shell-user: wsl
+      - name: Generate a ssh key pair in WSL
+        run: |
+          ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
+      - name: Setup Windows SSH Server
+        shell: powershell
+        run: |
+          # Install SSH Server
+          choco install --no-progress -y openssh --params "/SSHServerFeature"
+          # Register a authorized key
+          (wsl.exe -- cat /home/wsl/.ssh/id_rsa.pub) -join "`n" `
+            | % { [Text.Encoding]::UTF8.GetBytes($_) } `
+            | Set-Content -Path 'C:\ProgramData\ssh\administrators_authorized_keys' -Encoding Byte
+          # Repair permissions for authorized key file
+          icacls 'C:\ProgramData\ssh\administrators_authorized_keys' /inheritance:d
+          icacls 'C:\ProgramData\ssh\administrators_authorized_keys' /remove 'NT AUTHORITY\Authenticated Users'
+          icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
+          Restart-Service -Name sshd -Force
+      - name: Copy dotfiles
+        run: mkdir -p /mnt/c/Users/runneradmin/dotfiles && cp -avr . /mnt/c/Users/runneradmin/dotfiles
+      - name: Run the bootstrap script
+        run: ./bootstrap.sh
+      - name: Apply ansible playbook
+        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -vvv -i test_hosts.ini site.yml --limit windows10
