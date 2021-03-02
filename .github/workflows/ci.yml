@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Copy dotfiles
-        run: cp -avr "${{ github.workspace }}" ~
+        run: cp -vr "${{ github.workspace }}" ~
       - name: Run the bootstrap script
         run: bash -e bootstrap.sh
       - name: Apply ansible playbook
@@ -108,7 +108,7 @@ jobs:
           Restart-Service -Name sshd -Force
         if: ${{ matrix.group == 'windows10' }}
       - name: Copy dotfiles
-        run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
+        run: mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
       - name: Copy dotfiles in Windows
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
