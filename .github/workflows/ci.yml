@@ -117,7 +117,8 @@ jobs:
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
           Restart-Service -Name sshd -Force
       - name: Copy dotfiles
-        run: mkdir -p /mnt/c/Users/runneradmin/dotfiles && cp -avr . /mnt/c/Users/runneradmin/dotfiles
+        shell: powershell
+        run: Copy-Item -Recurse . "$env:USERPROFILE"
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
