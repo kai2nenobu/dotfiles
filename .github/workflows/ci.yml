@@ -60,11 +60,17 @@ jobs:
           ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
       - name: Kill the target container
         run: docker rm --force target
-  wsl:
+  windows:
     runs-on: windows-2019
     strategy:
       matrix:
-        distribution: ['Ubuntu-20.04', 'Ubuntu-18.04']
+        include:
+          - group: wsl
+            distribution: Ubuntu-20.04
+          - group: wsl
+            distribution: Ubuntu-18.04
+          - group: windows10
+            distribution: Ubuntu-20.04
     defaults:
       run:
         shell: wsl-bash {0}
@@ -79,29 +85,10 @@ jobs:
         shell: cmd
         run: >-
           wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-      - name: Copy dotfiles
-        run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
-      - name: Run the bootstrap script
-        run: ./bootstrap.sh
-      - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
-      - name: Apply ansible playbook again
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
-  windows:
-    runs-on: windows-2019
-    defaults:
-      run:
-        shell: wsl-bash {0}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: Vampire/setup-wsl@v1
-        with:
-          distribution: Ubuntu-20.04
-          set-as-default: 'true'
-          wsl-shell-user: wsl
       - name: Generate a ssh key pair in WSL
         run: |
           ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
+        if: ${{ matrix.group == 'windows' }}
       - name: Setup Windows SSH Server
         shell: powershell
         run: |
@@ -116,14 +103,17 @@ jobs:
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys' /remove 'NT AUTHORITY\Authenticated Users'
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
           Restart-Service -Name sshd -Force
-      - name: Enable no password sudo by user
-        shell: cmd
-        run: >-
-          wsl.exe --user root bash -c "echo 'wsl ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+        if: ${{ matrix.group == 'windows' }}
+      - name: Copy dotfiles
+        run: mkdir -p ~/dotfiles && cp -avr . ~/dotfiles
+        if: ${{ matrix.group == 'wsl' }}
       - name: Copy dotfiles
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
+        if: ${{ matrix.group == 'windows' }}
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -vvv -i test_hosts.ini site.yml --limit windows10
+        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+      - name: Apply ansible playbook again
+        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
