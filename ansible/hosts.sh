@@ -23,11 +23,11 @@ cat <<EOF
     "all": {
         "children": [
             "ungrouped",
-            "windows10",
+            "windows",
             "wsl"
         ]
     },
-    "windows10": {
+    "windows": {
         "hosts": [
             "$host"
         ]

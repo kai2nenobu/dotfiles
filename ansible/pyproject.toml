@@ -19,7 +19,7 @@ ansible-lint = "^4.3.3"
 apply = "ansible-playbook --vault-password-file ~/.ansible_vault_pass -i hosts.sh site.yml"
 lint = "ansible-lint site.yml"
 encrypt = "ansible-vault --vault-password-file ~/.ansible_vault_pass encrypt_string"
-ping = "ansible -m ping -i hosts.sh wsl && ansible -m win_ping --vault-password-file ~/.ansible_vault_pass -i hosts.sh windows10"
+ping = "ansible -m ping -i hosts.sh wsl && ansible -m win_ping --vault-password-file ~/.ansible_vault_pass -i hosts.sh windows"
 
 [build-system]
 requires = ["poetry>=0.12"]

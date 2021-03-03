@@ -72,7 +72,7 @@ jobs:
             distribution: Ubuntu-20.04
           - group: wsl
             distribution: Ubuntu-18.04
-          - group: windows10
+          - group: windows
             distribution: Ubuntu-20.04
     defaults:
       run:
@@ -92,7 +92,7 @@ jobs:
       - name: Generate a ssh key pair in WSL
         run: |
           ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
-        if: ${{ matrix.group == 'windows10' }}
+        if: ${{ matrix.group == 'windows' }}
       - name: Setup Windows SSH Server
         shell: powershell
         run: |
@@ -107,13 +107,13 @@ jobs:
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys' /remove 'NT AUTHORITY\Authenticated Users'
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
           Restart-Service -Name sshd -Force
-        if: ${{ matrix.group == 'windows10' }}
+        if: ${{ matrix.group == 'windows' }}
       - name: Copy dotfiles
         run: umask 0022 && mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
       - name: Copy dotfiles in Windows
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
-        if: ${{ matrix.group == 'windows10' }}
+        if: ${{ matrix.group == 'windows' }}
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook

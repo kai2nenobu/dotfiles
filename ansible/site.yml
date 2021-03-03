@@ -1,9 +1,9 @@
-- hosts: windows10
+- hosts: windows
   environment: "{{ proxy_env | default({}) }}"
   roles:
     - role: local_proxy
       when: local_proxy_type is defined
-    - windows10
+    - windows
 - hosts: wsl
   environment: "{{ proxy_env | default({}) }}"
   pre_tasks:
