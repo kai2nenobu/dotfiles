@@ -5,7 +5,7 @@ REM
 REM Ansible PlaybookをWSLで実行する
 REM
 REM 前提条件
-REM - Windows 10 Pro以上
+REM - Windows 10 Pro / Windows Server 2019以上
 REM - バージョン1803以上
 
 set HERE=%~dp0

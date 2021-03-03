@@ -1,6 +1,7 @@
-- name: Validate OS distribution (support only Windows)
+- name: Validate OS distribution (support only Windows 10 or Windows Server 2019)
   assert:
-    that: ansible_facts.distribution is search("Windows")
+    that: ansible_facts.distribution is search("Windows 10") or
+          ansible_facts.distribution is search("Windows Server 2019")
     fail_msg: '"{{ ansible_facts.distribution }}" is not a supported OS.'
 - name: Validate OS version (support only Windows (Server) 1803 or later)
   assert:
