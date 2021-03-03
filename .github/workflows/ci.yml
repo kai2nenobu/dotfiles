@@ -28,6 +28,8 @@ jobs:
       fail-fast: false
       matrix:
         os: ['ubuntu-20.04', 'ubuntu-18.04']
+    env:
+      ANSIBLE_LOG_PATH: ${{ github.workspace }}/ansible/logs/ansible-vm-${{ matrix.os }}.log
     steps:
       - uses: actions/checkout@v2
       - name: Copy dotfiles
@@ -38,18 +40,24 @@ jobs:
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ansible-logs
+          path: ansible/logs/ansible-*.log
   container:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        image: ['ubuntu:20.04', 'ubuntu:18.04']
+        image: ['ubuntu-20.04', 'ubuntu-18.04']
+    env:
+      ANSIBLE_LOG_PATH: /root/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
     steps:
       - uses: actions/checkout@v2
       - name: Launch a target container
         run: >-
-          docker run -d --name target --init -v "$PWD:/root/dotfiles" -w /root/dotfiles
-          ${{ matrix.image }} tail -f
+          docker run -d --name target --init -e ANSIBLE_LOG_PATH -v "$PWD:/root/dotfiles" -w /root/dotfiles
+          $(echo "${{ matrix.image }}" | tr "-" ":") tail -f
       - name: Run the bootstrap script
         run: docker exec target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
@@ -62,6 +70,10 @@ jobs:
           ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
       - name: Kill the target container
         run: docker rm --force target
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ansible-logs
+          path: ansible/logs/ansible-*.log
   windows:
     runs-on: windows-2019
     strategy:
@@ -74,6 +86,10 @@ jobs:
             distribution: Ubuntu-18.04
           - group: windows
             distribution: Ubuntu-20.04
+    env:
+      WSLENV: ANSIBLE_LOG_PATH/up
+      ANSIBLE_LOG_PATH: >-
+        ${{ github.workspace }}\ansible\logs\ansible-${{ matrix.group }}-${{ matrix.distribution }}.log
     defaults:
       run:
         shell: wsl-bash {0}
@@ -120,3 +136,7 @@ jobs:
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Apply ansible playbook again
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ansible-logs
+          path: ansible/logs/ansible-*.log
