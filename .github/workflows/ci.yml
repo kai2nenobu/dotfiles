@@ -84,6 +84,7 @@ jobs:
           distribution: ${{ matrix.distribution }}
           set-as-default: 'true'
           wsl-shell-user: wsl
+          additional-packages: openssh-client
       - name: Enable no password sudo by user
         shell: cmd
         run: >-
