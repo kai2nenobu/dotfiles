@@ -109,7 +109,7 @@ jobs:
           Restart-Service -Name sshd -Force
         if: ${{ matrix.group == 'windows10' }}
       - name: Copy dotfiles
-        run: mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
+        run: umask 0022 && mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
       - name: Copy dotfiles in Windows
         shell: powershell
         run: Copy-Item -Recurse . "$env:USERPROFILE"
