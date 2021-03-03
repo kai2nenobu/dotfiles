@@ -136,6 +136,11 @@ jobs:
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Apply ansible playbook again
         run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+      - name: Show logs
+        shell: powershell
+        run: |
+          ls ansible\logs
+          wsl.exe -- ls -alh ansible/logs
       - uses: actions/upload-artifact@v2
         with:
           name: ansible-logs
