@@ -33,5 +33,18 @@
       win_template:
         src: TaskBarLayout.xml.j2
         dest: '{{ sc_dir_path }}\TaskBarLayout.xml'
-    # TODO: グループポリシーでレイアウトxmlを設定する
+    - name: グループポリシーの「スタート画面のレイアウト」を有効にする
+      win_dsc:
+        resource_name: cAdministrativeTemplateSetting
+        policytype: User
+        keyvaluename: 'Software\Policies\Microsoft\Windows\Explorer\LockedStartLayout'
+        data: 1
+        type: DWord
+    - name: 「スタート画面のレイアウト」のレイアウトファイルを設定する
+      win_dsc:
+        resource_name: cAdministrativeTemplateSetting
+        policytype: User
+        keyvaluename: 'Software\Policies\Microsoft\Windows\Explorer\StartLayoutFile'
+        data: '{{ sc_dir_path }}\TaskBarLayout.xml'
+        type: ExpandString
     # TODO: アイコンが分裂しないようにショートカットのアプリケーションIDを設定する

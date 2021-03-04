@@ -156,6 +156,11 @@
     name: Pscx
     state: present
     allow_clobber: yes
+- name: Install PolicyFileEditor
+  tags: [package]
+  win_psmodule:
+    name: PolicyFileEditor
+    state: present
 # Powershell!
 - name: Powershell Coreをインストールする
   tags: [package]
