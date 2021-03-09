@@ -13,6 +13,13 @@
   apt:
     name:
       - gpg  # for ansible.builtin.apt_key
+- name: Configure runtime icon
+  tags: [config]
+  become: yes
+  copy:
+    src: runtime-icon.sh
+    dest: /etc/profile.d/runtime-icon.sh
+    mode: "0644"
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]

@@ -13,3 +13,9 @@ disabled = true
 
 [python]
 pyenv_version_name = true
+
+[env_var]
+variable = 'RUNTIME_ICON'
+default = 'Unknown Runtime'
+style = '#ff9900'
+format = 'on [$env_value]($style) '
