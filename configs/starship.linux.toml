@@ -10,3 +10,6 @@ format = '[$symbol$status]($style)  '
 
 [git_status]
 disabled = true
+
+[python]
+pyenv_version_name = true
