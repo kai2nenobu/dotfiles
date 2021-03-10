@@ -12,7 +12,6 @@ pywinrm = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.5.1"
-jinja2 = "^2.11.2"
 ansible-lint = "^4.3.3"
 
 [tool.taskipy.tasks]
