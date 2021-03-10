@@ -13,6 +13,7 @@ pywinrm = "^0.4.1"
 [tool.poetry.dev-dependencies]
 taskipy = "^1.5.1"
 ansible-lint = "^5.0.2"
+yamllint = "^1.26.0"
 
 [tool.taskipy.tasks]
 apply = "ansible-playbook --vault-password-file ~/.ansible_vault_pass -i hosts.sh site.yml"
