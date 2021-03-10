@@ -55,7 +55,7 @@
   win_user_right:
     name: "SeCreateSymbolicLinkPrivilege"
     users:
-    - "{{ ansible_user }}"
+      - "{{ ansible_user }}"
     action: add
 - name: IEのお気に入り設定
   tags: [config]
@@ -125,7 +125,7 @@
   win_copy:
     src: '%USERPROFILE%\dotfiles\configs\clink_inputrc'
     dest: '%USERPROFILE%\clink_inputrc'
-    remote_src: True
+    remote_src: true
 - name: ローカルツールディレクトリを作成する
   tags: [config]
   win_file:
@@ -298,7 +298,7 @@
   win_copy:
     src: '%USERPROFILE%\dotfiles\configs\cmder\{{ item }}'
     dest: '%CMDER_USER_CONFIG%\{{ item }}'
-    remote_src: True
+    remote_src: true
   with_items:
     - prompt.lua
     - settings
