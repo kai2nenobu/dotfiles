@@ -8,13 +8,13 @@ SHELL := /bin/bash
 .PHONY: $(shell grep -oE ^[a-zA-Z_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
 lint-shellcheck: ## Lint shell scripts by shellcheck
-	@find . -name "*.bash" -or -name "*.sh" -or -name "pre-commit" | xargs shellcheck -e SC1091
+	find . -name "*.bash" -or -name "*.sh" -or -name "pre-commit" | xargs shellcheck -e SC1091
 
 lint-ansible: ## Lint ansible playbooks by ansible-lint
-	@cd ansible; poetry run ansible-lint site.yml
+	cd ansible; poetry run ansible-lint site.yml
 
 lint-yaml: ## Lint yaml format by yamllint
-	@cd ansible; poetry run yamllint -f github .
+	cd ansible; poetry run yamllint -f github .
 
 lint: lint-shellcheck lint-ansible lint-yaml ## Lint whole files
 
