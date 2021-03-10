@@ -13,7 +13,10 @@ lint-shellcheck: ## Lint shell scripts by shellcheck
 lint-ansible: ## Lint ansible playbooks by ansible-lint
 	@cd ansible; poetry run ansible-lint site.yml
 
-lint: lint-shellcheck lint-ansible ## Lint whole files
+lint-yaml: ## Lint yaml format by yamllint
+	@cd ansible; poetry run yamllint -f github .
+
+lint: lint-shellcheck lint-ansible lint-yaml ## Lint whole files
 
 help: ## Print this help
 	@echo 'Usage: make [target]'
