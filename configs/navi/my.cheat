@@ -69,6 +69,17 @@ git branch -a --format="%(refname:short)"
 # Replace ubuntu apt repository servers to mirror servers %ubuntu %apt
 sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list
 
+### Ansible
+
+# Apply a playbook %ansible
+ansible-playbook -i <hosts_file> <playbook>
+
+# Check a syatax for playbook %ansible
+ansible-playbook --syntax-check <playbook>
+
+# List installed collections %ansible
+ansible-galaxy collection list -p <collection_path>
+
 ; Local Variables:
 ; mode: sh
 ; End:
