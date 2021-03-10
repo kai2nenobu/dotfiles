@@ -1,6 +1,6 @@
 [[package]]
 name = "ansible"
-version = "2.10.7"
+version = "3.0.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -25,21 +25,36 @@ PyYAML = "*"
 
 [[package]]
 name = "ansible-lint"
-version = "4.3.7"
+version = "5.0.2"
 description = "Checks playbooks for practices and behaviour that could potentially be improved"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-ansible = ">=2.8"
+enrich = ">=1.2.6"
+packaging = "*"
 pyyaml = "*"
-rich = "*"
+rich = ">=9.5.1"
 "ruamel.yaml" = [
     {version = ">=0.15.34,<1", markers = "python_version < \"3.7\""},
     {version = ">=0.15.37,<1", markers = "python_version >= \"3.7\""},
 ]
 typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
+wcmatch = ">=7.0"
+
+[package.extras]
+community = ["ansible (>=2.10)"]
+core = ["ansible-base (>=2.10)"]
+yamllint = ["yamllint (>=1.25.0)"]
+
+[[package]]
+name = "bracex"
+version = "2.1.1"
+description = "Bash style brace expander."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "certifi"
@@ -113,6 +128,20 @@ description = "A backport of the dataclasses module for Python 3.6"
 category = "dev"
 optional = false
 python-versions = ">=3.6, <3.7"
+
+[[package]]
+name = "enrich"
+version = "1.2.6"
+description = "enrich"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+rich = ">=9.5.1"
+
+[package.extras]
+test = ["mock (>=3.0.5)", "pytest-cov (>=2.7.1)", "pytest-mock (>=3.3.1)", "pytest-plus", "pytest-xdist (>=1.29.0)", "pytest (>=5.4.0)"]
 
 [[package]]
 name = "idna"
@@ -358,6 +387,17 @@ secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "cer
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [[package]]
+name = "wcmatch"
+version = "8.1.1"
+description = "Wildcard/glob file name matcher."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+bracex = ">=2.1.1"
+
+[[package]]
 name = "xmltodict"
 version = "0.12.0"
 description = "Makes working with XML feel like you are working with JSON"
@@ -368,18 +408,22 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "727947c956ff8b0ba6a720395a17a277344680195aa16cfa82cfc59b1a7fc7c8"
+content-hash = "4eb73d045cd96acaca1d7e911528933b7900fdf5beb7fbf073fb36ee78b3af4a"
 
 [metadata.files]
 ansible = [
-    {file = "ansible-2.10.7.tar.gz", hash = "sha256:9ff024500116d53c460cb09ea92e3c9404119f100d1d1ff0de69a9dafca561d5"},
+    {file = "ansible-3.0.0.tar.gz", hash = "sha256:843aa807813318b0c8a6684a2895c74a4ccfb3c01d2bb41a53856b2434ebaaec"},
 ]
 ansible-base = [
     {file = "ansible-base-2.10.6.tar.gz", hash = "sha256:c6b3bc3dc83ee510357cb7afc8c557c05ce38f6b40e9bc9dab13551b2944dfd4"},
 ]
 ansible-lint = [
-    {file = "ansible-lint-4.3.7.tar.gz", hash = "sha256:1012fc3f5c4c0c58eece515860f19c34c5088faa5be412eec6fae5b45bda9c4f"},
-    {file = "ansible_lint-4.3.7-py2.py3-none-any.whl", hash = "sha256:300e841f690b556a08d44902d6414283dc101079b27909e3a892f1cf1d10d7ff"},
+    {file = "ansible-lint-5.0.2.tar.gz", hash = "sha256:be0b7f2aa368cd33da38dfc8d7d4b26c166ea3b6db9770eeab97530533258f8e"},
+    {file = "ansible_lint-5.0.2-py3-none-any.whl", hash = "sha256:41a139ac50f9f60e92711b84f4be584aaf3e5d726004751640058423ef6af0c4"},
+]
+bracex = [
+    {file = "bracex-2.1.1-py3-none-any.whl", hash = "sha256:64e2a6d14de9c8e022cf40539ac8468ba7c4b99550a2b05fc87fd20e392e568f"},
+    {file = "bracex-2.1.1.tar.gz", hash = "sha256:01f715cd0ed7a622ec8b32322e715813f7574de531f09b70f6f3b2c10f682425"},
 ]
 certifi = [
     {file = "certifi-2020.12.5-py2.py3-none-any.whl", hash = "sha256:719a74fb9e33b9bd44cc7f3a8d94bc35e4049deebe19ba7d8e108280cfd59830"},
@@ -453,6 +497,10 @@ cryptography = [
 dataclasses = [
     {file = "dataclasses-0.8-py3-none-any.whl", hash = "sha256:0201d89fa866f68c8ebd9d08ee6ff50c0b255f8ec63a71c16fda7af82bb887bf"},
     {file = "dataclasses-0.8.tar.gz", hash = "sha256:8479067f342acf957dc82ec415d355ab5edb7e7646b90dc6e2fd1d96ad084c97"},
+]
+enrich = [
+    {file = "enrich-1.2.6-py3-none-any.whl", hash = "sha256:ed0b3ac33495cc95f1ccafaf6c7ec0a0fcabb20f7f7a90121f37eb83a85bf82b"},
+    {file = "enrich-1.2.6.tar.gz", hash = "sha256:0e99ff57d87f7b5def0ca79917e88fb9351aa0d52e228ee38bff7cd858315fe4"},
 ]
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
@@ -646,6 +694,10 @@ typing-extensions = [
 urllib3 = [
     {file = "urllib3-1.26.3-py2.py3-none-any.whl", hash = "sha256:1b465e494e3e0d8939b50680403e3aedaa2bc434b7d5af64dfd3c958d7f5ae80"},
     {file = "urllib3-1.26.3.tar.gz", hash = "sha256:de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"},
+]
+wcmatch = [
+    {file = "wcmatch-8.1.1-py3-none-any.whl", hash = "sha256:9b05ec84da6c711d14191d30c19dffba0e31cdbdaec8819e44c75c8ef83cfadc"},
+    {file = "wcmatch-8.1.1.tar.gz", hash = "sha256:7ba09191f9582e82d864829bdfbab02df46e26a46a304e57c7fe5652f07f297a"},
 ]
 xmltodict = [
     {file = "xmltodict-0.12.0-py2.py3-none-any.whl", hash = "sha256:8bbcb45cc982f48b2ca8fe7e7827c5d792f217ecf1792626f808bf41c3b86051"},
