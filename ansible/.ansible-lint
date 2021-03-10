@@ -1,5 +1,6 @@
 # -*- mode: yaml -*-
-skip_list: []
+skip_list:
+  - yaml  # Don't check by yamllint
 exclude_paths:
   - .github/
   - .venv/

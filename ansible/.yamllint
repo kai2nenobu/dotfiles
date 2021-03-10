@@ -1,4 +1,9 @@
 # -*- mode: yaml -*-
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'
+  - '.ansible-lint'
 rules:
   truthy:
     allowed-values: ['true', 'false', 'yes', 'no']
