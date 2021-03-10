@@ -1,2 +1,6 @@
-skip_list:
-  - '301'
+# -*- mode: yaml -*-
+skip_list: []
+exclude_paths:
+  - .github/
+  - .venv/
+  - logs/
