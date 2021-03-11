@@ -331,6 +331,12 @@
         icon: '%ChocolateyInstall%\lib\Emacs\tools\emacs\bin\emacs.exe,0'
         description: WSL上のEmacsを起動します。
         #appid: 'The VcXsrv Project.VcXsrv.Emacs.(null)'
+      - name: PyCharm on WSL
+        src: "cmd.exe"
+        arguments: '/c "%USERPROFILE%\utils\wsl-run.bat" pycharm'
+        directory: "%USERPROFILE%"
+        icon: '%USERPROFILE%\utils\pycharm.ico'
+        description: WSL上のPyCharmを起動します。
       - name: Google Chrome
         src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
       - name: Microsoft Edge
