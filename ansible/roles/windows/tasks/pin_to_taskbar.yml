@@ -34,6 +34,7 @@
         src: TaskBarLayout.xml.j2
         dest: '{{ sc_dir_path }}\TaskBarLayout.xml'
     - name: グループポリシーの「スタート画面のレイアウト」を有効にする
+      tags: [never]
       win_dsc:
         resource_name: cAdministrativeTemplateSetting
         policytype: User

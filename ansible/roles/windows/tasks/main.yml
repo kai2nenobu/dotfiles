@@ -157,7 +157,7 @@
     state: present
     allow_clobber: yes
 - name: Install PolicyFileEditor
-  tags: [package]
+  tags: [package, never]
   win_psmodule:
     name: PolicyFileEditor
     state: present
