@@ -42,6 +42,7 @@
         data: 1
         type: DWord
     - name: 「スタート画面のレイアウト」のレイアウトファイルを設定する
+      tags: [never]
       win_dsc:
         resource_name: cAdministrativeTemplateSetting
         policytype: User
