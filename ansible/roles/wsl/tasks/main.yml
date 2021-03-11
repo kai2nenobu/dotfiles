@@ -10,6 +10,24 @@
       options = "metadata,umask=22,fmask=11"
       mountFsTab = true
     mode: '0644'
+- name: Configure fcitx and start
+  tags: [config]
+  become: yes
+  copy:
+    dest: /etc/profile.d/wsl-fcitx-start.sh
+    mode: '0644'
+    content: |
+      if command -v fcitx-autostart >& /dev/null; then
+        # Use fcitx for IME
+        export GTK_IM_MODULE=fcitx
+        export QT_IM_MODULE=fcitx
+        export XMODIFIERS=@im=fcitx
+        export DefaultIMModule=fcitx
+        if [ $SHLVL = 1 ] ; then
+          (fcitx-autostart > /dev/null 2>&1 &)
+          xset -r 49 > /dev/null 2>&1
+        fi
+      fi
 - name: Delete a deprecated umask setting
   tags: [config, deprecated]
   become: yes
