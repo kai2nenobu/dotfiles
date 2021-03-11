@@ -6,6 +6,8 @@ on:
     paths:
       - 'docs/**'
       - 'ci/create_ansible_venv.sh'
+      - 'ansible/pyproject.toml'
+      - 'ansible/poetry.lock'
       - '.github/workflows/gh-pages.yml'
 
 jobs:
