@@ -20,6 +20,16 @@
     src: runtime-icon.sh
     dest: /etc/profile.d/runtime-icon.sh
     mode: "0644"
+- name: Keep proxy env for sudo
+  tags: [config]
+  become: yes
+  copy:
+    dest: /etc/sudoers.d/proxy_env
+    content: |
+      Defaults env_keep += "http_proxy"
+      Defaults env_keep += "https_proxy"
+      Defaults env_keep += "no_proxy"
+    mode: "0644"
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]
