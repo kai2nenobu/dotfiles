@@ -23,7 +23,7 @@
 - name: Keep proxy env for sudo
   tags: [config]
   become: yes
-  when: ansible_user != 'root'
+  when: ansible_facts.env.USER != 'root'
   copy:
     dest: /etc/sudoers.d/proxy_env
     content: |
