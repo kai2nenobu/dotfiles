@@ -23,13 +23,14 @@
 - name: Keep proxy env for sudo
   tags: [config]
   become: yes
+  when: ansible_user != 'root'
   copy:
     dest: /etc/sudoers.d/proxy_env
     content: |
       Defaults env_keep += "http_proxy"
       Defaults env_keep += "https_proxy"
       Defaults env_keep += "no_proxy"
-    mode: "0644"
+    mode: "0440"
 - name: Configure pipenv
   # Create a virtualenv for pipenv in the project directory
   tags: [config]
