@@ -335,7 +335,7 @@
         src: "cmd.exe"
         arguments: '/c "%USERPROFILE%\utils\wsl-run.bat" pycharm'
         directory: "%USERPROFILE%"
-        icon: '%USERPROFILE%\utils\pycharm.ico'
+        icon: '%USERPROFILE%\utils\pycharm.ico,0'
         description: WSL上のPyCharmを起動します。
       - name: Google Chrome
         src: 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
