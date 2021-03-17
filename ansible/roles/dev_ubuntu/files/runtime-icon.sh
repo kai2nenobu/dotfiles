@@ -1,7 +1,9 @@
 # shellcheck shell=sh
 wsl=
 if [ -d /run/WSL ]; then
-   wsl=WSL
+  wsl=WSL2
+elif [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+  wsl=WSL1
 fi
 
 docker=
