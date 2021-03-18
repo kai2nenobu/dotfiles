@@ -6,6 +6,8 @@ symlink_config_files:
   - { src: "configs/.bashrc", dest: ".bashrc" }
   - { src: "configs/.profile", dest: ".profile" }
   - { src: "configs/.profile", dest: ".zprofile" }
+  - { src: "configs/.textlintrc", dest: ".textlintrc" }
+  - { src: "configs/.prh.yml", dest: ".prh.yml" }
   - { src: "configs/.tmux.conf", dest: ".tmux.conf" }
   - src: 'configs/bat/config'
     dest: >-
