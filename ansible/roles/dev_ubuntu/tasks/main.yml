@@ -181,8 +181,15 @@
   tags: [package]
   become: yes
   npm:
-    name: prettier
+    name: "{{ item }}"
     global: yes
+  loop:
+    - prettier
+    - textlint
+    - textlint-rule-preset-ja-technical-writing
+    - textlint-rule-preset-ja-spacing
+    - textlint-rule-prh
+    - textlint-filter-rule-comments
 - name: Create a parent directory of config files
   tags: [config]
   become: no
