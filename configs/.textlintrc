@@ -3,7 +3,10 @@
     // 日本語技術文書向けプリセット
     "preset-ja-technical-writing": {
       // 文の長さを制限しない
-      "sentence-length": false
+      "sentence-length": {
+        "max": 120,
+        "severity": "warning"
+      }
     },
     // 日本語文書の空白ルールプリセット
     "preset-ja-spacing": {
