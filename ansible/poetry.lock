@@ -1,6 +1,6 @@
 [[package]]
 name = "ansible"
-version = "3.0.0"
+version = "3.1.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -11,7 +11,7 @@ ansible-base = ">=2.10.5,<2.11"
 
 [[package]]
 name = "ansible-base"
-version = "2.10.6"
+version = "2.10.7"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -428,14 +428,14 @@ pyyaml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "9127aaf5316255b0b36d43f1b256e3ee5343000e2709cdf44534a4298fe051f9"
+content-hash = "400b154c1d924bf79337b19de2c89914b9a9bf46d3abebf3d577196521be61db"
 
 [metadata.files]
 ansible = [
-    {file = "ansible-3.0.0.tar.gz", hash = "sha256:843aa807813318b0c8a6684a2895c74a4ccfb3c01d2bb41a53856b2434ebaaec"},
+    {file = "ansible-3.1.0.tar.gz", hash = "sha256:8a8faab85161f2e6d173d9e0885b1c3ab43fedf419691122e1547fb65eb982d1"},
 ]
 ansible-base = [
-    {file = "ansible-base-2.10.6.tar.gz", hash = "sha256:c6b3bc3dc83ee510357cb7afc8c557c05ce38f6b40e9bc9dab13551b2944dfd4"},
+    {file = "ansible-base-2.10.7.tar.gz", hash = "sha256:b15fa8b2dcfa613d2e7bfc8ec6524b1094d50ed29613b1fcc27237c017fe8d40"},
 ]
 ansible-lint = [
     {file = "ansible-lint-5.0.2.tar.gz", hash = "sha256:be0b7f2aa368cd33da38dfc8d7d4b26c166ea3b6db9770eeab97530533258f8e"},
