@@ -126,10 +126,6 @@ jobs:
         if: ${{ matrix.group == 'windows' }}
       - name: Copy dotfiles
         run: umask 0022 && mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
-      - name: Copy dotfiles in Windows
-        shell: powershell
-        run: Copy-Item -Recurse . "$env:USERPROFILE"
-        if: ${{ matrix.group == 'windows' }}
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
