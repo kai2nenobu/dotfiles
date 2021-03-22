@@ -95,8 +95,6 @@
       - man-db
       - manpages
       - manpages-dev
-      - nodejs
-      - npm
       - python3-pip
       - python3-setuptools
       - python3-venv
@@ -177,6 +175,24 @@
   pip:
     name: pipenv
     executable: pip3
+- name: Install node.js 14
+  become: yes
+  tags: [package]
+  block:
+    - name: Add a nodesource signing key to a keyring
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        keyring: /usr/share/keyrings/nodesource.gpg
+    - name: Add nodesource ppa repository
+      apt_repository:
+        repo: >
+          deb [signed-by=/usr/share/keyrings/nodesource.gpg]
+          https://deb.nodesource.com/node_14.x {{ ansible_facts.distribution_release }} main
+        state: present
+    - name: Install nodejs 14 package
+      apt:
+        name: nodejs
+        state: present
 - name: Install node tools
   tags: [package]
   become: yes
