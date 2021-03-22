@@ -9,7 +9,7 @@
         refspec: main
     - name: リポジトリをクローンする
       win_command: |
-        git clone --origin "{{ remote }}"--branch "{{ refspec }}" -- "{{ repo }}" "{{ dest }}"
+        git clone --origin "{{ remote }}" --branch "{{ refspec }}" -- "{{ repo }}" "{{ dest }}"
       args:
         creates: "{{ dest }}"
     - name: "{{ refspec }}の最新をプルする"
