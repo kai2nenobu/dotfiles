@@ -1,6 +1,9 @@
 - name: 前提条件を検証する
   tags: [validation]
   import_tasks: validate_precondition.yml
+- name: dotfilesリポジトリをクローン
+  tags: [repo]
+  import_tasks: win_git.yml
 - name: 環境変数を設定する
   tags: [config]
   win_environment:
