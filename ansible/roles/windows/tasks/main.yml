@@ -209,7 +209,6 @@
     - font-hackgen
     - font-hackgen-nerd
     - fzf
-    - gh
     - git
     #      - GoogleChrome
     #      - GoogleJapaneseInput
@@ -229,6 +228,12 @@
     - vcxsrv
     - vscode
     - winmerge
+- name: ghインストールする (chocolatey.org)
+  tags: [package]
+  win_chocolatey:
+    name: gh
+    state: present
+  when: ansible_facts.env.GITHUB_ACTIONS is not defined
 - name: openssh をインストール
   tags: [package]
   win_chocolatey:
