@@ -233,7 +233,7 @@
   win_chocolatey:
     name: gh
     state: present
-  when: ansible_facts.env.GITHUB_ACTIONS is not defined
+  when: lookup('env', 'GITHUB_ACTIONS') != 'true'
 - name: openssh をインストール
   tags: [package]
   win_chocolatey:
