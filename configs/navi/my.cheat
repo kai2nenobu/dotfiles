@@ -80,6 +80,18 @@ ansible-playbook --syntax-check <playbook>
 # List installed collections %ansible
 ansible-galaxy collection list -p <collection_path>
 
-; Local Variables:
-; mode: sh
-; End:
+### Mozc (fcitx)
+
+# Open fcitx configuration %fcitx
+fcitx-config-gtk3
+
+# Open the config dialog for mozc
+/usr/lib/mozc/mozc_tool --mode=config_dialog
+
+# Open the dictionary tool for mozc
+/usr/lib/mozc/mozc_tool --mode=config_dialog
+
+
+# Local Variables:
+# mode: sh
+# End:
