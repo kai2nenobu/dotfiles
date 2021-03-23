@@ -2,6 +2,7 @@
 *.log
 host_vars/*.yml
 group_vars/all/zz_private.yml
+collections/
 
 logs/*
 !logs/.gitkeep
