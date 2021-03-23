@@ -3,6 +3,9 @@
 # Sample Snippet
 echo "Sample <variable>!"
 
+# Pull multiple git repositories %bash
+for repo in dotfiles .emacs.d; do cd ~/$repo && printf '\e[1;32m%s\e[m\n' "${PWD}: $(git status | head -2 | sed ':a; N; $!ba; s/\n/; /g')" && git pull --rebase --autostash; done
+
 # Test a SSL handshake %openssl
 openssl s_client -connect <server>:<port> -showcerts
 
