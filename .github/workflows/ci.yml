@@ -87,7 +87,7 @@ jobs:
           - group: windows
             distribution: Ubuntu-20.04
     env:
-      WSLENV: ANSIBLE_LOG_PATH/up
+      WSLENV: ANSIBLE_LOG_PATH/up:GITHUB_ACTIONS
       ANSIBLE_LOG_PATH: >-
         ${{ github.workspace }}\ansible\logs\ansible-${{ matrix.group }}-${{ matrix.distribution }}.log
     defaults:
