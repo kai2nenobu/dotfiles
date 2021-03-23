@@ -176,7 +176,7 @@
   set_fact:
     pwsh_exe: 'C:\Program Files\PowerShell\7\pwsh.exe'
 - name: PSGalleryを信頼する
-  tags: [package]
+  tags: [package, never]
   # TODO: すでにTrustedの場合は実行しないようにしたい
   win_command: >-
     "{{ pwsh_exe }}" -NoProfile -Command
