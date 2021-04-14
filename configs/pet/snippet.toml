@@ -155,12 +155,12 @@ origin/master
 
 [[snippets]]
   description = "Replace ubuntu apt repository servers to mirror servers"
-  command = 'sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list'
+  command = 'sed -i.bak "s@http://archive.ubuntu.com/ubuntu/\?@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list'
   tag = ["ubuntu", "apt"]
   output =""
 
 [[snippets]]
   description = "Pull multiple git repositories in bash"
-  command = """for repo in dotfiles .emacs.d; do cd ~/$repo && printf '\e[1;32m%s\e[m\n' "${PWD}: $(git status | head -2 | sed ':a; N; $!ba; s/\n/; /g')" && git pull --rebase --autostash; done"""
+  command = '''for repo in dotfiles .emacs.d; do cd ~/$repo && printf '\e[1;32m%s\e[m\n' "${PWD}: $(git status | head -2 | sed ':a; N; $!ba; s/\n/; /g')" && git pull --rebase --autostash; done'''
   tag = ["bash", "git"]
   output = ""
