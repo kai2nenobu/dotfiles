@@ -11,13 +11,14 @@ GLOBAL_HOOKS="${HOOK_ROOT}/${HOOK_NAME}.d"
 
 run_local_hook() {
   if [ -x "$LOCAL_HOOK" ]; then
-    debug ">> Run $(basename "$LOCAL_HOOK")"
+    debug ">> Run ${LOCAL_HOOK}"
     "$LOCAL_HOOK" "$@"
   fi
 }
 
 run_repo_hook() {
   if [ -x "$REPO_HOOK" ]; then
+    debug ">> Run ${REPO_HOOK}"
     "$REPO_HOOK" "$@"
   fi
 }
@@ -25,7 +26,7 @@ run_repo_hook() {
 run_global_hooks() {
   find "$GLOBAL_HOOKS" -type f | while read -r hook; do
     if [ -x "$hook" ]; then
-      debug ">> Run $(basename "$hook")"
+      debug ">> Run ${hook})"
       "$hook" "$@"
     fi
   done
