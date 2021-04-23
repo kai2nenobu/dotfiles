@@ -11,9 +11,9 @@
     // 日本語文書の空白ルールプリセット
     "preset-ja-spacing": {
       "ja-space-around-code": {
-        "before": true,
-        "after": true
-      }
+        "before": false,
+        "after": false
+      },
     },
     // 辞書による表記揺れチェック
     "prh": {
