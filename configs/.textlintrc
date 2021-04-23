@@ -6,7 +6,8 @@
       "sentence-length": {
         "max": 120,
         "severity": "warning"
-      }
+      },
+      "no-exclamation-question-mark": false
     },
     // 日本語文書の空白ルールプリセット
     "preset-ja-spacing": {
@@ -14,6 +15,8 @@
         "before": false,
         "after": false
       },
+      "ja-space-after-question": false,
+      "ja-space-after-exclamation": false
     },
     // 辞書による表記揺れチェック
     "prh": {
