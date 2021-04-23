@@ -89,6 +89,15 @@ function pet_insert {
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+p' -ScriptBlock { pet_insert }
 
+function navi_snippet {
+  $commandLine = (navi --print)
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+  if (-not [string]::IsNullOrEmpty($commandLine)) {
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($commandLine)
+  }
+}
+Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+n' -ScriptBlock { navi_snippet }
+
 function ghq_set_location {
   ghq list --full-path `
     | Invoke-Fzf -Layout reverse -Info inline -Height 20 -Exit0 `
