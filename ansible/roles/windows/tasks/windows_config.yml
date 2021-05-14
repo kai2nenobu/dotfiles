@@ -73,3 +73,11 @@
       key: HKCU:\Software\Microsoft\Internet Explorer\MINIE
       value: LinksBandEnabled
       data: 1
+    - description: Outlook：会議出席依頼のメール形式をHTMLにする
+      # ref. https://docs.microsoft.com/ja-jp/archive/blogs/lync_support_team_blog_japan/outlook-2016urlmissing
+      key: HKCU:\SOFTWARE\Microsoft\Office\16.0\Outlook\Options\Calendar
+      value: CalendarEditorPreference
+      # 0x00030000 (リッチテキスト形式)
+      # 0x00020000 (HTML 形式)
+      # 0x00010000 (テキスト形式)
+      data: 0x00020000
