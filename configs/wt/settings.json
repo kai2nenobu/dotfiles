@@ -26,6 +26,7 @@
     {
         "defaults": 
         {
+            "bellStyle": "visual",
             "fontFace": "HackGenNerd Console",
             "fontSize": 14
         },
