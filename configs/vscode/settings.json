@@ -19,8 +19,18 @@
   // 統合ターミナルにPowerShell Coreを使用する
   "terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
   // Remote Development
-  "remote.SSH.defaultExtensions": ["lfs.vscode-emacs-friendly"],
-  "remote.containers.defaultExtensions": ["lfs.vscode-emacs-friendly"],
+  "remote.SSH.defaultExtensions": [
+    "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
+    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
+    "eamodio.gitlens", // GitLens
+    "ms-azuretools.vscode-docker" // Docker
+  ],
+  "remote.containers.defaultExtensions": [
+    "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
+    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
+    "eamodio.gitlens", // GitLens
+    "ms-azuretools.vscode-docker" // Docker
+  ],
   "remote.WSL.defaultExtensions": [
     // 2020-02-14 時点でこんな設定はないようだ
     "lfs.vscode-emacs-friendly"
@@ -34,7 +44,8 @@
     "visualstudioexptteam.vscodeintellicode",
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
     "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
-    "eamodio.gitlens" // GitLens
+    "eamodio.gitlens", // GitLens
+    "ms-azuretools.vscode-docker" // Docker
   ],
   "git.autofetch": true,
   "git.confirmSync": false
