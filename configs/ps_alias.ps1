@@ -64,3 +64,8 @@ $tool_hash.Keys | ForEach-Object {
     $input | & $exe @opts $args
   }
 }
+
+# zoxide integration
+if (Get-Command -ea SilentlyContinue zoxide) {
+  Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook) -join "`n" })
+}
