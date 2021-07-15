@@ -37,7 +37,7 @@ win_write_clipboard() {
 }
 
 win_read_clipboard() {
-  powershell.exe -Sta "Add-Type -as System.Windows.Forms; [System.Console]::Write([windows.forms.clipboard]::GetText())" 2> /dev/null
+  powershell.exe -NoProfile -Sta "Add-Type -as System.Windows.Forms; [System.Console]::Write([windows.forms.clipboard]::GetText())" 2> /dev/null
 }
 
 ## xsel
