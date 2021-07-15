@@ -1,0 +1,13 @@
+% azure, cli
+
+# List all accounts
+az account list
+
+# Change (Switch) an accounts
+az account set
+
+# List all locations (regions)
+az account list-locations
+
+# Create virtual machine(s)
+az vm create
