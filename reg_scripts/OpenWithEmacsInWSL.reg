@@ -1,0 +1,21 @@
+Windows Registry Editor Version 5.00
+
+;;;; Add context menu item to open with emacs
+
+;; For files
+[HKEY_CURRENT_USER\Software\Classes\*\shell\OpenWithEmacsInWSL]
+@="Open with Emacs in WSL (&E)"
+[HKEY_CURRENT_USER\Software\Classes\*\shell\OpenWithEmacsInWSL\command]
+@="C:\\path\\to\\wsl-emacsclient.bat \"%1\""
+
+;; For directories
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\OpenWithEmacsInWSL]
+@="Open with Emacs in WSL (&E)"
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\OpenWithEmacsInWSL\command]
+@="C:\\path\\to\\wsl-emacsclient.bat \"%L\""
+
+;; For explorer background
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\OpenWithEmacsInWSL]
+@="Open with Emacs (&E)"
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\OpenWithEmacsInWSL\command]
+@="C:\\path\\to\\wsl-emacsclient.bat \"%V\""
