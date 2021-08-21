@@ -31,5 +31,13 @@
         "key": "Ctrl+k",
         "command": "Ctrl+k",
         "when": "terminalFocus"
+    },
+    {
+        "key": "Ctrl+Alt+m",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "F12",
+        "command": "workbench.action.focusFirstEditorGroup"
     }
 ]
