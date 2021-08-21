@@ -9,13 +9,14 @@
   "files.autoSaveDelay": 500,
   "editor.fontSize": 15,
   "editor.renderWhitespace": "boundary",
-  "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
+  "editor.fontFamily": "'HackGenNerd', Consolas, 'Courier New', monospace",
   "editor.mouseWheelZoom": true,
   /* デフォルト言語をmarkdownにする */
   "files.defaultLanguage": "markdown",
   "files.associations": {
     "*.tmp": "markdown"
   },
+  "terminal.integrated.fontFamily": "'PlemolJP Console NF', 'HackGenNerd Console'",
   // 統合ターミナルにPowerShell Coreを使用する
   "terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
   // Remote Development
