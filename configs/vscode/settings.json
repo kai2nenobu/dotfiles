@@ -37,16 +37,11 @@
     "lfs.vscode-emacs-friendly"
   ],
   // Codespaces
-  "codespaces.accountProvider": "GitHub",
-  "codespaces.defaultExtensions": [
-    "ms-vsonline.vsonline",
+  "github.codespaces.defaultExtensions": [
     "GitHub.vscode-pull-request-github",
-    "ms-vsliveshare.vsliveshare",
-    "visualstudioexptteam.vscodeintellicode",
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
     "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
     "eamodio.gitlens", // GitLens
-    "ms-azuretools.vscode-docker" // Docker
   ],
   "git.autofetch": true,
   "git.confirmSync": false
