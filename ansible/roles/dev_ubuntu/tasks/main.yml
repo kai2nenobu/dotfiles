@@ -149,12 +149,12 @@
   when: item.condition | default(true)
   loop:
     # ripgrep
-    - url: https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+    - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
     # delta
-    - url: https://github.com/dandavison/delta/releases/download/0.7.1/git-delta_0.7.1_amd64.deb
+    - url: https://github.com/dandavison/delta/releases/download/0.8.3/git-delta_0.8.3_amd64.deb
       condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # bat
-    - url: https://github.com/sharkdp/bat/releases/download/v0.18.0/bat_0.18.0_amd64.deb
+    - url: https://github.com/sharkdp/bat/releases/download/v0.18.2/bat_0.18.2_amd64.deb
     # fzf
     - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
 - import_tasks: install_ghq.yml
@@ -162,11 +162,11 @@
   tags: [package]
   loop:
     - name: HackGen
-      version: v2.3.2
-      checksum: sha256:e3341b88e9e2f171fd7e07812c72097b5fdf30ccd6351751fe57b6c8d3926a1b
+      version: v2.5.1
+      checksum: sha256:045976c44cb44acbc1bc6e40bbfe0203710f21b493d97ef004fe420b60ec4c05
     - name: HackGenNerd
-      version: v2.3.2
-      checksum: sha256:f685accfa35ecc3e1a6927270e16d800b3b1c4527871cb3efca1e84651ff16e9
+      version: v2.5.1
+      checksum: sha256:99a5fdc5e532624200c6dcd169264537783123951a66969ae47a76656c642698
   loop_control:
     loop_var: font
 - name: Install pip tools
