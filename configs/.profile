@@ -56,14 +56,6 @@ export EXPERIMENT_MAIL='kai@gavo.t.u-tokyo.ac.jp'
 export LESS='-R'
 #export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
-fi
-
 # if pyenv is installed
 if [ -e "$HOME/.pyenv/bin/pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
@@ -93,6 +85,14 @@ fi
 
 if command -v starship &> /dev/null; then
   eval "$(starship init bash)"
+fi
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
 fi
 
 echo "Load .profile"
