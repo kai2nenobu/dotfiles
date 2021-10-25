@@ -94,6 +94,17 @@ fcitx-config-gtk3
 # Open the dictionary tool for mozc
 /usr/lib/mozc/mozc_tool --mode=config_dialog
 
+### PowerShell
+
+# Select the first item %powershell
+Select-Object -First 1
+
+# foreach loop for piped objects %powershell
+% { <command> $_ }
+
+# filter piped objects %powershell
+? { <command> $_ }
+
 
 # Local Variables:
 # mode: sh
