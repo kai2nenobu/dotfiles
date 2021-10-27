@@ -16,6 +16,15 @@
   "files.associations": {
     "*.tmp": "markdown"
   },
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "args": [
+        "-l" // ログインシェルにする
+      ]
+    }
+  },
   "terminal.integrated.fontFamily": "'PlemolJP Console NF', 'HackGenNerd Console'",
   // 統合ターミナルにPowerShell Coreを使用する
   "terminal.integrated.defaultProfile.windows": "PowerShell Core",
