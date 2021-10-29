@@ -11,3 +11,6 @@ az account list-locations
 
 # Create virtual machine(s)
 az vm create
+
+# List the VM/VMSS images available in the Azure Marketplace
+az vm image list
