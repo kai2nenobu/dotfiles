@@ -69,3 +69,17 @@ $tool_hash.Keys | ForEach-Object {
 if (Get-Command -ea SilentlyContinue zoxide) {
   Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook) -join "`n" })
 }
+
+# exa integration
+if (Get-Command -ea SilentlyContinue exa) {
+  Set-Alias -Force -Name ls -Value exa
+  function l() {
+    exa -aF $args
+  }
+  function lt() {
+    exa -aF --tree --icons $args
+  }
+  function ll() {
+    exa -alhF --icons $args
+  }
+}
