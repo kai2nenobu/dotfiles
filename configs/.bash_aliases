@@ -203,7 +203,7 @@ fi
 if type exa &> /dev/null; then
   alias ls='exa'
   alias l='exa -aF'
-  alias lt='exa -aF --tree --icons'
+  alias lt='exa -aF --tree --icons --color=always'
   alias ll='exa -alhF --icons'
 fi
 
