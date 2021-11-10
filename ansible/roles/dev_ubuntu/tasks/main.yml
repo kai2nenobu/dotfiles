@@ -148,6 +148,9 @@
     deb: "{{ item.url }}"
   when: item.condition | default(true)
   loop:
+    # exa
+    - url: http://mirrors.kernel.org/ubuntu/pool/universe/r/rust-exa/exa_0.9.0-4_amd64.deb
+      condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # ripgrep
     - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
     # delta
