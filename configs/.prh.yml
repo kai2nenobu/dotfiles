@@ -27,6 +27,8 @@ rules:
         to: JavaScript
   - expected: GitHub
   - expected: GitLab
+  - expected: Red Hat
+    pattern: /redhat/i
 ## 漢字の開き
   - expected: ください
     pattern: 下さい
