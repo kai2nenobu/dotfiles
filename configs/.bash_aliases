@@ -199,6 +199,14 @@ if type powershell &> /dev/null && type cygpath &> /dev/null; then
   }
 fi
 
+# Replace ls by exa
+if type exa &> /dev/null; then
+  alias ls='exa'
+  alias l='exa -aF'
+  alias lt='exa -aF --tree --icons'
+  alias ll='exa -alhF --icons'
+fi
+
 # system specific aliases
 case $(uname -o) in
   "Cygwin")
