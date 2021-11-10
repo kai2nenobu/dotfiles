@@ -185,20 +185,6 @@ if type winpty &> /dev/null; then
   alias kotlinc='winpty kotlinc.bat'
 fi
 
-if type powershell &> /dev/null && type cygpath &> /dev/null; then
-  function sudo-bash() {
-    argList=$(printf ",'%s'" "$@")
-    argList=${argList:1}
-    powershell -NoProfile -Command "Start-Process '$(cygpath -am /)/bin/bash' -ArgumentList $argList -Verb runas"
-  }
-
-  function sudo-sh() {
-    argList=$(printf ",'%s'" "$@")
-    argList=${argList:1}
-    powershell -NoProfile -Command "Start-Process '$(cygpath -am /)/bin/sh' -ArgumentList $argList -Verb runas"
-  }
-fi
-
 # Replace ls by exa
 if type exa &> /dev/null; then
   alias ls='exa'
@@ -298,21 +284,6 @@ install-pyenv-dependencies() {
        make build-essential libssl-dev zlib1g-dev libbz2-dev \
        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
        xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-}
-
-# project specific .gitignore
-function ignore-gradle() {
-  cat <<EOF
-/bin/
-/build/
-/target/
-/.gradle/
-
-# Eclipse
-/.classpath
-/.project
-/.settings/
-EOF
 }
 
 echo "Load .bash_aliases."
