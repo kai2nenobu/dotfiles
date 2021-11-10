@@ -272,7 +272,7 @@ install-git-secrets() {
 }
 install-ghq() {
   local location=~/.local/bin
-  local version=1.1.4
+  local version=1.2.1
   local zip=$(mktemp)
   mkdir -p "$location"
   curl -L -o "$zip" "https://github.com/x-motemen/ghq/releases/download/v${version}/ghq_linux_amd64.zip"
