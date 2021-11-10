@@ -74,6 +74,9 @@ sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirr
 
 ### Ansible
 
+# Apply a single module
+ansible -i <hosts_file> <target> -m <module> -a <module_arguments>
+
 # Apply a playbook %ansible
 ansible-playbook -i <hosts_file> <playbook>
 
