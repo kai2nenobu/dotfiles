@@ -54,6 +54,12 @@ Set-PSReadLineOption -AddToHistoryHandler {
   param($line)
   $line -notmatch '^\s+|AsPlainText'
 }
+if ((Get-Module -Name PSReadLine).Version -ge [System.Version]"2.1.0") {
+  # https://docs.microsoft.com/en-us/powershell/scripting/whats-new/what-s-new-in-powershell-72?view=powershell-7.2#psreadline-21-predictive-intellisense
+  # fish風のオートサジェスト機能を有効にする
+  Set-PSReadLineOption -PredictionSource History
+}
+
 
 ## Load aliases
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
