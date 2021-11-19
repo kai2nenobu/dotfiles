@@ -44,7 +44,10 @@ function remove_win_ps_modules {
 }
 remove_win_ps_modules
 
+## PSReadLine
 Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineKeyHandler -Key "Ctrl+/" -Function Undo
+Set-PSReadLineKeyHandler -Key "Ctrl+i" -Function Complete
 Set-PSReadLineOption -HistoryNoDuplicates:$True
 # Don't save space-prefixed commands. ref: https://github.com/PowerShell/PowerShell/issues/10403#issuecomment-523833700
 Set-PSReadLineOption -AddToHistoryHandler {
