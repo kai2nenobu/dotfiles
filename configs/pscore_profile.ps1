@@ -69,7 +69,7 @@ function Enable-Proxy {
   $url = 'http://localhost:8888'
   $env:http_proxy = $url
   $env:https_proxy = $url
-  $env:no_proxy = 'localhost'
+  $env:no_proxy = '127.0.0.1,localhost,kubernetes.docker.internal'
   $PSDefaultParameterValues = @{ "*:Proxy"=$url }
 }
 
