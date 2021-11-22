@@ -46,6 +46,10 @@ function gam() {
 Set-Alias d docker
 Set-Alias dc docker-compose
 Set-Alias dm docker-machine
+Set-Alias kc kubectl
+
+# Terraform
+Set-Alias tf terraform
 
 ## Unix tools
 $GIT_DIR = 'C:\Program Files\Git'
