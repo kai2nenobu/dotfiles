@@ -48,7 +48,7 @@ alias dm='docker-machine'
 alias dc='docker-compose'
 
 # kubernetes aliases
-alias kubectl='kc'
+alias kc='kubectl'
 
 ## 指定したdocker-machineを起動すると、共に環境変数を設定する
 function docker-env() {
