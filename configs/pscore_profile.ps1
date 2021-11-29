@@ -141,6 +141,29 @@ function fzf_integration {
 
 fzf_integration
 
+## Integrate with tfenv
+if (Test-Path -LiteralPath "${env:USERPROFILE}/.tfenv/bin/tfenv") {
+  function global:terraform {
+    # Environment level
+    $tfversion = $env:TFENV_TERRAFORM_VERSION
+    if (-not $tfversion) {
+      # Project level
+      $tfversion = Get-Content -ea SilentlyContinue "${PWD}/.terraform-version"
+      if (-not $tfversion) {
+        # User level
+        $tfversion = Get-Content -ea SilentlyContinue "${env:USERPROFILE}/.tfenv/version"
+      }
+    }
+    if ($tfversion) {
+      $tf_exec = "${env:USERPROFILE}/.tfenv/versions/${tfversion}/terraform.exe"
+    } else {
+      # Fallback to the terraform in PATH
+      $tf_exec = Get-Command -ea Stop -Name terraform -CommandType Application
+    }
+    &"$tf_exec" $Args
+  }
+}
+
 # Import-Module posh-git
 # Import-Module oh-my-posh
 # Set-Theme Paradox
