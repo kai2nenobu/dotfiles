@@ -55,9 +55,11 @@ Set-Alias tf terraform
 $GIT_DIR = 'C:\Program Files\Git'
 # コマンド名とオプションの連想配列
 $tool_hash = @{
+  find = @();
   grep = @('--color');
-  head = @()
-  tail = @()
+  head = @();
+  sed = @();
+  tail = @();
 }
 $tool_hash.Keys | ForEach-Object {
   ## 動的に関数定義
