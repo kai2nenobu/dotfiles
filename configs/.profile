@@ -82,6 +82,10 @@ if [ -e "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
+if [ -x "$HOME/.tfenv/bin/tfenv" ]; then
+  export PATH="$HOME/.tfenv/bin:$PATH"
+fi
+
 if command -v starship &> /dev/null; then
   eval "$(starship init bash)"
 fi
