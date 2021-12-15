@@ -216,6 +216,7 @@
     - less
     - lxrunoffline
     - microsoft-edge
+    - navi
     - peco
     - ripgrep
     - sakuraeditor
@@ -253,6 +254,7 @@
   loop:
     - a5m2
     - cmigemo
+    - exa
     - ghq
     - mozc-emacs-helper
     - nkf
