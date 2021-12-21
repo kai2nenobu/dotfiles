@@ -69,6 +69,18 @@ foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${P
 # List all branches without marker %git
 git branch -a --format="%(refname:short)"
 
+# Checkout to my branch %git
+git checkout <local_branch>
+
+# Newly checkout to a remote branch %git
+git switch -c <remote_branch> origin/<remote_branch>
+
+# Push a branch to remote in the first time %git
+git push -u origin <local_branch>
+
+$ local_branch: git branch --format "%(refname:short)"
+$ remote_branch: git branch -r --format "%(refname:lstrip=3)"
+
 # Replace ubuntu apt repository servers to mirror servers %ubuntu %apt
 sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list
 
@@ -107,7 +119,6 @@ Select-Object -First 1
 
 # filter piped objects %powershell
 ? { <command> $_ }
-
 
 # Local Variables:
 # mode: sh
