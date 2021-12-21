@@ -99,11 +99,24 @@ function pet_insert {
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+p' -ScriptBlock { pet_insert }
 
 function navi_snippet {
-  $commandLine = (navi --print)
-  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
-  if (-not [string]::IsNullOrEmpty($commandLine)) {
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($commandLine)
+  $input = $null
+  [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$input, [ref]$null)
+
+  $last_command = ("$input" | navi fn widget::last_command) -join ""
+  if ([string]::IsNullOrEmpty($last_command)) {
+    $output = (navi --print)
+  } else {
+    $find = "${last_command}_NAVIEND"
+    $replacement = (navi --print --query "$last_command")
+    $output = $input
+    if (-not [string]::IsNullOrEmpty($replacement)) {
+      $output = "${input}_NAVIEND"
+      $output = $output.Replace($find, $replacement)
+    }
   }
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
+  [Microsoft.PowerShell.PSConsoleReadLine]::Delete(0, $input.Length)
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert($output)
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+n' -ScriptBlock { navi_snippet }
 
