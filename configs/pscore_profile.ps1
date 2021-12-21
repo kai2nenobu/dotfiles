@@ -98,7 +98,7 @@ function pet_insert {
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+p' -ScriptBlock { pet_insert }
 
-function navi_snippet {
+function _navi_widget {
   $input = $null
   [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$input, [ref]$null)
 
@@ -118,7 +118,7 @@ function navi_snippet {
   [Microsoft.PowerShell.PSConsoleReadLine]::Delete(0, $input.Length)
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert($output)
 }
-Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+n' -ScriptBlock { navi_snippet }
+Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+n' -ScriptBlock { _navi_widget }
 
 function ghq_set_location {
   ghq list --full-path `
