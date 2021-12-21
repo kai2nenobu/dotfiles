@@ -115,8 +115,10 @@ function _navi_widget {
     }
   }
   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt
-  [Microsoft.PowerShell.PSConsoleReadLine]::Delete(0, $input.Length)
-  [Microsoft.PowerShell.PSConsoleReadLine]::Insert($output)
+  if (-not [string]::IsNullOrEmpty($output)) {
+    [Microsoft.PowerShell.PSConsoleReadLine]::Delete(0, $input.Length)
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($output)
+  }
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+n' -ScriptBlock { _navi_widget }
 
