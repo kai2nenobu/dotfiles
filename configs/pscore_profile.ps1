@@ -101,7 +101,11 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+p' -ScriptBlock { pet_insert }
 function _navi_widget {
   $in = $null
   [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$in, [ref]$null)
-  $last_command = ("$in" | navi fn widget::last_command) -join ""
+  if ([string]::IsNullOrEmpty($in)) {
+    $last_command = ""
+  } else {
+    $last_command = ("$in" | navi fn widget::last_command) -join ""
+  }
   if ([string]::IsNullOrEmpty($last_command)) {
     $output = (navi --print)
   } else {
