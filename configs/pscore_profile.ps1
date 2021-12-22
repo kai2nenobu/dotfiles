@@ -113,7 +113,7 @@ function _navi_widget {
     $replacement = (navi --print --query "$last_command")
     $output = $in
     if (-not [string]::IsNullOrEmpty($replacement)) {
-      $output = "${line}_NAVIEND"
+      $output = "${in}_NAVIEND"
       $output = $output.Replace($find, $replacement)
     }
   }
