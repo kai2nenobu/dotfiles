@@ -22,7 +22,7 @@
     - name: "FZF_DEFAULT_OPTS"
       value: >-
         --exact --reverse --inline-info
-        --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up"
+        --bind "ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up,ctrl-space:toggle+down"
     - name: GIT_SSH
       value: 'C:\Program Files\OpenSSH-Win64\ssh.exe'
     - { name: "HOME", value: "{{ ansible_facts.env.USERPROFILE }}" }
