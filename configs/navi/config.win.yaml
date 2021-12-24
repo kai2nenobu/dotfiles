@@ -1,8 +1,11 @@
 style:
   tag:
     color: cyan
+    width_percentage: 15
+    min_width: 10
   comment:
     color: yellow
+    width_percentage: 40
   snippet:
     color: green
 
