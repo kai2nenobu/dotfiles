@@ -120,7 +120,7 @@ foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${P
 Select-Object -First 1
 
 # foreach loop for piped objects
-% { <command> $_ }
+ % { <command> $_ }
 
 # filter piped objects
 ? { <command> $_ }
