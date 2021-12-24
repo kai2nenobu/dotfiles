@@ -74,8 +74,19 @@ git switch -c <remote_branch> origin/<remote_branch>
 # Push a branch to remote in the first time
 git push -u origin <local_branch>
 
+# List all ignored files
+git ls-files --ignored --others --exclude-standard
+
+# List all files which are ignored but tracked
+git ls-files --ignored --cached --exclude-standard
+
+# Check files are ignored and where exclude rule sources are
+git check-ignore --verbose <git_files>
+
+
 $ local_branch: git branch --format "%(refname:short)"
 $ remote_branch: git branch -r --format "%(refname:lstrip=3)"
+$ git_files: git ls-files --- --multi
 
 % my, ansible
 
