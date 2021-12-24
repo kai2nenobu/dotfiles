@@ -55,4 +55,4 @@ symlink_config_dirs:
   - { src: "utils", dest: "utils" }
   - { src: "configs/git/hooks", dest: ".config/git/hooks" }
   - src: "configs/navi/cheats"
-    dest: "{{ is_windows | ternary('AppData/Roaming', '.config') }}/navi/cheats/dotfiles"
+    dest: "{{ is_windows | ternary('AppData/Roaming', '.local/share') }}/navi/cheats/dotfiles"
