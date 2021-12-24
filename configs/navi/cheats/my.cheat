@@ -116,7 +116,7 @@ Set-Date ([datetime]'1970/01/01 09:00:00').AddSeconds((Invoke-RestMethod -Uri ht
 # Pull multiple git repositories
 foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${PWD}: $(git status | Select-Object -First 2 | Join-String -Separator ': ')" -ForegroundColor Green; git pull --rebase --autostash }
 
-# Select the first item
+# Select the first item like head command
 Select-Object -First 1
 
 # foreach loop for piped objects
