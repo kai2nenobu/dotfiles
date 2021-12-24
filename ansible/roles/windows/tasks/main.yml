@@ -196,9 +196,6 @@
     state: present
   loop:
     - 7zip
-    - adoptopenjdk
-    - adoptopenjdk11
-    - adoptopenjdk8
     - autohotkey.portable
     - bat
     - cmdermini
@@ -224,6 +221,8 @@
     - sakuraeditor
     - starship
     - sysinternals
+    - temurin17
+    - temurin8
     - vcxsrv
     - vscode
     - winmerge
