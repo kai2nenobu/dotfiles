@@ -1,0 +1,19 @@
+style:
+  tag:
+    color: cyan
+  comment:
+    color: yellow
+  snippet:
+    color: green
+
+finder:
+  command: fzf # equivalent to the --finder option
+
+#cheats:
+  #path: /home/70340930/dotfiles/configs/navi:/home/70340930/.local/share/navi/cheats
+
+# search:
+  # tags: git,!checkout # equivalent to the --tag-rules option
+
+shell:
+  command: cmd.exe

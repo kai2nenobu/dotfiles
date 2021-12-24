@@ -11,6 +11,8 @@ symlink_config_files:
     condition: "{{ not is_windows }}"
   - { src: "configs/.prh.yml", dest: ".prh.yml" }
   - { src: "configs/.tmux.conf", dest: ".tmux.conf" }
+  - src: "configs/navi/config{{ is_windows | ternary('.win', '') }}.yaml"
+    dest: "{{ is_windows | ternary('AppData/Roaming', '.config') }}/navi/config.yaml"
   - src: 'configs/bat/config'
     dest: >-
       {{ is_windows | ternary( 'AppData/Roaming/bat/config', '.config/bat/config') }}
@@ -52,3 +54,5 @@ symlink_config_dirs:
   - { src: "configs/.bash.d", dest: ".bash.d" }
   - { src: "utils", dest: "utils" }
   - { src: "configs/git/hooks", dest: ".config/git/hooks" }
+  - src: "configs/navi/cheats"
+    dest: "{{ is_windows | ternary('AppData/Roaming', '.config') }}/navi/cheats/dotfiles"
