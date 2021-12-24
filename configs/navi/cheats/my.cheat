@@ -6,26 +6,11 @@ echo "Sample <variable>!"
 # Pull multiple git repositories %bash
 for repo in dotfiles .emacs.d; do cd ~/$repo && printf '\e[1;32m%s\e[m\n' "${PWD}: $(git status | head -2 | sed ':a; N; $!ba; s/\n/; /g')" && git pull --rebase --autostash; done
 
-# Test a SSL handshake %openssl
-openssl s_client -connect <server>:<port> -showcerts
-
-# Calculate a message digest with HMAC algorithm %openssl
-openssl dgst -hex -sha256 -hmac "Key of MAC" <files>
-
-# Connect to MySQL Server %mysql
-mysql --host "<hostname>" --user "<user>" --password <password> "<database>"
-
-# Execute SQL query %mysql
-mysql --host "<hostname>" --user "<user>" --password <password> -e "<query>" "<database>"
+# Replace ubuntu apt repository servers to mirror servers %ubuntu %apt
+sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list
 
 # chocolateyのソースリポジトリを追加する %chocolatey
 choco source add --name "name" --source "url"
-
-# コマンド置換/Command substitution %cmd
- @for /f "usebackq tokens=1 delims=" %i in (`<command>`) do <next_command>
-
-# Read a password with mask %cmd
- @for /f "usebackq delims=" %i in (`powershell -Command "$p = Read-Host '<prompt=Enter password>' -AsSecureString; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($p); $p = [Runtime.InteropServices.Marshal]::PtrToStringAuto($p); echo $p"`) do @set PASS=%i
 
 # Add UTF-8 BOM by sed
 sed -b '1s/^\\(\\xef\\xbb\\xbf\\)\\?/\\xef\\xbb\\xbf/' "file"
@@ -36,26 +21,11 @@ sed -b '1s/^\\(\\xef\\xbb\\xbf\\)//' "file-with-bom"
 # Register an additional public key (-f option is required) %ssh
 ssh-copy-id -f -i \"<newly_register_key.pub>\" -o \"IdentityFile <already_registered_key.pub>\" <remote_host>
 
-# Show security protocol (SSL/TLS) %powershell
-[Net.ServicePointManager]::SecurityProtocol
-
-# Allow only restricted security protocol (SSL/TLS) %powershell
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
-
-# Enable the local proxy %cmd
-set "http_proxy=http://localhost:8888" && set "https_proxy=http://localhost:8888" && set "no_proxy=localhost"
-
-# Enable the local proxy %powershell
- $env:http_proxy = 'http://localhost:8888'; $env:https_proxy = 'http://localhost:8888'; $env:no_proxy = 'localhost'; [System.Net.WebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy('http://localhost:8888')
-
 # Enable the local proxy %bash
 export http_proxy=http://localhost:8888 && export https_proxy=http://localhost:8888 && export no_proxy=localhost
 
 # Delete a ssh server entry in ~/.ssh/known_hosts %ssh
 ssh-keygen -R "<hostname>"
-
-# Sync machine time with NICT API (in JST) %powershell
-Set-Date ([datetime]'1970/01/01 09:00:00').AddSeconds((Invoke-RestMethod -Uri https://ntp-a1.nict.go.jp/cgi-bin/json).st)
 
 # Fetch emoji list %console %emoji %console
 curl "https://unicode.org/Public/emoji/<version>/emoji-test.txt"
@@ -63,44 +33,67 @@ curl "https://unicode.org/Public/emoji/<version>/emoji-test.txt"
 # Transfer the directory via ssh %ssh
 tar zcf - \"<dir>\" | ssh \"<host>\" tar zxvf -
 
-# Pull multiple git repositories %powerShell
-foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${PWD}: $(git status | Select-Object -First 2 | Join-String -Separator ': ')" -ForegroundColor Green; git pull --rebase --autostash }
+% my, openssl
 
-# List all branches without marker %git
+# Test a SSL handshake
+openssl s_client -connect <server>:<port> -showcerts
+
+# Calculate a message digest with HMAC algorithm
+openssl dgst -hex -sha256 -hmac "Key of MAC" <files>
+
+% my, mysql
+
+# Connect to MySQL Server
+mysql --host "<hostname>" --user "<user>" --password <password> "<database>"
+
+# Execute SQL query
+mysql --host "<hostname>" --user "<user>" --password <password> -e "<query>" "<database>"
+
+% my, cmd
+
+# コマンド置換/Command substitution
+ @for /f "usebackq tokens=1 delims=" %i in (`<command>`) do <next_command>
+
+# Read a password with mask
+ @for /f "usebackq delims=" %i in (`powershell -Command "$p = Read-Host '<prompt=Enter password>' -AsSecureString; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($p); $p = [Runtime.InteropServices.Marshal]::PtrToStringAuto($p); echo $p"`) do @set PASS=%i
+
+# Enable the local proxy %cmd
+set "http_proxy=http://localhost:8888" && set "https_proxy=http://localhost:8888" && set "no_proxy=localhost"
+
+% my, git
+
+# List all branches without marker
 git branch -a --format="%(refname:short)"
 
-# Checkout to my branch %git
+# Checkout to my branch
 git checkout <local_branch>
 
-# Newly checkout to a remote branch %git
+# Newly checkout to a remote branch
 git switch -c <remote_branch> origin/<remote_branch>
 
-# Push a branch to remote in the first time %git
+# Push a branch to remote in the first time
 git push -u origin <local_branch>
 
 $ local_branch: git branch --format "%(refname:short)"
 $ remote_branch: git branch -r --format "%(refname:lstrip=3)"
 
-# Replace ubuntu apt repository servers to mirror servers %ubuntu %apt
-sed -i.bak "s@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@g" /etc/apt/sources.list
-
-### Ansible
+% my, ansible
 
 # Apply a single module
 ansible -i <hosts_file> <target> -m <module> -a <module_arguments>
 
-# Apply a playbook %ansible
+# Apply a playbook
 ansible-playbook -i <hosts_file> <playbook>
 
-# Check a syatax for playbook %ansible
+# Check a syatax for playbook
 ansible-playbook --syntax-check <playbook>
 
-# List installed collections %ansible
+# List installed collections
 ansible-galaxy collection list -p <collection_path>
 
-### Mozc (fcitx)
+% my, mozc, fcitx
 
-# Open fcitx configuration %fcitx
+# Open fcitx configuration
 fcitx-config-gtk3
 
 # Open the config dialog for mozc
@@ -109,16 +102,31 @@ fcitx-config-gtk3
 # Open the dictionary tool for mozc
 /usr/lib/mozc/mozc_tool --mode=config_dialog
 
-### PowerShell
+% my, ps, powershell
 
-# Select the first item %powershell
+# Show security protocol (SSL/TLS)
+[Net.ServicePointManager]::SecurityProtocol
+
+# Allow only restricted security protocol (SSL/TLS)
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+# Sync machine time with NICT API (in JST)
+Set-Date ([datetime]'1970/01/01 09:00:00').AddSeconds((Invoke-RestMethod -Uri https://ntp-a1.nict.go.jp/cgi-bin/json).st)
+
+# Pull multiple git repositories
+foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${PWD}: $(git status | Select-Object -First 2 | Join-String -Separator ': ')" -ForegroundColor Green; git pull --rebase --autostash }
+
+# Select the first item
 Select-Object -First 1
 
-# foreach loop for piped objects %powershell
+# foreach loop for piped objects
 % { <command> $_ }
 
-# filter piped objects %powershell
+# filter piped objects
 ? { <command> $_ }
+
+# Enable the local proxy %powershell
+ $env:http_proxy = 'http://localhost:8888'; $env:https_proxy = 'http://localhost:8888'; $env:no_proxy = 'localhost'; [System.Net.WebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy('http://localhost:8888')
 
 # Local Variables:
 # mode: sh
