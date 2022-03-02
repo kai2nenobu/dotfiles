@@ -101,11 +101,10 @@ jobs:
           set-as-default: 'true'
           wsl-shell-user: wsl
           additional-packages: openssh-client
-      - name: Change mount options and restart a distribution
-        shell: powershell
-        run: |
-          wsl -u root bash -c "printf '[automount]\nenabled = true\noptions = `"metadata,uid=1000,gid=1000,umask=22,fmask=11`"\n' | tee /etc/wsl.conf"
-          wslconfig /terminate ${{ matrix.distribution }}
+          wsl-conf: |
+            [automount]
+            enabled = true
+            options = "metadata,uid=1000,gid=1000,umask=22,fmask=11
       - name: Enable no password sudo by user
         shell: cmd
         run: >-
