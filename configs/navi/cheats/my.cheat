@@ -89,8 +89,13 @@ git branch -vv | grep ': gone]'|  grep -v "\*" | awk '{ print $1; }' | xargs -r 
 # Delete local branches merged in remote (in powershell)
 git branch -vv | ? { $_ -match ': gone' } | % { ($_ -split '\s+')[1] } | % { git branch -d $_ }
 
+# Show diff for merge commit
+git show -m <merge_commits>
+
+
 $ local_branch: git branch --format "%(refname:short)"
 $ remote_branch: git branch -r --format "%(refname:lstrip=3)"
+$ merge_commits: git rev-list --merges --abbrev-commit HEAD --- --preview "git show {}"
 $ git_files: git ls-files --- --multi
 
 % my, ansible

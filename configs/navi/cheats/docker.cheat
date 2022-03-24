@@ -1,0 +1,11 @@
+% my, docker
+
+# Running container(s)
+<running_containers>
+
+
+$ running_containers: docker ps -q
+
+# Local Variables:
+# mode: sh
+# End:
