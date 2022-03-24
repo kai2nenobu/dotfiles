@@ -1,3 +1,50 @@
+<# Utilities #>
+function Msys2-Path {
+  <#
+  .SYNOPSIS
+  Enable or Disable MSYS2
+  #>
+  [CmdletBinding()]
+  Param(
+    [switch]$Enable,
+    [switch]$Disable,
+    [switch]$Prepend=$false
+  )
+  $local_msys2_path='C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin'
+  if (-not ($Enable -xor $Disable)) {
+    Write-Error('Specify one of "-Enable" or "-Disable".')
+    return
+  }
+  if ($Enable) {
+    if ($Prepend) {
+      $env:PATH = $local_msys2_path + ';' + $env:PATH
+    } else {
+      $env:PATH = $env:PATH + ';' + $local_msys2_path
+    }
+    'Enable MSYS2 PATH!'
+  }
+  if ($Disable) {
+    $regex = ';?' + [regex]::Escape($local_msys2_path) + ';?'
+    $env:PATH = $env:PATH -replace $regex,''
+    'Disable MSYS2 PATH!'
+  }
+}
+
+function Enable-Proxy {
+  $url = 'http://localhost:8888'
+  $env:http_proxy = $url
+  $env:https_proxy = $url
+  $env:no_proxy = '127.0.0.1,localhost,kubernetes.docker.internal'
+  $PSDefaultParameterValues = @{ "*:Proxy"=$url }
+}
+
+function Disable-Proxy {
+  $env:http_proxy = ''
+  $env:https_proxy = ''
+  $env:no_proxy = ''
+  $PSDefaultParameterValues = @{}
+}
+
 <# Alias configuration #>
 
 # git
