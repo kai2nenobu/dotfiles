@@ -31,11 +31,19 @@ function Msys2-Path {
 }
 
 function Enable-Proxy {
+  [CmdletBinding()]
+  Param(
+    [string]$CustomCert=''
+  )
   $url = 'http://localhost:8888'
   $env:http_proxy = $url
   $env:https_proxy = $url
   $env:no_proxy = '127.0.0.1,localhost,kubernetes.docker.internal'
   $PSDefaultParameterValues = @{ "*:Proxy"=$url }
+  # Custom certificate
+  $env:AWS_CA_BUNDLE = $CustomCert
+  $env:REQUESTS_CA_BUNDLE = $CustomCert
+  $env:CURL_CA_BUNDLE = $CustomCert
 }
 
 function Disable-Proxy {
@@ -43,6 +51,10 @@ function Disable-Proxy {
   $env:https_proxy = ''
   $env:no_proxy = ''
   $PSDefaultParameterValues = @{}
+  # Custom certificate
+  $env:AWS_CA_BUNDLE = ''
+  $env:REQUESTS_CA_BUNDLE = ''
+  $env:CURL_CA_BUNDLE = ''
 }
 
 <# Alias configuration #>
