@@ -30,6 +30,12 @@ function Msys2-Path {
   }
 }
 
+$_customCaVariables = @(
+  'AWS_CA_BUNDLE',
+  'REQUESTS_CA_BUNDLE',
+  'CURL_CA_BUNDLE'
+)
+
 function Enable-Proxy {
   [CmdletBinding()]
   Param(
@@ -41,9 +47,9 @@ function Enable-Proxy {
   $env:no_proxy = '127.0.0.1,localhost,kubernetes.docker.internal'
   $PSDefaultParameterValues = @{ "*:Proxy"=$url }
   # Custom certificate
-  $env:AWS_CA_BUNDLE = $CustomCert
-  $env:REQUESTS_CA_BUNDLE = $CustomCert
-  $env:CURL_CA_BUNDLE = $CustomCert
+  foreach ($var in $_customCaVariables) {
+    Set-Item "env:${var}" $CustomCert
+  }
 }
 
 function Disable-Proxy {
@@ -52,9 +58,9 @@ function Disable-Proxy {
   $env:no_proxy = ''
   $PSDefaultParameterValues = @{}
   # Custom certificate
-  $env:AWS_CA_BUNDLE = ''
-  $env:REQUESTS_CA_BUNDLE = ''
-  $env:CURL_CA_BUNDLE = ''
+  foreach ($var in $_customCaVariables) {
+    Set-Item "env:${var}" ''
+  }
 }
 
 <# Alias configuration #>
