@@ -123,6 +123,11 @@ fcitx-config-gtk3
 # Open the dictionary tool for mozc
 /usr/lib/mozc/mozc_tool --mode=config_dialog
 
+% my, windows
+
+# Restart explorer
+taskkill /f /IM explorer.exe && start explorer.exe
+
 % my, ps, powershell
 
 # Show security protocol (SSL/TLS)
@@ -140,6 +145,9 @@ foreach ($repo in <repos="dotfiles",".emacs.d">) { cd "~/$repo"; Write-Host "${P
 # Select the first item like head command
 Select-Object -First 1
 
+# Select the first column like cut command
+ % { ($_ -split '\s+')[0] }
+
 # foreach loop for piped objects
  % { <command> $_ }
 
@@ -148,6 +156,9 @@ Select-Object -First 1
 
 # Enable the local proxy %powershell
  $env:http_proxy = 'http://localhost:8888'; $env:https_proxy = 'http://localhost:8888'; $env:no_proxy = 'localhost'; [System.Net.WebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy('http://localhost:8888')
+
+# Repair ownership of a folder recursively as a current user in Windows
+takeown /S (Hostname) /U ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) /R /F "<directory>"
 
 # Local Variables:
 # mode: sh

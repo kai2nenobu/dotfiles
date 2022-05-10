@@ -1,10 +1,18 @@
 % my, docker
 
-# Running container(s)
-<running_containers>
+# Remove running container(s) focibly
+docker rm -f <running_containers>
+
+# Remove container(s)
+docker rm <containers>
+
+# Remove image(s)
+docker image rm <images>
 
 
-$ running_containers: docker ps -q
+$ running_containers: docker ps --format "{{.Names}}" --- --multi
+$ containers: docker ps -a --format "{{.Names}}" --- --multi
+$ images: docker image ls -f "dangling=false" --format "{{.ID}}  {{.Repository}}:{{.Tag}}"
 
 # Local Variables:
 # mode: sh
