@@ -158,3 +158,17 @@ if (Get-Command -ea SilentlyContinue exa) {
     exa -alhF --icons $args
   }
 }
+
+# AWS CLI completion
+if (Get-Command -ea SilentlyContinue aws_completer) {
+  Register-ArgumentCompleter -Native -CommandName aws -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    $env:COMP_LINE=$wordToComplete
+    $env:COMP_POINT=$cursorPosition
+    aws_completer.exe | ForEach-Object {
+      [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+    Remove-Item Env:\COMP_LINE
+    Remove-Item Env:\COMP_POINT
+  }
+}
