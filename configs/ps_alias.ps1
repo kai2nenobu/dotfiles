@@ -120,6 +120,7 @@ Set-Alias tf terraform
 $GIT_DIR = 'C:\Program Files\Git'
 # コマンド名とオプションの連想配列
 $tool_hash = @{
+  diff = @();
   find = @();
   grep = @('--color');
   head = @();
@@ -127,6 +128,8 @@ $tool_hash = @{
   tail = @();
 }
 $tool_hash.Keys | ForEach-Object {
+  ## エイリアスがあれば削除する
+  Get-Command -ea SilentlyContinue $_ -CommandType Alias | ForEach-Object { Remove-Item -Force "alias:$_" }
   ## 動的に関数定義
   Set-Item -Path "function:global:$_" -Value {
     $name = $MyInvocation.MyCommand.Name  # 関数名を取得する
