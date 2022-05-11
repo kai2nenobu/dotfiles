@@ -8,8 +8,7 @@ set -eu
 cwd="$PWD"
 
 ## Install prerequisites
-apt update && apt install -y ca-certificates
-apt update && apt install -y curl python3 python3-dev python3-distutils
+apt update && apt install -y ca-certificates curl python3 python3-dev python3-distutils build-essential libffi-dev
 
 ## Install poetry
 export POETRY_HOME=/opt/poetry
