@@ -48,14 +48,32 @@
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
     state: present
 - name: Add an emacs ppa repository
   tags: [package]
   become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_repository:
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
+    state: present
+- name: Uninstall needless packages
+  tags: [package]
+  become: yes
+  apt:
+    name:
+      - emacs26
+      - emacs26-common
+      - emacs26-el
+    state: absent
+- name: Install emacs
+  tags: [package]
+  become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
+  apt:
+    name: emacs27
     state: present
 - name: Add a gpg key for docker apt repository
   tags: [package]
@@ -69,15 +87,6 @@
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
-- name: Uninstall needless packages
-  tags: [package]
-  become: yes
-  apt:
-    name:
-      - emacs26
-      - emacs26-common
-      - emacs26-el
-    state: absent
 - name: Install development packages
   tags: [package]
   become: yes
@@ -86,7 +95,6 @@
       - cmigemo
       - connect-proxy
       - curl
-      - emacs27
       - fonts-ipafont
       - fonts-ipaexfont
       - git
