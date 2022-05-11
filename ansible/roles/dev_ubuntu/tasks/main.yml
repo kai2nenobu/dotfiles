@@ -159,12 +159,12 @@
     # ripgrep
     - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
     # delta
-    - url: https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.9.2_amd64.deb
+    - url: https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
       condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # bat
-    - url: https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
+    - url: https://github.com/sharkdp/bat/releases/download/v0.20.0/bat_0.20.0_amd64.deb
     # fzf
-    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
+    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.29.0-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
