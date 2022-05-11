@@ -13,6 +13,7 @@
   apt:
     name:
       - gpg  # for ansible.builtin.apt_key
+      - xz-utils  # for apt related tasks
 - name: Configure runtime icon
   tags: [config]
   become: yes
