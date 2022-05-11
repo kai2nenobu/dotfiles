@@ -106,6 +106,7 @@
       - python3-pip
       - python3-setuptools
       - python3-venv
+      - shellcheck
       - tmux
       #- ubuntu-wsl
       - x11-xserver-utils
