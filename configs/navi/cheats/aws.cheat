@@ -3,4 +3,5 @@
 # List stack events in table format
 aws cloudformation describe-stack-events --stack-name <stack_name> --query "StackEvents[*].[ResourceType,LogicalResourceId,ResourceStatus,ResouceStatusReason]" --out table
 
-$ stack_name: aws cloudformation list-stacks --query "StackSummaries[*].[StackName]" --out text --no-cli-pager
+$ stack_name: aws cloudformation list-stacks --query StackSummaries[*].[StackName] --out text --no-cli-pager
+$ select_s3_bucket: aws s3api list-buckets --query Buckets[*].[Name] --out text --no-cli-pager
