@@ -13,6 +13,8 @@
   apt:
     name:
       - gpg  # for ansible.builtin.apt_key
+      - xz-utils  # for apt related tasks
+      - zstd  # for apt related tasks
 - name: Configure runtime icon
   tags: [config]
   become: yes
@@ -48,14 +50,32 @@
 - name: Add a gpg key for emacs ppa repository
   tags: [package]
   become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
     state: present
 - name: Add an emacs ppa repository
   tags: [package]
   become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_repository:
     repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
+    state: present
+- name: Uninstall needless packages
+  tags: [package]
+  become: yes
+  apt:
+    name:
+      - emacs26
+      - emacs26-common
+      - emacs26-el
+    state: absent
+- name: Install emacs
+  tags: [package]
+  become: yes
+  when: ansible_facts.distribution_version is version('20.04', '<=')
+  apt:
+    name: emacs27
     state: present
 - name: Add a gpg key for docker apt repository
   tags: [package]
@@ -69,15 +89,6 @@
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
-- name: Uninstall needless packages
-  tags: [package]
-  become: yes
-  apt:
-    name:
-      - emacs26
-      - emacs26-common
-      - emacs26-el
-    state: absent
 - name: Install development packages
   tags: [package]
   become: yes
@@ -86,7 +97,6 @@
       - cmigemo
       - connect-proxy
       - curl
-      - emacs27
       - fonts-ipafont
       - fonts-ipaexfont
       - git
@@ -98,6 +108,7 @@
       - python3-pip
       - python3-setuptools
       - python3-venv
+      - shellcheck
       - tmux
       #- ubuntu-wsl
       - x11-xserver-utils
@@ -151,22 +162,22 @@
     # ripgrep
     - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
     # delta
-    - url: https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.9.2_amd64.deb
+    - url: https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
       condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
     # bat
-    - url: https://github.com/sharkdp/bat/releases/download/v0.18.3/bat_0.18.3_amd64.deb
+    - url: https://github.com/sharkdp/bat/releases/download/v0.20.0/bat_0.20.0_amd64.deb
     # fzf
-    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.24.3-1_amd64.deb
+    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.29.0-1_amd64.deb
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
   loop:
     - name: HackGen
-      version: v2.5.1
-      checksum: sha256:045976c44cb44acbc1bc6e40bbfe0203710f21b493d97ef004fe420b60ec4c05
+      version: v2.6.3
+      checksum: sha256:2b1c751abe318c44e2a3b22137fa31c18765a1c4e07962a8d1e05e7d5908241a
     - name: HackGenNerd
-      version: v2.5.1
-      checksum: sha256:99a5fdc5e532624200c6dcd169264537783123951a66969ae47a76656c642698
+      version: v2.6.3
+      checksum: sha256:3120f82ac2a7b742acd863425c080031d7cd8f5716403ea582adc4b5193bf691
   loop_control:
     loop_var: font
 - name: Install pip tools
