@@ -273,6 +273,13 @@ install-ghq() {
   unzip -j "$zip" ghq_linux_amd64/ghq -d "$location"
   rm -f "$zip"
 }
+install-navi() {
+  local location=~/.local/bin
+  local version=2.19.0
+  mkdir -p "$location"
+  curl -fsSL "https://github.com/denisidoro/navi/releases/download/v${version}/navi-v${version}-x86_64-unknown-linux-musl.tar.gz" \
+    | tar zx --directory "$location"
+}
 install-poetry() {
   curl -sSL https://install.python-poetry.org | python3 -
 }
@@ -284,6 +291,9 @@ install-pyenv-dependencies() {
        make build-essential libssl-dev zlib1g-dev libbz2-dev \
        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
        xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+}
+install-starship() {
+  curl -fsSL https://starship.rs/install.sh | sh -s - --bin-dir ~/.local/bin --yes
 }
 
 echo "Load .bash_aliases."
