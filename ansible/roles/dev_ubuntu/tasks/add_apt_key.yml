@@ -1,0 +1,7 @@
+- name: Download gpg key
+  get_url:
+    url: "{{ apt_key_url }}"
+    dest: /tmp/key.gpg.asc
+    checksum: "{{ apt_key_checksum }}"
+- name: Add a gpg key for docker apt repository
+  command: "gpg --dearmor --yes --output {{ apt_keyring_location }} /tmp/key.gpg.asc"

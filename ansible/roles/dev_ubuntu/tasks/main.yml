@@ -78,16 +78,20 @@
     name: emacs27
     state: present
 - name: Add a gpg key for docker apt repository
+  import_tasks: add_apt_key.yml
   tags: [package]
   become: yes
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
+  vars:
+    apt_key_url: https://download.docker.com/linux/ubuntu/gpg
+    apt_key_checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+    apt_keyring_location: /usr/local/share/keyrings/docker-archive-keyring.gpg
 - name: Add a docker apt repository
   tags: [package]
   become: yes
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
+    repo: >-
+      deb [signed-by=/usr/local/share/keyrings/docker-archive-keyring.gpg]
+      https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
 - name: Install development packages
   tags: [package]
