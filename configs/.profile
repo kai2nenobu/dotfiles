@@ -86,10 +86,6 @@ if [ -x "$HOME/.tfenv/bin/tfenv" ]; then
   export PATH="$HOME/.tfenv/bin:$PATH"
 fi
 
-if command -v starship &> /dev/null; then
-  eval "$(starship init bash)"
-fi
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
