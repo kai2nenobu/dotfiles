@@ -29,3 +29,15 @@
         mode: "0755"
     - name: Add a gpg key for docker apt repository
       command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
+    - name: Test a checksum for {{ apt_keyring_location }} again
+      ansible.builtin.stat:
+        path: "{{ apt_keyring_location }}"
+        checksum_algorithm: sha256
+      register: apt_keyring_location_st2
+    - name: Assert checksum
+      assert:
+        that: apt_keyring_location_st2.stat.checksum == apt_keyring_checksum
+        fail_msg: |
+          Checksum for a keyring doesn't match!
+            Expected: {{ apt_keyring_checksum }}
+            Actual: {{ apt_keyring_location_st2.stat.checksum }}
