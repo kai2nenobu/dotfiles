@@ -102,7 +102,7 @@
     triggers:
       # ユーザがログインしたときに実行する
       - type: logon
-        delay: "PT10S"  # 10秒遅延
+        delay: "PT10S" # 10秒遅延
 - name: ssh-agentの秘密鍵情報を定期的にクリアする
   tags: [cron]
   win_scheduled_task:

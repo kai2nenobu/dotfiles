@@ -13,23 +13,23 @@ symlink_config_files:
   - { src: "configs/.tmux.conf", dest: ".tmux.conf" }
   - src: "configs/navi/config{{ is_windows | ternary('.win', '') }}.yaml"
     dest: "{{ is_windows | ternary('AppData/Roaming', '.config') }}/navi/config.yaml"
-  - src: 'configs/bat/config'
+  - src: "configs/bat/config"
     dest: >-
       {{ is_windows | ternary( 'AppData/Roaming/bat/config', '.config/bat/config') }}
   - { src: "configs/dot.ahk", dest: "dot.ahk" }
   - { src: "configs/dot.nodoka", dest: "dot.nodoka" }
-  - src: 'configs/pet/snippet.toml'
+  - src: "configs/pet/snippet.toml"
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/pet/snippet.toml',
                               '.config/pet/snippet.toml') }}
-  - src: 'configs/wt/settings.json'
-    dest: 'AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+  - src: "configs/wt/settings.json"
+    dest: "AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
     condition: "{{ is_windows }}"
   - src: "configs/profile.ps1"
-    dest: 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1'
+    dest: "Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
     condition: "{{ is_windows }}"
   - src: "configs/ps_alias.ps1"
-    dest: 'Documents/WindowsPowerShell/ps_alias.ps1'
+    dest: "Documents/WindowsPowerShell/ps_alias.ps1"
     condition: "{{ is_windows }}"
   - src: "configs/pscore_profile.ps1"
     dest: >-
@@ -39,16 +39,16 @@ symlink_config_files:
     dest: >-
       {{ is_windows | ternary('Documents/PowerShell/ps_alias.ps1',
                               '.config/powershell/ps_alias.ps1') }}
-  - src: 'configs/vscode/settings.json'
+  - src: "configs/vscode/settings.json"
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/Code/User/settings.json',
                               '.config/Code/User/settings.json') }}
-  - src: 'configs/vscode/keybindings.json'
+  - src: "configs/vscode/keybindings.json"
     dest: >-
       {{ is_windows | ternary('AppData/Roaming/Code/User/keybindings.json',
                               '.config/Code/User/keybindings.json') }}
   - src: "{{ is_windows | ternary('configs/starship.win.toml', 'configs/starship.linux.toml') }}"
-    dest: '.config/starship.toml'
+    dest: ".config/starship.toml"
 ## シンボリックリンクをはるディレクトリたち
 symlink_config_dirs:
   - { src: "configs/.bash.d", dest: ".bash.d" }

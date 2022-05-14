@@ -57,7 +57,7 @@
       key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
       value: TaskbarSizeMove
       data: 1
-    - description:  エクスプローラーの「タイトルバーに完全なパスを表示する」の有効化
+    - description: エクスプローラーの「タイトルバーに完全なパスを表示する」の有効化
       key: HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CabinetState
       value: FullPath
       data: 1

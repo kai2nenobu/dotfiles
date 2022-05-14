@@ -27,12 +27,12 @@ git_configs:
   - name: delta.syntax-theme
     value: Dracula
   - name: delta.plus-style
-    value: 'syntax #003800'
+    value: "syntax #003800"
   - name: delta.minus-style
-    value: 'syntax #3f0001'
+    value: "syntax #3f0001"
   # エイリアス設定
   - name: alias.dry-merge
     value: merge --no-commit --no-ff
   # グローバルフック設定
   - name: core.hooksPath
-    value: '~/.config/git/hooks'
+    value: "~/.config/git/hooks"

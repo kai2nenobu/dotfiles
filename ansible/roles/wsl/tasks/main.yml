@@ -9,13 +9,13 @@
       root = /mnt/
       options = "metadata,umask=22,fmask=11"
       mountFsTab = true
-    mode: '0644'
+    mode: "0644"
 - name: Configure fcitx and start
   tags: [config]
   become: yes
   copy:
     dest: /etc/profile.d/wsl-fcitx-start.sh
-    mode: '0644'
+    mode: "0644"
     content: |
       if command -v fcitx-autostart >& /dev/null; then
         # Use fcitx for IME
@@ -52,14 +52,14 @@
   copy:
     src: ssh-agent.sh
     dest: /etc/profile.d/ssh-agent.sh
-    mode: '0644'
+    mode: "0644"
 - name: Detect a gateway for WSL
   tags: [config]
   become: yes
   copy:
     src: detect-wsl-gateway.sh
     dest: /etc/profile.d/detect-wsl-gateway.sh
-    mode: '0644'
+    mode: "0644"
 - name: Update apt cache
   tags: [package]
   become: yes

@@ -13,8 +13,8 @@
   apt:
     name:
       - gpg # for gpg operations
-      - xz-utils  # for apt related tasks
-      - zstd  # for apt related tasks
+      - xz-utils # for apt related tasks
+      - zstd # for apt related tasks
 - name: Configure runtime icon
   tags: [config]
   become: yes
@@ -233,7 +233,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop: "{{ symlink_config_files }}"
   when: item.condition | default(true)
 - name: Link to config files
@@ -252,7 +252,7 @@
   file:
     path: "~/{{ item.dest | dirname }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop: "{{ symlink_config_dirs }}"
   when: item.condition | default(true)
 - name: Link to config dirs
