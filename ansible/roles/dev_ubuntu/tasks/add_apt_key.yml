@@ -3,7 +3,7 @@
 #   apt_key_url: URL to fetch a gpg public key
 #   apt_keyring_location: Location to save a keyring
 #   apt_keyring_checksum: Checksum for a keyring (sha256 format)
-- name: Test {{ apt_keyring_location }} exists
+- name: Test a checksum for {{ apt_keyring_location }}
   ansible.builtin.stat:
     path: "{{ apt_keyring_location }}"
     checksum_algorithm: sha256
