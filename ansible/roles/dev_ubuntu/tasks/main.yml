@@ -48,18 +48,22 @@
     path: /etc/dpkg/dpkg.cfg.d/excludes
     state: absent
 - name: Add a gpg key for emacs ppa repository
+  import_tasks: add_apt_key.yml
   tags: [package]
   become: yes
+  vars:
+    apt_key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
+    apt_keyring_location: /usr/local/share/keyrings/ppa-kelleyk-emacs.gpg
+    apt_keyring_checksum: 23ba53c5700adc8a149868a44e2c5493a39923a632cf25c8f5a22eca9cf3c2e3
   when: ansible_facts.distribution_version is version('20.04', '<=')
-  apt_key:
-    url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
-    state: present
 - name: Add an emacs ppa repository
   tags: [package]
   become: yes
   when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_repository:
-    repo: deb http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
+    repo: >-
+      deb [signed-by=/usr/local/share/keyrings/ppa-kelleyk-emacs.gpg]
+      http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Uninstall needless packages
   tags: [package]
@@ -195,13 +199,15 @@
   tags: [package]
   block:
     - name: Add a nodesource signing key to a keyring
-      apt_key:
-        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-        keyring: /usr/share/keyrings/nodesource.gpg
+      import_tasks: add_apt_key.yml
+      vars:
+        apt_key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        apt_keyring_location: /usr/local/share/keyrings/nodesource.gpg
+        apt_keyring_checksum: 51034f1b19ccd22fd9b61c516c0226e956b6add3d36ee96b0fb235d598848774
     - name: Add nodesource ppa repository
       apt_repository:
         repo: >
-          deb [signed-by=/usr/share/keyrings/nodesource.gpg]
+          deb [signed-by=/usr/local/share/keyrings/nodesource.gpg]
           https://deb.nodesource.com/node_14.x {{ ansible_facts.distribution_release }} main
         state: present
     - name: Install nodejs 14 package
