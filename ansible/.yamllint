@@ -2,12 +2,24 @@
 extends: default
 
 yaml-files:
-  - '*.yaml'
-  - '*.yml'
-  - '.yamllint'
-  - '.ansible-lint'
+  - "*.yaml"
+  - "*.yml"
+  - ".yamllint"
+  - ".ansible-lint"
 rules:
+  document-start: disable
+  line-length:
+    max: 120
+    level: warning
+  comments:
+    require-starting-space: false
+    min-spaces-from-content: 1
+  braces:
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
   truthy:
-    allowed-values: ['true', 'false', 'yes', 'no']
+    allowed-values: ["true", "false", "yes", "no"]
   indentation:
     spaces: 2
