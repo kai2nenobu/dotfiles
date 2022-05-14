@@ -83,8 +83,8 @@
   become: yes
   vars:
     apt_key_url: https://download.docker.com/linux/ubuntu/gpg
-    apt_key_checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
     apt_keyring_location: /usr/local/share/keyrings/docker-archive-keyring.gpg
+    apt_keyring_checksum: a09e26b72228e330d55bf134b8eaca57365ef44bf70b8e27c5f55ea87a8b05e2
 - name: Add a docker apt repository
   tags: [package]
   become: yes

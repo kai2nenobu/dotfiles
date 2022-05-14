@@ -1,17 +1,31 @@
-- name: Create a temporary key file
-  ansible.builtin.tempfile:
-    state: file
-    prefix: ansible.apt_key_file
-  register: apt_key_file
-- name: Download gpg key
-  get_url:
-    url: "{{ apt_key_url }}"
-    dest: "{{ apt_key_file.path }}"
-    checksum: "{{ apt_key_checksum }}"
-- name: Create a parent directory for keyring
-  file:
-    path: "{{ apt_keyring_location | dirname }}"
-    state: directory
-    mode: "0755"
-- name: Add a gpg key for docker apt repository
-  command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
+# Save a gpg public key at specified location
+# vars:
+#   apt_key_url: URL to fetch a gpg public key
+#   apt_keyring_location: Location to save a keyring
+#   apt_keyring_checksum: Checksum for a keyring (sha256 format)
+- name: Test {{ apt_keyring_location }} exists
+  ansible.builtin.stat:
+    path: "{{ apt_keyring_location }}"
+    checksum_algorithm: sha256
+  register: apt_keyring_location_st
+- when: >-
+    (not apt_keyring_location_st.stat.exists)
+    or (apt_keyring_location_st.stat.checksum != apt_keyring_checksum)
+  block:
+    - name: Create a temporary key file
+      ansible.builtin.tempfile:
+        state: file
+        prefix: ansible.apt_key_file
+      register: apt_key_file
+    - name: Download gpg key
+      get_url:
+        url: "{{ apt_key_url }}"
+        dest: "{{ apt_key_file.path }}"
+        force: yes
+    - name: Create a parent directory for keyring
+      file:
+        path: "{{ apt_keyring_location | dirname }}"
+        state: directory
+        mode: "0755"
+    - name: Add a gpg key for docker apt repository
+      command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
