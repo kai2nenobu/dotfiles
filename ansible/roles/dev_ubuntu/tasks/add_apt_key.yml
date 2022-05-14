@@ -8,5 +8,10 @@
     url: "{{ apt_key_url }}"
     dest: "{{ apt_key_file.path }}"
     checksum: "{{ apt_key_checksum }}"
+- name: Create a parent directory for keyring
+  file:
+    path: "{{ apt_keyring_location | dirname }}"
+    state: directory
+    mode: "0755"
 - name: Add a gpg key for docker apt repository
   command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
