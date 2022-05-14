@@ -1,7 +1,12 @@
+- name: Create a temporary key file
+  ansible.builtin.tempfile:
+    state: file
+    prefix: ansible.apt_key_file
+  register: apt_key_file
 - name: Download gpg key
   get_url:
     url: "{{ apt_key_url }}"
-    dest: /tmp/key.gpg.asc
+    dest: "{{ apt_key_file.path }}"
     checksum: "{{ apt_key_checksum }}"
 - name: Add a gpg key for docker apt repository
-  command: "gpg --dearmor --yes --output {{ apt_keyring_location }} /tmp/key.gpg.asc"
+  command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
