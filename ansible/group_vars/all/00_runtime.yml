@@ -5,3 +5,9 @@ is_wsl: >-
     (ansible_facts.kernel is search('microsoft', ignorecase=True))
     and (not is_container)
   }}
+linux_arch: >-
+  {{
+    (ansible_facts.architecture == 'x86_64') | ternary('amd64',
+      (ansible_facts.architecture == 'aarch64') | ternary('arm64', 'unknown')
+    )
+  }}
