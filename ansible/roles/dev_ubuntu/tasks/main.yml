@@ -12,7 +12,7 @@
   become: yes
   apt:
     name:
-      - gpg  # for ansible.builtin.apt_key
+      - gpg # for gpg operations
       - xz-utils  # for apt related tasks
       - zstd  # for apt related tasks
 - name: Configure runtime icon
