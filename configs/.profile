@@ -86,6 +86,11 @@ if [ -x "$HOME/.tfenv/bin/tfenv" ]; then
   export PATH="$HOME/.tfenv/bin:$PATH"
 fi
 
+# Ubuntu make installation of Ubuntu Make binary symlink
+if [ -d "$HOME/.local/share/umake/bin" ]; then
+  PATH="$HOME/.local/share/umake/bin:$PATH"
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
