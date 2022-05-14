@@ -53,7 +53,7 @@
   become: yes
   vars:
     apt_key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
-    apt_keyring_location: /usr/local/share/keyrings/ppa-kelleyk-emacs.gpg
+    apt_keyring_location: /etc/apt/keyrings/ppa-kelleyk-emacs.gpg
     apt_keyring_checksum: 23ba53c5700adc8a149868a44e2c5493a39923a632cf25c8f5a22eca9cf3c2e3
   when: ansible_facts.distribution_version is version('20.04', '<=')
 - name: Add an emacs ppa repository
@@ -62,7 +62,7 @@
   when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_repository:
     repo: >-
-      deb [signed-by=/usr/local/share/keyrings/ppa-kelleyk-emacs.gpg]
+      deb [signed-by=/etc/apt/keyrings/ppa-kelleyk-emacs.gpg]
       http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
 - name: Uninstall needless packages
@@ -87,14 +87,14 @@
   become: yes
   vars:
     apt_key_url: https://download.docker.com/linux/ubuntu/gpg
-    apt_keyring_location: /usr/local/share/keyrings/docker-archive-keyring.gpg
+    apt_keyring_location: /etc/apt/keyrings/docker-archive-keyring.gpg
     apt_keyring_checksum: a09e26b72228e330d55bf134b8eaca57365ef44bf70b8e27c5f55ea87a8b05e2
 - name: Add a docker apt repository
   tags: [package]
   become: yes
   apt_repository:
     repo: >-
-      deb [signed-by=/usr/local/share/keyrings/docker-archive-keyring.gpg]
+      deb [signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg]
       https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable
     state: present
 - name: Install development packages
@@ -202,12 +202,12 @@
       import_tasks: add_apt_key.yml
       vars:
         apt_key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-        apt_keyring_location: /usr/local/share/keyrings/nodesource.gpg
+        apt_keyring_location: /etc/apt/keyrings/nodesource.gpg
         apt_keyring_checksum: 51034f1b19ccd22fd9b61c516c0226e956b6add3d36ee96b0fb235d598848774
     - name: Add nodesource ppa repository
       apt_repository:
         repo: >
-          deb [signed-by=/usr/local/share/keyrings/nodesource.gpg]
+          deb [signed-by=/etc/apt/keyrings/nodesource.gpg]
           https://deb.nodesource.com/node_14.x {{ ansible_facts.distribution_release }} main
         state: present
     - name: Install nodejs 14 package
