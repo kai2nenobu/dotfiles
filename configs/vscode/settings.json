@@ -1,4 +1,6 @@
 {
+  // タイトルバーとメニューバーを統合する
+  "window.titleBarStyle": "custom",
   // Python仮想環境のパス
   "python.venvPath": ".venv",
   // ファイル自動保存設定
