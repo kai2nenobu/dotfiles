@@ -16,6 +16,9 @@
   "files.associations": {
     "*.tmp": "markdown"
   },
+  "[shellscript]": {
+    "editor.tabSize": 2
+  },
   "yaml.customTags": [
     "!Ref",
     "!Sub scalar",
