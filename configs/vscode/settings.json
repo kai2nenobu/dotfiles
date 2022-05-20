@@ -78,27 +78,23 @@
   // Remote Development
   "remote.SSH.defaultExtensions": [
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
-    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
     "eamodio.gitlens", // GitLens
     "ms-azuretools.vscode-docker" // Docker
   ],
   "remote.containers.defaultExtensions": [
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
-    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
     "eamodio.gitlens", // GitLens
     "ms-azuretools.vscode-docker" // Docker
   ],
   "remote.WSL.defaultExtensions": [
     // 2020-02-14 時点でこんな設定はないようだ
-    "lfs.vscode-emacs-friendly"
   ],
   // GitHub Codespaces
   "github.codespaces.defaultExtensions": [
     "GitHub.codespaces",
     "GitHub.vscode-pull-request-github",
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
-    "lfs.vscode-emacs-friendly", // Emacs Friendly Keymap
-    "eamodio.gitlens", // GitLens
+    "eamodio.gitlens" // GitLens
   ],
   "git.autofetch": true,
   "git.confirmSync": false
