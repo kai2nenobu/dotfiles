@@ -57,3 +57,6 @@ if _find_command ghq; then
   }
   bind -x '"\C-x\C-g": _fzf_ghq_cd'
 fi
+
+export FZF_DEFAULT_OPTS="--exact --reverse --inline-info \
+  --bind ctrl-k:kill-line,ctrl-m:accept,ctrl-v:page-down,alt-v:page-up,ctrl-space:toggle+down"
