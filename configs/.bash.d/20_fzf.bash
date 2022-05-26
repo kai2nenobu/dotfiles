@@ -5,7 +5,7 @@ if ! _find_command fzf; then
   _log "Not found 'fzf' in PATH" && return
 fi
 
-if ! _inside_windows_terminal; then
+if _is_windows && ! _inside_windows_terminal; then
   _log "Terminal is not Windows Terminal. Not use fzf" && return
 fi
 
