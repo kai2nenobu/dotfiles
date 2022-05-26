@@ -295,5 +295,26 @@ install-pyenv-dependencies() {
 install-starship() {
   curl -fsSL https://starship.rs/install.sh | sh -s - --bin-dir ~/.local/bin --yes
 }
+install-shellspec() {
+  mkdir -p ~/.local/{bin,share}
+  git clone "https://github.com/shellspec/shellspec.git" ~/.local/share/shellspec
+  ln -s ~/.local/share/shellspec/shellspec ~/.local/bin/shellspec
+}
+install-awscli() {
+  # https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/getting-started-install.html
+  (
+    dir=$(mktemp --directory)
+    cd "$dir" \
+      && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+      && unzip awscliv2.zip \
+      && sudo ./aws/install \
+      && rm -rf "$dir"
+  )
+}
+install-aws-vault() {
+  mkdir -p ~/.local/bin
+  curl -fsSL -o ~/.local/bin/aws-vault "https://github.com/99designs/aws-vault/releases/latest/download/aws-vault-linux-amd64"
+  chmod 755 ~/.local/bin/aws-vault
+}
 
 echo "Load .bash_aliases."
