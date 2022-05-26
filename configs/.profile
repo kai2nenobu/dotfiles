@@ -99,6 +99,11 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# Integrate with 1password ssh agent
+if [ -S "$HOME/.1password/agent.sock" ]; then
+  export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+fi
+
 echo "Load .profile"
 
 # Local Variables:
