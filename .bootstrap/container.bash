@@ -4,7 +4,7 @@
 uname -a
 cat /etc/os-release
 
-HERE=$(CDPATH='' cd -- "$(dirname -- "$BASH_SOURCE")" && pwd)
+HERE=$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 OS_ID=$(grep '^ID=' /etc/os-release | awk -F= '{print $2}')
 
 if [ "$OS_ID" != "debian" ] && [ "$OS_ID" != "ubuntu" ]; then
