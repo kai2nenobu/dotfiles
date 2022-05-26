@@ -5,9 +5,9 @@ uname -a
 cat /etc/os-release
 
 HERE=$(CDPATH='' cd -- "$(dirname -- "$BASH_SOURCE")" && pwd)
-ID_LIKE=$(grep ID_LIKE /etc/os-release | awk -F= '{print $2}')
+OS_NAME=$(grep '^NAME=' /etc/os-release | awk -F= '{print $2}')
 
-if [ "$ID_LIKE" != "debian" ]; then
+if [ "$OS_NAME" != "Debian" ] || [ "$OS_NAME" != "Ubuntu" ]; then
   echo "This script doesn't support distributions other than Debian family." >&2
   return 0
 fi
