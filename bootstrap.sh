@@ -5,7 +5,7 @@
 
 HERE=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 
-sh "${HERE}/.bootstrap/ansible.sh"
+#sh "${HERE}/.bootstrap/ansible.sh"
 
 if [ -n "$CODESPACES" ] || [ -n "$REMOTE_CONTAINERS" ]; then
   # shellcheck source=./.bootstrap/container.bash
