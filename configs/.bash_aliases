@@ -316,5 +316,10 @@ install-aws-vault() {
   curl -fsSL -o ~/.local/bin/aws-vault "https://github.com/99designs/aws-vault/releases/latest/download/aws-vault-linux-amd64"
   chmod 755 ~/.local/bin/aws-vault
 }
+install-delta() {
+  curl -fsSL -o /tmp/git-delta.deb "https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb"
+  sudo dpkg -i /tmp/git-delta.deb
+  rm -f /tmp/delta-musl.deb
+}
 
 echo "Load .bash_aliases."
