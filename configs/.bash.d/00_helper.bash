@@ -14,3 +14,8 @@ function _find_command() {
 function _inside_windows_terminal() {
   [ -n "$WT_SESSION" ]
 }
+
+## OSがWindowsかどうか判定する。
+function _is_windows() {
+  [ -n "$COMSPEC" ]
+}
