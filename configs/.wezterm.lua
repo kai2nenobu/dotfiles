@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm';
 
 -- Common settings
-local ret = {
+local config = {
   -- color_scheme = "JetBrains Darcula",
   font = wezterm.font("HackGenNerd Console"),
   font_size = 14.0,
@@ -17,12 +17,12 @@ keys = {
   {key="=", mods="ALT|SHIFT", action=wezterm.action{SplitVertical={}}},
   {key="+", mods="ALT|SHIFT", action=wezterm.action{SplitHorizontal={}}},
 }
-ret["keys"] = keys
+config["keys"] = keys
 
 -- Windows specific
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
   -- Default program
-  ret["default_prog"] = {"pwsh.exe"}
+  config["default_prog"] = {"pwsh.exe"}
   -- Launch menu
   local launch_menu = {}
   table.insert(launch_menu, {
@@ -45,7 +45,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     label = "Windows PowerShell",
     args = {"powershell.exe"},
   })
-  ret["launch_menu"] = launch_menu
+  config["launch_menu"] = launch_menu
 end
 
-return ret
+return config
