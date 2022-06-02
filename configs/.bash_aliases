@@ -151,6 +151,8 @@ export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
 alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
 
+alias av='aws-vault'
+
 function emacs-extract-init() {
   sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' "${USER_EMACS_DIRECTORY}/org-init.d/init.org" | \
     sed -e '/^#+BEGIN_SRC emacs-lisp.*:tangle no/,/^#+END_SRC/ d' | \

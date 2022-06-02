@@ -159,6 +159,7 @@ if (Get-Command -ea SilentlyContinue exa) {
   }
 }
 
+Set-Alias av aws-vault
 # AWS CLI completion
 if (Get-Command -ea SilentlyContinue aws_completer) {
   Register-ArgumentCompleter -Native -CommandName aws -ScriptBlock {
