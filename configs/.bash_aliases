@@ -109,13 +109,13 @@ function git-start() {
   local message="First empty commit"
   while getopts :u:e:m: OPT; do
     case $OPT in
-      u|+u)
+      u)
         user="$OPTARG"
         ;;
-      e|+e)
+      e)
         email="$OPTARG"
         ;;
-      m|+m)
+      m)
         message="$OPTARG"
         ;;
       *)
@@ -146,10 +146,10 @@ alias vg='vagrant'
 
 alias e='emacs'
 alias ec='emacsclient -a vi'
-EDITOR='emacsclient -a vi'
+export EDITOR='emacsclient -a vi'
 export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
-alias emacs-clean-elc="find ${USER_EMACS_DIRECTORY} -type f -name '*.elc' | xargs --no-run-if-empty rm"
+alias emacs-clean-elc='find "${USER_EMACS_DIRECTORY}" -type f -name "*.elc" | xargs --no-run-if-empty rm'
 
 alias av='aws-vault'
 
@@ -166,7 +166,7 @@ function emacs-sync-cask() {
     echo "${CASK_FILE} does not exist." >&2
     exit 1
   fi
-  set -- $(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")
+  set -- "$(sed -n -r 's@\(depends-on "([^"]+)"\)@\1@ p' "${CASK_FILE}")"
   emacs --batch --eval \
 "(progn
   (set-language-environment \"Japanese\")
@@ -213,12 +213,12 @@ case $(uname -o) in
     function domaincontroller() {
       # ログイン中のドメインコントローラ名を表示する
       local script=$(mktemp --tmpdir 'XXXXXXXXXX.vbs')
-      trap "rm -f $script" EXIT SIGINT
+      trap 'rm -f "$script"' EXIT SIGINT
       cat > "$script" <<EOF
 Set objDomain = GetObject("LDAP://rootDSE")
 Wscript.Echo objDomain.Get("dnsHostName")
 EOF
-      cscript /Nologo $(cygpath --windows "$script")
+      cscript /Nologo "$(cygpath --windows "$script")"
     }
     ;;
   "GNU/Linux")
@@ -234,24 +234,24 @@ EOF
 esac
 
 function milliseconds() {
-  expr $(date +%s%N) / 1000000
+  echo $(( $(date +%s%N) / 1000000 ))
 }
 
 # tool install
 alias install-rbenv='git clone https://github.com/sstephenson/rbenv.git ~/.rbenv && git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build'
 alias install-gvm='curl -fsSL get.gvmtool.net | bash'
 alias install-sdkman='curl -fsSL http://get.sdkman.io | bash'
-alias install-evm="sudo mkdir -p /usr/local/evm && sudo chown $USER: /usr/local/evm && curl -fsSL https://raw.github.com/rejeep/evm/master/go | bash"
+alias install-evm='sudo mkdir -p /usr/local/evm && sudo chown $USER: /usr/local/evm && curl -fsSL https://raw.github.com/rejeep/evm/master/go | bash'
 alias install-cask='curl -fsSL https://raw.github.com/cask/cask/master/go | python'
 alias install-gibo='curl -fsSL https://raw.github.com/simonwhitaker/gibo/master/gibo -o ~/bin/gibo && chmod +x ~/bin/gibo && gibo -u'
 install-nkf() {
   local tmpdir=$(mktemp --tmpdir --directory)
   # execute in subprocess
   (
-  cd "$tmpdir"
+  cd "$tmpdir" || return
   curl -fsSL -o nkf.tar.gz 'https://osdn.net/frs/redir.php?m=jaist&f=%2Fnkf%2F64158%2Fnkf-2.1.4.tar.gz'
   tar -xvf nkf.tar.gz
-  cd nkf-2.1.4
+  cd nkf-2.1.4 || return
   make
   make install
   )
@@ -259,10 +259,10 @@ install-nkf() {
 }
 install-git-secrets() {
   (
-  cd /tmp
+  cd /tmp || return
   rm -rf git-secrets
   git clone 'https://github.com/awslabs/git-secrets.git'
-  cd git-secrets
+  cd git-secrets || return
   make install PREFIX=~/.local
   )
 }
