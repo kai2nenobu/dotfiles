@@ -11,6 +11,7 @@ local config = {
 
 -- Key bindings
 keys = {
+  {key="Q", mods="CTRL|SHIFT", action="QuickSelect"},
   -- Command pallete
   {key="P", mods="CTRL|SHIFT", action=wezterm.action{ShowLauncherArgs={flags="FUZZY|KEY_ASSIGNMENTS"}}},
   -- Windows Terminal compatibility
