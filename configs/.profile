@@ -1,4 +1,4 @@
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
@@ -20,8 +20,8 @@ done
 case $(uname -o) in
   "Cygwin")
     # Add cygwin specific bin dir to PATH recursivey
-    if [ -d ${HOME}/cygwin-bin ]; then
-      export PATH=$(find ${HOME}/cygwin-bin -type d | tr '\n' ':')$PATH
+    if [ -d "${HOME}/cygwin-bin" ]; then
+      PATH="$(find "${HOME}/cygwin-bin" -type d | tr '\n' ':')$PATH"
     fi
     # Ignore CR in shell scripts
     export SHELLOPTS='igncr'
@@ -30,8 +30,8 @@ case $(uname -o) in
 esac
 
 # Load RVM into a shell session *as a function*
-if [[ -s ${HOME}/.rvm/scripts/rvm ]]; then
-  source $HOME/.rvm/scripts/rvm;
+if [ -s "${HOME}/.rvm/scripts/rvm" ]; then
+  source "${HOME}/.rvm/scripts/rvm"
 fi
 
 # rbenv
