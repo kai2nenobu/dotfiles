@@ -1,5 +1,5 @@
 # -*- mode: sh -*-
-# shellcheck disable=SC2155  # GLOBAL IGNORE
+# shellcheck shell=bash disable=SC2155  # GLOBAL IGNORE
 #   SC2155: Declare and assign separately to avoid masking return values.
 
 # general aliases

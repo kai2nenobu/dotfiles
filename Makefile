@@ -8,7 +8,8 @@ SHELL := /bin/bash
 .PHONY: $(shell grep -oE ^[a-zA-Z_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
 lint-shellcheck: ## Lint shell scripts by shellcheck
-	find . -name "*.bash" -or -name "*.sh" -or -name "pre-commit" | xargs shellcheck -e SC1091
+	find . -type f -regextype posix-egrep -regex '.*(\.(ba)?sh|\.profile|\.bash[^/]*|pre-commit|post-checkout)' \
+	  | xargs shellcheck -e SC1091
 
 lint-ansible: ## Lint ansible playbooks by ansible-lint
 	cd ansible; poetry run ansible-lint site.yml
