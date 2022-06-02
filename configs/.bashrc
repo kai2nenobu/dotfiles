@@ -13,7 +13,9 @@ function _log() {
 
 # Load scripts in .bash.d
 for script in ~/.bash.d/*.bash; do
+  [ -e "$script" ] || continue
   _log "Loading \"$script\""
+  # shellcheck disable=SC1090
   source "$script"
   _log "Complete loading \"$script\""
 done
