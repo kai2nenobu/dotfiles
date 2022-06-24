@@ -26,6 +26,8 @@
   "[shellscript]": {
     "editor.tabSize": 2
   },
+  /* Color Highlight */
+  "color-highlight.markerType": "dot-before",
   "yaml.customTags": [
     "!Ref",
     "!Sub scalar",
