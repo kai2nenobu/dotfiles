@@ -51,6 +51,9 @@
       - FZF_DEFAULT_OPTS
       - WSL_GATEWAY
       - WSL_AUTH_SOCK/up
+      - http_proxy/w
+      - https_proxy/w
+      - no_proxy/w
 - name: Windows OS設定
   tags: [config]
   include_tasks: windows_config.yml
