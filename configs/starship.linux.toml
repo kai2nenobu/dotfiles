@@ -14,8 +14,15 @@ disabled = true
 [python]
 pyenv_version_name = true
 
-[env_var]
-variable = 'RUNTIME_ICON'
+# Indicator that proxy is enabled or not
+[env_var.http_proxy]
+style = '#99FF99'
+format = '[PROXY]($style)'
+[env_var.https_proxy]
+style = '#7bdcfe'
+format = '[S]($style) '
+
+[env_var.RUNTIME_ICON]
 default = 'Unknown Runtime'
 style = '#ff9900'
 format = 'on [$env_value]($style) '

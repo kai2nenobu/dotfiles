@@ -10,3 +10,11 @@ format = '[$symbol$status]($style)  '
 
 [git_status]
 disabled = true
+
+# Indicator that proxy is enabled or not
+[env_var.http_proxy]
+style = '#99FF99'
+format = '[PROXY]($style)'
+[env_var.https_proxy]
+style = '#7bdcfe'
+format = '[S]($style) '
