@@ -85,13 +85,13 @@
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
     "eamodio.gitlens", // GitLens
     "ms-azuretools.vscode-docker", // Docker
-    "streetsidesoftware.code-spell-checker", // Code Spell Checker
+    "streetsidesoftware.code-spell-checker" // Code Spell Checker
   ],
   "remote.containers.defaultExtensions": [
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
     "eamodio.gitlens", // GitLens
     "ms-azuretools.vscode-docker", // Docker
-    "streetsidesoftware.code-spell-checker", // Code Spell Checker
+    "streetsidesoftware.code-spell-checker" // Code Spell Checker
   ],
   "remote.WSL.defaultExtensions": [
     // 2020-02-14 時点でこんな設定はないようだ
@@ -102,7 +102,7 @@
     "GitHub.vscode-pull-request-github",
     "ms-ceintl.vscode-language-pack-ja", // Japanese Language Pack for Visual Studio Code
     "eamodio.gitlens", // GitLens
-    "streetsidesoftware.code-spell-checker", // Code Spell Checker
+    "streetsidesoftware.code-spell-checker" // Code Spell Checker
   ],
   "git.autofetch": true,
   "git.confirmSync": false
