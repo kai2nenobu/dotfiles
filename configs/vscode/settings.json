@@ -26,6 +26,9 @@
   "[shellscript]": {
     "editor.tabSize": 2
   },
+  "[terraform]": {
+    "editor.tabSize": 2
+  },
   /* Color Highlight */
   "color-highlight.markerType": "dot-before",
   "yaml.customTags": [
