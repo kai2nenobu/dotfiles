@@ -42,9 +42,13 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     label = "Command Prompt",
     args = {"cmd.exe"}
   })
+  local powershell_command = {"powershell.exe"}
   table.insert(launch_menu, {
     label = "Windows PowerShell",
-    args = {"powershell.exe"},
+    args = powershell_command,
+  })
+  table.insert(keys, {
+    key="$", mods="CTRL|SHIFT", action=wezterm.action{SpawnCommandInNewTab={args=powershell_command}},
   })
   config["launch_menu"] = launch_menu
 end
