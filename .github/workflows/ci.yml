@@ -93,6 +93,8 @@ jobs:
       matrix:
         include:
           - group: wsl
+            distribution: Ubuntu-22.04
+          - group: wsl
             distribution: Ubuntu-20.04
           - group: wsl
             distribution: Ubuntu-18.04
