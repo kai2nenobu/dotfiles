@@ -142,6 +142,13 @@ jobs:
           icacls 'C:\ProgramData\ssh\administrators_authorized_keys'
           Restart-Service -Name sshd -Force
         if: ${{ matrix.group == 'windows' }}
+      - name: Upgrade gzip version
+        # Workaround for gzip error on Ubuntu 22.04
+        # https://github.com/microsoft/WSL/issues/4461#issuecomment-1134042360
+        run: >-
+          curl -fsSL -o gzip_1.12-1_amd64.deb http://ftp.debian.org/debian/pool/main/g/gzip/gzip_1.12-1_amd64.deb
+          && sudo dpkg -i ./gzip_1.12-1_arm64.deb && rm -f ./gzip_1.12-1_arm64.deb
+        if: ${{ matrix.distribution == 'Ubuntu-22.04' }}
       - name: Copy dotfiles
         run: umask 0022 && mkdir -p ~/dotfiles && cp -vr . ~/dotfiles
       - name: Run the bootstrap script
