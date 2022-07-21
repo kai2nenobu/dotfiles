@@ -34,6 +34,6 @@ extract_failure_reason() {
 }
 
 fetch_failed_runs | while IFS= read -r run_id; do
-  printf "$run_id: "
+  printf "%s: " "$run_id"
   extract_failure_reason "$run_id"
 done
