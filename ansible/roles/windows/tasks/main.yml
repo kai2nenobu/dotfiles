@@ -300,7 +300,7 @@
       args: "-setenv -envname WSL_AUTH_SOCK"
       dest: '{{ startup_folder }}\wsl-ssh-agent.lnk'
 - name: Cmderのユーザ個別設定ディレクトリを作成する
-  # ref. https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
+  # https://github.com/cmderdev/cmder/blob/master/README.md#shared-cmder-install-with-non-portable-individual-user-config
   tags: [config, cmder]
   win_file:
     path: "%CMDER_USER_CONFIG%"
