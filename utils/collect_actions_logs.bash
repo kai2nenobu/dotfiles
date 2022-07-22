@@ -33,6 +33,11 @@ extract_failure_reason() {
   unzip -p "$log_zip" "$ansible_job_log" | grep 'failed:' || true
 }
 
+if ! gh auth status &> /dev/null; then
+  printf 'GitHub CLIが認証されていません。"gh auth login"を実行して認証をすませてください\n' >&2
+  exit 1
+fi
+
 fetch_failed_runs | while IFS= read -r run_id; do
   printf "%s: " "$run_id"
   extract_failure_reason "$run_id"
