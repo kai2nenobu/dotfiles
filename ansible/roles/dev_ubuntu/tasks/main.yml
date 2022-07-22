@@ -55,17 +55,15 @@
     apt_key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FF0E01EEAAFC9CD
     apt_keyring_location: /etc/apt/keyrings/ppa-kelleyk-emacs.gpg
     apt_keyring_checksum: 23ba53c5700adc8a149868a44e2c5493a39923a632cf25c8f5a22eca9cf3c2e3
-  when: ansible_facts.distribution_version is version('20.04', '<=')
 - name: Add an emacs ppa repository
   tags: [package]
   become: yes
-  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt_repository:
     repo: >-
       deb [signed-by=/etc/apt/keyrings/ppa-kelleyk-emacs.gpg]
       http://ppa.launchpad.net/kelleyk/emacs/ubuntu  {{ ansible_facts.distribution_release }} main
     state: present
-- name: Uninstall needless packages
+- name: Uninstall old emacs packages
   tags: [package]
   become: yes
   apt:
@@ -73,13 +71,15 @@
       - emacs26
       - emacs26-common
       - emacs26-el
+      - emacs27
+      - emacs27-common
+      - emacs27-el
     state: absent
-- name: Install emacs
+- name: Install emacs 28
   tags: [package]
   become: yes
-  when: ansible_facts.distribution_version is version('20.04', '<=')
   apt:
-    name: emacs27
+    name: emacs28
     state: present
 - name: Add a gpg key for docker apt repository
   import_tasks: add_apt_key.yml
