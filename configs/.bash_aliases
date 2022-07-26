@@ -324,4 +324,31 @@ install-delta() {
   rm -f /tmp/delta-musl.deb
 }
 
+# Enable/Disable proxy
+enable-proxy() {
+  cert=''
+  while getopts "c:" opt; do
+    case "$opt" in
+      c)
+        cert="$OPTARG";;
+      *)
+        return 1
+    esac
+  done
+  shift $((OPTIND-1))
+
+  proxy=${1:-${WSL_GATEWAY:-127.0.0.1}:8888}
+  export http_proxy="$proxy"
+  export https_proxy="$proxy"
+  export no_proxy="${WSL_GATEWAY:-},127.0.0.1,localhost,kubernetes.docker.internal,[::1]"
+  # Set a custom certificate path
+  export AWS_CA_BUNDLE="$cert"
+  export REQUESTS_CA_BUNDLE="$cert"
+  export CURL_CA_BUNDLE="$cert"
+}
+disable-proxy() {
+  unset http_proxy https_proxy no_proxy
+  unset AWS_CA_BUNDLE REQUESTS_CA_BUNDLE CURL_CA_BUNDLE
+}
+
 echo "Load .bash_aliases."
