@@ -63,6 +63,7 @@ jobs:
           path: /tmp
       - name: Move archives into docs directory
         run: |
+          ls -alh _site/
           mkdir -p _site/venv
           find /tmp -type f -name "*.tar.gz" -print0 | xargs -0 mv -t _site/venv
       - name: Upload pages artifact
