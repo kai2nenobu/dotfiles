@@ -32,6 +32,9 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     needs: create-venv
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v2
       - name: Download venv archives
@@ -42,11 +45,10 @@ jobs:
         run: |
           mkdir -p docs/venv
           find /tmp -type f -name "*.tar.gz" | xargs mv -t docs/venv
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          cname: dotfiles.kaichan.info
-          enable_jekyll: true
-          force_orphan: true
+          path: "./docs"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@main
