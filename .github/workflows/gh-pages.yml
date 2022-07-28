@@ -45,7 +45,7 @@ jobs:
       - name: Move archives into docs directory
         run: |
           mkdir -p docs/venv
-          find /tmp -type f -name "*.tar.gz" | xargs mv -t docs/venv
+          find /tmp -type f -name "*.tar.gz" -print0 | xargs -0 mv -t docs/venv
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
