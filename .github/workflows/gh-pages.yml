@@ -9,6 +9,7 @@ on:
       - "ansible/pyproject.toml"
       - "ansible/poetry.lock"
       - ".github/workflows/gh-pages.yml"
+  workflow_dispatch: # run manually
 
 jobs:
   create-venv:
