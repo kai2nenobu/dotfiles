@@ -11,6 +11,11 @@ on:
       - ".github/workflows/gh-pages.yml"
   workflow_dispatch: # run manually
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   create-venv:
     runs-on: ubuntu-20.04
