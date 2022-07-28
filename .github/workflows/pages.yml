@@ -50,18 +50,25 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: docs
+          destination: _site
       - name: Download venv archives
         uses: actions/download-artifact@v2
         with:
           path: /tmp
       - name: Move archives into docs directory
         run: |
-          mkdir -p docs/venv
-          find /tmp -type f -name "*.tar.gz" -print0 | xargs -0 mv -t docs/venv
+          mkdir -p _site/venv
+          find /tmp -type f -name "*.tar.gz" -print0 | xargs -0 mv -t _site/venv
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./docs"
+          path: _site/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@main
