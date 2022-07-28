@@ -41,6 +41,7 @@ jobs:
         with:
           name: ${{ matrix.image }}
           path: "*.tar.gz"
+          retention-days: 1
   deploy:
     runs-on: ubuntu-20.04
     needs: create-venv
