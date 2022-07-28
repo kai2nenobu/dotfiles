@@ -58,7 +58,7 @@ jobs:
           source: docs
           destination: _site
       - name: Download venv archives
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           path: /tmp
       - name: Move archives into docs directory
