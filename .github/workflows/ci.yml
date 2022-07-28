@@ -17,7 +17,7 @@ jobs:
   check:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: "3.6"
@@ -32,7 +32,7 @@ jobs:
   shellcheck:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
@@ -50,7 +50,7 @@ jobs:
     env:
       ANSIBLE_LOG_PATH: ${{ github.workspace }}/ansible/logs/ansible-vm-${{ matrix.os }}.log
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Copy dotfiles
         run: cp -vr "${{ github.workspace }}" ~
       - name: Run the bootstrap script
@@ -72,7 +72,7 @@ jobs:
     env:
       ANSIBLE_LOG_PATH: /root/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Launch a target container
         run: >-
           docker run -d --name target --init -e ANSIBLE_LOG_PATH -v "$PWD:/root/dotfiles" -w /root/dotfiles
@@ -115,7 +115,7 @@ jobs:
       run:
         shell: wsl-bash {0}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: Vampire/setup-wsl@v1
         with:
           distribution: ${{ matrix.distribution }}
