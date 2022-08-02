@@ -15,7 +15,8 @@
   /* デフォルト言語をmarkdownにする */
   "files.defaultLanguage": "markdown",
   "files.associations": {
-    "*.tmp": "markdown"
+    "*.tmp": "markdown",
+    "*.txt": "markdown"
   },
   /* Code Spell Checker */
   "cSpell.userWords": [
