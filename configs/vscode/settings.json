@@ -144,6 +144,8 @@
       }
     ]
   },
+  /* Prettier */
+  "prettier.printWidth": 120,
   "git.autofetch": true,
   "git.confirmSync": false
 }
