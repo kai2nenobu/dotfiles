@@ -5,8 +5,7 @@
   "python.venvPath": ".venv",
   // ファイル自動保存設定
   "files.autoSave": "afterDelay",
-  // 保存時に自動フォーマット
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false, // 保存時の自動フォーマット
   // ファイルを自動保存する遅延時間（ミリ秒）
   "files.autoSaveDelay": 500,
   "editor.fontSize": 15,
