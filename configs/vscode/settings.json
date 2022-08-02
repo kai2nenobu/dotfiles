@@ -20,8 +20,16 @@
   },
   /* Code Spell Checker */
   "cSpell.userWords": [
+    "amazonlinux",
     "autouse",
-    "excinfo"
+    "buildspec",
+    "Dockle",
+    "dtype",
+    "excinfo",
+    "grafana",
+    "hadolint",
+    "mkdir",
+    "trivy"
   ],
   "[shellscript]": {
     "editor.tabSize": 2
