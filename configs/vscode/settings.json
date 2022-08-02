@@ -29,6 +29,10 @@
   "[terraform]": {
     "editor.tabSize": 2
   },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
   /* Color Highlight */
   "color-highlight.markerType": "dot-before",
   "yaml.customTags": [
