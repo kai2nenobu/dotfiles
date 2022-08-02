@@ -44,5 +44,20 @@
         "key": "ctrl+[BracketLeft]",
         "command": "workbench.action.terminal.toggleTerminal",
         "when": "terminal.active"
-    }
+    },
+    {
+        "key": "ctrl+i",
+        "command": "editor.toggleFold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "ctrl+c ctrl+f",
+        "command": "editor.gotoNextFold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "ctrl+c ctrl+b",
+        "command": "editor.gotoPreviousFold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
 ]
