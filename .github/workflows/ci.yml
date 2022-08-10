@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-22.04", "ubuntu-20.04", "ubuntu-18.04"]
+        os: ["ubuntu-22.04", "ubuntu-20.04"]
     env:
       ANSIBLE_LOG_PATH: ${{ github.workspace }}/ansible/logs/ansible-vm-${{ matrix.os }}.log
     steps:
