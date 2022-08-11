@@ -6,7 +6,7 @@
   // ファイル自動保存設定
   "files.autoSave": "afterDelay",
   "editor.formatOnSave": false, // 保存時の自動フォーマット
-  "files.insertFinalNewline": true, // ファイル末尾に常に改行する
+  "files.insertFinalNewline": true, // ファイル末尾を常に改行する
   // ファイルを自動保存する遅延時間（ミリ秒）
   "files.autoSaveDelay": 500,
   "editor.fontSize": 15,
