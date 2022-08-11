@@ -59,6 +59,7 @@ jobs:
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ~/dotfiles/ansible
+          && ansible-galaxy install -r requirements.yml
           && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
         run: >-
@@ -90,6 +91,7 @@ jobs:
           docker exec target bash -c "
             . /opt/ansible-venv/bin/activate
             && cd ansible
+            && ansible-galaxy install -r requirements.yml
             && ansible-playbook -i test_hosts.ini site.yml --limit wsl
           "
       - name: Apply ansible playbook again
@@ -174,6 +176,7 @@ jobs:
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ~/dotfiles/ansible
+          && ansible-galaxy install -r requirements.yml
           && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Apply ansible playbook again
         run: >-
