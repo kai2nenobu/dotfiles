@@ -56,9 +56,15 @@ jobs:
       - name: Run the bootstrap script
         run: bash -e bootstrap.sh
       - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - uses: actions/upload-artifact@v3
         with:
           name: ansible-logs
@@ -81,12 +87,18 @@ jobs:
         run: docker exec target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
         run: >-
-          docker exec target bash -c
-          ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
+          docker exec target bash -c "
+            . /opt/ansible-venv/bin/activate
+            && cd ansible
+            && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+          "
       - name: Apply ansible playbook again
         run: >-
-          docker exec target bash -c
-          ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
+          docker exec target bash -c "
+            . /opt/ansible-venv/bin/activate
+            && cd ansible
+            && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+          "
       - name: Kill the target container
         run: docker rm --force target
       - uses: actions/upload-artifact@v3
@@ -159,9 +171,15 @@ jobs:
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Apply ansible playbook again
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Show logs
         shell: powershell
         run: |
