@@ -46,6 +46,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[yaml]": {
+    "editor.rulers": [120]
+  },
   /* Color Highlight */
   "color-highlight.markerType": "dot-before",
   "yaml.customTags": [
