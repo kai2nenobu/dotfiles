@@ -18,4 +18,9 @@
   roles:
     - role: wsl
       when: is_wsl
+    - role: markosamuli.linuxbrew
+      vars:
+        #linuxbrew_home: /home/linuxbrew
+        #linuxbrew_use_installer: true
+        linuxbrew_init_shell: false
     - dev_ubuntu
