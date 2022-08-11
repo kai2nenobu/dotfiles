@@ -18,6 +18,8 @@
     "*.tmp": "markdown",
     "*.txt": "markdown"
   },
+  /* Git */
+  "git.showCommitInput": false,
   /* Code Spell Checker */
   "cSpell.userWords": [
     "amazonlinux",
