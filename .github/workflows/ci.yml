@@ -87,20 +87,18 @@ jobs:
       - name: Run the bootstrap script
         run: docker exec target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
+        shell: docker exec target bash {0}
         run: >-
-          docker exec target bash -c "
-            . /opt/ansible-venv/bin/activate
-            && cd ansible
-            && ansible-galaxy install -r requirements.yml
-            && ansible-playbook -i test_hosts.ini site.yml --limit wsl
-          "
+          . /opt/ansible-venv/bin/activate
+          && cd ansible
+          && ansible-galaxy install -r requirements.yml
+          && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
+        shell: docker exec target bash {0}
         run: >-
-          docker exec target bash -c "
-            . /opt/ansible-venv/bin/activate
-            && cd ansible
-            && ansible-playbook -i test_hosts.ini site.yml --limit wsl
-          "
+          . /opt/ansible-venv/bin/activate
+          && cd ansible
+          && ansible-playbook -i test_hosts.ini site.yml --limit wsl
       - name: Kill the target container
         run: docker rm --force target
       - uses: actions/upload-artifact@v3
