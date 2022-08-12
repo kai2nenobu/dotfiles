@@ -77,7 +77,7 @@ jobs:
       matrix:
         image: ["ubuntu-22.04", "ubuntu-20.04"]
     env:
-      ANSIBLE_LOG_PATH: /root/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
+      ANSIBLE_LOG_PATH: /home/runner/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
     steps:
       - uses: actions/checkout@v3
       - name: Launch a target container
@@ -103,13 +103,13 @@ jobs:
           . /opt/ansible-venv/bin/activate
           && cd ansible
           && ansible-galaxy install -r requirements.yml
-          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
+          && ansible-playbook -u "$(whoami)" -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
         shell: docker exec -u runner target bash {0}
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ansible
-          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
+          && ansible-playbook -u "$(whoami)" -i test_hosts.ini site.yml --limit wsl
       - name: Kill the target container
         run: docker rm --force target
       - uses: actions/upload-artifact@v3
