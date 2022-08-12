@@ -83,6 +83,7 @@ jobs:
       - name: Launch a target container
         run: >-
           docker run -d --name target --init -e ANSIBLE_LOG_PATH -v "$PWD:/root/dotfiles" -w /root/dotfiles
+          -v /home/runner/work/_temp:/home/runner/work/_temp
           $(echo "${{ matrix.image }}" | tr "-" ":") tail -f
       - name: Run the bootstrap script
         run: docker exec target bash -c "./bootstrap.sh"
