@@ -93,6 +93,7 @@ jobs:
           && apt install -y sudo
           && useradd $USER
           && echo '$USER ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/$USER
+          && chown $USER:$USER /home/$USER
           "
       - name: Run the bootstrap script
         run: docker exec -u runner target bash -c "./bootstrap.sh"
