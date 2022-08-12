@@ -95,16 +95,16 @@ jobs:
           && echo '$USER ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/$USER
           "
       - name: Run the bootstrap script
-        run: docker exec -u $USER target bash -c "./bootstrap.sh"
+        run: docker exec -u runner target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
-        shell: docker exec -u $USER target bash {0}
+        shell: docker exec -u runner target bash {0}
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ansible
           && ansible-galaxy install -r requirements.yml
           && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
-        shell: docker exec -u $USER target bash {0}
+        shell: docker exec -u runner target bash {0}
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ansible
