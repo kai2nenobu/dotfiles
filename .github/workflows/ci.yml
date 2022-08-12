@@ -82,20 +82,29 @@ jobs:
       - uses: actions/checkout@v3
       - name: Launch a target container
         run: >-
-          docker run -d --name target --init -e ANSIBLE_LOG_PATH -v "$PWD:/root/dotfiles" -w /root/dotfiles
-          -v /home/runner/work/_temp:/home/runner/work/_temp
+          docker run -d --name target --init -e ANSIBLE_LOG_PATH -w /home/$USER/dotfiles
+          -v "$PWD:/home/$USER/dotfiles"
+          -v "/home/$USER/work/_temp:/home/$USER/work/_temp"
           $(echo "${{ matrix.image }}" | tr "-" ":") tail -f
+      - name: Create a non-root user and enable password-less sudo in the target container
+        run: >-
+          docker exec target bash -c "
+          apt update
+          && apt install -y sudo
+          && useradd $USER
+          && echo '$USER ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/$USER
+          "
       - name: Run the bootstrap script
-        run: docker exec target bash -c "./bootstrap.sh"
+        run: docker exec -u $USER target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
-        shell: docker exec target bash {0}
+        shell: docker exec -u $USER target bash {0}
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ansible
           && ansible-galaxy install -r requirements.yml
           && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
-        shell: docker exec target bash {0}
+        shell: docker exec -u $USER target bash {0}
         run: >-
           . /opt/ansible-venv/bin/activate
           && cd ansible
