@@ -78,6 +78,7 @@ jobs:
         image: ["ubuntu-22.04", "ubuntu-20.04"]
     env:
       ANSIBLE_LOG_PATH: /home/runner/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
+      RUNNER_UID: "1001" # User ID for runner user
     steps:
       - uses: actions/checkout@v3
       - name: Launch a target container
@@ -91,7 +92,7 @@ jobs:
           docker exec target bash -c "
           apt update
           && apt install -y sudo
-          && useradd $USER
+          && useradd $USER -u $RUNNER_UID
           && echo '$USER ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/$USER
           && chown $USER:$USER /home/$USER
           "
