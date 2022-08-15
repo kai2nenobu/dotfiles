@@ -3,7 +3,10 @@ local wezterm = require 'wezterm';
 -- Common settings
 local config = {
   -- color_scheme = "JetBrains Darcula",
-  font = wezterm.font("HackGenNerd Console"),
+  font = wezterm.font_with_fallback {
+    "HackGen Console NF",
+    "HackGenNerd Console",
+  },
   font_size = 14.0,
   enable_scroll_bar = true,
   -- debug_key_events = true,

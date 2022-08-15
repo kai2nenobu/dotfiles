@@ -11,7 +11,7 @@
   "files.autoSaveDelay": 500,
   "editor.fontSize": 15,
   "editor.renderWhitespace": "boundary",
-  "editor.fontFamily": "'HackGenNerd', Consolas, 'Courier New', monospace",
+  "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
   "editor.mouseWheelZoom": true,
   /* デフォルト言語をmarkdownにする */
   "files.defaultLanguage": "markdown",
@@ -99,7 +99,7 @@
       ]
     }
   },
-  "terminal.integrated.fontFamily": "'PlemolJP Console NF', 'HackGenNerd Console'",
+  "terminal.integrated.fontFamily": "'PlemolJP Console NF', 'HackGen Console NF'",
   // 統合ターミナルにPowerShell Coreを使用する
   "terminal.integrated.defaultProfile.windows": "PowerShell Core",
   "terminal.integrated.profiles.windows": {
