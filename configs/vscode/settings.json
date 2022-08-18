@@ -13,6 +13,7 @@
   "editor.renderWhitespace": "boundary",
   "editor.fontFamily": "HackGen, Consolas, 'Courier New', monospace",
   "editor.mouseWheelZoom": true,
+  "zenMode.hideLineNumbers": false,
   /* デフォルト言語をmarkdownにする */
   "files.defaultLanguage": "markdown",
   "files.associations": {
