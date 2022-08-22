@@ -151,7 +151,12 @@ export USER_EMACS_DIRECTORY="${HOME}/.emacs.d"
 
 alias emacs-clean-elc='find "${USER_EMACS_DIRECTORY}" -type f -name "*.elc" | xargs --no-run-if-empty rm'
 
-alias av='aws-vault'
+if type aws-vault &> /dev/null; then
+  alias av='aws-vault'
+  function aws() {
+    aws-vault exec "${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:?Configure AWS_PROFILE or AWS_DEFAULT_PROFILE}}" -- aws "$@"
+  }
+fi
 
 function emacs-extract-init() {
   sed -n -e '/^#+BEGIN_SRC emacs-lisp/,/^#+END_SRC/ p' "${USER_EMACS_DIRECTORY}/org-init.d/init.org" | \
