@@ -227,7 +227,6 @@
     - sysinternals
     - temurin17
     - temurin8
-    - vcxsrv
     - vscode
     - winmerge
 - name: ghインストールする (chocolatey.org)
