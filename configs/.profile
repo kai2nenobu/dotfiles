@@ -56,6 +56,7 @@ export EDITOR=emacsclient
 export VISUAL=emacsclient
 export LESS='-R'
 #export LESSOPEN='| /usr/share/source-highlight/src-hilite-lesspipe.sh %s'
+export BAT_PAGER='less -RF'
 
 # if pyenv is installed
 if [ -e "$HOME/.pyenv/bin/pyenv" ]; then

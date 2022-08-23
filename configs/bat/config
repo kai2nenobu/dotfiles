@@ -2,3 +2,5 @@
 --theme=TwoDark
 # 拡張子、ファイル名と言語のマッピング
 --map-syntax "poetry.lock:TOML"
+# 長い行を折り返さない
+--wrap never
