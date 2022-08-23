@@ -33,6 +33,7 @@
     "grafana",
     "hadolint",
     "mkdir",
+    "Referer",
     "trivy"
   ],
   "[shellscript]": {
