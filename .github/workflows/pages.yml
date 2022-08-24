@@ -27,7 +27,11 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        image: ["ubuntu-22.04", "ubuntu-20.04", "ubuntu-18.04"]
+        image:
+          - ubuntu-22.04
+          - ubuntu-20.04
+          - ubuntu-18.04
+          - debian-10
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
