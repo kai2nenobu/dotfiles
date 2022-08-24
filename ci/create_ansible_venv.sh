@@ -19,7 +19,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 TARGET_LOCATION=/opt/ansible-venv
 python3 -m venv "$TARGET_LOCATION"
 . "$TARGET_LOCATION/bin/activate"
-pip3 install wheel
+pip3 install --upgrade pip && pip3 install wheel
 pip3 install -r <(cd ansible && /opt/poetry/bin/poetry export -f requirements.txt)
 
 ## Archive the venv
