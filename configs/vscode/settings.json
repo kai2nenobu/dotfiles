@@ -34,7 +34,9 @@
     "hadolint",
     "mkdir",
     "Referer",
-    "trivy"
+    "trivy",
+    "excinfo",
+    "traceroute"
   ],
   "[shellscript]": {
     "editor.tabSize": 2
