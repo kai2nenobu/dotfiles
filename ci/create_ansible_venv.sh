@@ -5,8 +5,6 @@
 
 set -eu
 
-root_dir="$PWD"
-
 ## Install prerequisites
 apt update && apt install -y ca-certificates curl python3 python3-pip \
   python3-venv python3-wheel python3-dev python3-distutils build-essential libffi-dev
