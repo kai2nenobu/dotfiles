@@ -12,7 +12,7 @@ apt update && apt install -y ca-certificates curl python3 python3-dev python3-di
 
 ## Install poetry
 export POETRY_HOME=/opt/poetry
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+curl -sSL https://install.python-poetry.org | python3 -
 
 # shellcheck disable=SC1090
 . "${POETRY_HOME}/env"
