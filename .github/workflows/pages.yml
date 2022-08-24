@@ -36,11 +36,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Create venv in docker
-        run: |
-          set -eux
-          image=$(echo '${{ matrix.image }}' | tr '-' ':')
-          docker run -e LANG=C.UTF-8 -v "$PWD:/root/dotfiles" -w /root/dotfiles \
-            "$image" ./ci/create_ansible_venv.sh
+        run: >-
+          docker run -e LANG=C.UTF-8 -v "$PWD:/root/dotfiles" -w /root/dotfiles
+          $(echo "${{ matrix.image }}" | tr "-" ":") ./ci/create_ansible_venv.sh
       - name: Upload the venv archive as artifact
         uses: actions/upload-artifact@v3
         with:
