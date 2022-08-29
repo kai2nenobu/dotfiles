@@ -159,7 +159,16 @@ if (Get-Command -ea SilentlyContinue exa) {
   }
 }
 
-Set-Alias av aws-vault
+# aws-vault integration
+if (get-command -ea SilentlyContinue aws-vault -CommandType Application -TotalCount 1) {
+  Set-Alias av aws-vault
+  function aws() {
+    $prof = if ($env:AWS_PROFILE) { $env:AWS_PROFILE }
+            elseif ($env:AWS_DEFAULT_PROFILE) { $env:AWS_DEFAULT_PROFILE }
+            else { Write-Error 'Configure AWS_PROFILE or AWS_DEFAULT_PROFILE' -ea Stop }
+    aws-vault.exe exec "$prof" -- aws.exe $args
+  }
+}
 # AWS CLI completion
 if (Get-Command -ea SilentlyContinue aws_completer) {
   Register-ArgumentCompleter -Native -CommandName aws -ScriptBlock {
