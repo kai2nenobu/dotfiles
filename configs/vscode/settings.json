@@ -171,6 +171,9 @@
       }
     ]
   },
+  /* Markdown Paste (telesoho.vscode-markdown-paste-image) */
+  "MarkdownPaste.path": "./images",
+  "MarkdownPaste.namePrefix": "image-",
   /* Prettier */
   "prettier.printWidth": 120,
   "git.autofetch": true,
