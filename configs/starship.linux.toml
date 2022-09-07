@@ -26,3 +26,10 @@ format = '[S]($style) '
 default = 'Unknown Runtime'
 style = '#ff9900'
 format = 'on [$env_value]($style) '
+
+[aws]
+symbol = " "
+force_display = true
+
+[aws.region_aliases]
+ap-northeast-1 = "Tokyo"
