@@ -13,8 +13,8 @@ fi
 
 platform=
 if [ -f /etc/os-release ]; then
-  . /etc/os-release
-  case "$ID" in
+  id=$(sed -n '/^ID=/ s/ID=//p' /etc/os-release)
+  case "$id" in
     "centos")
       platform=$(printf '\uF304');;  # nf-linux-centos
     "debian")
@@ -30,3 +30,4 @@ fi
 
 export RUNTIME_ICON
 RUNTIME_ICON="$wsl$docker$platform"
+unset wsl docker platform
