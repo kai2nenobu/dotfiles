@@ -202,7 +202,7 @@
   pip:
     name: pipenv
     executable: pip3
-- name: Install node.js 14
+- name: Install node.js 16
   become: yes
   tags: [package]
   block:
@@ -216,15 +216,14 @@
       apt_repository:
         repo: >
           deb [signed-by=/etc/apt/keyrings/nodesource.gpg]
-          https://deb.nodesource.com/node_14.x {{ ansible_facts.distribution_release }} main
+          https://deb.nodesource.com/node_16.x {{ ansible_facts.distribution_release }} main
         state: present
-    - name: Install nodejs 14 package
+    - name: Install nodejs 16 package
       apt:
         name: nodejs
         state: present
 - name: Install node tools
   tags: [package]
-  become: yes
   npm:
     name: "{{ item }}"
     global: yes
