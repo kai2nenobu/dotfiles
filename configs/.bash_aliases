@@ -328,6 +328,17 @@ install-delta() {
   sudo dpkg -i /tmp/git-delta.deb
   rm -f /tmp/delta-musl.deb
 }
+install-wezterm() {
+  (
+  . /etc/os-release
+  version=$(curl https://api.github.com/repos/wez/wezterm/releases/latest | jq -r .tag_name)
+  url="https://github.com/wez/wezterm/releases/download/${version}/wezterm-${version}.${NAME}${VERSION_ID}.deb"
+  tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
+  trap "rm -f $tmp_file" EXIT
+  curl -fsSL -o "$tmp_file" "$url"
+  sudo dpkg -i "$tmp_file"
+  )
+}
 
 # Enable/Disable proxy
 enable-proxy() {
