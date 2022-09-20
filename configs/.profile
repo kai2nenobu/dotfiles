@@ -106,6 +106,11 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# Keyboard layout by xkb
+if type xkbcomp > /dev/null 2>&1; then
+  xkbcomp -I"${HOME}/.config/xkb" "${HOME}/.config/xkb/keymap/my.xkb" "$DISPLAY" 2> /tmp/xkb.log
+fi
+
 # Integrate with 1password ssh agent
 if [ -S "$HOME/.1password/agent.sock" ]; then
   export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"

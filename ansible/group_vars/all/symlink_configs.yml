@@ -53,6 +53,7 @@ symlink_config_files:
 ## シンボリックリンクをはるディレクトリたち
 symlink_config_dirs:
   - { src: "configs/.bash.d", dest: ".bash.d" }
+  - { src: "configs/xkb", dest: ".config/xkb" }
   - { src: "utils", dest: "utils" }
   - { src: "configs/git/hooks", dest: ".config/git/hooks" }
   - src: "configs/navi/cheats"

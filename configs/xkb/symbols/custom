@@ -1,0 +1,7 @@
+partial modifier_keys
+
+xkb_symbols {
+  modifier_map Control { <HENK> };
+  modifier_map Control { <CAPS> };
+  modifier_map Mod1 { <MUHE> };
+};
