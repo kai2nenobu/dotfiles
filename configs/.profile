@@ -65,6 +65,9 @@ if [ -e "$HOME/.pyenv/bin/pyenv" ]; then
   eval "$(pyenv init --path)"
 fi
 
+# PATH to Golang
+test -d /usr/local/go/bin && export PATH=$PATH:/usr/local/go/bin
+
 # if go directory exists
 if [ -e "$HOME/go" ]; then
   export GOPATH="$HOME/go"
@@ -118,9 +121,6 @@ fi
 if [ -S "$HOME/.1password/agent.sock" ]; then
   export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 fi
-
-# PATH to Golang
-test -d /usr/local/go/bin && export PATH=$PATH:/usr/local/go/bin
 
 echo "Load .profile"
 
