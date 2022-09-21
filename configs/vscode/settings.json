@@ -13,7 +13,7 @@
   "files.autoSaveDelay": 500,
   "editor.fontSize": 15,
   "editor.renderWhitespace": "boundary",
-  "editor.fontFamily": "'HackGen NF', HackGenNerd, Consolas, 'Courier New', monospace",
+  "editor.fontFamily": "'HackGen Console NF', HackGenNerd, Consolas, 'Courier New', monospace",
   "editor.mouseWheelZoom": true,
   "zenMode.hideLineNumbers": false,
   /* デフォルト言語をmarkdownにする */
