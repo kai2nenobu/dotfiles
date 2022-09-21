@@ -224,6 +224,7 @@
         state: present
 - name: Install node tools
   tags: [package]
+  become: no
   npm:
     name: "{{ item }}"
     global: yes
