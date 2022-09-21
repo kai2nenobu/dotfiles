@@ -71,6 +71,9 @@ if [ -e "$HOME/go" ]; then
   export PATH="$GOPATH/bin:$PATH"
 fi
 
+# Node.js global packages
+test -d "${HOME}/.node/bin" && export PATH="$PATH:${HOME}/.node/bin"
+
 # added by Nix installer
 if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
   . "$HOME/.nix-profile/etc/profile.d/nix.sh"
