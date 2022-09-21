@@ -116,6 +116,9 @@ if [ -S "$HOME/.1password/agent.sock" ]; then
   export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 fi
 
+# PATH to Golang
+test -d /usr/local/go/bin && export PATH=$PATH:/usr/local/go/bin
+
 echo "Load .profile"
 
 # Local Variables:
