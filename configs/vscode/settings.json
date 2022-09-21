@@ -1,6 +1,8 @@
 {
   // タイトルバーとメニューバーを統合する
   "window.titleBarStyle": "custom",
+  // 最近開いたフォルダーを新しいウィンドウで開く
+  "window.openFoldersInNewWindow": "on",
   // Python仮想環境のパス
   "python.venvPath": ".venv",
   // ファイル自動保存設定
