@@ -28,6 +28,7 @@
   "cSpell.userWords": [
     "amazonlinux",
     "autouse",
+    "boto",
     "buildspec",
     "Dockle",
     "dtype",
@@ -35,10 +36,12 @@
     "grafana",
     "hadolint",
     "mkdir",
+    "pytest",
     "Referer",
-    "trivy",
-    "excinfo",
-    "traceroute"
+    "statemachine",
+    "stepfunctions",
+    "traceroute",
+    "trivy"
   ],
   "[shellscript]": {
     "editor.tabSize": 2
