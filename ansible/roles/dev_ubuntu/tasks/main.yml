@@ -222,6 +222,11 @@
       apt:
         name: nodejs
         state: present
+- name: Set ~/.node as npm prefix
+  become: no
+  tags: [config]
+  shell: 'npm config set prefix ~/.node'
+  changed_when: no
 - name: Install node tools
   tags: [package]
   become: no
