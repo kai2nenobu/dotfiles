@@ -87,6 +87,12 @@ if [ -d "$HOME/.poetry" ]; then
   which python3 &> /dev/null && alias poetry='python3 $HOME/.poetry/bin/poetry'
 fi
 
+# Volta integration
+if [ -d "$HOME/.volta" ]; then
+  export VOLTA_HOME="$HOME/.volta"
+  export PATH="$VOLTA_HOME/bin:$PATH"
+fi
+
 if [ -e "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
