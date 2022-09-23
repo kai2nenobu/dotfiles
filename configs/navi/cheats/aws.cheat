@@ -5,3 +5,11 @@ aws cloudformation describe-stack-events --stack-name <stack_name> --query "Stac
 
 $ stack_name: aws cloudformation list-stacks --query StackSummaries[*].[StackName] --out text --no-cli-pager
 $ select_s3_bucket: aws s3api list-buckets --query Buckets[*].[Name] --out text --no-cli-pager
+
+# Search Ubuntu AMIs maintained by Canonical
+; https://gist.github.com/vancluever/7676b4dafa97826ef0e9
+aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu/*" --query 'reverse(sort_by(Images, &CreationDate)[].[ImageId, Name])' --out text
+
+# Find an AMI ID for Ubuntu image from SSM parameter store
+; https://ubuntu.com/server/docs/cloud-images/amazon-ec2
+aws ssm get-parameters --names '/aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id' --query 'Parameters[0].Value' --out text
