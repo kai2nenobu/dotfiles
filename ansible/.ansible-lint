@@ -1,6 +1,7 @@
 # -*- mode: yaml -*-
 skip_list:
   - yaml  # Don't check by yamllint
+  - command-instead-of-shell  # shell module is requied to expand ~
 exclude_paths:
   - .github/
   - .venv/
