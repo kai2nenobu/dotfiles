@@ -100,5 +100,5 @@ impl=$(detect_implementation)
 if $is_read; then
   "${impl}_read_clipboard"
 else
-  "${impl}_write_clipboard" < "$file"
+  cat "$file" | "${impl}_write_clipboard"
 fi
