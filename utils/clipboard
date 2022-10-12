@@ -100,5 +100,6 @@ impl=$(detect_implementation)
 if $is_read; then
   "${impl}_read_clipboard"
 else
+  # shellcheck disable=SC2002 # Need to use cat to read from stdin
   cat "$file" | "${impl}_write_clipboard"
 fi
