@@ -60,4 +60,8 @@
         "command": "editor.gotoPreviousFold",
         "when": "editorTextFocus && foldingEnabled"
     },
+    {
+        "key": "ctrl+x s",
+        "command": "search.action.openEditor"
+    },
 ]
