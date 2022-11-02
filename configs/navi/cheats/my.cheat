@@ -99,6 +99,9 @@ git branch -vv | ? { $_ -match ': gone' } | % { ($_ -split '\s+')[1] } | % { git
 # Show diff for merge commit
 git show -m <merge_commits>
 
+# Reset and normalize end of lines in a repository
+; https://stackoverflow.com/a/50354765
+git stash && git rm --cached -r . && git reset --hard && git checkout .
 
 $ local_branch: git branch --format "%(refname:short)"
 $ remote_branch: git branch -r --format "%(refname:lstrip=3)"
