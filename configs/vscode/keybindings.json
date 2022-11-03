@@ -64,4 +64,25 @@
         "key": "ctrl+x s",
         "command": "search.action.openEditor"
     },
+    {
+        "key": "ctrl+alt+g",
+        "command": "editor.action.revealDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+alt+left",
+        "command": "-workbench.action.moveEditorToPreviousGroup"
+    },
+    {
+        "key": "ctrl+alt+right",
+        "command": "-workbench.action.moveEditorToNextGroup"
+    },
+    {
+        "key": "ctrl+alt+right",
+        "command": "workbench.action.navigateForwardInNavigationLocations"
+    },
+    {
+        "key": "ctrl+alt+left",
+        "command": "workbench.action.navigateBackInNavigationLocations"
+    },
 ]
