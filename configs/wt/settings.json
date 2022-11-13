@@ -26,9 +26,16 @@
     {
         "defaults": 
         {
-            "bellStyle": "visual",
-            "fontFace": "HackGenNerd Console",
-            "fontSize": 14
+            "bellStyle": 
+            [
+                "window",
+                "taskbar"
+            ],
+            "font": 
+            {
+                "face": "HackGen Console NF",
+                "size": 14
+            }
         },
         "list": 
         [
