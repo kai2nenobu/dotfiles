@@ -82,6 +82,25 @@ function print256colours() {
   bash -c "$(curl -s 'https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/e50a28ec54188d2413518788de6c6367ffcea4f7/print256colours.sh')"
 }
 
+function code-recent() {
+  # ~/.config/Code/User/globalStorage/state.vscdb に最近開いたファイルの情報が含まれている
+  sqlite3 ~/.config/Code/User/globalStorage/state.vscdb 'select * from ItemTable' \
+    | sed -n '/^history\.recentlyOpenedPathsList/ s@[^|]*|@@p' \
+    | jq -cr '.entries[]'
+}
+
+function open-code-recent() {
+  code-recent \
+    | {
+      # jqでファイル名、フォルダ名を抜き出す
+      jq -r '.folderUri // .fileUri | select(. | test("^file://"))'
+    } | {
+      # ローカルのファイル名、フォルダ名は file:// で始まるので取り除く
+      # ついでに $HOME は ~ に変換しておく。
+      sed -e 's@^file://@@' -e "s@^${HOME}@~@"
+    } | fzf | xargs --no-run-if-empty -I{} sh -c "code {}"
+}
+
 # git aliases
 alias g='git'
 alias gs='git status --short --branch'
