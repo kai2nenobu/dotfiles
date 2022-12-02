@@ -175,9 +175,6 @@ alias emacs-clean-elc='find "${USER_EMACS_DIRECTORY}" -type f -name "*.elc" | xa
 
 if type aws-vault &> /dev/null; then
   alias av='aws-vault'
-  function aws() {
-    aws-vault exec "${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:?Configure AWS_PROFILE or AWS_DEFAULT_PROFILE}}" -- aws "$@"
-  }
 fi
 
 function emacs-extract-init() {
