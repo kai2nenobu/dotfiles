@@ -146,7 +146,7 @@ if (Get-Command -ea SilentlyContinue zoxide) {
 
 # exa integration
 if (Get-Command -ea SilentlyContinue exa) {
-  Remove-Item alias:ls
+  Get-Item alias:ls -ea SilentlyContinue | Remove-Item
   Set-Alias -Name ls -Value exa
   function l() {
     exa -aF $args
