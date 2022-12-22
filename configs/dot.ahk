@@ -18,8 +18,8 @@ if (!ProgramFiles32)
         Run % ProgramFiles64 . "\KeePassXC\KeePassXC.exe"
         Sleep, 250
         WinGetActiveTitle, active_title
-        ;; ãƒ­ãƒƒã‚¯ä¸­ãªã‚‰ãƒ­ãƒƒã‚¯è§£é™¤ã™ã‚‹
-        if InStr(active_title, "ãƒ­ãƒƒã‚¯") {
+        ;; ƒƒbƒN’†‚È‚çƒƒbƒN‰ðœ‚·‚é
+        if InStr(active_title, "ƒƒbƒN") {
             Send, +{Enter}
         }
     }
