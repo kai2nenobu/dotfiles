@@ -16,6 +16,15 @@
   "editor.fontFamily": "'HackGen Console NF', HackGenNerd, Consolas, 'Courier New', monospace",
   "editor.mouseWheelZoom": true,
   "zenMode.hideLineNumbers": false,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.tox/**": true,
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/.aws-sam/**": true
+  },
   /* デフォルト言語をmarkdownにする */
   "files.defaultLanguage": "markdown",
   "files.associations": {
