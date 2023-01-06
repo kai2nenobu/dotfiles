@@ -16,7 +16,7 @@ if (!ProgramFiles32)
         WinMinimize
     } else {
         Run % ProgramFiles64 . "\KeePassXC\KeePassXC.exe"
-        Sleep, 250
+        Sleep, 500
         WinGetActiveTitle, active_title
         ;; ロック中ならロック解除する
         if InStr(active_title, "ロック") {
