@@ -328,12 +328,14 @@ install-shellspec() {
 }
 install-awscli() {
   # https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/getting-started-install.html
+  args=()
+  if [ "$1" = "-u" ]; then args+="--update"; fi
   (
     dir=$(mktemp --directory)
     cd "$dir" \
       && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
       && unzip awscliv2.zip \
-      && sudo ./aws/install \
+      && sudo ./aws/install "${args[@]}" \
       && rm -rf "$dir"
   )
 }
