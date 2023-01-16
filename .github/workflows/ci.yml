@@ -68,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ["ubuntu-22.04", "ubuntu-20.04", "ubuntu-18.04"]
+        image: ["ubuntu-22.04", "ubuntu-20.04"]
     env:
       ANSIBLE_LOG_PATH: /root/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
     steps:
@@ -103,8 +103,6 @@ jobs:
             distribution: Ubuntu-22.04
           - group: wsl
             distribution: Ubuntu-20.04
-          - group: wsl
-            distribution: Ubuntu-18.04
           - group: windows
             distribution: Ubuntu-20.04
     env:
