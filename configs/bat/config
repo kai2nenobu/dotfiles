@@ -2,5 +2,7 @@
 --theme="Visual Studio Dark+"
 # 拡張子、ファイル名と言語のマッピング
 --map-syntax "poetry.lock:TOML"
+--map-syntax "**/.aws/config:INI"
+--map-syntax "**/.ssh/**/*.config:SSH Config"
 # 長い行を折り返さない
 --wrap never
