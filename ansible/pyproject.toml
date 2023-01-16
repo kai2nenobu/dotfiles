@@ -6,7 +6,7 @@ authors = ["Tsunenobu Kai <kai2nenobu@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 ansible = "^4.2.0"
 pywinrm = "^0.4.1"
 
