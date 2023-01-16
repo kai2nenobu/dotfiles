@@ -3,7 +3,7 @@
 ### Bootstrap ansible with python3
 ###
 ### Prerequisite:
-###   OS: Ubuntu 18.04 or later
+###   OS: Ubuntu 20.04 or later
 
 SUDO='sudo -E'
 # Not use sudo if root

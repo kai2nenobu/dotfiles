@@ -30,8 +30,8 @@ jobs:
         image:
           - ubuntu-22.04
           - ubuntu-20.04
-          - ubuntu-18.04
           - debian-10
+          - debian-11
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -77,4 +77,4 @@ jobs:
           path: _site/
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@main
+        uses: actions/deploy-pages@v1

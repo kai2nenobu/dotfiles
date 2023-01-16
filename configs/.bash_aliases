@@ -329,7 +329,7 @@ install-shellspec() {
 install-awscli() {
   # https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/getting-started-install.html
   args=()
-  if [ "$1" = "-u" ]; then args+="--update"; fi
+  if [ "$1" = "-u" ]; then args+=("--update"); fi
   (
     dir=$(mktemp --directory)
     cd "$dir" \
