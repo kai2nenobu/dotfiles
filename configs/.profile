@@ -128,6 +128,9 @@ if [ -S "$HOME/.1password/agent.sock" ]; then
   export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 fi
 
+# devbox
+if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then . "${HOME}/.nix-profile/etc/profile.d/nix.sh"; fi # added by Nix installer
+
 echo "Load .profile"
 
 # Local Variables:
