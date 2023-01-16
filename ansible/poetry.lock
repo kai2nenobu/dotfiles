@@ -575,14 +575,14 @@ requests = ">=2.0.0"
 
 [[package]]
 name = "resolvelib"
-version = "0.5.5"
+version = "0.5.4"
 description = "Resolve abstract dependencies into concrete ones"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "resolvelib-0.5.5-py2.py3-none-any.whl", hash = "sha256:b0143b9d074550a6c5163a0f587e49c49017434e3cdfe853941725f5455dd29c"},
-    {file = "resolvelib-0.5.5.tar.gz", hash = "sha256:123de56548c90df85137425a3f51eb93df89e2ba719aeb6a8023c032758be950"},
+    {file = "resolvelib-0.5.4-py2.py3-none-any.whl", hash = "sha256:8113ae3ed6d33c6be0bcbf03ffeb06c0995c099b7b8aaa5ddf2e9b3b3df4e915"},
+    {file = "resolvelib-0.5.4.tar.gz", hash = "sha256:9b9b80d5c60e4c2a8b7fbf0712c3449dc01d74e215632e5199850c9eca687628"},
 ]
 
 [package.extras]
