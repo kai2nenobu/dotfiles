@@ -8,6 +8,7 @@
   // ファイル自動保存設定
   "files.autoSave": "afterDelay",
   "editor.formatOnSave": false, // 保存時の自動フォーマット
+  "editor.minimap.enabled": false,
   "files.insertFinalNewline": true, // ファイル末尾を常に改行する
   // ファイルを自動保存する遅延時間（ミリ秒）
   "files.autoSaveDelay": 500,
