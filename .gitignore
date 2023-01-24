@@ -1,2 +1,6 @@
 # なんかGitHub Codespacesに勝手に作られてたディレクトリ
 pythonenv3.8/
+
+# dotter
+.dotter/local.toml
+.dotter/cache.toml
