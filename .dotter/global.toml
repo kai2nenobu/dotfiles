@@ -11,19 +11,15 @@ depends = []
 "configs/.textlintrc" = "~/.textlintrc"
 "configs/.prh.yml" = "~/.prh.yml"
 "configs/.tmux.conf" = "~/.tmux.conf"
-"configs/navi/config.win.yaml" = "~/AppData/Roaming/navi/config.yaml"
-"configs/navi/cheats" = { target = "~/AppData/Roaming/navi/cheats/dotfiles", type = "symbolic", recurse = false }
-"configs/bat/config" = "~/AppData/Roaming/bat/config"
-"configs/dot.ahk" = "~/dot.ahk"
-"configs/dot.nodoka" = "~/dot.nodoka"
-"configs/pet/snippet.toml" = "~/AppData/Roaming/pet/snippet.toml"
-"configs/wt/settings.json" = "~/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"
-"configs/profile.ps1" = "~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
-"configs/ps_alias.ps1" = "~/Documents/WindowsPowerShell/ps_alias.ps1"
-"configs/pscore_profile.ps1" = "~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1"
-"configs/vscode/settings.json" = "~/AppData/Roaming/Code/User/settings.json"
-"configs/vscode/keybindings.json" = "~/AppData/Roaming/Code/User/keybindings.json"
-"configs/starship.win.toml" = "~/.config/starship.toml"
+"configs/navi/config.yaml" = "~/.config/navi/config.yaml"
+"configs/navi/cheats" = { target = "~/.local/share/navi/cheats/dotfiles", type = "symbolic", recurse = false }
+"configs/bat/config" = "~/.config/bat/config"
+"configs/pet/snippet.toml" = "~/.config/pet/snippet.toml"
+"configs/ps_alias.ps1" = "~/.config/powershell/ps_alias.ps1"
+"configs/pscore_profile.ps1" = "~/.config/powershell/Microsoft.PowerShell_profile.ps1"
+"configs/vscode/settings.json" = "~/.config/Code/User/settings.json"
+"configs/vscode/keybindings.json" = "~/.config/Code/User/keybindings.json"
+"configs/starship.linux.toml" = "~/.config/starship.toml"
 "configs/.wezterm.lua" = "~/.wezterm.lua"
 "configs/git/hooks" = { target = "~/.config/git/hooks", type = "symbolic", recurse = false }
 "configs/xkb" = { target = ".config/xkb", type = "symbolic", recurse = false }
