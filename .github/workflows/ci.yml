@@ -114,7 +114,7 @@ jobs:
         shell: wsl-bash {0}
     steps:
       - uses: actions/checkout@v3
-      - uses: Vampire/setup-wsl@v1
+      - uses: Vampire/setup-wsl@v2
         with:
           distribution: ${{ matrix.distribution }}
           set-as-default: "true"
