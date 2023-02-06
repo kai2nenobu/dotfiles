@@ -13,3 +13,6 @@ aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu
 # Find an AMI ID for Ubuntu image from SSM parameter store
 ; https://ubuntu.com/server/docs/cloud-images/amazon-ec2
 aws ssm get-parameters --names '/aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id' --query 'Parameters[0].Value' --out text
+
+# Convert a support case json into markdown format by jq
+jq -r '.cases[] | ["# \(.subject)\n", "- timeCreated, \(.timeCreated)", "- status: \(.status)", "- serviceCode: \(.serviceCode)", "- categoryCode: \(.categoryCode)", "", (.recentCommunications.communications | reverse[] | ["## \(.submittedBy) (\(.timeCreated))\n", "```text", (.body | sub("={36,}.*";"";"m")), "```\n"])] | flatten[]' <file>
