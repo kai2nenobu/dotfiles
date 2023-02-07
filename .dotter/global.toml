@@ -22,7 +22,7 @@ depends = []
 "configs/starship.linux.toml" = "~/.config/starship.toml"
 "configs/.wezterm.lua" = "~/.wezterm.lua"
 "configs/git/hooks" = { target = "~/.config/git/hooks", type = "symbolic", recurse = false }
-"configs/xkb" = { target = ".config/xkb", type = "symbolic", recurse = false }
+"configs/xkb" = { target = "~/.config/xkb", type = "symbolic", recurse = false }
 "utils" = { target = "~/utils", type = "symbolic", recurse = false }
 
 [default.variables]
