@@ -11,7 +11,10 @@ depends = []
 "configs/.textlintrc" = "~/.textlintrc"
 "configs/.prh.yml" = "~/.prh.yml"
 "configs/.tmux.conf" = "~/.tmux.conf"
-"configs/navi/config.yaml" = "~/.config/navi/config.yaml"
+"configs/dot.ahk" = { target = "~/dot.ahk", type = "symbolic", if = '(eq dotter.os "windows")' }
+"configs/dot.nodoka" = { target = "~/dot.nodoka", type = "symbolic", if = '(eq dotter.os "windows")' }
+"configs/navi/config.yaml" = { target = "~/.config/navi/config.yaml", type = "symbolic", if = '(ne dotter.os "windows")' }
+"configs/navi/config.win.yaml" = {target = "~/AppData/Roaming/navi/config.yaml", type = "symbolic", if = '(eq dotter.os "windows")' }
 "configs/navi/cheats" = { target = "~/.local/share/navi/cheats/dotfiles", type = "symbolic", recurse = false }
 "configs/bat/config" = "~/.config/bat/config"
 "configs/pet/snippet.toml" = "~/.config/pet/snippet.toml"
@@ -19,10 +22,11 @@ depends = []
 "configs/pscore_profile.ps1" = "~/.config/powershell/Microsoft.PowerShell_profile.ps1"
 "configs/vscode/settings.json" = "~/.config/Code/User/settings.json"
 "configs/vscode/keybindings.json" = "~/.config/Code/User/keybindings.json"
-"configs/starship.linux.toml" = "~/.config/starship.toml"
+"configs/starship.linux.toml" = { target = "~/.config/starship.toml", type = "symbolic", if = '(ne dotter.os "windows")' }
+"configs/starship.win.toml" =  { target = "~/.config/starship.toml", type = "symbolic", if = '(eq dotter.os "windows")' }
 "configs/.wezterm.lua" = "~/.wezterm.lua"
 "configs/git/hooks" = { target = "~/.config/git/hooks", type = "symbolic", recurse = false }
-"configs/xkb" = { target = "~/.config/xkb", type = "symbolic", recurse = false }
+"configs/xkb" = { target = "~/.config/xkb", type = "symbolic", recurse = false, if = '(eq dotter.os "unix")' }
 "utils" = { target = "~/utils", type = "symbolic", recurse = false }
 
 [default.variables]
