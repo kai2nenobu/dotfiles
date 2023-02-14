@@ -127,6 +127,7 @@ $tool_hash = @{
   head = @();
   sed = @();
   tail = @();
+  vim = @();
 }
 $tool_hash.Keys | ForEach-Object {
   ## エイリアスがあれば削除する
@@ -136,7 +137,15 @@ $tool_hash.Keys | ForEach-Object {
     $name = $MyInvocation.MyCommand.Name  # 関数名を取得する
     $exe = "${GIT_DIR}\usr\bin\${name}.exe"
     $opts = $tool_hash[$name]
-    $input | & $exe @opts $args
+    $has_input = $input.MoveNext()
+    # 標準入力のあるなしで分岐
+    if ($has_input) {
+      $input.Reset() # reset an enumerator position to the beginning
+      $input | &$exe @opts $args
+    } else {
+      # no input
+      &$exe @opts $args
+    }
   }
 }
 
