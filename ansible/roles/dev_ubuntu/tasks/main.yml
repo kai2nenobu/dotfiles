@@ -122,21 +122,6 @@
       - x11-xserver-utils
       - zsh
     state: present
-- name: Install development packages on Ubuntu 20.04 or later
-  tags: [package]
-  become: yes
-  when: ansible_facts.distribution_version is version('20.04', '>=')
-  block:
-    - name: Install fd
-      apt:
-        name:
-          - fd-find
-        state: present
-    - name: Create a symbolic link to fd binary # because "fd-find" locates fd binary on /usr/bin/fdfind
-      file:
-        src: /usr/lib/cargo/bin/fd
-        dest: /usr/bin/fd
-        state: link
 - name: Install development packages on Ubuntu 22.04 or later
   tags: [package]
   become: yes
@@ -172,12 +157,13 @@
   become: false
   community.general.homebrew:
     name:
+      - fd
       - ripgrep
       - git-delta
       - bat
       - fzf
+      - ghq
     state: present
-- import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
   loop:
