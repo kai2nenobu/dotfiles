@@ -164,17 +164,29 @@
       - fzf
       - ghq
     state: present
-- include_tasks: install_hackgen.yml
+- name: Create a user level font directory
   tags: [package]
-  loop:
-    - name: HackGen
-      version: v2.7.1
-      checksum: sha256:ec492a85dae77ff81818e75f775ec03bc391a96cf97c816fed1d221375b7be32
-    - name: HackGen_NF
-      version: v2.7.1
-      checksum: sha256:3c1949682567f8b4d4984c30b1439f051f2062a3138ddbf2262c12d087f60d92
-  loop_control:
-    loop_var: font
+  become: false
+  file:
+    path: "~/.local/share/fonts"
+    state: directory
+- name: Symlink a font directory in homebrew
+  tags: [package]
+  become: false
+  file:
+    src: "/home/linuxbrew/.linuxbrew/share/fonts"
+    path: "~/.local/share/fonts/linuxbrew"
+    state: link
+    force: true
+- name: Install HackGen fonts
+  tags: [package]
+  become: false
+  community.general.homebrew:
+    name:
+      - linuxbrew/fonts/font-hackgen
+      - linuxbrew/fonts/font-hackgen-nerd
+    state: present
+  notify: update font-cache
 - name: Install pip tools
   tags: [package]
   become: yes
