@@ -70,6 +70,7 @@ jobs:
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()
   container:
     runs-on: ubuntu-20.04
     strategy:
@@ -117,6 +118,7 @@ jobs:
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()
   windows:
     runs-on: windows-2019
     strategy:
@@ -202,3 +204,4 @@ jobs:
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()
