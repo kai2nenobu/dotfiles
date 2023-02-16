@@ -167,23 +167,16 @@
     name: docker-ce-cli
     state: present
   when: ansible_facts.env.GITHUB_ACTIONS is not defined
-- name: Install .deb packages
+- name: Install CLI tools by homebrew
   tags: [package]
-  become: yes
-  apt:
-    deb: "{{ item.url }}"
-  when: item.condition | default(true)
-  loop:
-    # ripgrep
-    - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-      condition: "{{ ansible_facts.distribution_version is version('22.04', '<') }}"
-    # delta
-    - url: https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
-      condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
-    # bat
-    - url: https://github.com/sharkdp/bat/releases/download/v0.20.0/bat_0.20.0_amd64.deb
-    # fzf
-    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.29.0-1_amd64.deb
+  become: false
+  community.general.homebrew:
+    name:
+      - ripgrep
+      - git-delta
+      - bat
+      - fzf
+    state: present
 - import_tasks: install_ghq.yml
 - include_tasks: install_hackgen.yml
   tags: [package]
