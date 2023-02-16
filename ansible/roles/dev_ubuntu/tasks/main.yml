@@ -170,6 +170,7 @@
   file:
     path: "~/.local/share/fonts"
     state: directory
+    mode: "0755"
 - name: Symlink a font directory in homebrew
   tags: [package]
   become: false
