@@ -5,7 +5,10 @@
       when: local_proxy_type is defined
     - windows
 - hosts: wsl
-  environment: "{{ proxy_env | default({}) }}"
+  environment:
+    PATH: "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}"
+    http_proxy: "{{ proxy_env.http_proxy | default('') }}"
+    https_proxy: "{{ proxy_env.https_proxy | default('') }}"
   pre_tasks:
     - name: Configure proxy
       tags: [always]
