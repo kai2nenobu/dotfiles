@@ -29,6 +29,7 @@
         mode: "0755"
     - name: Add a gpg key for docker apt repository
       command: "gpg --dearmor --yes --output {{ apt_keyring_location }} {{ apt_key_file.path }}"
+      changed_when: yes
     - name: Test a checksum for {{ apt_keyring_location }} again
       ansible.builtin.stat:
         path: "{{ apt_keyring_location }}"
