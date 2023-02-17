@@ -171,7 +171,7 @@
     path: "~/.local/share/fonts"
     state: directory
     mode: "0755"
-- name: Symlink a font directory in homebrew
+- name: Symlink a font directory in linuxbrew
   tags: [package]
   become: false
   file:
@@ -179,6 +179,7 @@
     path: "~/.local/share/fonts/linuxbrew"
     state: link
     force: true
+  when: not is_wsl
 - name: Install HackGen fonts
   tags: [package]
   become: false
