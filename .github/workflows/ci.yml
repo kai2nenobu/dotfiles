@@ -56,13 +56,21 @@ jobs:
       - name: Run the bootstrap script
         run: bash -e bootstrap.sh
       - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-galaxy install -r requirements.yml
+          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit wsl
       - uses: actions/upload-artifact@v3
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()
   container:
     runs-on: ubuntu-20.04
     strategy:
@@ -70,29 +78,47 @@ jobs:
       matrix:
         image: ["ubuntu-22.04", "ubuntu-20.04"]
     env:
-      ANSIBLE_LOG_PATH: /root/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
+      ANSIBLE_LOG_PATH: /home/runner/dotfiles/ansible/logs/ansible-container-${{ matrix.image }}.log
+      RUNNER_UID: "1001" # User ID for runner user
     steps:
       - uses: actions/checkout@v3
       - name: Launch a target container
         run: >-
-          docker run -d --name target --init -e ANSIBLE_LOG_PATH -v "$PWD:/root/dotfiles" -w /root/dotfiles
+          docker run -d --name target --init -e ANSIBLE_LOG_PATH -w /home/$USER/dotfiles
+          -v "$PWD:/home/$USER/dotfiles"
+          -v "/home/$USER/work/_temp:/home/$USER/work/_temp"
           $(echo "${{ matrix.image }}" | tr "-" ":") tail -f
+      - name: Create a non-root user and enable password-less sudo in the target container
+        run: >-
+          docker exec target bash -c "
+          apt update
+          && apt install -y sudo
+          && useradd $USER -u $RUNNER_UID
+          && echo '$USER ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/$USER
+          && chown $USER:$USER /home/$USER
+          "
       - name: Run the bootstrap script
-        run: docker exec target bash -c "./bootstrap.sh"
+        run: docker exec -u runner target bash -c "./bootstrap.sh"
       - name: Apply ansible playbook
+        shell: docker exec -u runner target bash {0}
         run: >-
-          docker exec target bash -c
-          ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
+          . /opt/ansible-venv/bin/activate
+          && cd ansible
+          && ansible-galaxy install -r requirements.yml
+          && ansible-playbook -u "$(whoami)" -i test_hosts.ini site.yml --limit wsl
       - name: Apply ansible playbook again
+        shell: docker exec -u runner target bash {0}
         run: >-
-          docker exec target bash -c
-          ". /opt/ansible-venv/bin/activate && cd ansible && ansible-playbook -i test_hosts.ini site.yml --limit wsl"
+          . /opt/ansible-venv/bin/activate
+          && cd ansible
+          && ansible-playbook -u "$(whoami)" -i test_hosts.ini site.yml --limit wsl
       - name: Kill the target container
         run: docker rm --force target
       - uses: actions/upload-artifact@v3
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()
   windows:
     runs-on: windows-2019
     strategy:
@@ -159,9 +185,16 @@ jobs:
       - name: Run the bootstrap script
         run: ./bootstrap.sh
       - name: Apply ansible playbook
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-galaxy install -r requirements.yml
+          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Apply ansible playbook again
-        run: . /opt/ansible-venv/bin/activate && cd ~/dotfiles/ansible && ansible-playbook -i test_hosts.ini site.yml --limit ${{ matrix.group }}
+        run: >-
+          . /opt/ansible-venv/bin/activate
+          && cd ~/dotfiles/ansible
+          && ansible-playbook -u "$USER" -i test_hosts.ini site.yml --limit ${{ matrix.group }}
       - name: Show logs
         shell: powershell
         run: |
@@ -171,3 +204,4 @@ jobs:
         with:
           name: ansible-logs
           path: ansible/logs/ansible-*.log
+        if: always()

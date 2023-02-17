@@ -122,21 +122,6 @@
       - x11-xserver-utils
       - zsh
     state: present
-- name: Install development packages on Ubuntu 20.04 or later
-  tags: [package]
-  become: yes
-  when: ansible_facts.distribution_version is version('20.04', '>=')
-  block:
-    - name: Install fd
-      apt:
-        name:
-          - fd-find
-        state: present
-    - name: Create a symbolic link to fd binary # because "fd-find" locates fd binary on /usr/bin/fdfind
-      file:
-        src: /usr/lib/cargo/bin/fd
-        dest: /usr/bin/fd
-        state: link
 - name: Install development packages on Ubuntu 22.04 or later
   tags: [package]
   become: yes
@@ -167,35 +152,44 @@
     name: docker-ce-cli
     state: present
   when: ansible_facts.env.GITHUB_ACTIONS is not defined
-- name: Install .deb packages
+- name: Install CLI tools by homebrew
   tags: [package]
-  become: yes
-  apt:
-    deb: "{{ item.url }}"
-  when: item.condition | default(true)
-  loop:
-    # ripgrep
-    - url: https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-      condition: "{{ ansible_facts.distribution_version is version('22.04', '<') }}"
-    # delta
-    - url: https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
-      condition: "{{ ansible_facts.distribution_version is version('20.04', '>=') }}"
-    # bat
-    - url: https://github.com/sharkdp/bat/releases/download/v0.20.0/bat_0.20.0_amd64.deb
-    # fzf
-    - url: http://mirrors.kernel.org/ubuntu/pool/universe/f/fzf/fzf_0.29.0-1_amd64.deb
-- import_tasks: install_ghq.yml
-- include_tasks: install_hackgen.yml
+  become: false
+  community.general.homebrew:
+    name:
+      - fd
+      - ripgrep
+      - git-delta
+      - bat
+      - fzf
+      - ghq
+    state: present
+- name: Create a user level font directory
   tags: [package]
-  loop:
-    - name: HackGen
-      version: v2.7.1
-      checksum: sha256:ec492a85dae77ff81818e75f775ec03bc391a96cf97c816fed1d221375b7be32
-    - name: HackGen_NF
-      version: v2.7.1
-      checksum: sha256:3c1949682567f8b4d4984c30b1439f051f2062a3138ddbf2262c12d087f60d92
-  loop_control:
-    loop_var: font
+  become: false
+  file:
+    path: "~/.local/share/fonts"
+    state: directory
+    mode: "0755"
+- name: Symlink a font directory in linuxbrew
+  tags: [package]
+  become: false
+  file:
+    src: "/home/linuxbrew/.linuxbrew/share/fonts"
+    path: "~/.local/share/fonts/linuxbrew"
+    state: link
+    force: true
+  when: not is_wsl
+- name: Install HackGen fonts
+  tags: [package]
+  become: false
+  community.general.homebrew:
+    name:
+      - linuxbrew/fonts/font-hackgen
+      - linuxbrew/fonts/font-hackgen-nerd
+    state: present
+  when: not is_wsl # WSLでインストールできない場合があったので除外する
+  notify: update font-cache
 - name: Install pip tools
   tags: [package]
   become: yes

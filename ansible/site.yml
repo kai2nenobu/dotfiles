@@ -5,7 +5,10 @@
       when: local_proxy_type is defined
     - windows
 - hosts: wsl
-  environment: "{{ proxy_env | default({}) }}"
+  environment:
+    PATH: "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}"
+    http_proxy: "{{ proxy_env.http_proxy | default('') }}"
+    https_proxy: "{{ proxy_env.https_proxy | default('') }}"
   pre_tasks:
     - name: Configure proxy
       tags: [always]
@@ -18,4 +21,13 @@
   roles:
     - role: wsl
       when: is_wsl
+    - role: markosamuli.linuxbrew
+      vars:
+        #linuxbrew_home: /home/linuxbrew
+        linuxbrew_use_installer: true
+        linuxbrew_init_shell: false
+      # role params ovewrite role vars
+      linuxbrew_install_url: >-
+        https://github.com/Homebrew/install/raw/f1df209948b6e5a561f2d50bafd02fc8c8053607/install.sh
+      linuxbrew_install_checksum: "sha256:3e59181a04200419eb18b714f38cfdea05f496319afc5f17d33059eb7fc9c504"
     - dev_ubuntu

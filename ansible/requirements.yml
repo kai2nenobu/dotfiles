@@ -1,0 +1,2 @@
+- name: markosamuli.linuxbrew
+  src: https://github.com/markosamuli/ansible-linuxbrew/archive/refs/heads/master.tar.gz
