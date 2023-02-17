@@ -187,6 +187,7 @@
       - linuxbrew/fonts/font-hackgen
       - linuxbrew/fonts/font-hackgen-nerd
     state: present
+  when: not is_wsl # WSLでインストールできない場合があったので除外する
   notify: update font-cache
 - name: Install pip tools
   tags: [package]
