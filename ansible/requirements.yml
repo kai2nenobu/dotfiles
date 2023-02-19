@@ -1,2 +1,3 @@
-- name: markosamuli.linuxbrew
-  src: https://github.com/markosamuli/ansible-linuxbrew/archive/refs/heads/master.tar.gz
+roles:
+  - name: markosamuli.linuxbrew
+    version: "v2.0.2"
