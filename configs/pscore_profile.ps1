@@ -135,7 +135,7 @@ if (Test-Path -LiteralPath "${env:USERPROFILE}/.tfenv/bin/tfenv") {
   }
 }
 
-# Import-Module posh-git
+Get-Module -ListAvailable posh-git | Import-Module
 # Import-Module oh-my-posh
 # Set-Theme Paradox
 
