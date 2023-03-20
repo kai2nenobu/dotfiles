@@ -161,6 +161,8 @@ if (Get-Command -ea SilentlyContinue exa) {
 }
 
 if (Get-Command -ea SilentlyContinue just) {
+  # 補完を有効にする
+  Invoke-Expression (just --completions powershell | Out-String)
   # ユーザレベルのjustfileを実行する
   # https://just.systems/man/en/chapter_66.html
   function justu () {
