@@ -120,6 +120,7 @@ Set-Alias tf terraform
 $GIT_DIR = 'C:\Program Files\Git'
 # コマンド名とオプションの連想配列
 $tool_hash = @{
+  column = @();
   diff = @();
   find = @();
   grep = @('--color');
@@ -156,6 +157,14 @@ if (Get-Command -ea SilentlyContinue exa) {
   }
   function ll() {
     exa -alhF --icons $args
+  }
+}
+
+if (Get-Command -ea SilentlyContinue just) {
+  # ユーザレベルのjustfileを実行する
+  # https://just.systems/man/en/chapter_66.html
+  function justu () {
+    just --justfile "${env:HOME}/.user.justfile" --working-directory . $args
   }
 }
 
