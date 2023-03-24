@@ -183,16 +183,19 @@ if (Get-Command -ea SilentlyContinue just) {
 if (get-command -ea SilentlyContinue aws-vault -CommandType Application -TotalCount 1) {
   Set-Alias av aws-vault
 }
-# AWS CLI completion
+# AWS CLI completion (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html)
 if (Get-Command -ea SilentlyContinue aws_completer) {
   Register-ArgumentCompleter -Native -CommandName aws -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
-    $env:COMP_LINE=$wordToComplete
-    $env:COMP_POINT=$cursorPosition
-    aws_completer.exe | ForEach-Object {
-      [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-    }
-    Remove-Item Env:\COMP_LINE
-    Remove-Item Env:\COMP_POINT
+      $env:COMP_LINE=$wordToComplete
+      if ($env:COMP_LINE.Length -lt $cursorPosition){
+        $env:COMP_LINE=$env:COMP_LINE + " "
+      }
+      $env:COMP_POINT=$cursorPosition
+      aws_completer.exe | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+      }
+      Remove-Item Env:\COMP_LINE
+      Remove-Item Env:\COMP_POINT
   }
 }
