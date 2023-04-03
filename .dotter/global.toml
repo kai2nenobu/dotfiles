@@ -20,8 +20,6 @@ depends = []
 "configs/pet/snippet.toml" = "~/.config/pet/snippet.toml"
 "configs/ps_alias.ps1" = "~/.config/powershell/ps_alias.ps1"
 "configs/pscore_profile.ps1" = "~/.config/powershell/Microsoft.PowerShell_profile.ps1"
-"configs/vscode/settings.json" = "~/.config/Code/User/settings.json"
-"configs/vscode/keybindings.json" = "~/.config/Code/User/keybindings.json"
 "configs/starship.linux.toml" = { target = "~/.config/starship.toml", type = "symbolic", if = '(ne dotter.os "windows")' }
 "configs/starship.win.toml" =  { target = "~/.config/starship.toml", type = "symbolic", if = '(eq dotter.os "windows")' }
 "configs/.wezterm.lua" = "~/.wezterm.lua"
