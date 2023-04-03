@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+## Convert 1password SSH key to OpenSSH format
+## Usage: op2openssh <itemid>
+
+set -euo pipefail
+
+op_item=${1:?Specify 1password item id}
+temp=$(mktemp)
+trap 'rm -f "$temp"' EXIT
+op_ref="op://Personal/${op_item}/private key"
+
+function op2openssl() {
+  cat > "$temp" \
+    <(printf '\x30\x2e\x02\x01\x00') \
+    <(op read "$op_ref" | sed -n '/^[^-]/ p' | tr -d "\r\n" | base64 -d | head -c 48 | tail -c +6)
+}
+
+function openssl2openssh() {
+  ## https://qiita.com/angel_p_57/items/6e826105d50cbb0e0abe
+  read rwhex < <(head -c 4 /dev/urandom | xxd -p)
+  echo '-----BEGIN OPENSSH PRIVATE KEY-----'
+  (
+    echo -ne 'openssh-key-v1\0'
+    echo -ne '\0\0\0\x04none'
+    echo -ne '\0\0\0\x04none'
+    echo -ne '\0\0\0\0'
+    echo -ne '\0\0\0\x01'
+    echo -ne '\0\0\0\x33'
+    echo -ne '\0\0\0\x0bssh-ed25519'
+    echo -ne '\0\0\0\x20'
+    openssl pkey -outform der -pubout -in "$temp" | tail -c 32
+    echo -ne '\0\0\0\x88'
+    echo "$rwhex$rwhex" | xxd -r -p
+    echo -ne '\0\0\0\x0bssh-ed25519'
+    echo -ne '\0\0\0\x20'
+    openssl pkey -outform der -pubout -in "$temp" | tail -c 32
+    echo -ne '\0\0\0\x40'
+    openssl pkey -outform der -in "$temp" | tail -c 32
+    openssl pkey -outform der -pubout -in "$temp" | tail -c 32
+    echo -ne '\0\0\0\0'
+    echo -ne '\x01\x02\x03\x04\x05'
+  ) | base64 -w 70
+  echo '-----END OPENSSH PRIVATE KEY-----'
+}
+
+op2openssl
+openssl2openssh
