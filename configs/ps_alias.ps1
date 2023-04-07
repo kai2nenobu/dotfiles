@@ -199,3 +199,39 @@ if (Get-Command -ea SilentlyContinue aws_completer) {
       Remove-Item Env:\COMP_POINT
   }
 }
+
+
+function docker-aws() {
+  <#
+  .SYNOPSIS
+    Execute AWS CLI in docker container (Use aws-vault to pass credentials to a container)
+  #>
+  if ($env:AWS_PROFILE) {
+    $prof = $env:AWS_PROFILE
+    $command_args = $Args
+  }
+  if ($Args -contains '--profile') {
+    # read "--profile" option from arguments and remove it
+    $this_is_profile = $false
+    $command_args = [System.Collections.ArrayList]::new()
+    foreach ($arg in $Args) {
+      if ($arg -eq '--profile') {
+        # next arg is a profile name
+        $this_is_profile = $true
+        continue
+      }
+      if ($this_is_profile) {
+        $prof = $arg
+        $this_is_profile = $false
+        continue
+      } else {
+        [void]$command_args.Add($arg)
+      }
+    }
+  }
+  if (-not $prof) {
+    Write-Error -ea Stop "Profile isn't specified!"
+  }
+  aws-vault exec $prof -- `
+    docker run --rm -it ('REGION','ACCESS_KEY_ID','SECRET_ACCESS_KEY','SESSION_TOKEN' | % { '-e',"AWS_$_" }) amazon/aws-cli $command_args
+}
