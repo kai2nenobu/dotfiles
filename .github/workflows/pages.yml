@@ -71,7 +71,7 @@ jobs:
           mkdir -p _site/venv
           find /tmp -type f -name "*.tar.gz" -print0 | xargs -0 mv -t _site/venv
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: _site/
       - name: Deploy to GitHub Pages
