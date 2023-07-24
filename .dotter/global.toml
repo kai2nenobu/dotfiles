@@ -22,8 +22,7 @@ depends = []
 "configs/pscore_profile.ps1" = "~/.config/powershell/Microsoft.PowerShell_profile.ps1"
 "configs/vscode/settings.json" = "~/.config/Code/User/settings.json"
 "configs/vscode/keybindings.json" = "~/.config/Code/User/keybindings.json"
-"configs/starship.linux.toml" = { target = "~/.config/starship.toml", type = "symbolic", if = '(ne dotter.os "windows")' }
-"configs/starship.win.toml" =  { target = "~/.config/starship.toml", type = "symbolic", if = '(eq dotter.os "windows")' }
+"configs/starship.toml" = "~/.config/starship.toml"
 "configs/.wezterm.lua" = "~/.wezterm.lua"
 "configs/git/hooks" = { target = "~/.config/git/hooks", type = "symbolic", recurse = false }
 "configs/xkb" = { target = "~/.config/xkb", type = "symbolic", recurse = false, if = '(eq dotter.os "unix")' }
