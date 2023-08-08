@@ -125,7 +125,9 @@ $tool_hash = @{
   find = @();
   grep = @('--color');
   head = @();
+  od = @();
   sed = @();
+  sort = @();
   tail = @();
   vim = @();
 }
