@@ -33,7 +33,7 @@ jobs:
           - debian-11
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create venv in docker
         run: >-
           docker run -e LANG=C.UTF-8 -v "$PWD:/root/dotfiles" -w /root/dotfiles
@@ -51,7 +51,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
