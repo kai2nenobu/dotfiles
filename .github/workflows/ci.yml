@@ -120,17 +120,23 @@ jobs:
           path: ansible/logs/ansible-*.log
         if: always()
   windows:
-    runs-on: windows-2019
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - group: wsl
             distribution: Ubuntu-22.04
+            runner: windows-2019
           - group: wsl
             distribution: Ubuntu-20.04
+            runner: windows-2019
           - group: windows
             distribution: Ubuntu-20.04
+            runner: windows-2019
+          - group: windows
+            distribution: Ubuntu-20.04
+            runner: windows-2022
     env:
       WSLENV: ANSIBLE_LOG_PATH/up:GITHUB_ACTIONS
       ANSIBLE_LOG_PATH: >-
