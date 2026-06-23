@@ -42,6 +42,11 @@ function fd_insert_file {
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+x,Ctrl+f' -ScriptBlock { fd_insert_file }
 
+
+## Enable mise
+Get-Command -ea SilentlyContinue mise > $null `
+  && mise activate pwsh | Out-String | Invoke-Expression
+
 function pet_insert {
   $commandLine = (pet search)
   [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt() # Rewrite Prompt

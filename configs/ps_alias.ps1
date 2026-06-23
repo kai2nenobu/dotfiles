@@ -156,18 +156,18 @@ if (Get-Command -ea SilentlyContinue zoxide) {
   Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook) -join "`n" })
 }
 
-# exa integration
-if (Get-Command -ea SilentlyContinue exa) {
+# eza integration
+if (Get-Command -ea SilentlyContinue eza) {
   Get-Item alias:ls -ea SilentlyContinue | Remove-Item
-  Set-Alias -Name ls -Value exa
+  Set-Alias -Name ls -Value eza
   function l() {
-    exa -aF $args
+    eza -aF $args
   }
   function lt() {
-    exa -aF --tree --icons $args
+    eza -aF --tree --icons $args
   }
   function ll() {
-    exa -alhF --icons $args
+    eza -alhF --icons $args
   }
 }
 
@@ -236,4 +236,15 @@ function docker-aws() {
   }
   aws-vault exec $prof -- `
     docker run --rm -it ('REGION','ACCESS_KEY_ID','SECRET_ACCESS_KEY','SESSION_TOKEN' | % { '-e',"AWS_$_" }) amazon/aws-cli $command_args
+}
+
+function / {
+  Write-Debug "Args: ${Args}"
+  if (Test-Path -LiteralPath Makefile) {
+    make @Args
+  } elseif (Test-Path -LiteralPath mise.toml) {
+    mise run @Args
+  } else {
+    Write-Error -ea Stop "No task file found in the current directory."
+  }
 }
