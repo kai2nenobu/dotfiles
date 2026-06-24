@@ -5,7 +5,7 @@
 # for examples
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[[ $- != *i* ]] && return
 
 function _log() {
   echo "[$(date --iso-8601=s)]" "$@" >&2
